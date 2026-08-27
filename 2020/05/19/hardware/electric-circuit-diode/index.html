@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang=en>
+  <head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="二极管（英语：Diode），是一种具有不对称电导的双电极电子元件[注 1]。理想的二极管在正向导通时两个电极（阳极和阴极）间拥有零电阻，而反向时则有无穷大电阻，即电流只允许由单一方向流过二极管。-- 维基百科   二极管特性  电气特性  二极管理论上只能允许电流单向流动，电路由阳极流向阴极。因为其顺向流通反向阻断的特点，二极管可以想象成电子版的止流阀。 只有在正向超过障壁电压时，二极管才会工作">
+<meta property="og:type" content="article">
+<meta property="og:title" content="电子电路-二极管">
+<meta property="og:url" content="https://csl.cool/2020/05/19/hardware/electric-circuit-diode/index.html">
+<meta property="og:site_name" content="CSL MEMO">
+<meta property="og:description" content="二极管（英语：Diode），是一种具有不对称电导的双电极电子元件[注 1]。理想的二极管在正向导通时两个电极（阳极和阴极）间拥有零电阻，而反向时则有无穷大电阻，即电流只允许由单一方向流过二极管。-- 维基百科   二极管特性  电气特性  二极管理论上只能允许电流单向流动，电路由阳极流向阴极。因为其顺向流通反向阻断的特点，二极管可以想象成电子版的止流阀。 只有在正向超过障壁电压时，二极管才会工作">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-05-19T13:44:58.000Z">
+<meta property="article:modified_time" content="2020-05-19T13:44:58.000Z">
+<meta property="article:author" content="SSBun">
+<meta property="article:tag" content="电子电路">
+<meta property="article:tag" content="半导体">
+<meta property="article:tag" content="二极管">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>电子电路-二极管</title><meta name="robots" content="noindex">
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="CSL MEMO" type="application/atom+xml" />
+    
+    <!-- umami web analytics -->
+    <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+  <body class="max-width mx-auto px3 ltr">
+    
+    <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2020/05/19/hardware/electric-circuit-diode/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2020/05/19/hardware/electric-circuit-diode/&text=电子电路-二极管"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2020/05/19/hardware/electric-circuit-diode/&title=电子电路-二极管"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2020/05/19/hardware/electric-circuit-diode/&is_video=false&description=电子电路-二极管"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=电子电路-二极管&body=Check out this article: https://csl.cool/2020/05/19/hardware/electric-circuit-diode/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2020/05/19/hardware/electric-circuit-diode/&title=电子电路-二极管"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2020/05/19/hardware/electric-circuit-diode/&title=电子电路-二极管"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2020/05/19/hardware/electric-circuit-diode/&title=电子电路-二极管"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2020/05/19/hardware/electric-circuit-diode/&title=电子电路-二极管"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2020/05/19/hardware/electric-circuit-diode/&name=电子电路-二极管&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2020/05/19/hardware/electric-circuit-diode/&t=电子电路-二极管"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E6%9E%81%E7%AE%A1%E7%89%B9%E6%80%A7"><span class="toc-number">1.</span> <span class="toc-text"> 二极管特性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%B5%E6%B0%94%E7%89%B9%E6%80%A7"><span class="toc-number">1.1.</span> <span class="toc-text"> 电气特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%93%E6%9E%84%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.2.</span> <span class="toc-text"> 结构类型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E6%9E%81%E7%AE%A1%E7%A7%8D%E7%B1%BB"><span class="toc-number">2.</span> <span class="toc-text"> 二极管种类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%BD%90%E7%BA%B3%E4%BA%8C%E6%9E%81%E7%AE%A1-%E8%B0%83%E8%8A%82%E7%94%B5%E5%8E%8B"><span class="toc-number">2.1.</span> <span class="toc-text"> 齐纳二极管 - 调节电压</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9B%AA%E5%B4%A9%E4%BA%8C%E6%9E%81%E7%AE%A1-%E9%99%90%E5%88%B6%E9%AB%98%E7%94%B5%E5%8E%8B%E4%BB%8E%E8%80%8C%E4%BF%9D%E6%8A%A4%E7%94%B5%E8%B7%AF"><span class="toc-number">2.2.</span> <span class="toc-text"> 雪崩二极管 - 限制高电压从而保护电路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%98%E5%AE%B9%E4%BA%8C%E6%9E%81%E7%AE%A1-%E6%97%A0%E7%BA%BF%E7%94%B5%E8%B0%83%E8%B0%90"><span class="toc-number">2.3.</span> <span class="toc-text"> 变容二极管 - 无线电调谐</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9A%A7%E9%81%93%E4%BA%8C%E6%9E%81%E7%AE%A1-%E8%80%BF%E6%B0%8F%E4%BA%8C%E6%9E%81%E7%AE%A1-impatt-%E4%BA%8C%E6%9E%81%E7%AE%A1-%E4%BA%A7%E7%94%9F%E5%B0%84%E9%A2%91%E9%9C%87%E8%8D%A1"><span class="toc-number">2.4.</span> <span class="toc-text"> 隧道二极管、耿氏二极管、IMPATT 二极管 - 产生射频震荡</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%91%E5%85%89%E4%BA%8C%E6%9E%81%E7%AE%A1-%E4%BA%A7%E7%94%9F%E5%85%89"><span class="toc-number">2.5.</span> <span class="toc-text"> 发光二极管 - 产生光</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+      
+      <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        电子电路-二极管
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">SSBun</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-05-19T13:44:58.000Z" itemprop="datePublished">2020-05-19</time>
+        
+        (Updated: <time datetime="2020-05-19T13:44:58.000Z" itemprop="dateModified">2020-05-19</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/%E4%BA%8C%E6%9E%81%E7%AE%A1/" rel="tag">二极管</a>, <a class="tag-link-link" href="/tags/%E5%8D%8A%E5%AF%BC%E4%BD%93/" rel="tag">半导体</a>, <a class="tag-link-link" href="/tags/%E7%94%B5%E5%AD%90%E7%94%B5%E8%B7%AF/" rel="tag">电子电路</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p>二极管（英语：Diode），是一种具有不对称电导的双电极电子元件[注 1]。理想的二极管在正向导通时两个电极（阳极和阴极）间拥有零电阻，而反向时则有无穷大电阻，即电流只允许由单一方向流过二极管。-- 维基百科</p>
+</blockquote>
+<h2 id="二极管特性"><a class="markdownIt-Anchor" href="#二极管特性"></a> 二极管特性</h2>
+<h3 id="电气特性"><a class="markdownIt-Anchor" href="#电气特性"></a> 电气特性</h3>
+<ul>
+<li>二极管理论上只能允许<strong>电流单向流动</strong>，电路由阳极流向阴极。因为其顺向流通反向阻断的特点，二极管可以想象成<strong>电子版的止流阀</strong>。</li>
+<li>只有在<strong>正向超过障壁电压时，二极管才会工作</strong>（此状态被称为正向偏置）。</li>
+<li>一个<strong>正向偏置的二极管两端的电压降变化只与电流有一点关系</strong>，并且是温度的函数。</li>
+</ul>
+<h3 id="结构类型"><a class="markdownIt-Anchor" href="#结构类型"></a> 结构类型</h3>
+<p>半导体二极管中，有利用<strong>P型和N型两种半导体接合面的PN结效应</strong>，也有利用<strong>金属与半导体接合产生的肖特基效应</strong>达到整流作用的类型。若是PN结型的二极管，在P型侧就是阳极，N型侧则是阴极。</p>
+<h2 id="二极管种类"><a class="markdownIt-Anchor" href="#二极管种类"></a> 二极管种类</h2>
+<h3 id="齐纳二极管-调节电压"><a class="markdownIt-Anchor" href="#齐纳二极管-调节电压"></a> 齐纳二极管 - <code>调节电压</code></h3>
+<h3 id="雪崩二极管-限制高电压从而保护电路"><a class="markdownIt-Anchor" href="#雪崩二极管-限制高电压从而保护电路"></a> 雪崩二极管 - <code>限制高电压从而保护电路</code></h3>
+<h3 id="变容二极管-无线电调谐"><a class="markdownIt-Anchor" href="#变容二极管-无线电调谐"></a> 变容二极管 - <code>无线电调谐</code></h3>
+<h3 id="隧道二极管-耿氏二极管-impatt-二极管-产生射频震荡"><a class="markdownIt-Anchor" href="#隧道二极管-耿氏二极管-impatt-二极管-产生射频震荡"></a> 隧道二极管、耿氏二极管、IMPATT 二极管 - <code>产生射频震荡</code></h3>
+<h3 id="发光二极管-产生光"><a class="markdownIt-Anchor" href="#发光二极管-产生光"></a> 发光二极管 - <code>产生光</code></h3>
+<!-- flag of hidden posts -->
+  </div>
+</article>
+
+
+
+      
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E6%9E%81%E7%AE%A1%E7%89%B9%E6%80%A7"><span class="toc-number">1.</span> <span class="toc-text"> 二极管特性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%B5%E6%B0%94%E7%89%B9%E6%80%A7"><span class="toc-number">1.1.</span> <span class="toc-text"> 电气特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%93%E6%9E%84%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.2.</span> <span class="toc-text"> 结构类型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E6%9E%81%E7%AE%A1%E7%A7%8D%E7%B1%BB"><span class="toc-number">2.</span> <span class="toc-text"> 二极管种类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%BD%90%E7%BA%B3%E4%BA%8C%E6%9E%81%E7%AE%A1-%E8%B0%83%E8%8A%82%E7%94%B5%E5%8E%8B"><span class="toc-number">2.1.</span> <span class="toc-text"> 齐纳二极管 - 调节电压</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9B%AA%E5%B4%A9%E4%BA%8C%E6%9E%81%E7%AE%A1-%E9%99%90%E5%88%B6%E9%AB%98%E7%94%B5%E5%8E%8B%E4%BB%8E%E8%80%8C%E4%BF%9D%E6%8A%A4%E7%94%B5%E8%B7%AF"><span class="toc-number">2.2.</span> <span class="toc-text"> 雪崩二极管 - 限制高电压从而保护电路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%98%E5%AE%B9%E4%BA%8C%E6%9E%81%E7%AE%A1-%E6%97%A0%E7%BA%BF%E7%94%B5%E8%B0%83%E8%B0%90"><span class="toc-number">2.3.</span> <span class="toc-text"> 变容二极管 - 无线电调谐</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9A%A7%E9%81%93%E4%BA%8C%E6%9E%81%E7%AE%A1-%E8%80%BF%E6%B0%8F%E4%BA%8C%E6%9E%81%E7%AE%A1-impatt-%E4%BA%8C%E6%9E%81%E7%AE%A1-%E4%BA%A7%E7%94%9F%E5%B0%84%E9%A2%91%E9%9C%87%E8%8D%A1"><span class="toc-number">2.4.</span> <span class="toc-text"> 隧道二极管、耿氏二极管、IMPATT 二极管 - 产生射频震荡</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%91%E5%85%89%E4%BA%8C%E6%9E%81%E7%AE%A1-%E4%BA%A7%E7%94%9F%E5%85%89"><span class="toc-number">2.5.</span> <span class="toc-text"> 发光二极管 - 产生光</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2020/05/19/hardware/electric-circuit-diode/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2020/05/19/hardware/electric-circuit-diode/&text=电子电路-二极管"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2020/05/19/hardware/electric-circuit-diode/&title=电子电路-二极管"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2020/05/19/hardware/electric-circuit-diode/&is_video=false&description=电子电路-二极管"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=电子电路-二极管&body=Check out this article: https://csl.cool/2020/05/19/hardware/electric-circuit-diode/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2020/05/19/hardware/electric-circuit-diode/&title=电子电路-二极管"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2020/05/19/hardware/electric-circuit-diode/&title=电子电路-二极管"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2020/05/19/hardware/electric-circuit-diode/&title=电子电路-二极管"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2020/05/19/hardware/electric-circuit-diode/&title=电子电路-二极管"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2020/05/19/hardware/electric-circuit-diode/&name=电子电路-二极管&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2020/05/19/hardware/electric-circuit-diode/&t=电子电路-二极管"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+      <div id="end">
+    <img src="/images/post-end.png" alt="">
+</div> 
+      
+      <div id='valine'>
+    <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+            el: '#vcomments',
+            notify: true,
+            verify: true,
+            appId: '7zw6tQBddCfPvbaVtBGxUy0G-gzGzoHsz',
+            appKey: 'voPGHhBz7MozpUm0Fq2AMFmv',
+            placeholder: '想说点啥...',
+            avatar: 'monsterid',           
+        })
+    </script>
+</div>
+      
+      
+      <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 SSBun
+    <a target="_blank" rel="noopener" href="http://www.beian.miit.gov.cn/">京ICP备20001935号-1</a>
+    <div id="friend-link-container">
+      
+      
+    </div>
+  </div>
+  
+    <div class="footer-right">
+      <nav>
+        <ul>
+          
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/search/">Search</a></li>
+      
+      <li><a href="/categories/">Categories</a></li>
+      
+      <li><a href="/notes/">Notes</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+      </ul>
+      </nav>
+    </div>
+  
+</footer>
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?c2fdf3bebd0db8e40c37a4f37d76d33b";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Umami Analytics -->
+<!--  -->
+  <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="d39cc16d-90eb-47b6-8bf0-8e4cd43c704d"></script>
+<!--  -->
+<!-- Disqus Comments -->
+
+
+
+    
+    <script src="/lib/blackcat/l2dwidget.min.js"></script>
+    <script type="text/javascript">
+      var config = {
+        model: {
+          jsonPath: '/lib/blackcat/hijiki.model.json',
+        },
+        display: {
+          superSample: 1,
+          width: 245,
+          height: 245,
+          position: 'left',
+          hOffset: 0,
+          vOffset: 0,
+        },
+        mobile: {
+          show: false,
+          scale: 1,
+          motion: false,
+        },
+        react: {
+          opacityDefault: 1,
+          opacityOnHover: 0.75
+        }
+      };
+      L2Dwidget.init(config);
+    </script>
+    
+  </body>
+
+  </html>

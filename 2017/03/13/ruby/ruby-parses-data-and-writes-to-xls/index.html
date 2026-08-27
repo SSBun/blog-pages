@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang=en>
+  <head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="安装 unirest 使用 python 进行数据请求，我们可以使用 opne-uri，但是进行各种类型的请求时，显得不是特别的方便快捷，所以我们使用unirest来进行网络数据请求。 1gem install unirest &#x2F;&#x2F; 安装 unirest  unirest 的用法 uinirest最低支持 Ruby2.0版本，使用起来十分的简单，常用的方法有下面几个 (具体的使用方法可以看uni">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ruby 数据抓取写入 xls（unirest, nokogiri, spreadsheet）">
+<meta property="og:url" content="https://csl.cool/2017/03/13/ruby/ruby-parses-data-and-writes-to-xls/index.html">
+<meta property="og:site_name" content="CSL MEMO">
+<meta property="og:description" content="安装 unirest 使用 python 进行数据请求，我们可以使用 opne-uri，但是进行各种类型的请求时，显得不是特别的方便快捷，所以我们使用unirest来进行网络数据请求。 1gem install unirest &#x2F;&#x2F; 安装 unirest  unirest 的用法 uinirest最低支持 Ruby2.0版本，使用起来十分的简单，常用的方法有下面几个 (具体的使用方法可以看uni">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2017-03-13T02:14:00.000Z">
+<meta property="article:modified_time" content="2017-03-13T02:14:00.000Z">
+<meta property="article:author" content="SSBun">
+<meta property="article:tag" content="Crawler">
+<meta property="article:tag" content="Ruby">
+<meta property="article:tag" content="Excel">
+<meta property="article:tag" content="Nokogiri">
+<meta property="article:tag" content="Unirest">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Ruby 数据抓取写入 xls（unirest, nokogiri, spreadsheet）</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="CSL MEMO" type="application/atom+xml" />
+    
+    <!-- umami web analytics -->
+    <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+  <body class="max-width mx-auto px3 ltr">
+    
+    <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2017/06/01/ios-dev/ios-composites-poicture-using-particle-effect/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2016/10/18/ios-dev/ios-macro-definition/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2017/03/13/ruby/ruby-parses-data-and-writes-to-xls/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2017/03/13/ruby/ruby-parses-data-and-writes-to-xls/&text=Ruby 数据抓取写入 xls（unirest, nokogiri, spreadsheet）"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2017/03/13/ruby/ruby-parses-data-and-writes-to-xls/&title=Ruby 数据抓取写入 xls（unirest, nokogiri, spreadsheet）"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2017/03/13/ruby/ruby-parses-data-and-writes-to-xls/&is_video=false&description=Ruby 数据抓取写入 xls（unirest, nokogiri, spreadsheet）"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Ruby 数据抓取写入 xls（unirest, nokogiri, spreadsheet）&body=Check out this article: https://csl.cool/2017/03/13/ruby/ruby-parses-data-and-writes-to-xls/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2017/03/13/ruby/ruby-parses-data-and-writes-to-xls/&title=Ruby 数据抓取写入 xls（unirest, nokogiri, spreadsheet）"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2017/03/13/ruby/ruby-parses-data-and-writes-to-xls/&title=Ruby 数据抓取写入 xls（unirest, nokogiri, spreadsheet）"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2017/03/13/ruby/ruby-parses-data-and-writes-to-xls/&title=Ruby 数据抓取写入 xls（unirest, nokogiri, spreadsheet）"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2017/03/13/ruby/ruby-parses-data-and-writes-to-xls/&title=Ruby 数据抓取写入 xls（unirest, nokogiri, spreadsheet）"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2017/03/13/ruby/ruby-parses-data-and-writes-to-xls/&name=Ruby 数据抓取写入 xls（unirest, nokogiri, spreadsheet）&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2017/03/13/ruby/ruby-parses-data-and-writes-to-xls/&t=Ruby 数据抓取写入 xls（unirest, nokogiri, spreadsheet）"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-unirest"><span class="toc-number">1.</span> <span class="toc-text"> 安装 unirest</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#unirest-%E7%9A%84%E7%94%A8%E6%B3%95"><span class="toc-number">1.1.</span> <span class="toc-text"> unirest 的用法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E8%AF%B7%E6%B1%82"><span class="toc-number">1.1.1.</span> <span class="toc-text"> 创建请求</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%82%E6%AD%A5%E8%AF%B7%E6%B1%82"><span class="toc-number">1.1.2.</span> <span class="toc-text"> 异步请求</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC-get-%E8%AF%B7%E6%B1%82"><span class="toc-number">1.1.3.</span> <span class="toc-text"> 基本 get 请求</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-nokogiri"><span class="toc-number">2.</span> <span class="toc-text"> 安装 nokogiri</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#nokogiri-%E4%BD%BF%E7%94%A8"><span class="toc-number">2.1.</span> <span class="toc-text"> nokogiri 使用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AF%BC%E5%85%A5%E5%8C%85"><span class="toc-number">2.1.1.</span> <span class="toc-text"> 导入包</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%93%E5%BC%80%E4%B8%80%E4%B8%AA-html-%E6%96%87%E6%A1%A3"><span class="toc-number">2.1.2.</span> <span class="toc-text"> 打开一个 html 文档</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%9A%E8%BF%87-open-uri-%E7%9B%B4%E6%8E%A5%E8%A7%A3%E6%9E%90-url"><span class="toc-number">2.1.3.</span> <span class="toc-text"> 通过 open-uri 直接解析 url</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#css-%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-number">2.1.4.</span> <span class="toc-text"> CSS 选择器</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-spreadsheet"><span class="toc-number">3.</span> <span class="toc-text"> 安装 spreadsheet</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%88%AC%E8%99%AB"><span class="toc-number">4.</span> <span class="toc-text"> 爬虫</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+      
+      <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Ruby 数据抓取写入 xls（unirest, nokogiri, spreadsheet）
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">SSBun</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2017-03-13T02:14:00.000Z" itemprop="datePublished">2017-03-13</time>
+        
+        (Updated: <time datetime="2017-03-13T02:14:00.000Z" itemprop="dateModified">2017-03-13</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Ruby/">Ruby</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Crawler/" rel="tag">Crawler</a>, <a class="tag-link-link" href="/tags/Excel/" rel="tag">Excel</a>, <a class="tag-link-link" href="/tags/Nokogiri/" rel="tag">Nokogiri</a>, <a class="tag-link-link" href="/tags/Ruby/" rel="tag">Ruby</a>, <a class="tag-link-link" href="/tags/Unirest/" rel="tag">Unirest</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="安装-unirest"><a class="markdownIt-Anchor" href="#安装-unirest"></a> 安装 unirest</h2>
+<p>使用 python 进行数据请求，我们可以使用 <code>opne-uri</code>，但是进行各种类型的请求时，显得不是特别的方便快捷，所以我们使用<code>unirest</code>来进行网络数据请求。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gem install unirest // 安装 unirest</span><br></pre></td></tr></table></figure>
+<h3 id="unirest-的用法"><a class="markdownIt-Anchor" href="#unirest-的用法"></a> unirest 的用法</h3>
+<p>uinirest最低支持 Ruby2.0版本，使用起来十分的简单，常用的方法有下面几个 (具体的使用方法可以看<a target="_blank" rel="noopener" href="http://unirest.io/ruby.html"><strong>unirest.io</strong></a>)</p>
+<h4 id="创建请求"><a class="markdownIt-Anchor" href="#创建请求"></a> 创建请求</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">response = Unirest.post <span class="string">&quot;http://httpbin.org/post&quot;</span>, </span><br><span class="line">                        headers:&#123; <span class="string">&quot;Accept&quot;</span> =&gt; <span class="string">&quot;application/json&quot;</span> &#125;, </span><br><span class="line">                        parameters:&#123; :age =&gt; <span class="number">23</span>, :foo =&gt; <span class="string">&quot;bar&quot;</span> &#125;</span><br><span class="line"></span><br><span class="line">response.code <span class="comment"># Status code</span></span><br><span class="line">response.headers <span class="comment"># Response headers</span></span><br><span class="line">response.body <span class="comment"># Parsed body</span></span><br><span class="line">response.raw_body <span class="comment"># Unparsed body</span></span><br></pre></td></tr></table></figure>
+<h4 id="异步请求"><a class="markdownIt-Anchor" href="#异步请求"></a> 异步请求</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">response = Unirest.post <span class="string">&quot;http://httpbin.org/post&quot;</span>, </span><br><span class="line">                        headers:&#123; <span class="string">&quot;Accept&quot;</span> =&gt; <span class="string">&quot;application/json&quot;</span> &#125;, </span><br><span class="line">                        parameters:&#123; :age =&gt; <span class="number">23</span>, :foo =&gt; <span class="string">&quot;bar&quot;</span> &#125; &#123;|response|</span><br><span class="line">    response.code <span class="comment"># Status code</span></span><br><span class="line">    response.headers <span class="comment"># Response headers</span></span><br><span class="line">    response.body <span class="comment"># Parsed body</span></span><br><span class="line">    response.raw_body <span class="comment"># Unparsed body</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="基本-get-请求"><a class="markdownIt-Anchor" href="#基本-get-请求"></a> 基本 get 请求</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">response = Unirest.get <span class="string">&quot;http://httpbin.org/get&quot;</span>, auth:&#123;:user=&gt;<span class="string">&quot;username&quot;</span>, :password=&gt;<span class="string">&quot;password&quot;</span>&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="安装-nokogiri"><a class="markdownIt-Anchor" href="#安装-nokogiri"></a> 安装 nokogiri</h2>
+<p>当我们爬取到数据后，我们需要对数据进行分析，如果是简单的数据结构我们可以直接使用<code>正则表达式</code>，如果数据的结构比较复杂，我们就需要使用 nokogiri 对 html 的 dom 进行操作，如果对 dom 结果不了解可以先查看相关的内容(html dom教程)[<a target="_blank" rel="noopener" href="http://www.runoob.com/htmldom/htmldom-tutorial.html">http://www.runoob.com/htmldom/htmldom-tutorial.html</a>]</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gem install nokogiri</span><br></pre></td></tr></table></figure>
+<h3 id="nokogiri-使用"><a class="markdownIt-Anchor" href="#nokogiri-使用"></a> nokogiri 使用</h3>
+<h4 id="导入包"><a class="markdownIt-Anchor" href="#导入包"></a> 导入包</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">require <span class="string">&#x27;rubygems&#x27;</span></span><br><span class="line">require <span class="string">&#x27;nonogiri&#x27;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="打开一个-html-文档"><a class="markdownIt-Anchor" href="#打开一个-html-文档"></a> 打开一个 html 文档</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">page = Nokogiri::HTML(<span class="built_in">open</span>(<span class="string">&quot;index.html))</span></span><br><span class="line"><span class="string">puts page.class # =&gt; Nokogiri::HTML::Document</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># 你也可以直接使用 unirest 请求下来的数据 response.body 来进行解析</span></span><br><span class="line"><span class="string">response = Unirest.get &quot;</span>http://httpbin.org/get<span class="string">&quot;</span></span><br><span class="line"><span class="string">page = Nokogiri::HTML(response.body)</span></span><br></pre></td></tr></table></figure>
+<h4 id="通过-open-uri-直接解析-url"><a class="markdownIt-Anchor" href="#通过-open-uri-直接解析-url"></a> 通过 open-uri 直接解析 url</h4>
+<p>通过 http 请求直接获取到 document</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">require <span class="string">&#x27;rubygems&#x27;</span></span><br><span class="line">require <span class="string">&#x27;nokogiri&#x27;</span></span><br><span class="line">require <span class="string">&#x27;open-uri&#x27;</span></span><br><span class="line">   </span><br><span class="line">page = Nokogiri::HTML(<span class="built_in">open</span>(<span class="string">&quot;http://en.wikipedia.org/&quot;</span>))   </span><br><span class="line">puts page.<span class="keyword">class</span>   <span class="comment"># =&gt; Nokogiri::HTML::Document</span></span><br></pre></td></tr></table></figure>
+<h4 id="css-选择器"><a class="markdownIt-Anchor" href="#css-选择器"></a> CSS 选择器</h4>
+<p>对 Document 对象进行节点分析</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">page.css(<span class="string">&#x27;title&#x27;</span>) <span class="comment"># 查找 page 下所有的 `title` 标签, 返回的是一个数组</span></span><br><span class="line">page.css(<span class="string">&#x27;li&#x27;</span>)[<span class="number">0</span>].text <span class="comment"># 获取 page 下第一个 `li` 标签中的内容</span></span><br><span class="line">page.css(<span class="string">&#x27;li&#x27;</span>)[<span class="number">0</span>][<span class="string">&#x27;href&#x27;</span>] <span class="comment"># 获取第一 `li` 标签中属性 `href` 的值</span></span><br><span class="line">page.css(<span class="string">&quot;li[data-category=&#x27;news&#x27;]&quot;</span>) <span class="comment">#获取属性有 `data-category=&#x27;news&#x27;` 的 `li` 标签</span></span><br><span class="line">page.css(<span class="string">&#x27;div#funstuff&#x27;</span>)[<span class="number">0</span>] <span class="comment">#获取标签 `id=&#x27;funstuff&#x27;` 的节点</span></span><br><span class="line">page.css(<span class="string">&#x27;div#reference a&#x27;</span>) <span class="comment"># 获取标签 `id=&#x27;reference&#x27;` 下所有的 `a` 节点 </span></span><br></pre></td></tr></table></figure>
+<p>更多的关于 <code>nokogiri</code> 的信息可以通过<a target="_blank" rel="noopener" href="http://ruby.bastardsbook.com/chapters/html-parsing/"><strong>Parsing HTML with Nokogiri</strong></a>进行了解</p>
+<h2 id="安装-spreadsheet"><a class="markdownIt-Anchor" href="#安装-spreadsheet"></a> 安装 spreadsheet</h2>
+<p>Spreadsheet是一个Ruby实现的gem，它可以使我们很方便的使用它对excel进行操作，我们需要将获取到的数据存入本地，方便数据的记录和后续处理。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 引入spreadsheet插件</span></span><br><span class="line">require <span class="string">&quot;spreadsheet&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 声明Spreadsheet处理Excel文件组时的编码</span></span><br><span class="line">Spreadsheet.client_encoding = <span class="string">&quot;UTF-8&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个Spreadsheet对象，它相当于Excel文件</span></span><br><span class="line">book = Spreadsheet::Workbook.new</span><br><span class="line"><span class="comment"># 创建Excel文件中的一个表格，并命名为 &quot;Test Excel&quot;</span></span><br><span class="line">sheet1 = book.create_worksheet :name =&gt; <span class="string">&quot;Test Excel&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置一个Excel文件的格式</span></span><br><span class="line">default_format = Spreadsheet::Format.new(:weight =&gt; :bold,<span class="comment">#字体加粗</span></span><br><span class="line">                             :size =&gt; <span class="number">14</span>, </span><br><span class="line">                             :horizontal_align: =&gt; :merge, <span class="comment">#表格合并</span></span><br><span class="line">                             :color=&gt;<span class="string">&quot;red&quot;</span>, </span><br><span class="line">                             :border=&gt;<span class="number">1</span>, </span><br><span class="line">                             :border_color=&gt;<span class="string">&quot;black&quot;</span>,</span><br><span class="line">                             :pattern =&gt; <span class="number">1</span> ,</span><br><span class="line">                             :pattern_fg_color =&gt; <span class="string">&quot;yellow&quot;</span> )<span class="comment">#这里需要注意，如果pattern不手动处理，会导致pattern_fg_color无实际效果</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 指定一个在表格中的第一行对象</span></span><br><span class="line">test_row = sheet1.row(<span class="number">0</span>)</span><br><span class="line">test_row.set_format(i, default_format)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 为第一行的第一列指定值</span></span><br><span class="line">test_row[<span class="number">0</span>] = <span class="string">&quot;row 1 col 1&quot;</span></span><br><span class="line"><span class="comment"># 为第一行的第二列指定值</span></span><br><span class="line">test_rwo[<span class="number">1</span>] = <span class="string">&quot;row 1 col 2&quot;</span> </span><br><span class="line"></span><br><span class="line"><span class="comment"># 将创建的Spreadsheet对象写入文件，形成电子表格</span></span><br><span class="line">book.write <span class="string">&#x27;book2.xls&#x27;</span></span><br></pre></td></tr></table></figure>
+<h2 id="爬虫"><a class="markdownIt-Anchor" href="#爬虫"></a> 爬虫</h2>
+<p>爬取 <strong><a target="_blank" rel="noopener" href="http://RUNOOB.COM">RUNOOB.COM</a>(<a target="_blank" rel="noopener" href="http://www.runoob.com/">http://www.runoob.com/</a>)</strong> 的教程列表和地址数据<br />
+其实这都算不上是一个爬虫，但是作为利用 ruby 的各种 gem 来实现异步数据请求，数据筛选及存储。是实现一个更加复杂的爬虫的必备工具。熟练的使用各种各样的 gem 可以体现 ruby 的简洁</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/ruby</span></span><br><span class="line">require <span class="string">&#x27;unirest&#x27;</span></span><br><span class="line">require <span class="string">&#x27;nokogiri&#x27;</span></span><br><span class="line">require <span class="string">&#x27;open-uri&#x27;</span></span><br><span class="line">require <span class="string">&#x27;spreadsheet&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取网页的信息</span></span><br><span class="line">response = Unirest.get <span class="string">&quot;http://www.runoob.com/&quot;</span></span><br><span class="line">page = Nokogiri::HTML(response.body)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取大分类的列表</span></span><br><span class="line">datas = page.css(<span class="string">&#x27;div.codelist&#x27;</span>)</span><br><span class="line">puts datas.count</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个表格</span></span><br><span class="line">Spreadsheet.client_encoding = <span class="string">&#x27;UTF-8&#x27;</span></span><br><span class="line">book = Spreadsheet::Workbook.new</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个 sheet</span></span><br><span class="line">sheet = book.create_worksheet :name =&gt; <span class="string">&quot;my excel&quot;</span></span><br><span class="line"></span><br><span class="line">index = <span class="number">0</span></span><br><span class="line">datas.each do |category|</span><br><span class="line">	puts category.css(<span class="string">&#x27;h2&#x27;</span>).text <span class="comment"># 获取大分类的名字</span></span><br><span class="line">	items = category.css(<span class="string">&#x27;a.item-top&#x27;</span>) </span><br><span class="line">	items.each do |item|		</span><br><span class="line">		sheet.row(index)[<span class="number">0</span>] = item.css(<span class="string">&#x27;h4&#x27;</span>).text <span class="comment"># 写入教程的名字</span></span><br><span class="line">		sheet.row(index)[<span class="number">1</span>] = item[<span class="string">&#x27;href&#x27;</span>] <span class="comment"># 写入教程的链接</span></span><br><span class="line">		index += <span class="number">1</span></span><br><span class="line">	end</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">book.write <span class="string">&#x27;/users/ssbun/desktop/runoob.xls&#x27;</span> <span class="comment"># 写入本地文件 （**注意你的路径**）</span></span><br></pre></td></tr></table></figure>
+<p>随后你就可以看见在你的桌面上有一个 xls 文件，打开它就能看到里面的数据了。</p>
+
+  </div>
+</article>
+
+
+
+      
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-unirest"><span class="toc-number">1.</span> <span class="toc-text"> 安装 unirest</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#unirest-%E7%9A%84%E7%94%A8%E6%B3%95"><span class="toc-number">1.1.</span> <span class="toc-text"> unirest 的用法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E8%AF%B7%E6%B1%82"><span class="toc-number">1.1.1.</span> <span class="toc-text"> 创建请求</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%82%E6%AD%A5%E8%AF%B7%E6%B1%82"><span class="toc-number">1.1.2.</span> <span class="toc-text"> 异步请求</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC-get-%E8%AF%B7%E6%B1%82"><span class="toc-number">1.1.3.</span> <span class="toc-text"> 基本 get 请求</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-nokogiri"><span class="toc-number">2.</span> <span class="toc-text"> 安装 nokogiri</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#nokogiri-%E4%BD%BF%E7%94%A8"><span class="toc-number">2.1.</span> <span class="toc-text"> nokogiri 使用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AF%BC%E5%85%A5%E5%8C%85"><span class="toc-number">2.1.1.</span> <span class="toc-text"> 导入包</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%93%E5%BC%80%E4%B8%80%E4%B8%AA-html-%E6%96%87%E6%A1%A3"><span class="toc-number">2.1.2.</span> <span class="toc-text"> 打开一个 html 文档</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%9A%E8%BF%87-open-uri-%E7%9B%B4%E6%8E%A5%E8%A7%A3%E6%9E%90-url"><span class="toc-number">2.1.3.</span> <span class="toc-text"> 通过 open-uri 直接解析 url</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#css-%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-number">2.1.4.</span> <span class="toc-text"> CSS 选择器</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-spreadsheet"><span class="toc-number">3.</span> <span class="toc-text"> 安装 spreadsheet</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%88%AC%E8%99%AB"><span class="toc-number">4.</span> <span class="toc-text"> 爬虫</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2017/03/13/ruby/ruby-parses-data-and-writes-to-xls/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2017/03/13/ruby/ruby-parses-data-and-writes-to-xls/&text=Ruby 数据抓取写入 xls（unirest, nokogiri, spreadsheet）"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2017/03/13/ruby/ruby-parses-data-and-writes-to-xls/&title=Ruby 数据抓取写入 xls（unirest, nokogiri, spreadsheet）"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2017/03/13/ruby/ruby-parses-data-and-writes-to-xls/&is_video=false&description=Ruby 数据抓取写入 xls（unirest, nokogiri, spreadsheet）"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Ruby 数据抓取写入 xls（unirest, nokogiri, spreadsheet）&body=Check out this article: https://csl.cool/2017/03/13/ruby/ruby-parses-data-and-writes-to-xls/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2017/03/13/ruby/ruby-parses-data-and-writes-to-xls/&title=Ruby 数据抓取写入 xls（unirest, nokogiri, spreadsheet）"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2017/03/13/ruby/ruby-parses-data-and-writes-to-xls/&title=Ruby 数据抓取写入 xls（unirest, nokogiri, spreadsheet）"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2017/03/13/ruby/ruby-parses-data-and-writes-to-xls/&title=Ruby 数据抓取写入 xls（unirest, nokogiri, spreadsheet）"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2017/03/13/ruby/ruby-parses-data-and-writes-to-xls/&title=Ruby 数据抓取写入 xls（unirest, nokogiri, spreadsheet）"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2017/03/13/ruby/ruby-parses-data-and-writes-to-xls/&name=Ruby 数据抓取写入 xls（unirest, nokogiri, spreadsheet）&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2017/03/13/ruby/ruby-parses-data-and-writes-to-xls/&t=Ruby 数据抓取写入 xls（unirest, nokogiri, spreadsheet）"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+      <div id="end">
+    <img src="/images/post-end.png" alt="">
+</div> 
+      
+      <div id='valine'>
+    <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+            el: '#vcomments',
+            notify: true,
+            verify: true,
+            appId: '7zw6tQBddCfPvbaVtBGxUy0G-gzGzoHsz',
+            appKey: 'voPGHhBz7MozpUm0Fq2AMFmv',
+            placeholder: '想说点啥...',
+            avatar: 'monsterid',           
+        })
+    </script>
+</div>
+      
+      
+      <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 SSBun
+    <a target="_blank" rel="noopener" href="http://www.beian.miit.gov.cn/">京ICP备20001935号-1</a>
+    <div id="friend-link-container">
+      
+      
+    </div>
+  </div>
+  
+    <div class="footer-right">
+      <nav>
+        <ul>
+          
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/search/">Search</a></li>
+      
+      <li><a href="/categories/">Categories</a></li>
+      
+      <li><a href="/notes/">Notes</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+      </ul>
+      </nav>
+    </div>
+  
+</footer>
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?c2fdf3bebd0db8e40c37a4f37d76d33b";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Umami Analytics -->
+<!--  -->
+  <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="d39cc16d-90eb-47b6-8bf0-8e4cd43c704d"></script>
+<!--  -->
+<!-- Disqus Comments -->
+
+
+
+    
+    <script src="/lib/blackcat/l2dwidget.min.js"></script>
+    <script type="text/javascript">
+      var config = {
+        model: {
+          jsonPath: '/lib/blackcat/hijiki.model.json',
+        },
+        display: {
+          superSample: 1,
+          width: 245,
+          height: 245,
+          position: 'left',
+          hOffset: 0,
+          vOffset: 0,
+        },
+        mobile: {
+          show: false,
+          scale: 1,
+          motion: false,
+        },
+        react: {
+          opacityDefault: 1,
+          opacityOnHover: 0.75
+        }
+      };
+      L2Dwidget.init(config);
+    </script>
+    
+  </body>
+
+  </html>

@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang=en>
+  <head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="在开发软件的过程中，往往耗费时间最长的不是编码而是查看代码，无论是去理解同事写的代码，还是查看系统的 API，亦或是回忆自己原来所写的代码。能在最短的时间内理解类型和函数的作用，除了良好的函数命名以外，注释也是必不可少的。虽然我个人更喜欢用有自注解能力的函数和类命令，但是在遇见复杂逻辑时，过长、过于详细的方法名会使得在调用时显得过于啰嗦。对于通用型、调用频繁的的类型和函数，我更喜欢使用简化的函数声">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何在 Swift 中使用注释">
+<meta property="og:url" content="https://csl.cool/2020/03/27/ios-dev/swift/annotation-marks-in-swift/index.html">
+<meta property="og:site_name" content="CSL MEMO">
+<meta property="og:description" content="在开发软件的过程中，往往耗费时间最长的不是编码而是查看代码，无论是去理解同事写的代码，还是查看系统的 API，亦或是回忆自己原来所写的代码。能在最短的时间内理解类型和函数的作用，除了良好的函数命名以外，注释也是必不可少的。虽然我个人更喜欢用有自注解能力的函数和类命令，但是在遇见复杂逻辑时，过长、过于详细的方法名会使得在调用时显得过于啰嗦。对于通用型、调用频繁的的类型和函数，我更喜欢使用简化的函数声">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20200327144218.png">
+<meta property="og:image" content="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20200327144828.png">
+<meta property="og:image" content="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20200327145823.png">
+<meta property="og:image" content="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20200327151634.png">
+<meta property="og:image" content="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20200327151724.png">
+<meta property="og:image" content="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20200327153453.png">
+<meta property="og:image" content="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20200327154753.png">
+<meta property="article:published_time" content="2020-03-27T06:19:28.000Z">
+<meta property="article:modified_time" content="2020-03-27T06:19:28.000Z">
+<meta property="article:author" content="SSBun">
+<meta property="article:tag" content="Swift">
+<meta property="article:tag" content="Documentation">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20200327144218.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>如何在 Swift 中使用注释</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="CSL MEMO" type="application/atom+xml" />
+    
+    <!-- umami web analytics -->
+    <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+  <body class="max-width mx-auto px3 ltr">
+    
+    <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/03/30/ios-dev/implements-a-simple-animation-chained-invoking/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/02/20/ios-dev/swift/swift-tips/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2020/03/27/ios-dev/swift/annotation-marks-in-swift/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2020/03/27/ios-dev/swift/annotation-marks-in-swift/&text=如何在 Swift 中使用注释"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2020/03/27/ios-dev/swift/annotation-marks-in-swift/&title=如何在 Swift 中使用注释"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2020/03/27/ios-dev/swift/annotation-marks-in-swift/&is_video=false&description=如何在 Swift 中使用注释"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=如何在 Swift 中使用注释&body=Check out this article: https://csl.cool/2020/03/27/ios-dev/swift/annotation-marks-in-swift/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2020/03/27/ios-dev/swift/annotation-marks-in-swift/&title=如何在 Swift 中使用注释"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2020/03/27/ios-dev/swift/annotation-marks-in-swift/&title=如何在 Swift 中使用注释"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2020/03/27/ios-dev/swift/annotation-marks-in-swift/&title=如何在 Swift 中使用注释"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2020/03/27/ios-dev/swift/annotation-marks-in-swift/&title=如何在 Swift 中使用注释"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2020/03/27/ios-dev/swift/annotation-marks-in-swift/&name=如何在 Swift 中使用注释&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2020/03/27/ios-dev/swift/annotation-marks-in-swift/&t=如何在 Swift 中使用注释"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%B9%E6%AE%8A%E6%A0%87%E8%AE%B0"><span class="toc-number">1.</span> <span class="toc-text"> 特殊标记</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+      
+      <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        如何在 Swift 中使用注释
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">SSBun</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-03-27T06:19:28.000Z" itemprop="datePublished">2020-03-27</time>
+        
+        (Updated: <time datetime="2020-03-27T06:19:28.000Z" itemprop="dateModified">2020-03-27</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Swift-tips/">Swift tips</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Documentation/" rel="tag">Documentation</a>, <a class="tag-link-link" href="/tags/Swift/" rel="tag">Swift</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>在开发软件的过程中，往往耗费时间最长的不是编码而是查看代码，无论是去理解同事写的代码，还是查看系统的 API，亦或是回忆自己原来所写的代码。能在最短的时间内理解类型和函数的作用，除了良好的函数命名以外，注释也是必不可少的。虽然我个人更喜欢用有<code>自注解</code>能力的函数和类命令，但是在遇见复杂逻辑时，过长、过于详细的方法名会使得在调用时显得过于啰嗦。对于通用型、调用频繁的的类型和函数，我更喜欢使用简化的函数声明，然后辅以更加详细的注释，这样在初次使用此函数时，可以通过注释快速了解调用方法，在调用时简洁明了。</p>
+<p>在 Swift 当中，注释的用法有很多种，包括描述、参数声明、高亮显示、实例代码、加粗显示灯，下面一一介绍一下：</p>
+<p>在一个类中，给一个属性加上一个描述有几种写法，首先是 <code>// 我是注释</code> 和 <code>/* 我是注释 */</code> 两种写法，这两种写法的注释在你调用函数和属性的时候，在编译器的智能提示当中是不会显示注释内容的</p>
+<p><img src="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20200327144218.png" alt="" /></p>
+<p>而使用 <code>// 我是注释</code> 和 <code>/** 我是注释 */</code> 的注释方法会在编译器智能提示的时候显示注释内容。</p>
+<p><img src="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20200327144828.png" alt="" /></p>
+<p>在注释当中如果要凸显一个类型、变量。我们可以使用单引号 <strong>` Class `</strong> 将内容括起来，这样在注释当中就会高亮显示，通常用来高亮 类名、方法名、和值。</p>
+<p><img src="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20200327145823.png" alt="" /></p>
+<p>方法的注释中主要涉及到了方法描述、参数注释、返回值注释。下面是 Swift 当中的两种注释方法，他们的差距不大，第一种适合在参数较多的时候使用，不用重复写 <code>Parameter</code>, 第二种适合在单个参数的时候使用,显得注释更加的紧凑。</p>
+<p><img src="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20200327151634.png" alt="" /></p>
+<p><img src="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20200327151724.png" alt="" /></p>
+<p>对于一些不易理解的方法，举例子显然更有效，现在我们就在注释中加入一个例子：</p>
+<p><img src="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20200327153453.png" alt="" /></p>
+<p>例子的代码 <strong>向前要有5 个空格，向上要留一个空行</strong>，才能显示出高亮</p>
+<p>在一个文件当中，大家都喜欢把相关的代码写在一块，这样看起来简洁，找起来的方便。通常我们可以使用 <code>// MARK: 我是注释</code> 和 <code>// MARK: - 我是注释</code> 来分割代码，中间有一个 <code>-</code>的话在 Xcode 右侧的 miniMap 中就能显示出一条分割线。如果在一个方法的内部我们也想对内容进行区分，或是分割一个长长的注释。我们需要一个局部显眼，而全局不突兀的注释。</p>
+<p><img src="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20200327154753.png" alt="" /></p>
+<p>底部用等号 <code>=</code> 填充，向前空一个空格，上面的字符就会被加粗高亮显示</p>
+<h3 id="特殊标记"><a class="markdownIt-Anchor" href="#特殊标记"></a> 特殊标记</h3>
+<ul>
+<li><code>/// - TODO:</code></li>
+<li><code>/// - Warning:</code></li>
+<li><code>/// - Important:</code></li>
+<li><code>/// - Version:</code></li>
+<li><code>/// - Authors:</code></li>
+<li><code>/// - Copyright:</code></li>
+<li><code>/// - Date:</code></li>
+<li><code>/// - Since:</code></li>
+<li><code>/// - Attention:</code></li>
+<li><code>/// - Note:</code></li>
+<li><code>/// - Remark:</code></li>
+<li><code>/// - Warning:</code></li>
+<li><code>/// - Bug:</code></li>
+<li><code>/// - TODO:</code></li>
+<li><code>/// - Experiment:</code></li>
+<li><code>/// - Precondition:</code></li>
+<li><code>/// - Postcondition:</code></li>
+<li><code>/// - Requires:</code></li>
+<li><code>/// - Invariant:</code></li>
+</ul>
+<blockquote>
+<p>注释写得好，下班下得早</p>
+</blockquote>
+
+  </div>
+</article>
+
+
+
+      
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%B9%E6%AE%8A%E6%A0%87%E8%AE%B0"><span class="toc-number">1.</span> <span class="toc-text"> 特殊标记</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2020/03/27/ios-dev/swift/annotation-marks-in-swift/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2020/03/27/ios-dev/swift/annotation-marks-in-swift/&text=如何在 Swift 中使用注释"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2020/03/27/ios-dev/swift/annotation-marks-in-swift/&title=如何在 Swift 中使用注释"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2020/03/27/ios-dev/swift/annotation-marks-in-swift/&is_video=false&description=如何在 Swift 中使用注释"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=如何在 Swift 中使用注释&body=Check out this article: https://csl.cool/2020/03/27/ios-dev/swift/annotation-marks-in-swift/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2020/03/27/ios-dev/swift/annotation-marks-in-swift/&title=如何在 Swift 中使用注释"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2020/03/27/ios-dev/swift/annotation-marks-in-swift/&title=如何在 Swift 中使用注释"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2020/03/27/ios-dev/swift/annotation-marks-in-swift/&title=如何在 Swift 中使用注释"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2020/03/27/ios-dev/swift/annotation-marks-in-swift/&title=如何在 Swift 中使用注释"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2020/03/27/ios-dev/swift/annotation-marks-in-swift/&name=如何在 Swift 中使用注释&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2020/03/27/ios-dev/swift/annotation-marks-in-swift/&t=如何在 Swift 中使用注释"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+      <div id="end">
+    <img src="/images/post-end.png" alt="">
+</div> 
+      
+      <div id='valine'>
+    <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+            el: '#vcomments',
+            notify: true,
+            verify: true,
+            appId: '7zw6tQBddCfPvbaVtBGxUy0G-gzGzoHsz',
+            appKey: 'voPGHhBz7MozpUm0Fq2AMFmv',
+            placeholder: '想说点啥...',
+            avatar: 'monsterid',           
+        })
+    </script>
+</div>
+      
+      
+      <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 SSBun
+    <a target="_blank" rel="noopener" href="http://www.beian.miit.gov.cn/">京ICP备20001935号-1</a>
+    <div id="friend-link-container">
+      
+      
+    </div>
+  </div>
+  
+    <div class="footer-right">
+      <nav>
+        <ul>
+          
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/search/">Search</a></li>
+      
+      <li><a href="/categories/">Categories</a></li>
+      
+      <li><a href="/notes/">Notes</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+      </ul>
+      </nav>
+    </div>
+  
+</footer>
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?c2fdf3bebd0db8e40c37a4f37d76d33b";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Umami Analytics -->
+<!--  -->
+  <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="d39cc16d-90eb-47b6-8bf0-8e4cd43c704d"></script>
+<!--  -->
+<!-- Disqus Comments -->
+
+
+
+    
+    <script src="/lib/blackcat/l2dwidget.min.js"></script>
+    <script type="text/javascript">
+      var config = {
+        model: {
+          jsonPath: '/lib/blackcat/hijiki.model.json',
+        },
+        display: {
+          superSample: 1,
+          width: 245,
+          height: 245,
+          position: 'left',
+          hOffset: 0,
+          vOffset: 0,
+        },
+        mobile: {
+          show: false,
+          scale: 1,
+          motion: false,
+        },
+        react: {
+          opacityDefault: 1,
+          opacityOnHover: 0.75
+        }
+      };
+      L2Dwidget.init(config);
+    </script>
+    
+  </body>
+
+  </html>

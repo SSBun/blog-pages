@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang=en>
+  <head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Flutter 作为 Google 力推的跨平台开发框架，最近是越来越火了。最近恰逢我们的项目中有一个较为独立的模块，所以就决定拿它来试试水，正式的探索和使用一下 flutter 的技术。然后摆在面前的第一个问题就是该如果结合 Flutter 和 iOS 的项目呢？接下来就说一下我是如果在项目中管理 Flutter 和 iOS 项目的。  问题手册  更新 Git 异常的慢  这里我有 Shado">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS 和 Flutter 混合开发">
+<meta property="og:url" content="https://csl.cool/2020/05/06/ios-dev/ios-flutter-hybrid-development/index.html">
+<meta property="og:site_name" content="CSL MEMO">
+<meta property="og:description" content="Flutter 作为 Google 力推的跨平台开发框架，最近是越来越火了。最近恰逢我们的项目中有一个较为独立的模块，所以就决定拿它来试试水，正式的探索和使用一下 flutter 的技术。然后摆在面前的第一个问题就是该如果结合 Flutter 和 iOS 的项目呢？接下来就说一下我是如果在项目中管理 Flutter 和 iOS 项目的。  问题手册  更新 Git 异常的慢  这里我有 Shado">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-05-06T06:52:00.000Z">
+<meta property="article:modified_time" content="2020-05-06T06:52:00.000Z">
+<meta property="article:author" content="SSBun">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="Flutter">
+<meta property="article:tag" content="Hybrid">
+<meta property="article:tag" content="CocoaPods">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>iOS 和 Flutter 混合开发</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="CSL MEMO" type="application/atom+xml" />
+    
+    <!-- umami web analytics -->
+    <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+  <body class="max-width mx-auto px3 ltr">
+    
+    <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/05/21/hardware/esp8266-micro-python+firmware+software+debug/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/04/13/reading/book-http-diagram-conslusion/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2020/05/06/ios-dev/ios-flutter-hybrid-development/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2020/05/06/ios-dev/ios-flutter-hybrid-development/&text=iOS 和 Flutter 混合开发"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2020/05/06/ios-dev/ios-flutter-hybrid-development/&title=iOS 和 Flutter 混合开发"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2020/05/06/ios-dev/ios-flutter-hybrid-development/&is_video=false&description=iOS 和 Flutter 混合开发"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=iOS 和 Flutter 混合开发&body=Check out this article: https://csl.cool/2020/05/06/ios-dev/ios-flutter-hybrid-development/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2020/05/06/ios-dev/ios-flutter-hybrid-development/&title=iOS 和 Flutter 混合开发"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2020/05/06/ios-dev/ios-flutter-hybrid-development/&title=iOS 和 Flutter 混合开发"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2020/05/06/ios-dev/ios-flutter-hybrid-development/&title=iOS 和 Flutter 混合开发"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2020/05/06/ios-dev/ios-flutter-hybrid-development/&title=iOS 和 Flutter 混合开发"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2020/05/06/ios-dev/ios-flutter-hybrid-development/&name=iOS 和 Flutter 混合开发&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2020/05/06/ios-dev/ios-flutter-hybrid-development/&t=iOS 和 Flutter 混合开发"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E6%89%8B%E5%86%8C"><span class="toc-number">1.</span> <span class="toc-text"> 问题手册</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9B%86%E6%88%90%E6%96%B9%E6%B3%95"><span class="toc-number">2.</span> <span class="toc-text"> 集成方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%B4%E6%8E%A5%E9%80%9A%E8%BF%87-pod-%E6%9C%AC%E5%9C%B0%E5%AF%BC%E5%85%A5-flutter-%E5%BA%93"><span class="toc-number">2.1.</span> <span class="toc-text"> 直接通过 Pod 本地导入 Flutter 库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E8%BF%87%E7%94%9F%E6%88%90%E4%B8%80%E4%B8%AA-cocoapod-%E5%BA%93%E6%9D%A5%E5%BC%95%E5%85%A5-flutter"><span class="toc-number">2.2.</span> <span class="toc-text"> 通过生成一个 Cocoapod 库来引入 Flutter</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+      
+      <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        iOS 和 Flutter 混合开发
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">SSBun</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-05-06T06:52:00.000Z" itemprop="datePublished">2020-05-06</time>
+        
+        (Updated: <time datetime="2020-05-06T06:52:00.000Z" itemprop="dateModified">2020-05-06</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Flutter/">Flutter</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/CocoaPods/" rel="tag">CocoaPods</a>, <a class="tag-link-link" href="/tags/Flutter/" rel="tag">Flutter</a>, <a class="tag-link-link" href="/tags/Hybrid/" rel="tag">Hybrid</a>, <a class="tag-link-link" href="/tags/iOS/" rel="tag">iOS</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>Flutter 作为 Google 力推的跨平台开发框架，最近是越来越火了。最近恰逢我们的项目中有一个较为独立的模块，所以就决定拿它来试试水，正式的探索和使用一下 flutter 的技术。然后摆在面前的第一个问题就是该如果结合 Flutter 和 iOS 的项目呢？接下来就说一下我是如果在项目中管理 Flutter 和 iOS 项目的。</p>
+<h2 id="问题手册"><a class="markdownIt-Anchor" href="#问题手册"></a> 问题手册</h2>
+<blockquote>
+<p>更新 <code>Git</code> 异常的慢</p>
+</blockquote>
+<p>这里我有 Shadowsocks 账号，可以通过设置 <code>git</code> 的 <code>socks5</code> 来解决问题</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global http.https://github.com.proxy socks5://127.0.0.1:1086</span><br></pre></td></tr></table></figure>
+<p>重置 <code>git</code> 配置</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global --unset http.https://github.com.proxy</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Cocoapods installed but not initialized.</p>
+</blockquote>
+<p>卸载重装推荐版本的 cocoapods</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo gem uninstall cocoapods</span><br><span class="line">sudo gem install cocoapods -v 1.7.5  # Input the recommend version of Flutter.</span><br><span class="line">pod setup</span><br><span class="line">flutter doctor -v</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Invalid <code>Podfile</code> file: undefined method `pod’ for main:Object.</p>
+</blockquote>
+<p>删除 <code>.ios</code> 缓存，并重新构建</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rm -rf flutter_modules/.ios</span><br><span class="line">flutter build ios --debug</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>This expression has type ‘void’ and can’t be used</p>
+</blockquote>
+<p>这是在使用 <code>Flutter-Boost</code> 的时候出现的问题，发现是 <code>Flutter-boost</code> 的版本和 <code>Flutter</code> 的版本不一致</p>
+<blockquote>
+<p>Building for iOS, but the linked and embedded framework ‘App.framework’ was built for iOS Simulator. (in target ‘Runner’ from project ‘Runner’)</p>
+</blockquote>
+<p>在模拟器和真机之间切换执行 app 时，需要把已经生成的 <code>.framework</code>给清空掉</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /flutter_project_path</span><br><span class="line">flutter clean</span><br><span class="line"><span class="built_in">rm</span> -rf ios/Flutter/App.framework</span><br></pre></td></tr></table></figure>
+<h2 id="集成方法"><a class="markdownIt-Anchor" href="#集成方法"></a> 集成方法</h2>
+<p>这里我们看一下目录结构：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">App/</span><br><span class="line">  - App_Flutter</span><br><span class="line">  - App_iOS</span><br><span class="line">  - App_Flutter_Pod</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>App_iOS</code> 是我们的 <code>iOS</code> 项目目录</li>
+<li><code>App_Flutter</code> 是我们创建的 <code>Flutter Module</code> 项目</li>
+<li><code>App_Flutter_Pod</code> 是我们为 <code>Flutter Moduel</code> 创建的 Pod</li>
+</ul>
+<h3 id="直接通过-pod-本地导入-flutter-库"><a class="markdownIt-Anchor" href="#直接通过-pod-本地导入-flutter-库"></a> 直接通过 Pod 本地导入 Flutter 库</h3>
+<p>我们进入到 <code>App_Flutter</code> 目录下，执行命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flutter build ios</span><br></pre></td></tr></table></figure>
+<p>然后会构建 <code>release</code> 版本(构建命令后添加 <code>--debug</code>可以构建 debug版本的库，debug 版本下可以进行代码调试)的 Flutter 应用，构建完成以后，我们在进入到 <code>App_iOS</code> 目录下，通过 <code>Cocoapods</code> 导入本地的 Flutter 库</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在 Podfile 的顶部，添加</span></span><br><span class="line">flutter_application_path = <span class="string">&#x27;../App_Flutter&#x27;</span></span><br><span class="line">load File.<span class="built_in">join</span>(flutter_application_path, <span class="string">&#x27;.ios&#x27;</span>, <span class="string">&#x27;Flutter&#x27;</span>, <span class="string">&#x27;podhelper.rb&#x27;</span>)</span><br><span class="line"></span><br><span class="line">target <span class="string">&#x27;App_iOS&#x27;</span> <span class="keyword">do</span></span><br><span class="line">    ...</span><br><span class="line">    <span class="comment"># 安装所有依赖的 framework</span></span><br><span class="line">    install_all_flutter_pods(flutter_application_path)</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<p>这种通过本地来构建和集成 flutter 的方法，适合单人开发，和调试的时候，修改 Flutter App 以后，能后快速验证与 iOS 原生的交互，缺点就是代码的编译需要安装 Flutter 环境，如果其他同事用不到 Flutter，也需要同时下载 Flutter 项目，才能编译 App。在实际开发环境当中，这样显得很麻烦。</p>
+<h3 id="通过生成一个-cocoapod-库来引入-flutter"><a class="markdownIt-Anchor" href="#通过生成一个-cocoapod-库来引入-flutter"></a> 通过生成一个 Cocoapod 库来引入 Flutter</h3>
+<p>上面我们说到了，直接引入 <code>App_Flutter</code> 编译生成的 framework 来集成 Flutter，既然是通过 Cocoapods 来安装 framework，到不如我们直接创建一个 Pod 仓库</p>
+<p>我们在 <code>App</code> 目录下创建一个名为 <code>App_Flutter_Pod</code>的库</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod lib create App_Flutter_Pod</span><br></pre></td></tr></table></figure>
+<p>Pod 所需配置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">xingkunkun:FlutterForFW admin$ pod lib create MyFlutterPod</span><br><span class="line">Cloning `https://github.com/CocoaPods/pod-template.git` into `MyFlutterPod`.</span><br><span class="line">Configuring MyFlutterPod template.</span><br><span class="line">------------------------------</span><br><span class="line">To get you started we need to ask a few questions, this should only take a minute.</span><br><span class="line"></span><br><span class="line">What platform do you want to use?? [ iOS / macOS ]</span><br><span class="line"> &gt; ios</span><br><span class="line">What language do you want to use?? [ Swift / ObjC ]</span><br><span class="line"> &gt; objc</span><br><span class="line">Would you like to include a demo application with your library? [ Yes / No ]</span><br><span class="line"> &gt; no</span><br><span class="line">Which testing frameworks will you use? [ Specta / Kiwi / None ]</span><br><span class="line"> &gt; none</span><br><span class="line">Would you like to do view based testing? [ Yes / No ]</span><br><span class="line"> &gt; no</span><br><span class="line">What is your class prefix?</span><br><span class="line"> &gt; Kevin</span><br><span class="line"></span><br><span class="line">Running pod install on your new library.</span><br></pre></td></tr></table></figure>
+<p>创建完成以后, 我们进入到 <code>App_Flutter_Pod</code> 目录中，创建一个脚本文件 <code>generatePod.sh</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ -z <span class="variable">$out</span> ]; <span class="keyword">then</span></span><br><span class="line">    out=<span class="string">&#x27;ios_frameworks&#x27;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ -z <span class="variable">$app</span> ]; <span class="keyword">then</span></span><br><span class="line">    app=<span class="string">&#x27;../App_Flutter&#x27;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">greenEcho</span></span>() &#123;</span><br><span class="line">    <span class="built_in">echo</span> -e <span class="string">&quot;\033[32m<span class="variable">$&#123;1&#125;</span>\033[0m&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">greenEcho <span class="string">&quot;Ready out put frameworkds to: <span class="variable">$out</span>&quot;</span></span><br><span class="line"></span><br><span class="line">greenEcho <span class="string">&quot;Clean all old build files.&quot;</span></span><br><span class="line">find <span class="variable">$ap</span> -d -name build | xargs <span class="built_in">rm</span> -rf</span><br><span class="line">(<span class="built_in">cd</span> <span class="variable">$app</span>; flutter clean)</span><br><span class="line"><span class="built_in">rm</span> -rf <span class="variable">$out</span></span><br><span class="line"></span><br><span class="line">(<span class="built_in">cd</span> <span class="variable">$app</span>; flutter packages get)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">addFlag</span></span>() &#123;</span><br><span class="line">    <span class="built_in">cat</span> .ios/Podfile &gt; tmp1.txt</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;use_frameworks!&quot;</span> &gt;&gt; tmp2.txt</span><br><span class="line">    <span class="built_in">cat</span> tmp1.txt &gt;&gt; tmp2.txt</span><br><span class="line">    <span class="built_in">cat</span> tmp2.txt &gt; .ios/Podfile</span><br><span class="line">    <span class="built_in">rm</span> tmp1.txt tmp2.txt</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">greenEcho <span class="string">&quot;Check <span class="variable">$app</span>/.ios/Podfile file state.&quot;</span></span><br><span class="line"></span><br><span class="line">(<span class="built_in">cd</span> <span class="variable">$app</span>;</span><br><span class="line">a=$(<span class="built_in">cat</span> .ios/Podfile)</span><br><span class="line"><span class="keyword">if</span> [[ <span class="variable">$a</span> == use* ]]; <span class="keyword">then</span></span><br><span class="line">    greenEcho <span class="string">&#x27;Already added use_frameworks&#x27;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    greenEcho <span class="string">&#x27;No use_frameworks, ready add.&#x27;</span></span><br><span class="line">    addFlag</span><br><span class="line">    greenEcho <span class="string">&quot;Adding use_frameworks finished.&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">greenEcho <span class="string">&quot;Build flutter framework&quot;</span></span><br><span class="line">(<span class="built_in">cd</span> <span class="variable">$app</span>; flutter build ios-framework)</span><br><span class="line"><span class="built_in">mkdir</span> <span class="variable">$out</span></span><br><span class="line"><span class="keyword">if</span> <span class="built_in">test</span> <span class="variable">$1</span> = <span class="string">&#x27;debug&#x27;</span>; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">cp</span> -r <span class="variable">$app</span>/build/ios/framework/Debug/*.framework <span class="variable">$out</span></span><br><span class="line">    greenEcho <span class="string">&quot;### Debug Mode ###&quot;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    <span class="built_in">cp</span> -r <span class="variable">$app</span>/build/ios/framework/Release/*.framework <span class="variable">$out</span></span><br><span class="line">    greenEcho <span class="string">&quot;### Release Mode ###&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line">greenEcho <span class="string">&quot;Copy framework to folder: <span class="variable">$out</span>&quot;</span></span><br></pre></td></tr></table></figure>
+<p>我们使用 <code>flutter build ios-framework</code> 直接生成需要的 Framework, 然后再 <code>.podspec</code> 中导入生成的 framework，</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 在 .podspec 底部加上下面的代码</span><br><span class="line"></span><br><span class="line">s.static_framework = true</span><br><span class="line">p = Dir::open(&quot;ios_frameworks&quot;)</span><br><span class="line">arr = Array.new</span><br><span class="line">arr.push(&#x27;ios_frameworks/*.framework&#x27;)</span><br><span class="line">s.ios.vendored_frameworks = arr</span><br></pre></td></tr></table></figure>
+<p>在 iOS 项目中进行 Pod 的引用</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Uncomment the next line to define a global platform for your project</span></span><br><span class="line">platform :ios, <span class="string">&#x27;8.0&#x27;</span></span><br><span class="line"></span><br><span class="line">target <span class="string">&#x27;iOSProject&#x27;</span> <span class="keyword">do</span></span><br><span class="line">  <span class="comment"># Comment the next line if you don&#x27;t want to use dynamic frameworks</span></span><br><span class="line">  use_frameworks!</span><br><span class="line"></span><br><span class="line">  <span class="comment"># Pods for iOSProject</span></span><br><span class="line">   pod <span class="string">&#x27;App_Flutter_Pod&#x27;</span>, :path =&gt; <span class="string">&#x27;../App_Flutter_Pod&#x27;</span></span><br><span class="line"></span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<p>这是在本地引用 Pod 库，当然我们可以将 Pod 库上传到 git 上，并通过指定远程路径，直接安装 framework，这就和普通的管理依赖没有区别了。麻烦的就是每次更新 Flutter 都需要重新打包上传，并 <code>pod install</code> 更新库，然后才能看见最终效果。</p>
+
+  </div>
+</article>
+
+
+
+      
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E6%89%8B%E5%86%8C"><span class="toc-number">1.</span> <span class="toc-text"> 问题手册</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9B%86%E6%88%90%E6%96%B9%E6%B3%95"><span class="toc-number">2.</span> <span class="toc-text"> 集成方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%B4%E6%8E%A5%E9%80%9A%E8%BF%87-pod-%E6%9C%AC%E5%9C%B0%E5%AF%BC%E5%85%A5-flutter-%E5%BA%93"><span class="toc-number">2.1.</span> <span class="toc-text"> 直接通过 Pod 本地导入 Flutter 库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E8%BF%87%E7%94%9F%E6%88%90%E4%B8%80%E4%B8%AA-cocoapod-%E5%BA%93%E6%9D%A5%E5%BC%95%E5%85%A5-flutter"><span class="toc-number">2.2.</span> <span class="toc-text"> 通过生成一个 Cocoapod 库来引入 Flutter</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2020/05/06/ios-dev/ios-flutter-hybrid-development/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2020/05/06/ios-dev/ios-flutter-hybrid-development/&text=iOS 和 Flutter 混合开发"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2020/05/06/ios-dev/ios-flutter-hybrid-development/&title=iOS 和 Flutter 混合开发"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2020/05/06/ios-dev/ios-flutter-hybrid-development/&is_video=false&description=iOS 和 Flutter 混合开发"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=iOS 和 Flutter 混合开发&body=Check out this article: https://csl.cool/2020/05/06/ios-dev/ios-flutter-hybrid-development/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2020/05/06/ios-dev/ios-flutter-hybrid-development/&title=iOS 和 Flutter 混合开发"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2020/05/06/ios-dev/ios-flutter-hybrid-development/&title=iOS 和 Flutter 混合开发"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2020/05/06/ios-dev/ios-flutter-hybrid-development/&title=iOS 和 Flutter 混合开发"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2020/05/06/ios-dev/ios-flutter-hybrid-development/&title=iOS 和 Flutter 混合开发"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2020/05/06/ios-dev/ios-flutter-hybrid-development/&name=iOS 和 Flutter 混合开发&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2020/05/06/ios-dev/ios-flutter-hybrid-development/&t=iOS 和 Flutter 混合开发"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+      <div id="end">
+    <img src="/images/post-end.png" alt="">
+</div> 
+      
+      <div id='valine'>
+    <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+            el: '#vcomments',
+            notify: true,
+            verify: true,
+            appId: '7zw6tQBddCfPvbaVtBGxUy0G-gzGzoHsz',
+            appKey: 'voPGHhBz7MozpUm0Fq2AMFmv',
+            placeholder: '想说点啥...',
+            avatar: 'monsterid',           
+        })
+    </script>
+</div>
+      
+      
+      <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 SSBun
+    <a target="_blank" rel="noopener" href="http://www.beian.miit.gov.cn/">京ICP备20001935号-1</a>
+    <div id="friend-link-container">
+      
+      
+    </div>
+  </div>
+  
+    <div class="footer-right">
+      <nav>
+        <ul>
+          
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/search/">Search</a></li>
+      
+      <li><a href="/categories/">Categories</a></li>
+      
+      <li><a href="/notes/">Notes</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+      </ul>
+      </nav>
+    </div>
+  
+</footer>
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?c2fdf3bebd0db8e40c37a4f37d76d33b";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Umami Analytics -->
+<!--  -->
+  <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="d39cc16d-90eb-47b6-8bf0-8e4cd43c704d"></script>
+<!--  -->
+<!-- Disqus Comments -->
+
+
+
+    
+    <script src="/lib/blackcat/l2dwidget.min.js"></script>
+    <script type="text/javascript">
+      var config = {
+        model: {
+          jsonPath: '/lib/blackcat/hijiki.model.json',
+        },
+        display: {
+          superSample: 1,
+          width: 245,
+          height: 245,
+          position: 'left',
+          hOffset: 0,
+          vOffset: 0,
+        },
+        mobile: {
+          show: false,
+          scale: 1,
+          motion: false,
+        },
+        react: {
+          opacityDefault: 1,
+          opacityOnHover: 0.75
+        }
+      };
+      L2Dwidget.init(config);
+    </script>
+    
+  </body>
+
+  </html>

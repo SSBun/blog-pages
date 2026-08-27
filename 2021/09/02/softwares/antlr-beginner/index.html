@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang=en>
+  <head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="最近打算实现一个 VScode Plugin，要解决的问题是这样的，我在写 Flutter 项目时使用 Fish-Redux，其中的 State 需要实现一个克隆方法，但是 Dart 在语言层面是没有提供语法支持的，所以在实现一个 copy 方法时需要这样写： 1234567891011121314class MyState &#123;    String name;    int age;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ANTLR Beginner">
+<meta property="og:url" content="https://csl.cool/2021/09/02/softwares/antlr-beginner/index.html">
+<meta property="og:site_name" content="CSL MEMO">
+<meta property="og:description" content="最近打算实现一个 VScode Plugin，要解决的问题是这样的，我在写 Flutter 项目时使用 Fish-Redux，其中的 State 需要实现一个克隆方法，但是 Dart 在语言层面是没有提供语法支持的，所以在实现一个 copy 方法时需要这样写： 1234567891011121314class MyState &#123;    String name;    int age;">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-09-02T05:05:46.000Z">
+<meta property="article:modified_time" content="2021-09-02T05:05:46.000Z">
+<meta property="article:author" content="SSBun">
+<meta property="article:tag" content="Compiler">
+<meta property="article:tag" content="Dart">
+<meta property="article:tag" content="ANTLR">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>ANTLR Beginner</title><meta name="robots" content="noindex">
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="CSL MEMO" type="application/atom+xml" />
+    
+    <!-- umami web analytics -->
+    <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+  <body class="max-width mx-auto px3 ltr">
+    
+    <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2021/09/02/softwares/antlr-beginner/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2021/09/02/softwares/antlr-beginner/&text=ANTLR Beginner"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2021/09/02/softwares/antlr-beginner/&title=ANTLR Beginner"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2021/09/02/softwares/antlr-beginner/&is_video=false&description=ANTLR Beginner"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=ANTLR Beginner&body=Check out this article: https://csl.cool/2021/09/02/softwares/antlr-beginner/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2021/09/02/softwares/antlr-beginner/&title=ANTLR Beginner"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2021/09/02/softwares/antlr-beginner/&title=ANTLR Beginner"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2021/09/02/softwares/antlr-beginner/&title=ANTLR Beginner"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2021/09/02/softwares/antlr-beginner/&title=ANTLR Beginner"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2021/09/02/softwares/antlr-beginner/&name=ANTLR Beginner&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2021/09/02/softwares/antlr-beginner/&t=ANTLR Beginner"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%8D%E6%B3%95%E8%A7%A3%E6%9E%90%E5%92%8C%E8%AF%AD%E6%B3%95%E8%A7%A3%E6%9E%90"><span class="toc-number">1.</span> <span class="toc-text"> 词法解析和语法解析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E6%9E%90%E5%99%A8%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-number">1.1.</span> <span class="toc-text"> 解析器的作用</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+      
+      <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        ANTLR Beginner
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">SSBun</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-09-02T05:05:46.000Z" itemprop="datePublished">2021-09-02</time>
+        
+        (Updated: <time datetime="2021-09-02T05:05:46.000Z" itemprop="dateModified">2021-09-02</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/ANTLR/" rel="tag">ANTLR</a>, <a class="tag-link-link" href="/tags/Compiler/" rel="tag">Compiler</a>, <a class="tag-link-link" href="/tags/Dart/" rel="tag">Dart</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>最近打算实现一个 VScode Plugin，要解决的问题是这样的，我在写 Flutter 项目时使用 Fish-Redux，其中的 State 需要实现一个克隆方法，但是 Dart 在语言层面是没有提供语法支持的，所以在实现一个 copy 方法时需要这样写：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyState</span> </span>&#123;</span><br><span class="line">    <span class="built_in">String</span> name;</span><br><span class="line">    <span class="built_in">int</span> age;</span><br><span class="line">    <span class="built_in">double</span> weight;</span><br><span class="line">    <span class="built_in">double</span> height;</span><br><span class="line"></span><br><span class="line">    MyState clone() &#123;</span><br><span class="line">        <span class="keyword">return</span> MyState()</span><br><span class="line">            ..name = name</span><br><span class="line">            ..age = age</span><br><span class="line">            ..weight = weight</span><br><span class="line">            ..height = height;</span><br><span class="line">    &#125;        </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看出这样的代码非常的格式化，平时使用时每一个 component 和 page 都有自己的 state，也都需要实现这样的方法，写起来实在是费劲，所以如果能通过语法解析获取到一个 class 的属性，并生成对应的模板代码就能解决这个问题，这就要涉及到今天的主题，<strong>语法解析</strong>。</p>
+<p>虽说最终的实现是使用了 ANTLR，但是前期还是试图使用其他的途径来实现对应的功能，如果你有兴趣的话可以去这里看看插件实现的思路</p>
+<h2 id="词法解析和语法解析"><a class="markdownIt-Anchor" href="#词法解析和语法解析"></a> 词法解析和语法解析</h2>
+<h3 id="解析器的作用"><a class="markdownIt-Anchor" href="#解析器的作用"></a> 解析器的作用</h3>
+<p>任何我们所写的代码在本质上就是 Text 文本，后缀无非是利于 IDE 或编辑器快速识别格式以便进行解析。我们的源码文件最近都将有编译器转换为字节码最终由 CPU 执行。但是编译器也并非直接处理 Text 文本，再者说，在编译以前我们也需要 IDE 能够提供语法高亮，语法检测，定义跳转等功能，每门编程语言都有自己的语法规则，而要进行语法校验就需要使用到语法解析器来将语法解析为抽象语法树(AST / Abstract Syntax Tree)。</p>
+<!-- flag of hidden posts -->
+  </div>
+</article>
+
+
+
+      
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%8D%E6%B3%95%E8%A7%A3%E6%9E%90%E5%92%8C%E8%AF%AD%E6%B3%95%E8%A7%A3%E6%9E%90"><span class="toc-number">1.</span> <span class="toc-text"> 词法解析和语法解析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E6%9E%90%E5%99%A8%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-number">1.1.</span> <span class="toc-text"> 解析器的作用</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2021/09/02/softwares/antlr-beginner/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2021/09/02/softwares/antlr-beginner/&text=ANTLR Beginner"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2021/09/02/softwares/antlr-beginner/&title=ANTLR Beginner"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2021/09/02/softwares/antlr-beginner/&is_video=false&description=ANTLR Beginner"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=ANTLR Beginner&body=Check out this article: https://csl.cool/2021/09/02/softwares/antlr-beginner/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2021/09/02/softwares/antlr-beginner/&title=ANTLR Beginner"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2021/09/02/softwares/antlr-beginner/&title=ANTLR Beginner"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2021/09/02/softwares/antlr-beginner/&title=ANTLR Beginner"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2021/09/02/softwares/antlr-beginner/&title=ANTLR Beginner"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2021/09/02/softwares/antlr-beginner/&name=ANTLR Beginner&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2021/09/02/softwares/antlr-beginner/&t=ANTLR Beginner"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+      <div id="end">
+    <img src="/images/post-end.png" alt="">
+</div> 
+      
+      <div id='valine'>
+    <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+            el: '#vcomments',
+            notify: true,
+            verify: true,
+            appId: '7zw6tQBddCfPvbaVtBGxUy0G-gzGzoHsz',
+            appKey: 'voPGHhBz7MozpUm0Fq2AMFmv',
+            placeholder: '想说点啥...',
+            avatar: 'monsterid',           
+        })
+    </script>
+</div>
+      
+      
+      <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 SSBun
+    <a target="_blank" rel="noopener" href="http://www.beian.miit.gov.cn/">京ICP备20001935号-1</a>
+    <div id="friend-link-container">
+      
+      
+    </div>
+  </div>
+  
+    <div class="footer-right">
+      <nav>
+        <ul>
+          
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/search/">Search</a></li>
+      
+      <li><a href="/categories/">Categories</a></li>
+      
+      <li><a href="/notes/">Notes</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+      </ul>
+      </nav>
+    </div>
+  
+</footer>
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?c2fdf3bebd0db8e40c37a4f37d76d33b";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Umami Analytics -->
+<!--  -->
+  <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="d39cc16d-90eb-47b6-8bf0-8e4cd43c704d"></script>
+<!--  -->
+<!-- Disqus Comments -->
+
+
+
+    
+    <script src="/lib/blackcat/l2dwidget.min.js"></script>
+    <script type="text/javascript">
+      var config = {
+        model: {
+          jsonPath: '/lib/blackcat/hijiki.model.json',
+        },
+        display: {
+          superSample: 1,
+          width: 245,
+          height: 245,
+          position: 'left',
+          hOffset: 0,
+          vOffset: 0,
+        },
+        mobile: {
+          show: false,
+          scale: 1,
+          motion: false,
+        },
+        react: {
+          opacityDefault: 1,
+          opacityOnHover: 0.75
+        }
+      };
+      L2Dwidget.init(config);
+    </script>
+    
+  </body>
+
+  </html>

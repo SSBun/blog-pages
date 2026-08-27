@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang=en>
+  <head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="我是在一次无意的浏览中看到了 React，虽然 React Native 作为一种跨平台框架我已经听说过了很多次了，但是近期的项目中直接使用的是 Flutter，我也就没有对 React Native 做更多的了解，甚至完全不知道还有一个 React 的前端框架。想起前端开发，我第一次深入的学习还是在 3 年前，那时候对着教程敲出了一个类似淘宝首页的东西，主要使用的是 jQuery、Ajax 及普">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React 学习指南">
+<meta property="og:url" content="https://csl.cool/2020/12/10/frontend/react-beginer/index.html">
+<meta property="og:site_name" content="CSL MEMO">
+<meta property="og:description" content="我是在一次无意的浏览中看到了 React，虽然 React Native 作为一种跨平台框架我已经听说过了很多次了，但是近期的项目中直接使用的是 Flutter，我也就没有对 React Native 做更多的了解，甚至完全不知道还有一个 React 的前端框架。想起前端开发，我第一次深入的学习还是在 3 年前，那时候对着教程敲出了一个类似淘宝首页的东西，主要使用的是 jQuery、Ajax 及普">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-12-10T05:34:11.000Z">
+<meta property="article:modified_time" content="2020-12-10T05:34:11.000Z">
+<meta property="article:author" content="SSBun">
+<meta property="article:tag" content="JavaScript">
+<meta property="article:tag" content="React">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>React 学习指南</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="CSL MEMO" type="application/atom+xml" />
+    
+    <!-- umami web analytics -->
+    <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+  <body class="max-width mx-auto px3 ltr">
+    
+    <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/12/17/notes/weekly-20201217/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/12/06/notes/weekly-20201206/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2020/12/10/frontend/react-beginer/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2020/12/10/frontend/react-beginer/&text=React 学习指南"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2020/12/10/frontend/react-beginer/&title=React 学习指南"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2020/12/10/frontend/react-beginer/&is_video=false&description=React 学习指南"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=React 学习指南&body=Check out this article: https://csl.cool/2020/12/10/frontend/react-beginer/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2020/12/10/frontend/react-beginer/&title=React 学习指南"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2020/12/10/frontend/react-beginer/&title=React 学习指南"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2020/12/10/frontend/react-beginer/&title=React 学习指南"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2020/12/10/frontend/react-beginer/&title=React 学习指南"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2020/12/10/frontend/react-beginer/&name=React 学习指南&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2020/12/10/frontend/react-beginer/&t=React 学习指南"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E6%A6%82%E8%A6%81"><span class="toc-number">1.</span> <span class="toc-text"> 安装概要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95"><span class="toc-number">2.</span> <span class="toc-text"> 基础语法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#hello-world"><span class="toc-number">2.1.</span> <span class="toc-text"> Hello World</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#jsx"><span class="toc-number">2.2.</span> <span class="toc-text"> JSX</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+      
+      <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        React 学习指南
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">SSBun</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-12-10T05:34:11.000Z" itemprop="datePublished">2020-12-10</time>
+        
+        (Updated: <time datetime="2020-12-10T05:34:11.000Z" itemprop="dateModified">2020-12-10</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/JavaScript/" rel="tag">JavaScript</a>, <a class="tag-link-link" href="/tags/React/" rel="tag">React</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>我是在一次无意的浏览中看到了 React，虽然 React Native 作为一种跨平台框架我已经听说过了很多次了，但是近期的项目中直接使用的是 Flutter，我也就没有对 React Native 做更多的了解，甚至完全不知道还有一个 React 的前端框架。想起前端开发，我第一次深入的学习还是在 3 年前，那时候对着教程敲出了一个类似淘宝首页的东西，主要使用的是 jQuery、Ajax 及普通的 css/js/html 操作，这是一次没有使用任何框架的学习，后来随着时间渐行渐远，我也没有更多的机会去使用它，停留在我脑中的 H5 开发技能除了 js 也就什么都不剩了。</p>
+<p>在往后来，微信小程序出来了，这个时候除了基于微信原本的框架外，听说 Vue.js 非常的流行，就开始学习使用 Vue。Vue 给我的感觉比纯手撸页面要好的多，不过又要新学模板代码和数据处理的逻辑，我就知道在不久的以后我会忘得一干二净，果不其然，现在的我就知道 Vue 是一个前端框架，除此之外啥都没有了。</p>
+<p>在然后，就是这次点开 React，本是无意就是想看看这又是一个什么样的前端框架，肯定又是要学一堆新的数据传递及模板代码。但是我只看到了首页的几个 Demo 就被深深的吸引了，这铺面而来的熟悉，React 基于的 Element 不就是 UIKit 中的基础组件，Component 不就是我们创建的 CustomView 吗，组件的 Sate 就如同 View、VC 中的 Model 和 State，数据的传递也是熟悉的 Block，甚至于 React 中核心思想<strong>组合</strong>，iOS 中基于复用和解耦也是提倡多拆分子视图。</p>
+<p>这一切太熟悉了，然后我就花了半天的时候一口气读完了 <a target="_blank" rel="noopener" href="https://zh-hans.reactjs.org/docs/hello-world.html">React 官方教程</a>，这其中的学习非常的流畅，感觉就是 iOS 开发中换一种语言来叙述，下面是基于教程，提列纲要及重点，已被后续复习使用。</p>
+<h2 id="安装概要"><a class="markdownIt-Anchor" href="#安装概要"></a> 安装概要</h2>
+<blockquote>
+<p>React 是一个用于构建用户界面的 JavaScript 库</p>
+</blockquote>
+<p>如果想要直接体验 React 可以使用 <a target="_blank" rel="noopener" href="https://codepen.io/pen?&amp;editors=0010">CodePen</a> 代码在线编辑器。如果要在本地调试学习 React，这里官方给出了几种情况：</p>
+<ul>
+<li>如果你是在学习 React 或创建一个新的单页应用，请使用 <a href="">Create React App</a>。</li>
+<li>如果你是在用 Node.js 构建服务端渲染的网站，试试 <a target="_blank" rel="noopener" href="https://nextjs.org/">Next.js</a>。</li>
+<li>如果你是在构建面向内容的静态网站，试试 <a target="_blank" rel="noopener" href="https://www.gatsbyjs.com/">Gatsby</a>。</li>
+</ul>
+<p>这里我们使用 <strong><a target="_blank" rel="noopener" href="https://github.com/facebook/create-react-app">Create React App</a></strong> 开始学习，这样我们可以直接创建，并在本地开启一个服务，便于我们直接调试。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npx create-react-app my-app</span><br><span class="line">cd my-app</span><br><span class="line">npm start</span><br></pre></td></tr></table></figure>
+<p>接下来打开提示的网址，就能看到初始的网站页面了。我们后续的学习就直接在 <code>index.js</code> 中编写代码就行了，页面自动刷新。</p>
+<h2 id="基础语法"><a class="markdownIt-Anchor" href="#基础语法"></a> 基础语法</h2>
+<h3 id="hello-world"><a class="markdownIt-Anchor" href="#hello-world"></a> Hello World</h3>
+<p>第一件事必定是先显示一个 <strong>Hello, world!</strong>，语法如下:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">ReactDOM</span>.<span class="title function_">render</span>(</span><br><span class="line">  <span class="language-xml"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>Hello, world!<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span>,</span><br><span class="line">  <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;root&#x27;</span>)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>这样我们就在页面中渲染了一个内容为 <code>Hello, world!</code> 标题，可以看到我们在 js 文件中直接使用了 html 的标签，这中标签语法就是 JSX，JSX 本质上还是 js 语言，它可以无缝的嵌入到 js 的运算、判断、循环中去，可以直接当做参数被传入和返回。使用 JSX 只是为了让 UI 的结构层次更为清晰，既能减少 bug 还能增加速度。</p>
+<h3 id="jsx"><a class="markdownIt-Anchor" href="#jsx"></a> JSX</h3>
+<p>JSX 虽然不是模板语法，但同样好用，我们可以在 JSX 中 <strong>嵌入表达式</strong>, 示例如下，声明并使用一个 <code>name</code> 变量：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">const name = &#x27;Josh Perez&#x27;;</span><br><span class="line">const element = &lt;h1&gt;Hello, &#123;name&#125;&lt;/h1&gt;;</span><br><span class="line"></span><br><span class="line">ReactDOM.render(</span><br><span class="line">  element,</span><br><span class="line">  document.getElementById(&#x27;root&#x27;)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+
+
+      
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E6%A6%82%E8%A6%81"><span class="toc-number">1.</span> <span class="toc-text"> 安装概要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95"><span class="toc-number">2.</span> <span class="toc-text"> 基础语法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#hello-world"><span class="toc-number">2.1.</span> <span class="toc-text"> Hello World</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#jsx"><span class="toc-number">2.2.</span> <span class="toc-text"> JSX</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2020/12/10/frontend/react-beginer/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2020/12/10/frontend/react-beginer/&text=React 学习指南"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2020/12/10/frontend/react-beginer/&title=React 学习指南"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2020/12/10/frontend/react-beginer/&is_video=false&description=React 学习指南"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=React 学习指南&body=Check out this article: https://csl.cool/2020/12/10/frontend/react-beginer/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2020/12/10/frontend/react-beginer/&title=React 学习指南"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2020/12/10/frontend/react-beginer/&title=React 学习指南"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2020/12/10/frontend/react-beginer/&title=React 学习指南"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2020/12/10/frontend/react-beginer/&title=React 学习指南"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2020/12/10/frontend/react-beginer/&name=React 学习指南&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2020/12/10/frontend/react-beginer/&t=React 学习指南"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+      <div id="end">
+    <img src="/images/post-end.png" alt="">
+</div> 
+      
+      <div id='valine'>
+    <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+            el: '#vcomments',
+            notify: true,
+            verify: true,
+            appId: '7zw6tQBddCfPvbaVtBGxUy0G-gzGzoHsz',
+            appKey: 'voPGHhBz7MozpUm0Fq2AMFmv',
+            placeholder: '想说点啥...',
+            avatar: 'monsterid',           
+        })
+    </script>
+</div>
+      
+      
+      <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 SSBun
+    <a target="_blank" rel="noopener" href="http://www.beian.miit.gov.cn/">京ICP备20001935号-1</a>
+    <div id="friend-link-container">
+      
+      
+    </div>
+  </div>
+  
+    <div class="footer-right">
+      <nav>
+        <ul>
+          
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/search/">Search</a></li>
+      
+      <li><a href="/categories/">Categories</a></li>
+      
+      <li><a href="/notes/">Notes</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+      </ul>
+      </nav>
+    </div>
+  
+</footer>
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?c2fdf3bebd0db8e40c37a4f37d76d33b";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Umami Analytics -->
+<!--  -->
+  <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="d39cc16d-90eb-47b6-8bf0-8e4cd43c704d"></script>
+<!--  -->
+<!-- Disqus Comments -->
+
+
+
+    
+    <script src="/lib/blackcat/l2dwidget.min.js"></script>
+    <script type="text/javascript">
+      var config = {
+        model: {
+          jsonPath: '/lib/blackcat/hijiki.model.json',
+        },
+        display: {
+          superSample: 1,
+          width: 245,
+          height: 245,
+          position: 'left',
+          hOffset: 0,
+          vOffset: 0,
+        },
+        mobile: {
+          show: false,
+          scale: 1,
+          motion: false,
+        },
+        react: {
+          opacityDefault: 1,
+          opacityOnHover: 0.75
+        }
+      };
+      L2Dwidget.init(config);
+    </script>
+    
+  </body>
+
+  </html>

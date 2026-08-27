@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang=en>
+  <head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="连接 WiFi 通过 MicroPython 连接 WiFi 是一件非常简单的事情，Python 用起来要比 C&#x2F;C++ 和 AT 命令简单的多。 首先我们需要引入网络库 network，它提供了连接网络的功能。在 STA_IF 模式下允许我们作为终端连接其他的 WiFi 123456789import networkwlan &#x3D; network.WLAN(network.STA_IF) #">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ESP8266:MicroPython+WiFi+MQTT">
+<meta property="og:url" content="https://csl.cool/2020/05/25/hardware/esp8266-micro-python-wifi-mqtt/index.html">
+<meta property="og:site_name" content="CSL MEMO">
+<meta property="og:description" content="连接 WiFi 通过 MicroPython 连接 WiFi 是一件非常简单的事情，Python 用起来要比 C&#x2F;C++ 和 AT 命令简单的多。 首先我们需要引入网络库 network，它提供了连接网络的功能。在 STA_IF 模式下允许我们作为终端连接其他的 WiFi 123456789import networkwlan &#x3D; network.WLAN(network.STA_IF) #">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20200525174425.png">
+<meta property="article:published_time" content="2020-05-25T03:59:14.000Z">
+<meta property="article:modified_time" content="2020-05-25T03:59:14.000Z">
+<meta property="article:author" content="SSBun">
+<meta property="article:tag" content="ESP8266">
+<meta property="article:tag" content="MicroPython">
+<meta property="article:tag" content="WiFi">
+<meta property="article:tag" content="MQTT">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20200525174425.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>ESP8266:MicroPython+WiFi+MQTT</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="CSL MEMO" type="application/atom+xml" />
+    
+    <!-- umami web analytics -->
+    <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+  <body class="max-width mx-auto px3 ltr">
+    
+    <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/11/03/reading/kingfisher-souce-reading/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/05/22/hardware/iot-mqtt-mosquitto/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2020/05/25/hardware/esp8266-micro-python-wifi-mqtt/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2020/05/25/hardware/esp8266-micro-python-wifi-mqtt/&text=ESP8266:MicroPython+WiFi+MQTT"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2020/05/25/hardware/esp8266-micro-python-wifi-mqtt/&title=ESP8266:MicroPython+WiFi+MQTT"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2020/05/25/hardware/esp8266-micro-python-wifi-mqtt/&is_video=false&description=ESP8266:MicroPython+WiFi+MQTT"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=ESP8266:MicroPython+WiFi+MQTT&body=Check out this article: https://csl.cool/2020/05/25/hardware/esp8266-micro-python-wifi-mqtt/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2020/05/25/hardware/esp8266-micro-python-wifi-mqtt/&title=ESP8266:MicroPython+WiFi+MQTT"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2020/05/25/hardware/esp8266-micro-python-wifi-mqtt/&title=ESP8266:MicroPython+WiFi+MQTT"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2020/05/25/hardware/esp8266-micro-python-wifi-mqtt/&title=ESP8266:MicroPython+WiFi+MQTT"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2020/05/25/hardware/esp8266-micro-python-wifi-mqtt/&title=ESP8266:MicroPython+WiFi+MQTT"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2020/05/25/hardware/esp8266-micro-python-wifi-mqtt/&name=ESP8266:MicroPython+WiFi+MQTT&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2020/05/25/hardware/esp8266-micro-python-wifi-mqtt/&t=ESP8266:MicroPython+WiFi+MQTT"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5-wifi"><span class="toc-number">1.</span> <span class="toc-text"> 连接 WiFi</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%80%E5%90%AF-wifi-%E6%97%B6%E6%8A%A5%E9%94%99-oserror-cannot-set-sta-config"><span class="toc-number">1.0.1.</span> <span class="toc-text"> 💢开启 WiFi 时报错 OSError: Cannot set STA config</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5-mqtt"><span class="toc-number">2.</span> <span class="toc-text"> 连接 MQTT</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-umqtt"><span class="toc-number">2.1.</span> <span class="toc-text"> 安装 umqtt</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mqtt-%E7%9B%91%E5%90%AC"><span class="toc-number">2.2.</span> <span class="toc-text"> MQTT 监听</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mqtt-%E5%8F%91%E5%B8%83"><span class="toc-number">2.3.</span> <span class="toc-text"> MQTT 发布</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E9%99%85%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B"><span class="toc-number">2.4.</span> <span class="toc-text"> 实际使用示例</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+      
+      <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        ESP8266:MicroPython+WiFi+MQTT
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">SSBun</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-05-25T03:59:14.000Z" itemprop="datePublished">2020-05-25</time>
+        
+        (Updated: <time datetime="2020-05-25T03:59:14.000Z" itemprop="dateModified">2020-05-25</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/hardware/">hardware</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/ESP8266/" rel="tag">ESP8266</a>, <a class="tag-link-link" href="/tags/MQTT/" rel="tag">MQTT</a>, <a class="tag-link-link" href="/tags/MicroPython/" rel="tag">MicroPython</a>, <a class="tag-link-link" href="/tags/WiFi/" rel="tag">WiFi</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p><img src="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20200525174425.png" alt="" /></p>
+<h2 id="连接-wifi"><a class="markdownIt-Anchor" href="#连接-wifi"></a> 连接 WiFi</h2>
+<p>通过 MicroPython 连接 WiFi 是一件非常简单的事情，Python 用起来要比 C/C++ 和 AT 命令简单的多。</p>
+<p>首先我们需要引入网络库 <code>network</code>，它提供了连接网络的功能。在 <code>STA_IF</code> 模式下允许我们作为终端连接其他的 WiFi</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> network</span><br><span class="line"></span><br><span class="line">wlan = network.WLAN(network.STA_IF) <span class="comment"># create station interface</span></span><br><span class="line">wlan.active(<span class="literal">True</span>)       <span class="comment"># activate the interface</span></span><br><span class="line">wlan.scan()             <span class="comment"># scan for access points</span></span><br><span class="line">wlan.isconnected()      <span class="comment"># check if the station is connected to an AP</span></span><br><span class="line">wlan.connect(<span class="string">&#x27;essid&#x27;</span>, <span class="string">&#x27;password&#x27;</span>) <span class="comment"># connect to an AP</span></span><br><span class="line">wlan.config(<span class="string">&#x27;mac&#x27;</span>)      <span class="comment"># get the interface&#x27;s MAC adddress</span></span><br><span class="line">wlan.ifconfig()         <span class="comment"># get the interface&#x27;s IP/netmask/gw/DNS addresses</span></span><br></pre></td></tr></table></figure>
+<p>而在 <code>AT_IF</code> 模式下，则是我们作为 WiFi 热点，允许其他人连接我们。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> network</span><br><span class="line"></span><br><span class="line">ap = network.WLAN(network.AP_IF) <span class="comment"># create access-point interface</span></span><br><span class="line">ap.active(<span class="literal">True</span>)         <span class="comment"># activate the interface</span></span><br><span class="line">ap.config(essid=<span class="string">&#x27;ESP-AP&#x27;</span>) <span class="comment"># set the ESSID of the access point</span></span><br></pre></td></tr></table></figure>
+<p>官方提供了一个连接 WiFi 的常用代码，首先确认是否已经连接了 WiFi，如果没有的话，就会尝试连接 WiFi，不停的等待，知道连接 WiFi 成功</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">do_connect</span>():</span><br><span class="line">    <span class="keyword">import</span> network</span><br><span class="line">    wlan = network.WLAN(network.STA_IF)</span><br><span class="line">    wlan.active(<span class="literal">True</span>)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> wlan.isconnected():</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;connecting to network...&#x27;</span>)</span><br><span class="line">        wlan.connect(<span class="string">&#x27;essid&#x27;</span>, <span class="string">&#x27;password&#x27;</span>)</span><br><span class="line">        <span class="keyword">while</span> <span class="keyword">not</span> wlan.isconnected():</span><br><span class="line">            <span class="keyword">pass</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;network config:&#x27;</span>, wlan.ifconfig())</span><br></pre></td></tr></table></figure>
+<p>有时候我们的设备可能并不在一个地方，当环境发生改变时，我们就需要重新设置 WiFi 连接，我是预设了几个可能的 WiFi，当移动设备的时候，连接 WiFi 失败以后可以重试其他的 WiFi：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> network</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">connect_wifi</span>():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;&quot;</span>)</span><br><span class="line">    retry_times = <span class="number">10</span></span><br><span class="line">    wifis = &#123;<span class="string">&quot;No,thankyou-2&quot;</span>: <span class="string">&quot;beijing_newhome_11.3&quot;</span>, <span class="string">&quot;SSBun&quot;</span>: <span class="string">&quot;Bz123456&quot;</span>&#125;</span><br><span class="line">    wifi = network.WLAN(network.STA_IF)</span><br><span class="line">    wifi.active(<span class="literal">True</span>)</span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">not</span> wifi.isconnected():</span><br><span class="line">        <span class="keyword">for</span> ssid, password <span class="keyword">in</span> wifis.items():</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;ready connect to wifi: &quot;</span> + ssid)</span><br><span class="line">            wifi.connect(ssid, password)</span><br><span class="line">            retry = retry_times</span><br><span class="line">            success = <span class="literal">True</span></span><br><span class="line">            <span class="keyword">while</span> <span class="keyword">not</span> wifi.isconnected():</span><br><span class="line">                retry -= <span class="number">1</span></span><br><span class="line">                time.sleep(<span class="number">1</span>)</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;...&quot;</span>)</span><br><span class="line">                <span class="keyword">if</span> retry &lt;= <span class="number">0</span>:</span><br><span class="line">                    success = <span class="literal">False</span></span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">if</span> success:</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;connect WiFi:&quot;</span> + ssid + <span class="string">&quot; success&quot;</span>)</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;connnect WiFi:&quot;</span> + ssid + <span class="string">&quot; failure&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(wifi.ifconfig())</span><br><span class="line">    <span class="keyword">return</span> wifi</span><br></pre></td></tr></table></figure>
+<h4 id="开启-wifi-时报错-oserror-cannot-set-sta-config"><a class="markdownIt-Anchor" href="#开启-wifi-时报错-oserror-cannot-set-sta-config"></a> 💢开启 WiFi 时报错 OSError: Cannot set STA config</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wlan = network.WLAN(network.STA_IF)</span><br></pre></td></tr></table></figure>
+<p>这个时候，我们在交互式命令行下，执行以下代码，激活后，再重试就可以了</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> network</span><br><span class="line"></span><br><span class="line">wlan = network.WLAN(network.STA_IF) <span class="comment"># create station interface</span></span><br><span class="line">wlan.active(<span class="literal">True</span>)       <span class="comment"># activate the interface</span></span><br><span class="line">wlan.scan()             <span class="comment"># scan for access points</span></span><br></pre></td></tr></table></figure>
+<h2 id="连接-mqtt"><a class="markdownIt-Anchor" href="#连接-mqtt"></a> 连接 MQTT</h2>
+<h3 id="安装-umqtt"><a class="markdownIt-Anchor" href="#安装-umqtt"></a> 安装 umqtt</h3>
+<p>想要连接 mqtt 服务，我们需要安装 Python 库 <code>micropython-umqtt.simple</code>，在此之前我们需要先连接网络，然后进入 repl 环境，执行以下代码安装</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; import upip</span><br><span class="line">&gt;&gt;&gt; upip.install(<span class="string">&#x27;micropython-umqtt.simple&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="mqtt-监听"><a class="markdownIt-Anchor" href="#mqtt-监听"></a> MQTT 监听</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> umqtt.simple <span class="keyword">import</span> MQTTClient</span><br><span class="line"></span><br><span class="line"><span class="comment"># Publish test messages e.g. with:</span></span><br><span class="line"><span class="comment"># mosquitto_pub -t foo_topic -m hello</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Received messages from subscriptions will be delivered to this callback</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">sub_cb</span>(<span class="params">topic, msg</span>):</span><br><span class="line">    <span class="built_in">print</span>((topic, msg))</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>(<span class="params">server=<span class="string">&quot;iot.eclipse.org&quot;</span></span>):   <span class="comment"># test server : iot.eclipse.org</span></span><br><span class="line">    c = MQTTClient(<span class="string">&quot;RT-Thread&quot;</span>, server)</span><br><span class="line">    c.set_callback(sub_cb)</span><br><span class="line">    c.connect()</span><br><span class="line">    c.subscribe(<span class="string">b&quot;foo_topic&quot;</span>)         <span class="comment"># subscribe foo_topic tipic</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="keyword">if</span> <span class="literal">True</span>:</span><br><span class="line">            <span class="comment"># Blocking wait for message</span></span><br><span class="line">            c.wait_msg()</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="comment"># Non-blocking wait for message</span></span><br><span class="line">            c.check_msg()</span><br><span class="line">            <span class="comment"># Then need to sleep to avoid 100% CPU usage (in a real</span></span><br><span class="line">            <span class="comment"># app other useful actions would be performed instead)</span></span><br><span class="line">            time.sleep(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    c.disconnect()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+<h3 id="mqtt-发布"><a class="markdownIt-Anchor" href="#mqtt-发布"></a> MQTT 发布</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> umqtt.simple <span class="keyword">import</span> MQTTClient</span><br><span class="line"></span><br><span class="line"><span class="comment"># Test reception e.g. with:</span></span><br><span class="line"><span class="comment"># mosquitto_sub -t foo_topic</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>(<span class="params">server=<span class="string">&quot;iot.eclipse.org&quot;</span></span>):</span><br><span class="line">    c = MQTTClient(<span class="string">&quot;SummerGift&quot;</span>, server)</span><br><span class="line">    c.connect()</span><br><span class="line">    c.publish(<span class="string">b&quot;foo_topic&quot;</span>, <span class="string">b&quot;Hello RT-Thread !!!&quot;</span>)</span><br><span class="line">    c.disconnect()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+<h3 id="实际使用示例"><a class="markdownIt-Anchor" href="#实际使用示例"></a> 实际使用示例</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> machine <span class="keyword">import</span> Pin</span><br><span class="line"><span class="keyword">import</span> uasyncio <span class="keyword">as</span> asyncio</span><br><span class="line"><span class="keyword">from</span> umqtt.simple <span class="keyword">import</span> MQTTClient</span><br><span class="line"></span><br><span class="line">CLIENT_ID = <span class="string">&#x27;ssbun_home_switch_1&#x27;</span></span><br><span class="line">SERVER = <span class="string">&#x27;mqtt.server&#x27;</span></span><br><span class="line">SERVER_PORT = <span class="number">1883</span></span><br><span class="line"></span><br><span class="line">TOPIC_SWITCH_1 = <span class="string">b&#x27;ssbun_switch_1&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># pin2 控制 ESP8266 自带的那个蓝色 led</span></span><br><span class="line">led = Pin(<span class="number">2</span>, Pin.OUT)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">mqtt_callback</span>(<span class="params">topic, msg</span>):</span><br><span class="line">    <span class="comment"># `topic` 接收到的主题</span></span><br><span class="line">    <span class="comment"># `msg` 主题下更新的信息</span></span><br><span class="line">    msg = msg.lower()</span><br><span class="line">    <span class="built_in">print</span>(msg)</span><br><span class="line">    <span class="keyword">if</span> topic == TOPIC_SWITCH_1:</span><br><span class="line">        <span class="keyword">if</span> msg == <span class="string">b&quot;on&quot;</span>:</span><br><span class="line">            <span class="comment"># 开启</span></span><br><span class="line">            led.value(<span class="number">0</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="comment"># 关闭</span></span><br><span class="line">            led.value(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">check_message</span>(<span class="params">mqtt</span>):    </span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="comment"># 检查主题是否有更新，会调用 `mqtt_callback`</span></span><br><span class="line">        mqtt.check_msg()</span><br><span class="line">        <span class="comment"># 休眠 1s 再检查</span></span><br><span class="line">        <span class="keyword">await</span> asyncio.sleep(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">ping_server</span>(<span class="params">mqtt</span>):</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="comment"># ping mqtt 服务器保持连接</span></span><br><span class="line">        mqtt.ping()</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;ping server ...&quot;</span>)</span><br><span class="line">        <span class="keyword">await</span> asyncio.sleep(<span class="number">30</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>():</span><br><span class="line">    <span class="comment"># 初始化 mqtt 客户端</span></span><br><span class="line">    <span class="comment"># `60` 是指在一次通信后，保持连接 60s 的时间，如果超过这个时间没有和服务器通信</span></span><br><span class="line">    <span class="comment"># 服务器会认为连接已经断开，这里我们每 30s 钟 ping 一下服务器保持连接</span></span><br><span class="line">    mqtt = MQTTClient(CLIENT_ID, SERVER, SERVER_PORT, <span class="string">&quot;user&quot;</span>, <span class="string">&quot;password&quot;</span>, <span class="number">60</span>)</span><br><span class="line">    <span class="comment"># 设置回调</span></span><br><span class="line">    mqtt.set_callback(mqtt_callback)</span><br><span class="line">    <span class="comment"># 连接服务器</span></span><br><span class="line">    mqtt.connect()</span><br><span class="line">    <span class="comment"># 订阅主题</span></span><br><span class="line">    mqtt.subscribe(TOPIC_SWITCH_1)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># uasyncio 是 micropython 下的多线程工具</span></span><br><span class="line">    loop = asyncio.get_event_loop()</span><br><span class="line">    <span class="comment"># 开始监听</span></span><br><span class="line">    loop.create_task(check_message(mqtt))</span><br><span class="line">    <span class="comment"># 每 30s ping 一下服务器</span></span><br><span class="line">    loop.create_task(ping_server(mqtt))</span><br><span class="line">    loop.run_forever()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+  </div>
+</article>
+
+
+
+      
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5-wifi"><span class="toc-number">1.</span> <span class="toc-text"> 连接 WiFi</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%80%E5%90%AF-wifi-%E6%97%B6%E6%8A%A5%E9%94%99-oserror-cannot-set-sta-config"><span class="toc-number">1.0.1.</span> <span class="toc-text"> 💢开启 WiFi 时报错 OSError: Cannot set STA config</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5-mqtt"><span class="toc-number">2.</span> <span class="toc-text"> 连接 MQTT</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-umqtt"><span class="toc-number">2.1.</span> <span class="toc-text"> 安装 umqtt</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mqtt-%E7%9B%91%E5%90%AC"><span class="toc-number">2.2.</span> <span class="toc-text"> MQTT 监听</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mqtt-%E5%8F%91%E5%B8%83"><span class="toc-number">2.3.</span> <span class="toc-text"> MQTT 发布</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E9%99%85%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B"><span class="toc-number">2.4.</span> <span class="toc-text"> 实际使用示例</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2020/05/25/hardware/esp8266-micro-python-wifi-mqtt/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2020/05/25/hardware/esp8266-micro-python-wifi-mqtt/&text=ESP8266:MicroPython+WiFi+MQTT"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2020/05/25/hardware/esp8266-micro-python-wifi-mqtt/&title=ESP8266:MicroPython+WiFi+MQTT"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2020/05/25/hardware/esp8266-micro-python-wifi-mqtt/&is_video=false&description=ESP8266:MicroPython+WiFi+MQTT"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=ESP8266:MicroPython+WiFi+MQTT&body=Check out this article: https://csl.cool/2020/05/25/hardware/esp8266-micro-python-wifi-mqtt/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2020/05/25/hardware/esp8266-micro-python-wifi-mqtt/&title=ESP8266:MicroPython+WiFi+MQTT"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2020/05/25/hardware/esp8266-micro-python-wifi-mqtt/&title=ESP8266:MicroPython+WiFi+MQTT"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2020/05/25/hardware/esp8266-micro-python-wifi-mqtt/&title=ESP8266:MicroPython+WiFi+MQTT"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2020/05/25/hardware/esp8266-micro-python-wifi-mqtt/&title=ESP8266:MicroPython+WiFi+MQTT"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2020/05/25/hardware/esp8266-micro-python-wifi-mqtt/&name=ESP8266:MicroPython+WiFi+MQTT&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2020/05/25/hardware/esp8266-micro-python-wifi-mqtt/&t=ESP8266:MicroPython+WiFi+MQTT"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+      <div id="end">
+    <img src="/images/post-end.png" alt="">
+</div> 
+      
+      <div id='valine'>
+    <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+            el: '#vcomments',
+            notify: true,
+            verify: true,
+            appId: '7zw6tQBddCfPvbaVtBGxUy0G-gzGzoHsz',
+            appKey: 'voPGHhBz7MozpUm0Fq2AMFmv',
+            placeholder: '想说点啥...',
+            avatar: 'monsterid',           
+        })
+    </script>
+</div>
+      
+      
+      <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 SSBun
+    <a target="_blank" rel="noopener" href="http://www.beian.miit.gov.cn/">京ICP备20001935号-1</a>
+    <div id="friend-link-container">
+      
+      
+    </div>
+  </div>
+  
+    <div class="footer-right">
+      <nav>
+        <ul>
+          
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/search/">Search</a></li>
+      
+      <li><a href="/categories/">Categories</a></li>
+      
+      <li><a href="/notes/">Notes</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+      </ul>
+      </nav>
+    </div>
+  
+</footer>
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?c2fdf3bebd0db8e40c37a4f37d76d33b";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Umami Analytics -->
+<!--  -->
+  <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="d39cc16d-90eb-47b6-8bf0-8e4cd43c704d"></script>
+<!--  -->
+<!-- Disqus Comments -->
+
+
+
+    
+    <script src="/lib/blackcat/l2dwidget.min.js"></script>
+    <script type="text/javascript">
+      var config = {
+        model: {
+          jsonPath: '/lib/blackcat/hijiki.model.json',
+        },
+        display: {
+          superSample: 1,
+          width: 245,
+          height: 245,
+          position: 'left',
+          hOffset: 0,
+          vOffset: 0,
+        },
+        mobile: {
+          show: false,
+          scale: 1,
+          motion: false,
+        },
+        react: {
+          opacityDefault: 1,
+          opacityOnHover: 0.75
+        }
+      };
+      L2Dwidget.init(config);
+    </script>
+    
+  </body>
+
+  </html>

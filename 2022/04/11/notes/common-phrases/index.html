@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang=en>
+  <head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Normal  感谢你留下来  Thanks for sticking around!   在底层  Since OperationQueue uses Dispatch under the hood.   现如今  Nowadays RunLoop is a less useful class.   与其  In previous chapters, you discovered that r">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Common Phrases">
+<meta property="og:url" content="https://csl.cool/2022/04/11/notes/common-phrases/index.html">
+<meta property="og:site_name" content="CSL MEMO">
+<meta property="og:description" content="Normal  感谢你留下来  Thanks for sticking around!   在底层  Since OperationQueue uses Dispatch under the hood.   现如今  Nowadays RunLoop is a less useful class.   与其  In previous chapters, you discovered that r">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-04-11T09:33:43.000Z">
+<meta property="article:modified_time" content="2022-04-11T09:33:43.000Z">
+<meta property="article:author" content="SSBun">
+<meta property="article:tag" content="English">
+<meta property="article:tag" content="Note">
+<meta property="article:tag" content="Phrase">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Common Phrases</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="CSL MEMO" type="application/atom+xml" />
+    
+    <!-- umami web analytics -->
+    <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+  <body class="max-width mx-auto px3 ltr">
+    
+    <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2022/04/30/ios-dev/swift/using-swift-local-package-manager-to-group-your-code/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2022/03/30/ios-dev/swift/learning-combine-again/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2022/04/11/notes/common-phrases/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2022/04/11/notes/common-phrases/&text=Common Phrases"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2022/04/11/notes/common-phrases/&title=Common Phrases"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2022/04/11/notes/common-phrases/&is_video=false&description=Common Phrases"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Common Phrases&body=Check out this article: https://csl.cool/2022/04/11/notes/common-phrases/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2022/04/11/notes/common-phrases/&title=Common Phrases"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2022/04/11/notes/common-phrases/&title=Common Phrases"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2022/04/11/notes/common-phrases/&title=Common Phrases"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2022/04/11/notes/common-phrases/&title=Common Phrases"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2022/04/11/notes/common-phrases/&name=Common Phrases&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2022/04/11/notes/common-phrases/&t=Common Phrases"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#normal"><span class="toc-number">1.</span> <span class="toc-text"> Normal</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#developing"><span class="toc-number">2.</span> <span class="toc-text"> Developing</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sentences"><span class="toc-number">3.</span> <span class="toc-text"> Sentences</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+      
+      <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Common Phrases
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">SSBun</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-04-11T09:33:43.000Z" itemprop="datePublished">2022-04-11</time>
+        
+        (Updated: <time datetime="2022-04-11T09:33:43.000Z" itemprop="dateModified">2022-04-11</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/English/" rel="tag">English</a>, <a class="tag-link-link" href="/tags/Note/" rel="tag">Note</a>, <a class="tag-link-link" href="/tags/Phrase/" rel="tag">Phrase</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="normal"><a class="markdownIt-Anchor" href="#normal"></a> Normal</h2>
+<ul>
+<li>感谢你留下来
+<ul>
+<li><code>Thanks for sticking around!</code></li>
+</ul>
+</li>
+<li>在底层
+<ul>
+<li>Since OperationQueue uses Dispatch <code>under the hood</code>.</li>
+</ul>
+</li>
+<li>现如今
+<ul>
+<li><code>Nowadays</code> RunLoop is a less useful class.</li>
+</ul>
+</li>
+<li>与其
+<ul>
+<li>In previous chapters, you discovered that <code>rather than</code> duplicate your efforts, …</li>
+</ul>
+</li>
+<li>与…合作
+<ul>
+<li>It <code>teams up with</code> the @Published property wrapper.</li>
+</ul>
+</li>
+<li>相当紧凑的
+<ul>
+<li>The final operator for this <code>rather packed</code> chapter</li>
+</ul>
+</li>
+<li>结束
+<ul>
+<li>You’ll <code>wrap up</code> this section with the second overload of the output operator.</li>
+</ul>
+</li>
+<li>考虑到这一点
+<ul>
+<li><code>With that in mind</code>, …</li>
+</ul>
+</li>
+<li>此刻,到目前为止
+<ul>
+<li><code>At this point,</code> …</li>
+</ul>
+</li>
+<li>偶尔,有时
+<ul>
+<li><code>Every now and again</code> you need time traveling.</li>
+</ul>
+</li>
+<li>免费的，没有代价的
+<ul>
+<li>can be used form you modern code <code>at no cost.</code></li>
+</ul>
+</li>
+<li>相当多的
+<ul>
+<li>you can imagine that saving <code>a fair amount of</code> hassle when dealing with more complex types</li>
+</ul>
+</li>
+<li>迁移到
+<ul>
+<li>we should start <code>moving across to</code> any vehicle</li>
+</ul>
+</li>
+<li>不再能
+<ul>
+<li>Swift <code>can no longer</code> perform the same set of optimizations</li>
+</ul>
+</li>
+<li>实际操作的
+<ul>
+<li>providing some <code>hands-on</code> examples</li>
+</ul>
+</li>
+<li>一连串
+<ul>
+<li>Swift 5.6 introduces another <code>barrage of</code> new features to the language</li>
+</ul>
+</li>
+<li>就 … 而言
+<ul>
+<li><code>As far as</code> current situation <code>is concerned</code> the person who can help him is only himself</li>
+</ul>
+</li>
+<li>不言而喻
+<ul>
+<li><code>It goes without saying that</code> a pig can never fly in the sky.</li>
+</ul>
+</li>
+<li>可以肯定的说
+<ul>
+<li><code>It can be said with certainty that</code> you have failed.</li>
+</ul>
+</li>
+<li>如谚语所说
+<ul>
+<li><code>As the proverb says,</code> The mountain you depend on might collapse, the person you depend on may escape, only yourself is the hardest backing to you</li>
+</ul>
+</li>
+<li>值得注意的是
+<ul>
+<li><code>Worth noting</code>, you have to invoke this method after the initializing method</li>
+</ul>
+</li>
+<li>必须注意到
+<ul>
+<li><code>It has to be noticed that</code> you cannot invoke this method manually.</li>
+</ul>
+</li>
+<li>普遍认为
+<ul>
+<li><code>It's generally recognized that</code> smoking will cause lung cancer.</li>
+</ul>
+</li>
+<li>不可否认
+<ul>
+<li><code>There's no denying the fact that</code> you did better me in this thing.</li>
+</ul>
+</li>
+<li>没有什么比…更重要
+<ul>
+<li><code>Nothing is more important than the fact that</code> saving the life of the population for China government.</li>
+</ul>
+</li>
+<li>可能需要
+<ul>
+<li>Sometimes we <code>might be able to</code> slightly tweak our types to better match the way Codable works</li>
+</ul>
+</li>
+<li>查看
+<ul>
+<li>please take just a few minutes to <code>check out</code> the following sponsor</li>
+</ul>
+</li>
+<li>缩小 … 之间的差距
+<ul>
+<li><code>bridge the gap between</code> our Swift types and their serialized representations</li>
+</ul>
+</li>
+<li>默认情况下
+<ul>
+<li><code>By default,</code></li>
+</ul>
+</li>
+<li>重头开始
+<ul>
+<li>I will write this article <code>from scratch</code></li>
+</ul>
+</li>
+<li>接收
+<ul>
+<li>Reducers are pure functions that <code>takes in</code> the current value of a state.</li>
+</ul>
+</li>
+<li>去监听
+<ul>
+<li><code>to listen for</code> state updates</li>
+</ul>
+</li>
+<li>配套的
+<ul>
+<li>There are some CDs <code>in tandem with</code> the book.</li>
+</ul>
+</li>
+<li>如你所见
+<ul>
+<li><code>As you can see,</code> …</li>
+</ul>
+</li>
+<li>如你所见
+<ul>
+<li><code>As you see</code> I am a teacher.</li>
+</ul>
+</li>
+<li>看起来
+<ul>
+<li><code>Looks like</code> you’re not much of a ball player.</li>
+</ul>
+</li>
+<li>正如前面提到的
+<ul>
+<li><code>As mentioned</code>, …</li>
+</ul>
+</li>
+<li>将不再
+<ul>
+<li>Your iOS Distribution Certificate <code>will no longer be</code> valid in 15 days</li>
+</ul>
+</li>
+<li>在这段时间内
+<ul>
+<li>No sponsorship activity <code>in this time period.</code></li>
+</ul>
+</li>
+<li>重新掌控
+<ul>
+<li><code>Take back control of</code> your news</li>
+</ul>
+</li>
+<li>在…方面
+<ul>
+<li><code>In terms of</code> servers your are an expert.</li>
+</ul>
+</li>
+<li>换句话说
+<ul>
+<li><code>In other words</code> you help me is to help her.</li>
+</ul>
+</li>
+<li>与此同时
+<ul>
+<li><code>In the meantime,</code> …</li>
+</ul>
+</li>
+<li>更糟糕的是
+<ul>
+<li><code>Even worse,</code> …</li>
+</ul>
+</li>
+<li>基于惯例
+<ul>
+<li><code>By convention,</code> …</li>
+</ul>
+</li>
+<li>现在就够了
+<ul>
+<li>but this one<code>will do for now.</code></li>
+</ul>
+</li>
+<li>毫不含糊的
+<ul>
+<li>it replied <code>in no uncertain terms</code>: …</li>
+</ul>
+</li>
+<li>如果你想要…呢?
+<ul>
+<li><code>What if you want to</code> eat meat?</li>
+</ul>
+</li>
+<li>甚至更好的是
+<ul>
+<li><code>Even better,</code> you can get some remuneration.</li>
+</ul>
+</li>
+<li>除了
+<ul>
+<li><code>Aside from</code> the line terminator,</li>
+</ul>
+</li>
+<li>同样
+<ul>
+<li><code>Likewise</code> …</li>
+</ul>
+</li>
+<li>如果有的话
+<ul>
+<li><code>If anything,</code> it only means that the language is more stable and capable than</li>
+</ul>
+</li>
+<li>改变
+<ul>
+<li>Can you believe that the past two years have <code>shaken up</code> the way we work?</li>
+</ul>
+</li>
+<li>随着一年的结束
+<ul>
+<li><code>As the year winds down</code> …</li>
+</ul>
+</li>
+<li>大概率上
+<ul>
+<li><code>With a high probability</code>, …</li>
+</ul>
+</li>
+<li>也被称作
+<ul>
+<li>Microkernel Architecture, <code>also known as</code> Plugin architecture, is the design pattern with two main components</li>
+</ul>
+</li>
+<li>除了
+<ul>
+<li>All tuple types contain two or more types, <code>except for</code> Void which is a type alias for the empty tuple type.</li>
+</ul>
+</li>
+<li>如上述提到的
+<ul>
+<li><code>As mentioned above,</code> …</li>
+</ul>
+</li>
+<li>等等
+<ul>
+<li>, <code>and so on</code></li>
+</ul>
+</li>
+<li>言归正传
+<ul>
+<li><code>Joking aside</code>, …</li>
+</ul>
+</li>
+<li>摆脱
+<ul>
+<li>But how do you <code>get rid of</code> the pending request,</li>
+</ul>
+</li>
+</ul>
+<h2 id="developing"><a class="markdownIt-Anchor" href="#developing"></a> Developing</h2>
+<ul>
+<li>可变参数列表
+<ul>
+<li><code>variadic argument</code></li>
+</ul>
+</li>
+<li>预定义变量
+<ul>
+<li><code>pre=defined variable</code></li>
+</ul>
+</li>
+<li>伪变量
+<ul>
+<li><code>pseudo variable</code></li>
+</ul>
+</li>
+<li>遵守 codable 协议的属性
+<ul>
+<li><code>Codable-performing</code> properties</li>
+</ul>
+</li>
+<li>总是返回相同的结果
+<ul>
+<li><code>will always result in the same output</code></li>
+</ul>
+</li>
+<li>资源密集型
+<ul>
+<li>Anything <code>resource-intensive</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="sentences"><a class="markdownIt-Anchor" href="#sentences"></a> Sentences</h2>
+<ul>
+<li>他是有意义的
+<ul>
+<li><code>but hopefully it makes sense:</code></li>
+</ul>
+</li>
+<li>这里有一些关于如何做…的文章
+<ul>
+<li><code>Here are a few articles on how to do just that</code></li>
+</ul>
+</li>
+<li>我们将介绍两种不同的方式
+<ul>
+<li><code>We will cover two different ways of</code>…</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+</article>
+
+
+
+      
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#normal"><span class="toc-number">1.</span> <span class="toc-text"> Normal</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#developing"><span class="toc-number">2.</span> <span class="toc-text"> Developing</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sentences"><span class="toc-number">3.</span> <span class="toc-text"> Sentences</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2022/04/11/notes/common-phrases/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2022/04/11/notes/common-phrases/&text=Common Phrases"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2022/04/11/notes/common-phrases/&title=Common Phrases"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2022/04/11/notes/common-phrases/&is_video=false&description=Common Phrases"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Common Phrases&body=Check out this article: https://csl.cool/2022/04/11/notes/common-phrases/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2022/04/11/notes/common-phrases/&title=Common Phrases"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2022/04/11/notes/common-phrases/&title=Common Phrases"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2022/04/11/notes/common-phrases/&title=Common Phrases"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2022/04/11/notes/common-phrases/&title=Common Phrases"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2022/04/11/notes/common-phrases/&name=Common Phrases&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2022/04/11/notes/common-phrases/&t=Common Phrases"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+      <div id="end">
+    <img src="/images/post-end.png" alt="">
+</div> 
+      
+      <div id='valine'>
+    <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+            el: '#vcomments',
+            notify: true,
+            verify: true,
+            appId: '7zw6tQBddCfPvbaVtBGxUy0G-gzGzoHsz',
+            appKey: 'voPGHhBz7MozpUm0Fq2AMFmv',
+            placeholder: '想说点啥...',
+            avatar: 'monsterid',           
+        })
+    </script>
+</div>
+      
+      
+      <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 SSBun
+    <a target="_blank" rel="noopener" href="http://www.beian.miit.gov.cn/">京ICP备20001935号-1</a>
+    <div id="friend-link-container">
+      
+      
+    </div>
+  </div>
+  
+    <div class="footer-right">
+      <nav>
+        <ul>
+          
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/search/">Search</a></li>
+      
+      <li><a href="/categories/">Categories</a></li>
+      
+      <li><a href="/notes/">Notes</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+      </ul>
+      </nav>
+    </div>
+  
+</footer>
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?c2fdf3bebd0db8e40c37a4f37d76d33b";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Umami Analytics -->
+<!--  -->
+  <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="d39cc16d-90eb-47b6-8bf0-8e4cd43c704d"></script>
+<!--  -->
+<!-- Disqus Comments -->
+
+
+
+    
+    <script src="/lib/blackcat/l2dwidget.min.js"></script>
+    <script type="text/javascript">
+      var config = {
+        model: {
+          jsonPath: '/lib/blackcat/hijiki.model.json',
+        },
+        display: {
+          superSample: 1,
+          width: 245,
+          height: 245,
+          position: 'left',
+          hOffset: 0,
+          vOffset: 0,
+        },
+        mobile: {
+          show: false,
+          scale: 1,
+          motion: false,
+        },
+        react: {
+          opacityDefault: 1,
+          opacityOnHover: 0.75
+        }
+      };
+      L2Dwidget.init(config);
+    </script>
+    
+  </body>
+
+  </html>

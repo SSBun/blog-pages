@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang=en>
+  <head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="BitBar 是一个状态栏工具，它利用脚本的字符输出来构建 UI并且还能将结果显示到状态栏上。在简短的使用以后，我能想到的常用场景包括显示简短的监控信息(天气、监控信息等)以及执行常用命令(入是否显示隐藏文件、清空 Xcode 缓存等）。这些需求往往都很小、作用单一、常常使用但是用时又稍显麻烦，如果用一个独立软件来做，就显得更加麻烦了。而 BitBar 就是这样的小巧工具，恰好满足了我的需求，强大">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用状态栏工具 BitBar 中遇见的一些问题">
+<meta property="og:url" content="https://csl.cool/2019/11/20/softwares/some-questions-about-bitbar/index.html">
+<meta property="og:site_name" content="CSL MEMO">
+<meta property="og:description" content="BitBar 是一个状态栏工具，它利用脚本的字符输出来构建 UI并且还能将结果显示到状态栏上。在简短的使用以后，我能想到的常用场景包括显示简短的监控信息(天气、监控信息等)以及执行常用命令(入是否显示隐藏文件、清空 Xcode 缓存等）。这些需求往往都很小、作用单一、常常使用但是用时又稍显麻烦，如果用一个独立软件来做，就显得更加麻烦了。而 BitBar 就是这样的小巧工具，恰好满足了我的需求，强大">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2019-11-20T02:29:54.000Z">
+<meta property="article:modified_time" content="2019-11-20T02:29:54.000Z">
+<meta property="article:author" content="SSBun">
+<meta property="article:tag" content="Mac">
+<meta property="article:tag" content="BitBar">
+<meta property="article:tag" content="Scripting">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>使用状态栏工具 BitBar 中遇见的一些问题</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="CSL MEMO" type="application/atom+xml" />
+    
+    <!-- umami web analytics -->
+    <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+  <body class="max-width mx-auto px3 ltr">
+    
+    <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/11/20/hardware/esp8266-pin-map/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2018/11/19/ios-dev/writing-more-readable-code/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2019/11/20/softwares/some-questions-about-bitbar/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2019/11/20/softwares/some-questions-about-bitbar/&text=使用状态栏工具 BitBar 中遇见的一些问题"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2019/11/20/softwares/some-questions-about-bitbar/&title=使用状态栏工具 BitBar 中遇见的一些问题"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2019/11/20/softwares/some-questions-about-bitbar/&is_video=false&description=使用状态栏工具 BitBar 中遇见的一些问题"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=使用状态栏工具 BitBar 中遇见的一些问题&body=Check out this article: https://csl.cool/2019/11/20/softwares/some-questions-about-bitbar/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2019/11/20/softwares/some-questions-about-bitbar/&title=使用状态栏工具 BitBar 中遇见的一些问题"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2019/11/20/softwares/some-questions-about-bitbar/&title=使用状态栏工具 BitBar 中遇见的一些问题"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2019/11/20/softwares/some-questions-about-bitbar/&title=使用状态栏工具 BitBar 中遇见的一些问题"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2019/11/20/softwares/some-questions-about-bitbar/&title=使用状态栏工具 BitBar 中遇见的一些问题"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2019/11/20/softwares/some-questions-about-bitbar/&name=使用状态栏工具 BitBar 中遇见的一些问题&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2019/11/20/softwares/some-questions-about-bitbar/&t=使用状态栏工具 BitBar 中遇见的一些问题"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E8%B7%AF%E5%BE%84%E4%B8%AD%E4%B8%8D%E8%A6%81%E5%B8%A6%E7%A9%BA%E6%A0%BC"><span class="toc-number">1.</span> <span class="toc-text"> 注意路径中不要带空格</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E6%89%A7%E8%A1%8C%E5%85%B6%E4%BB%96%E8%84%9A%E6%9C%AC%E6%96%87%E4%BB%B6"><span class="toc-number">2.</span> <span class="toc-text"> 如何执行其他脚本文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%93"><span class="toc-number">3.</span> <span class="toc-text"> 结</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+      
+      <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        使用状态栏工具 BitBar 中遇见的一些问题
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">SSBun</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-11-20T02:29:54.000Z" itemprop="datePublished">2019-11-20</time>
+        
+        (Updated: <time datetime="2019-11-20T02:29:54.000Z" itemprop="dateModified">2019-11-20</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/BitBar/" rel="tag">BitBar</a>, <a class="tag-link-link" href="/tags/Mac/" rel="tag">Mac</a>, <a class="tag-link-link" href="/tags/Scripting/" rel="tag">Scripting</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>BitBar 是一个状态栏工具，它利用脚本的字符输出来构建 UI并且还能将结果显示到状态栏上。在简短的使用以后，我能想到的常用场景包括显示简短的监控信息(天气、监控信息等)以及执行常用命令(入是否显示隐藏文件、清空 Xcode 缓存等）。这些需求往往都很小、作用单一、常常使用但是用时又稍显麻烦，如果用一个独立软件来做，就显得更加麻烦了。而 BitBar 就是这样的小巧工具，恰好满足了我的需求，强大的语言支持（Shell、Python、JS、Swift 等）可以让我用熟悉的方法来实现我的需求。作为一个开源项目，网上也有众多开发者贡献出自己的插件，而这些插件也是完美的学习资料。下面是我编写的脚本，正好借用此脚本代码来说一些我编写监本时遇到的问题和经验：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/usr/local/bin/bash</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">&lt;bitbar.title&gt;FlyCoding For BitBar&lt;/bitbar.title&gt;</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">&lt;bitbar.version&gt;v1.0&lt;/bitbar.version&gt;</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">&lt;bitbar.author&gt;SSBun&lt;/bitbar.author&gt;</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">&lt;bitbar.author.github&gt;https://github.com/SSBun&lt;/bitbar.author.github&gt;</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">&lt;bitbar.image&gt;https://avatars3.githubusercontent.com/u/13583118?s=460&amp;v=4&lt;/bitbar.image&gt;</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">&lt;bitbar.desc&gt;Small tools <span class="keyword">for</span> iOS developers&lt;/bitbar.desc&gt;</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Helper</span></span><br><span class="line">utilPath() &#123;</span><br><span class="line">	user=`echo ~`</span><br><span class="line">	path=&quot;$user/Desktop/BitBar/utils/$1&quot;</span><br><span class="line">	echo $path</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">#### About Finder #####</span></span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Display all hidden files.</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">- param1: Either 1 or 0, 1 display, 0 hide.</span></span><br><span class="line">showAllFiles() &#123;</span><br><span class="line">	show=YES</span><br><span class="line">	if [ $1 -eq 1 ]; then</span><br><span class="line">		show=YES</span><br><span class="line">	else</span><br><span class="line">		show=NO</span><br><span class="line">	fi</span><br><span class="line">	defaults write com.apple.finder AppleShowAllFiles $show; killall Finder /System/Library/CoreServices/Finder.app</span><br><span class="line">	return 0</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Remove Xcode derived data folder.</span></span><br><span class="line">cleanXcodeDerivedFolder() &#123;</span><br><span class="line">	xcodeDerivedFolderPath=&quot;`echo ~`/Library/Developer/Xcode/DerivedData&quot;	</span><br><span class="line">	rm -r $xcodeDerivedFolderPath</span><br><span class="line">	osascript -e &#x27;display notification &quot;Clean Xcode derived data completion.&quot; with title &quot;FlyCoding-BitBar&quot;&#x27;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Eject all disk on Desktop</span></span><br><span class="line">ejectAllDisksOnDesktop() &#123;</span><br><span class="line">	path=`utilPath EjectDisk`</span><br><span class="line">	open path</span><br><span class="line">	if test $? -eq 0; then</span><br><span class="line">		osascript -e &#x27;display notification &quot;Eject all disks completly&quot; with title &quot;FlyCoding-BitBar&quot;&#x27;		</span><br><span class="line">	else</span><br><span class="line">		osascript -e &#x27;display notification &quot;Eject all disks failuer&quot; with title &quot;FlyCoding-BitBar&quot;&#x27;		</span><br><span class="line">	fi</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Get Beijing weather.</span></span><br><span class="line">getBeijingWeather() &#123;	</span><br><span class="line">	user=`echo ~`</span><br><span class="line">	path=`utilPath weather.py`</span><br><span class="line">	result=`python3 $path`</span><br><span class="line">	if test $&#123;#result&#125; -ge 1; then</span><br><span class="line">		str=&quot;&quot;</span><br><span class="line">		index=0</span><br><span class="line">		oldIFS=$IFS</span><br><span class="line">		IFS=,</span><br><span class="line">		</span><br><span class="line">		for item in $result;</span><br><span class="line">		do</span><br><span class="line">			if test $index -eq 0; then</span><br><span class="line">				str+=&quot;\e[1;32m $item \e[0m&quot;</span><br><span class="line">			elif test $index -eq 1; then</span><br><span class="line">				str+=&quot;\e[1;32m $item \e[0m&quot;</span><br><span class="line">			elif test $index -eq 2; then</span><br><span class="line">				str+=&quot;\e[1;34m $item \e[0m&quot;</span><br><span class="line">			elif test $index -eq 3; then</span><br><span class="line">				str+=&quot;\e[1;31m $item \e[0m&quot;</span><br><span class="line">			fi</span><br><span class="line">			let index+=1</span><br><span class="line">		done</span><br><span class="line">				</span><br><span class="line">		IFS=$oldIFS		</span><br><span class="line">		echo -e $str</span><br><span class="line">		return 0</span><br><span class="line">	fi</span><br><span class="line">	echo $result</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">#### Execute script ######</span></span></span><br><span class="line">if test $# -ge 1; then</span><br><span class="line">	method=$1</span><br><span class="line">	shift</span><br><span class="line"><span class="meta prompt_">	$</span><span class="language-bash">method $*</span></span><br><span class="line"><span class="meta prompt_">	</span></span><br><span class="line"><span class="meta prompt_">	# </span><span class="language-bash">Default <span class="built_in">return</span> succes code.</span></span><br><span class="line">	return 0</span><br><span class="line">fi</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">The path of current shell file.</span></span><br><span class="line">path=&quot;`pwd`/$0&quot;</span><br><span class="line">path=$&#123;path//&#x27; &#x27;/&#x27;\ &#x27;&#125;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="built_in">echo</span> Bit bar</span></span><br><span class="line">echo &quot;🚀 `getBeijingWeather` 🚀 | font=&#x27;Arial Rounded MT Bold&quot;</span><br><span class="line">echo ---</span><br><span class="line">echo Finder</span><br><span class="line">echo -- Display all files ?</span><br><span class="line">echo &quot;---- ✅ YES | bash=&quot;$path&quot; param1=showAllFiles param2=1 terminal=false&quot;</span><br><span class="line">echo &quot;---- ❌ NO | bash=&quot;$path&quot; param1=showAllFiles param2=0 terminal=false&quot;</span><br><span class="line">echo &quot;-- Clean Xcode derived folder | bash=&quot;$path&quot; param1=cleanXcodeDerivedFolder terminal=false&quot;</span><br><span class="line">echo &quot;-- Eject all disks on Desktop | bash=&quot;$path&quot; param1=ejectAllDisksOnDesktop terminal=false&quot;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="注意路径中不要带空格"><a class="markdownIt-Anchor" href="#注意路径中不要带空格"></a> 注意路径中不要带空格</h3>
+<p>BitBar 是通过<code>指定脚本路径，然后默认运行该路径下的脚本并处理输出结果来实现主要功能的</code>。我最开始想要将路径指定在 <strong>iCloud</strong> 目录下，这样就可以自动同步到我所有的 Mac设备上（当然用 Git 可能是更合理的方法，但我懒啊😂），可是执行代码的时候报了<strong>路径错误</strong>，就是因为 BitBar 执行脚本时直接将脚本目录作为命令参数执行，遇见空格后 bash 命令接到的路径地址就到此结束了，导致无法找到目录。这里有心的小伙伴可以通过修改源码修复这个 bug，我就直接换了一个路径。</p>
+<h3 id="如何执行其他脚本文件"><a class="markdownIt-Anchor" href="#如何执行其他脚本文件"></a> 如何执行其他脚本文件</h3>
+<p>在编写 BitBar 脚本时，如果功能比较多代码量比较大，直接放在一个文件里面不好管理。也有可能你的不同功能使用不同的语言来实现的。这个时候你就需要执行外部脚本来实现想要的功能了，BitBar 提供了 <code>bash=&quot;$path&quot; param1=cleanXcodeDerivedFolder terminal=false&quot;</code> 命令来执行外部脚本，<code>bash</code>后面是脚本路径， <code>param1、param2...</code>是参数， 最后的 <code>terminal=false</code>  则表示执行脚本时不显示终端界面（因为执行过程就是调起一个新终端执行脚本），但是这里有一个 <strong>bug</strong> 就是在 <code>terminal=false</code> 的情况下，执行外部脚本的代码可能没有效果，如果设置<code>terminal=true</code>就会在执行的时候打开一个新的终端，这样就显的忒 low 了。当然在网上也有很多人提出这个问题，这里就不说什么原因导致的了。我搜索尝试了一些解决办法以后，这里给出一个我的最终解决方案：</p>
+<p>首先推荐大家在写 BitBar 脚本时用 <code>bash/zsh</code>等 Shell 语言来写，然后扩展功能用更方便的语言来写。<br />
+<strong>而解决这个问题的方法就是，我们不让 BitBar 通过 <code>bash=&quot;$path&quot;</code> 的路径去调用其他的脚本，而是让它执行自己，所以这里的 <code>$path</code> 传的是 BitBar 脚本的路径。 然后我们再通过脚本中的方法去主动调用其他脚本，就可以解决这个问题了。🤡</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># The path of the current shell file.</span></span><br><span class="line">path=<span class="string">&quot;`pwd`/<span class="variable">$0</span>&quot;</span></span><br><span class="line">path=<span class="variable">$&#123;path//&#x27; &#x27;/&#x27;\ &#x27;&#125;</span></span><br></pre></td></tr></table></figure>
+<p>上述代码来获取当前脚本文件的地址</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&quot;-- Clean Xcode derived folder | bash=&quot;</span><span class="variable">$path</span><span class="string">&quot; param1=cleanXcodeDerivedFolder terminal=false&quot;</span></span><br></pre></td></tr></table></figure>
+<p>这是一个清理 Xcode 缓存文件夹的命令，我要执行脚本<code>$path</code>是自己，而<code>param1</code>则是一个方法名，然后编写一个方法<code>cleanXcodeDerivedFolder</code>放到主脚本里面。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">##### Execute script ######</span></span><br><span class="line"><span class="keyword">if</span> <span class="built_in">test</span> <span class="variable">$#</span> -ge 1; <span class="keyword">then</span></span><br><span class="line">	method=<span class="variable">$1</span></span><br><span class="line">	<span class="built_in">shift</span></span><br><span class="line">	<span class="variable">$method</span> $*</span><br><span class="line">	</span><br><span class="line">	<span class="comment"># Default return succes code.</span></span><br><span class="line">	<span class="built_in">return</span> 0</span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+<p>但再度执行当前脚本时，首先通过 <code>test $# -ge 1</code> 判断是否有参数，BitBar 自己调用脚本的时候是没有添加参数的，就会继续执行后续的代码，而我们在的执行其他脚本的操作中添加了参数，这里就会拦下命令并通过 <code>$1</code> 的方法名和后续的参数去执行指定的方法。</p>
+<h3 id="结"><a class="markdownIt-Anchor" href="#结"></a> 结</h3>
+<p>解决了调用其他脚本的问题以后，你就能随心所欲的编写各种各样的脚本来丰富你的 BitBar 了，如果这篇文章恰巧解决了你的问题，举手之劳点个赞吧。</p>
+
+  </div>
+</article>
+
+
+
+      
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E8%B7%AF%E5%BE%84%E4%B8%AD%E4%B8%8D%E8%A6%81%E5%B8%A6%E7%A9%BA%E6%A0%BC"><span class="toc-number">1.</span> <span class="toc-text"> 注意路径中不要带空格</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E6%89%A7%E8%A1%8C%E5%85%B6%E4%BB%96%E8%84%9A%E6%9C%AC%E6%96%87%E4%BB%B6"><span class="toc-number">2.</span> <span class="toc-text"> 如何执行其他脚本文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%93"><span class="toc-number">3.</span> <span class="toc-text"> 结</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2019/11/20/softwares/some-questions-about-bitbar/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2019/11/20/softwares/some-questions-about-bitbar/&text=使用状态栏工具 BitBar 中遇见的一些问题"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2019/11/20/softwares/some-questions-about-bitbar/&title=使用状态栏工具 BitBar 中遇见的一些问题"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2019/11/20/softwares/some-questions-about-bitbar/&is_video=false&description=使用状态栏工具 BitBar 中遇见的一些问题"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=使用状态栏工具 BitBar 中遇见的一些问题&body=Check out this article: https://csl.cool/2019/11/20/softwares/some-questions-about-bitbar/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2019/11/20/softwares/some-questions-about-bitbar/&title=使用状态栏工具 BitBar 中遇见的一些问题"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2019/11/20/softwares/some-questions-about-bitbar/&title=使用状态栏工具 BitBar 中遇见的一些问题"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2019/11/20/softwares/some-questions-about-bitbar/&title=使用状态栏工具 BitBar 中遇见的一些问题"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2019/11/20/softwares/some-questions-about-bitbar/&title=使用状态栏工具 BitBar 中遇见的一些问题"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2019/11/20/softwares/some-questions-about-bitbar/&name=使用状态栏工具 BitBar 中遇见的一些问题&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2019/11/20/softwares/some-questions-about-bitbar/&t=使用状态栏工具 BitBar 中遇见的一些问题"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+      <div id="end">
+    <img src="/images/post-end.png" alt="">
+</div> 
+      
+      <div id='valine'>
+    <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+            el: '#vcomments',
+            notify: true,
+            verify: true,
+            appId: '7zw6tQBddCfPvbaVtBGxUy0G-gzGzoHsz',
+            appKey: 'voPGHhBz7MozpUm0Fq2AMFmv',
+            placeholder: '想说点啥...',
+            avatar: 'monsterid',           
+        })
+    </script>
+</div>
+      
+      
+      <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 SSBun
+    <a target="_blank" rel="noopener" href="http://www.beian.miit.gov.cn/">京ICP备20001935号-1</a>
+    <div id="friend-link-container">
+      
+      
+    </div>
+  </div>
+  
+    <div class="footer-right">
+      <nav>
+        <ul>
+          
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/search/">Search</a></li>
+      
+      <li><a href="/categories/">Categories</a></li>
+      
+      <li><a href="/notes/">Notes</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+      </ul>
+      </nav>
+    </div>
+  
+</footer>
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?c2fdf3bebd0db8e40c37a4f37d76d33b";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Umami Analytics -->
+<!--  -->
+  <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="d39cc16d-90eb-47b6-8bf0-8e4cd43c704d"></script>
+<!--  -->
+<!-- Disqus Comments -->
+
+
+
+    
+    <script src="/lib/blackcat/l2dwidget.min.js"></script>
+    <script type="text/javascript">
+      var config = {
+        model: {
+          jsonPath: '/lib/blackcat/hijiki.model.json',
+        },
+        display: {
+          superSample: 1,
+          width: 245,
+          height: 245,
+          position: 'left',
+          hOffset: 0,
+          vOffset: 0,
+        },
+        mobile: {
+          show: false,
+          scale: 1,
+          motion: false,
+        },
+        react: {
+          opacityDefault: 1,
+          opacityOnHover: 0.75
+        }
+      };
+      L2Dwidget.init(config);
+    </script>
+    
+  </body>
+
+  </html>

@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang=en>
+  <head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Combine is a reactive programming framework written by Apple for Swift, like ReactiveSwift or RxSwift. The purpose of designing Combine is to provide an official framework to manage the state in Swift">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Learning Combine Again">
+<meta property="og:url" content="https://csl.cool/2022/03/30/ios-dev/swift/learning-combine-again/index.html">
+<meta property="og:site_name" content="CSL MEMO">
+<meta property="og:description" content="Combine is a reactive programming framework written by Apple for Swift, like ReactiveSwift or RxSwift. The purpose of designing Combine is to provide an official framework to manage the state in Swift">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://book.csl.cool/img/20220407154527.png">
+<meta property="og:image" content="http://book.csl.cool/img/20220408160552.png">
+<meta property="og:image" content="http://book.csl.cool/img/20220408162952.png">
+<meta property="og:image" content="http://book.csl.cool/img/20220408164805.png">
+<meta property="og:image" content="http://book.csl.cool/img/20220408170017.png">
+<meta property="og:image" content="http://book.csl.cool/img/20220408170318.png">
+<meta property="og:image" content="http://book.csl.cool/img/20220408171901.png">
+<meta property="og:image" content="http://book.csl.cool/img/20220408173940.png">
+<meta property="og:image" content="http://book.csl.cool/img/20220408174322.png">
+<meta property="og:image" content="http://book.csl.cool/img/20220408174805.png">
+<meta property="og:image" content="http://book.csl.cool/img/20220408175329.png">
+<meta property="og:image" content="http://book.csl.cool/img/20220408175345.png">
+<meta property="og:image" content="http://book.csl.cool/img/20220408180105.png">
+<meta property="og:image" content="http://book.csl.cool/img/20220408180210.png">
+<meta property="og:image" content="http://book.csl.cool/img/20220408181128.png">
+<meta property="og:image" content="http://book.csl.cool/img/20220411104615.png">
+<meta property="og:image" content="http://book.csl.cool/img/20220411153928.png">
+<meta property="og:image" content="http://book.csl.cool/img/20220411181946.png">
+<meta property="og:image" content="http://book.csl.cool/img/20220411184939.png">
+<meta property="og:image" content="http://book.csl.cool/img/20220411185135.png">
+<meta property="og:image" content="http://book.csl.cool/img/20220411185353.png">
+<meta property="og:image" content="http://book.csl.cool/img/20220411185645.png">
+<meta property="og:image" content="http://book.csl.cool/img/20220411185817.png">
+<meta property="og:image" content="http://book.csl.cool/img/20220411185910.png">
+<meta property="og:image" content="http://book.csl.cool/img/20220411200241.png">
+<meta property="og:image" content="http://book.csl.cool/img/20220411201202.png">
+<meta property="og:image" content="http://book.csl.cool/img/20220411202022.png">
+<meta property="og:image" content="http://book.csl.cool/img/20220411203208.png">
+<meta property="og:image" content="http://book.csl.cool/img/20220412175200.png">
+<meta property="og:image" content="http://book.csl.cool/img/20220412183038.png">
+<meta property="og:image" content="http://book.csl.cool/img/20220413153302.png">
+<meta property="og:image" content="http://book.csl.cool/img/20220413153652.png">
+<meta property="og:image" content="http://book.csl.cool/img/20220413154944.png">
+<meta property="og:image" content="http://book.csl.cool/img/20220413155742.png">
+<meta property="og:image" content="http://book.csl.cool/img/20220413160329.png">
+<meta property="og:image" content="http://book.csl.cool/img/20220413161416.png">
+<meta property="og:image" content="http://book.csl.cool/img/20220413161637.png">
+<meta property="og:image" content="http://book.csl.cool/img/20220415110521.png">
+<meta property="og:image" content="http://book.csl.cool/img/20220415110815.png">
+<meta property="og:image" content="http://book.csl.cool/img/20220415112634.png">
+<meta property="article:published_time" content="2022-03-30T05:52:50.000Z">
+<meta property="article:modified_time" content="2022-03-30T05:52:50.000Z">
+<meta property="article:author" content="SSBun">
+<meta property="article:tag" content="Swift">
+<meta property="article:tag" content="Combine">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://book.csl.cool/img/20220407154527.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Learning Combine Again</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="CSL MEMO" type="application/atom+xml" />
+    
+    <!-- umami web analytics -->
+    <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+  <body class="max-width mx-auto px3 ltr">
+    
+    <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2022/04/11/notes/common-phrases/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2022/03/04/ruby/learning-ruby-again/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2022/03/30/ios-dev/swift/learning-combine-again/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2022/03/30/ios-dev/swift/learning-combine-again/&text=Learning Combine Again"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2022/03/30/ios-dev/swift/learning-combine-again/&title=Learning Combine Again"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2022/03/30/ios-dev/swift/learning-combine-again/&is_video=false&description=Learning Combine Again"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Learning Combine Again&body=Check out this article: https://csl.cool/2022/03/30/ios-dev/swift/learning-combine-again/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2022/03/30/ios-dev/swift/learning-combine-again/&title=Learning Combine Again"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2022/03/30/ios-dev/swift/learning-combine-again/&title=Learning Combine Again"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2022/03/30/ios-dev/swift/learning-combine-again/&title=Learning Combine Again"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2022/03/30/ios-dev/swift/learning-combine-again/&title=Learning Combine Again"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2022/03/30/ios-dev/swift/learning-combine-again/&name=Learning Combine Again&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2022/03/30/ios-dev/swift/learning-combine-again/&t=Learning Combine Again"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#kinds-of-subscriber"><span class="toc-number">1.</span> <span class="toc-text"> Kinds of Subscriber</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#kinds-of-publisher"><span class="toc-number">2.</span> <span class="toc-text"> Kinds of Publisher</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#combine-with-asyncawait"><span class="toc-number">3.</span> <span class="toc-text"> Combine with async&#x2F;await</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#transforming-operators"><span class="toc-number">4.</span> <span class="toc-text"> Transforming Operators</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#collect"><span class="toc-number">4.1.</span> <span class="toc-text"> collect</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#map"><span class="toc-number">4.2.</span> <span class="toc-text"> map</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#trymap"><span class="toc-number">4.3.</span> <span class="toc-text"> tryMap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#flatmap"><span class="toc-number">4.4.</span> <span class="toc-text"> flatMap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#replacenilwith"><span class="toc-number">4.5.</span> <span class="toc-text"> replaceNil(with:)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#replaceemptywith"><span class="toc-number">4.6.</span> <span class="toc-text"> replaceEmpty(with:)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#scan"><span class="toc-number">4.7.</span> <span class="toc-text"> scan</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#filtering-operators"><span class="toc-number">5.</span> <span class="toc-text"> Filtering Operators</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#filter"><span class="toc-number">5.1.</span> <span class="toc-text"> filter</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#removeduplicates"><span class="toc-number">5.2.</span> <span class="toc-text"> removeDuplicates</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ignoreoutput"><span class="toc-number">5.3.</span> <span class="toc-text"> ignoreOutput</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#firstwhere"><span class="toc-number">5.4.</span> <span class="toc-text"> first(where:)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lastwhere"><span class="toc-number">5.5.</span> <span class="toc-text"> last(where:)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dropfirst"><span class="toc-number">5.6.</span> <span class="toc-text"> dropFirst</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dropwhile"><span class="toc-number">5.7.</span> <span class="toc-text"> drop(while:)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dropuntiloutputfrom"><span class="toc-number">5.8.</span> <span class="toc-text"> drop(untilOutputFrom:)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#prefix2"><span class="toc-number">5.9.</span> <span class="toc-text"> prefix(2)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#prefixwhile"><span class="toc-number">5.10.</span> <span class="toc-text"> prefix(while: )</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#prefixuntiloutputfrom"><span class="toc-number">5.11.</span> <span class="toc-text"> prefix(untilOutputFrom: )</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#combining-operators"><span class="toc-number">6.</span> <span class="toc-text"> Combining Operators</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#prependoutput"><span class="toc-number">6.1.</span> <span class="toc-text"> prepend(Output…)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#prependsequence"><span class="toc-number">6.2.</span> <span class="toc-text"> prepend(Sequence)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#prependpublisher"><span class="toc-number">6.3.</span> <span class="toc-text"> prepend(Publisher)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#appendoutput"><span class="toc-number">6.4.</span> <span class="toc-text"> append(Output…)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#appendsequence"><span class="toc-number">6.5.</span> <span class="toc-text"> append(Sequence)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#appendpublisher"><span class="toc-number">6.6.</span> <span class="toc-text"> append(Publisher)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#switchtolatest"><span class="toc-number">6.7.</span> <span class="toc-text"> switchToLatest</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mergewith"><span class="toc-number">6.8.</span> <span class="toc-text"> merge(with:)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#combinelatest"><span class="toc-number">6.9.</span> <span class="toc-text"> combineLatest</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#zip"><span class="toc-number">6.10.</span> <span class="toc-text"> zip</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#timing-operators"><span class="toc-number">7.</span> <span class="toc-text"> Timing Operators</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#delayfortolerancescheduleroptions"><span class="toc-number">7.1.</span> <span class="toc-text"> delay(for:tolerance:scheduler:options)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#collectbytimedispatchqueuemain-seconds4"><span class="toc-number">7.2.</span> <span class="toc-text"> collect(.byTime(DispatchQueue.main, .seconds(4)))</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#debounce"><span class="toc-number">7.3.</span> <span class="toc-text"> debounce</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#throttle"><span class="toc-number">7.4.</span> <span class="toc-text"> throttle</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#timeout"><span class="toc-number">7.5.</span> <span class="toc-text"> timeout</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#measureinterval"><span class="toc-number">7.6.</span> <span class="toc-text"> measureInterval</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sequence-operators"><span class="toc-number">8.</span> <span class="toc-text"> Sequence Operators</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#min"><span class="toc-number">8.1.</span> <span class="toc-text"> min</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#max"><span class="toc-number">8.2.</span> <span class="toc-text"> max</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#first"><span class="toc-number">8.3.</span> <span class="toc-text"> first</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#last"><span class="toc-number">8.4.</span> <span class="toc-text"> last</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#outputat"><span class="toc-number">8.5.</span> <span class="toc-text"> output(at:)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#outputin"><span class="toc-number">8.6.</span> <span class="toc-text"> output(in:)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#count"><span class="toc-number">8.7.</span> <span class="toc-text"> count()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#contains"><span class="toc-number">8.8.</span> <span class="toc-text"> contains</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#allsatisfy"><span class="toc-number">8.9.</span> <span class="toc-text"> allSatisfy</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#reduce"><span class="toc-number">8.10.</span> <span class="toc-text"> reduce</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#networking"><span class="toc-number">9.</span> <span class="toc-text"> Networking</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#datataskpublisher"><span class="toc-number">9.1.</span> <span class="toc-text"> dataTaskPublisher</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#decodetypedecoder"><span class="toc-number">9.2.</span> <span class="toc-text"> decode(type:decoder:)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#debug"><span class="toc-number">10.</span> <span class="toc-text"> Debug</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#print"><span class="toc-number">10.1.</span> <span class="toc-text"> print</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#handleevents"><span class="toc-number">10.2.</span> <span class="toc-text"> handleEvents</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#breakpointreceivesubscriptionreceiveoutputreceivecompletion"><span class="toc-number">10.3.</span> <span class="toc-text"> breakpoint(receiveSubscription:receiveOutput:receiveCompletion:)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#timer"><span class="toc-number">11.</span> <span class="toc-text"> Timer</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#using-runloop"><span class="toc-number">11.1.</span> <span class="toc-text"> Using RunLoop</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#timer-2"><span class="toc-number">11.2.</span> <span class="toc-text"> Timer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#using-dispatchqueue"><span class="toc-number">11.3.</span> <span class="toc-text"> Using DispatchQueue</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#key-value-observing"><span class="toc-number">12.</span> <span class="toc-text"> Key-Value Observing</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#publisherforoptions"><span class="toc-number">12.1.</span> <span class="toc-text"> publisher(for:options:)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#observedobject"><span class="toc-number">12.2.</span> <span class="toc-text"> ObservedObject</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#resource-management"><span class="toc-number">13.</span> <span class="toc-text"> Resource Management</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#share"><span class="toc-number">13.1.</span> <span class="toc-text"> share()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#multicast_"><span class="toc-number">13.2.</span> <span class="toc-text"> multicast(_😃</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#future"><span class="toc-number">13.3.</span> <span class="toc-text"> Future</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#error-handling"><span class="toc-number">14.</span> <span class="toc-text"> Error Handling</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#never"><span class="toc-number">14.1.</span> <span class="toc-text"> Never</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dealing-with-errors"><span class="toc-number">14.2.</span> <span class="toc-text"> Dealing with Errors</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#schedulers"><span class="toc-number">15.</span> <span class="toc-text"> Schedulers</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#where-to-use-a-scheduler"><span class="toc-number">15.1.</span> <span class="toc-text"> Where to use a scheduler?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#implementations-of-scheduler"><span class="toc-number">15.2.</span> <span class="toc-text"> Implementations of Scheduler</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#custom-publishers-and-operators"><span class="toc-number">16.</span> <span class="toc-text"> Custom Publishers and Operators</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-extends-methods-for-publisher"><span class="toc-number">16.1.</span> <span class="toc-text"> 1. Extends Methods for Publisher</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#creating-a-publisher-that-produces-values"><span class="toc-number">16.2.</span> <span class="toc-text"> Creating a Publisher that produces values</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#publishers-transforming-values"><span class="toc-number">16.3.</span> <span class="toc-text"> Publishers Transforming Values</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#backpressure"><span class="toc-number">16.4.</span> <span class="toc-text"> Backpressure</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+      
+      <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Learning Combine Again
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">SSBun</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-03-30T05:52:50.000Z" itemprop="datePublished">2022-03-30</time>
+        
+        (Updated: <time datetime="2022-03-30T05:52:50.000Z" itemprop="dateModified">2022-03-30</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Combine/" rel="tag">Combine</a>, <a class="tag-link-link" href="/tags/Swift/" rel="tag">Swift</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p><code>Combine</code> is a reactive programming framework written by Apple for Swift, like <code>ReactiveSwift</code> or <code>RxSwift</code>. The purpose of designing Combine is to provide an official framework to manage the state in SwiftUI. We can also apply it in UIKit. This article is used to record some universal concepts and easy to forget knowledge points.</p>
+<p>There are three key moving pieces in Combine: publishers, operators and subscribers. All the other objects in Combine are for them or based on them.</p>
+<ul>
+<li>
+<p>Publisher</p>
+<ul>
+<li>Publishers can produce three types of events, multiple <code>Output</code> values, a successful completion or a failure completion with a <code>Failure</code> value.</li>
+<li>Have two associated types: <code>Output</code> and <code>Failure</code>. The <code>Output</code> is the type of values wrapped in normal events. The <code>Failure</code> is the type of error wrapped in the failure completion event.</li>
+</ul>
+</li>
+<li>
+<p>Operator</p>
+<ul>
+<li>Operators are used to convert events from upstream to new events wrapping values of new types.</li>
+</ul>
+</li>
+<li>
+<p>Subscriber</p>
+<ul>
+<li>Swift provides two built-in subscribers, <code>sink</code> and <code>assign</code>.
+<ul>
+<li>The <code>sink</code> subscriber allows you to provide your code with closures that will receive output values and completions.</li>
+<li>The <code>assign</code> subscriber allows you to straightforward bind received output values to properties of your UI or data models via key paths.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Subscription</p>
+</li>
+</ul>
+<blockquote>
+<p>Publishers do not emit any values if there are no subscribers potentially receiving the output.</p>
+</blockquote>
+<h2 id="kinds-of-subscriber"><a class="markdownIt-Anchor" href="#kinds-of-subscriber"></a> Kinds of Subscriber</h2>
+<ul>
+<li>
+<p><code>sink</code></p>
+<ul>
+<li>Receives events from a publisher and provides two closures where you can process values and completion events.</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">func</span> <span class="title function_">sink</span>(</span><br><span class="line">  <span class="params">receiveCompletion</span>: <span class="keyword">@escaping</span> ((<span class="type">Subscribers</span>.<span class="type">Completion</span>&lt;<span class="keyword">Self</span>.<span class="type">Failure</span>&gt;) -&gt; <span class="type">Void</span>),</span><br><span class="line">  <span class="params">receiveValue</span>: <span class="keyword">@escaping</span> ((<span class="keyword">Self</span>.<span class="type">Output</span>) -&gt; <span class="type">Void</span>)</span><br><span class="line">) -&gt; <span class="type">AnyCancellable</span> &#123;<span class="operator">...</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* Examples */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> just <span class="operator">=</span> <span class="type">Just</span>(<span class="number">0</span>)</span><br><span class="line">    </span><br><span class="line">just.sink &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;receive completion: <span class="subst">\(<span class="variable">$0</span>)</span>&quot;</span>)</span><br><span class="line">&#125; receiveValue: &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;receive value: <span class="subst">\(<span class="variable">$0</span>)</span>&quot;</span>)</span><br><span class="line">&#125;.store(in: <span class="operator">&amp;</span>disposeBag)</span><br><span class="line"></span><br><span class="line"><span class="comment">// receive value: 0</span></span><br><span class="line"><span class="comment">// receive completion: finished</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><code>assign</code></p>
+<ul>
+<li>Straightforward binds events to a property of an object.</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">func</span> <span class="title function_">assign</span>&lt;<span class="type">Root</span>&gt;(</span><br><span class="line">  <span class="params">to</span> <span class="params">keyPath</span>: <span class="type">ReferenceWritableKeyPath</span>&lt;<span class="type">Root</span>,</span><br><span class="line">  <span class="keyword">Self</span>.<span class="type">Output</span>&gt;, <span class="params">on</span> <span class="params">object</span>: <span class="type">Root</span></span><br><span class="line">) -&gt; <span class="type">AnyCancellable</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> age: <span class="type">Int</span> <span class="operator">=</span> <span class="number">0</span> &#123;</span><br><span class="line">    <span class="keyword">didSet</span> &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;age did changed: <span class="subst">\(age)</span>&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line"><span class="keyword">init</span>() &#123;</span><br><span class="line">    </span><br><span class="line">  <span class="keyword">let</span> just <span class="operator">=</span> <span class="type">Just</span>(<span class="number">18</span>)</span><br><span class="line">  </span><br><span class="line">  just</span><br><span class="line">      .assign(to: \.age, on: <span class="keyword">self</span>)</span><br><span class="line">      .store(in: <span class="operator">&amp;</span>disposeBag)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// age did changed: 18</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>Republishing events from a publisher to a property marked with <code>@Published</code> .</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">  <span class="meta">@Published</span></span><br><span class="line">  <span class="keyword">var</span> age: <span class="type">Int</span> <span class="operator">=</span> <span class="number">0</span> &#123;</span><br><span class="line">    <span class="keyword">didSet</span> &#123;</span><br><span class="line">      <span class="built_in">print</span>(<span class="string">&quot;change age to <span class="subst">\(age)</span>&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">CombineView</span> &#123;</span><br><span class="line">  <span class="keyword">var</span> disposeBag <span class="operator">=</span> <span class="type">Set</span>&lt;<span class="type">AnyCancellable</span>&gt;()</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">let</span> person <span class="operator">=</span> <span class="type">Person</span>()</span><br><span class="line">    </span><br><span class="line">  <span class="keyword">init</span>() &#123;</span><br><span class="line">    person.<span class="variable">$age</span>.sink &#123;</span><br><span class="line">      <span class="built_in">print</span>(<span class="string">&quot;-- <span class="subst">\(<span class="variable">$0</span>)</span>&quot;</span>)</span><br><span class="line">    &#125;.store(in: <span class="operator">&amp;</span>disposeBag)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">let</span> just <span class="operator">=</span> <span class="type">Just</span>(<span class="number">0</span>)</span><br><span class="line">    just</span><br><span class="line">      .assign(to: <span class="operator">&amp;</span>person.<span class="variable">$age</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// -- 0</span></span><br></pre></td></tr></table></figure>
+<p>Notice that republishing values to the <code>@Published</code> property <code>age</code>  doesn’t trigger the <code>didSet</code> property observer. In effect, the events are passed into the new publisher got by the projected value of <code>age</code> with code format <code>$age</code>.</p>
+</li>
+</ul>
+<h2 id="kinds-of-publisher"><a class="markdownIt-Anchor" href="#kinds-of-publisher"></a> Kinds of Publisher</h2>
+<ul>
+<li><code>Just</code>
+<ul>
+<li>Just returns a value and a successful completion.</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> just <span class="operator">=</span> <span class="type">Just</span>(<span class="number">0</span>)</span><br><span class="line">     </span><br><span class="line"> just.sink &#123;</span><br><span class="line">     <span class="built_in">print</span>(<span class="string">&quot;receive completion: <span class="subst">\(<span class="variable">$0</span>)</span>&quot;</span>)</span><br><span class="line"> &#125; receiveValue: &#123;</span><br><span class="line">     <span class="built_in">print</span>(<span class="string">&quot;receive value: <span class="subst">\(<span class="variable">$0</span>)</span>&quot;</span>)</span><br><span class="line"> &#125;.store(in: <span class="operator">&amp;</span>disposeBag)</span><br><span class="line"> </span><br><span class="line"> <span class="comment">// receive value: 0</span></span><br><span class="line"> <span class="comment">// receive completion: finished</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>A streamline diagram representing the relationship between <code>Publisher</code>, <code>Subscriber</code> and <code>Subscription</code>.</p>
+<p><img src="http://book.csl.cool/img/20220407154527.png" alt="" /></p>
+<ul>
+<li><code>Future</code></li>
+<li>A publisher that emits a single value and then completes or just fails.</li>
+<li>The future is greedy, so the block used to create a future will be executed immediately after initialization.<br />
+Normal publishers will not generate values until a subscriber subscribes to it.</li>
+<li>Multiple subscriptions will only return old generated values and do not trigger the publisher to generate values again.</li>
+</ul>
+  <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">requestCode</span>() -&gt; <span class="type">Future</span>&lt;<span class="type">Int</span>, <span class="type">Never</span>&gt; &#123;</span><br><span class="line">    <span class="type">Future</span> &#123; promise <span class="keyword">in</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;begin requesting a code&quot;</span>)</span><br><span class="line">        <span class="type">DispatchQueue</span>.global().asyncAfter(deadline: .now() <span class="operator">+</span> <span class="number">2</span>) &#123;</span><br><span class="line">            promise(.success(<span class="number">10</span>))</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p><code>PassthroughSubject</code></p>
+<ul>
+<li>​A publisher that enables you to publish values on demand and will happily pass on these values and a completion event.</li>
+</ul>
+</li>
+<li>
+<p><code>CurrentValueSubject</code></p>
+<ul>
+<li>A publisher similar to <code>PassthroughSubject</code> saves the latest value.</li>
+</ul>
+</li>
+<li>
+<p><code>eraseToAnyPublisher</code></p>
+<ul>
+<li>This method can hide the actual type of your publisher(maybe a subject).</li>
+</ul>
+</li>
+</ul>
+<h2 id="combine-with-asyncawait"><a class="markdownIt-Anchor" href="#combine-with-asyncawait"></a> Combine with async/await</h2>
+<p>Swift provides numerous extensions for Combine that you can quickly use to bridge Combine to Swift concurrency.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">override</span> <span class="keyword">func</span> <span class="title function_">viewDidLoad</span>() &#123;</span><br><span class="line">    <span class="keyword">super</span>.viewDidLoad()</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">let</span> subject <span class="operator">=</span> <span class="type">PassthroughSubject</span>&lt;<span class="type">Int</span>, <span class="type">Never</span>&gt;()</span><br><span class="line">    </span><br><span class="line">    <span class="type">Task</span> &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;begin&quot;</span>)</span><br><span class="line">        <span class="keyword">for</span> <span class="keyword">await</span> item <span class="keyword">in</span> subject.values &#123;</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;<span class="subst">\(item)</span>&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;completed&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="type">DispatchQueue</span>.global().asyncAfter(deadline: .now() <span class="operator">+</span> <span class="number">1</span>) &#123;</span><br><span class="line">        subject.send(<span class="number">0</span>)</span><br><span class="line">        subject.send(<span class="number">1</span>)</span><br><span class="line">        subject.send(completion: .finished)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// begin</span></span><br><span class="line"><span class="comment">// 0</span></span><br><span class="line"><span class="comment">// completed</span></span><br></pre></td></tr></table></figure>
+<p>We can use <code>for await</code> to iterate the <code>values</code> property of the subject. The <code>values</code> is of type <code>AsyncPublisher</code>, which conforms to the protocol <code>AsyncSequence</code>.</p>
+<blockquote>
+<p>Have you noted that the console only printed one value <code>0</code> and didn’t print the value <code>1</code>?</p>
+</blockquote>
+<ul>
+<li>I think this is related to the asynchronous sequence <code>values</code>. When the speed of consuming values is less than the speed of yielding values during for await, more and more new yielded values will pile up. To create a asynchronous stream, we need to provide a buffer config to state ignoring these redundant values or caching them when encountering the above questions.</li>
+<li>The property <code>values</code> may be an asynchronous sequence without any buffer. We send two values at once because the <code>print</code> method does not finish when the second value comes, so the second value is abandoned.</li>
+<li>The examples below demonstrate these phenomenons.</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">override</span> <span class="keyword">func</span> <span class="title function_">viewDidLoad</span>() &#123;</span><br><span class="line">    <span class="keyword">super</span>.viewDidLoad()</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">let</span> subject <span class="operator">=</span> <span class="type">PassthroughSubject</span>&lt;<span class="type">Int</span>, <span class="type">Never</span>&gt;()</span><br><span class="line">    </span><br><span class="line">    <span class="type">Task</span> &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;begin&quot;</span>)</span><br><span class="line">        <span class="keyword">for</span> <span class="keyword">await</span> item <span class="keyword">in</span> subject.values &#123;</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;<span class="subst">\(item)</span>&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;completed&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="type">DispatchQueue</span>.global().asyncAfter(deadline: .now() <span class="operator">+</span> <span class="number">1</span>) &#123;</span><br><span class="line">        subject.send(<span class="number">0</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">DispatchQueue</span>.global().asyncAfter(deadline: .now() <span class="operator">+</span> <span class="number">2</span>) &#123;</span><br><span class="line">        subject.send(<span class="number">1</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// begin</span></span><br><span class="line"><span class="comment">// 0</span></span><br><span class="line"><span class="comment">// 1</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">override</span> <span class="keyword">func</span> <span class="title function_">viewDidLoad</span>() &#123;</span><br><span class="line">    <span class="keyword">super</span>.viewDidLoad()</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">let</span> subject <span class="operator">=</span> <span class="type">PassthroughSubject</span>&lt;<span class="type">Int</span>, <span class="type">Never</span>&gt;()</span><br><span class="line">    </span><br><span class="line">    <span class="type">Task</span> &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;begin&quot;</span>)</span><br><span class="line">        <span class="keyword">for</span> <span class="keyword">await</span> item <span class="keyword">in</span> subject.values &#123;</span><br><span class="line">            <span class="keyword">await</span> <span class="type">Task</span>.sleep(<span class="type">NSEC_PER_SEC</span>) <span class="comment">// Simulates a time-consuming operation.</span></span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;<span class="subst">\(item)</span>&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;completed&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="type">DispatchQueue</span>.global().asyncAfter(deadline: .now() <span class="operator">+</span> <span class="number">1</span>) &#123;</span><br><span class="line">        subject.send(<span class="number">0</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">DispatchQueue</span>.global().asyncAfter(deadline: .now() <span class="operator">+</span> <span class="number">2</span>) &#123;</span><br><span class="line">        subject.send(<span class="number">1</span>) <span class="comment">// Will be abandoned.</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// begin</span></span><br><span class="line"><span class="comment">// 0</span></span><br></pre></td></tr></table></figure>
+<h2 id="transforming-operators"><a class="markdownIt-Anchor" href="#transforming-operators"></a> Transforming Operators</h2>
+<h3 id="collect"><a class="markdownIt-Anchor" href="#collect"></a> collect</h3>
+<p>It transforms a stream of individual values from a publisher to a single array.<br />
+<img src="http://book.csl.cool/img/20220408160552.png" alt="" /></p>
+<ul>
+<li><code>collect</code>: collects all values to an array.</li>
+<li><code>collect(2)</code>: collects every two values to an array.</li>
+<li><code>.collect(.byTime(RunLoop.main, .seconds(5)))</code>: collects several values to an array base on a specific strategy.</li>
+</ul>
+<h3 id="map"><a class="markdownIt-Anchor" href="#map"></a> map</h3>
+<p>It transforms every values from the upstream to the other type.<br />
+<img src="http://book.csl.cool/img/20220408162952.png" alt="" /></p>
+<ul>
+<li><code>map &#123; $0 * 2 &#125;</code>: normal map operator like in Swift foundation.</li>
+<li><code>map(\.x, \.y)</code>: key-path map, extract several properties of the value by key path.</li>
+</ul>
+<h3 id="trymap"><a class="markdownIt-Anchor" href="#trymap"></a> tryMap</h3>
+<p>Like the normal <code>map</code>, but that takes a throwing closure. It will emit a failure event with the thrown error to the downstream.</p>
+<h3 id="flatmap"><a class="markdownIt-Anchor" href="#flatmap"></a> flatMap</h3>
+<p>It flattens several publishers to one. All values emitted by these publishers will be flattened to one sequence arranged by time.</p>
+<ul>
+<li><code>flatMap(maxPublishers: .max(2))</code>: specify the max number of publishers theirs values will be coalesced.<br />
+<img src="http://book.csl.cool/img/20220408164805.png" alt="" /></li>
+</ul>
+<h3 id="replacenilwith"><a class="markdownIt-Anchor" href="#replacenilwith"></a> replaceNil(with:)</h3>
+<p>It replaces all nil values form upstream to a constant value.<br />
+<img src="http://book.csl.cool/img/20220408170017.png" alt="" /></p>
+<h3 id="replaceemptywith"><a class="markdownIt-Anchor" href="#replaceemptywith"></a> replaceEmpty(with:)</h3>
+<p>It emits a specified value when the publisher didn’t emit any value until completed.<br />
+<img src="http://book.csl.cool/img/20220408170318.png" alt="" /></p>
+<h3 id="scan"><a class="markdownIt-Anchor" href="#scan"></a> scan</h3>
+<p>It cumulates all values from upstream one by one begin with an original value.<br />
+<img src="http://book.csl.cool/img/20220408171901.png" alt="" /></p>
+<h2 id="filtering-operators"><a class="markdownIt-Anchor" href="#filtering-operators"></a> Filtering Operators</h2>
+<h3 id="filter"><a class="markdownIt-Anchor" href="#filter"></a> filter</h3>
+<p>The basic filtering operator.<br />
+<img src="http://book.csl.cool/img/20220408173940.png" alt="" /></p>
+<h3 id="removeduplicates"><a class="markdownIt-Anchor" href="#removeduplicates"></a> removeDuplicates</h3>
+<p>It filters values that have been emitted.<br />
+<img src="http://book.csl.cool/img/20220408174322.png" alt="" /></p>
+<h3 id="ignoreoutput"><a class="markdownIt-Anchor" href="#ignoreoutput"></a> ignoreOutput</h3>
+<p>It disregards all values, and only receives completion events.<br />
+<img src="http://book.csl.cool/img/20220408174805.png" alt="" /></p>
+<h3 id="firstwhere"><a class="markdownIt-Anchor" href="#firstwhere"></a> first(where:)</h3>
+<p>It finds the first matched value and then emits a completion event immediately.<br />
+<img src="http://book.csl.cool/img/20220408175329.png" alt="" /></p>
+<h3 id="lastwhere"><a class="markdownIt-Anchor" href="#lastwhere"></a> last(where:)</h3>
+<p>It finds the last matched value after the publisher sent completion events.<br />
+<img src="http://book.csl.cool/img/20220408175345.png" alt="" /></p>
+<h3 id="dropfirst"><a class="markdownIt-Anchor" href="#dropfirst"></a> dropFirst</h3>
+<p>It discards any values until finding the specified value, and then receives subsequent values.<br />
+<img src="http://book.csl.cool/img/20220408180105.png" alt="" /></p>
+<h3 id="dropwhile"><a class="markdownIt-Anchor" href="#dropwhile"></a> drop(while:)</h3>
+<p>It discards any values until finding a matched value, and then receives subsequent values.<br />
+<img src="http://book.csl.cool/img/20220408180210.png" alt="" /></p>
+<h3 id="dropuntiloutputfrom"><a class="markdownIt-Anchor" href="#dropuntiloutputfrom"></a> drop(untilOutputFrom:)</h3>
+<p>It skips any value until the second publisher starts emitting values.<br />
+<img src="http://book.csl.cool/img/20220408181128.png" alt="" /></p>
+<h3 id="prefix2"><a class="markdownIt-Anchor" href="#prefix2"></a> prefix(2)</h3>
+<p>It only takes the first two values.<br />
+<img src="http://book.csl.cool/img/20220411104615.png" alt="" /></p>
+<h3 id="prefixwhile"><a class="markdownIt-Anchor" href="#prefixwhile"></a> prefix(while: )</h3>
+<p>It takes values until the <code>while</code> predication is met.<br />
+<img src="http://book.csl.cool/img/20220411153928.png" alt="" /></p>
+<h3 id="prefixuntiloutputfrom"><a class="markdownIt-Anchor" href="#prefixuntiloutputfrom"></a> prefix(untilOutputFrom: )</h3>
+<p>It takes values until the other publisher begins emitting values.<br />
+<img src="http://book.csl.cool/img/20220411181946.png" alt="" /></p>
+<h2 id="combining-operators"><a class="markdownIt-Anchor" href="#combining-operators"></a> Combining Operators</h2>
+<h3 id="prependoutput"><a class="markdownIt-Anchor" href="#prependoutput"></a> prepend(Output…)</h3>
+<p>It will prepend multiple values into the value sequence of the original publisher.<br />
+<img src="http://book.csl.cool/img/20220411184939.png" alt="" /></p>
+<h3 id="prependsequence"><a class="markdownIt-Anchor" href="#prependsequence"></a> prepend(Sequence)</h3>
+<p>It will prepend a sequence of values into the value sequence of the original publisher.<br />
+<img src="http://book.csl.cool/img/20220411185135.png" alt="" /></p>
+<h3 id="prependpublisher"><a class="markdownIt-Anchor" href="#prependpublisher"></a> prepend(Publisher)</h3>
+<p>It will add values emitted by the second publisher before the original publisher’s values.<br />
+<img src="http://book.csl.cool/img/20220411185353.png" alt="" /></p>
+<h3 id="appendoutput"><a class="markdownIt-Anchor" href="#appendoutput"></a> append(Output…)</h3>
+<p>It will append multiple values into the value sequence of the original publisher.<br />
+<img src="http://book.csl.cool/img/20220411185645.png" alt="" /></p>
+<h3 id="appendsequence"><a class="markdownIt-Anchor" href="#appendsequence"></a> append(Sequence)</h3>
+<p>It will append a sequence of values into the value sequence of the original publisher.<br />
+<img src="http://book.csl.cool/img/20220411185817.png" alt="" /></p>
+<h3 id="appendpublisher"><a class="markdownIt-Anchor" href="#appendpublisher"></a> append(Publisher)</h3>
+<p>It will add values emitted by the second publisher after the original publisher’s values.<br />
+<img src="http://book.csl.cool/img/20220411185910.png" alt="" /></p>
+<h3 id="switchtolatest"><a class="markdownIt-Anchor" href="#switchtolatest"></a> switchToLatest</h3>
+<p>It takes a publisher that pushes a sequence of publishers. It only emits values that were emitted by the latest publisher value.<br />
+<img src="http://book.csl.cool/img/20220411200241.png" alt="" /></p>
+<h3 id="mergewith"><a class="markdownIt-Anchor" href="#mergewith"></a> merge(with:)</h3>
+<p>It will interleave emissions from different publishers of the same type.<br />
+<img src="http://book.csl.cool/img/20220411201202.png" alt="" /></p>
+<h3 id="combinelatest"><a class="markdownIt-Anchor" href="#combinelatest"></a> combineLatest</h3>
+<p>It will emit values of a tuple type that contains all latest values from multiple publishers of different value types.<br />
+<img src="http://book.csl.cool/img/20220411202022.png" alt="" /></p>
+<h3 id="zip"><a class="markdownIt-Anchor" href="#zip"></a> zip</h3>
+<p>It will emit tuples of paired values in the same indexes of different publishers.<br />
+<img src="http://book.csl.cool/img/20220411203208.png" alt="" /></p>
+<h2 id="timing-operators"><a class="markdownIt-Anchor" href="#timing-operators"></a> Timing Operators</h2>
+<h3 id="delayfortolerancescheduleroptions"><a class="markdownIt-Anchor" href="#delayfortolerancescheduleroptions"></a> delay(for:tolerance:scheduler:options)</h3>
+<p>It will delay the specified time to emit values emitted from the upstream.<br />
+<img src="http://book.csl.cool/img/20220412175200.png" alt="" /></p>
+<h3 id="collectbytimedispatchqueuemain-seconds4"><a class="markdownIt-Anchor" href="#collectbytimedispatchqueuemain-seconds4"></a> collect(.byTime(DispatchQueue.main, .seconds(4)))</h3>
+<p>It will emit an array of values emitted during the latest specified time duration.<br />
+<img src="http://book.csl.cool/img/20220412183038.png" alt="" /></p>
+<h3 id="debounce"><a class="markdownIt-Anchor" href="#debounce"></a> debounce</h3>
+<ul>
+<li><code>.debounce(for: .seconds(1.0), scheduler: DispatchQueue.main)</code><br />
+It will pause emitting values until doesn’t receive any values from the upstream during a specified interval and then relay the latest value emitted during the interval.</li>
+</ul>
+<h3 id="throttle"><a class="markdownIt-Anchor" href="#throttle"></a> throttle</h3>
+<ul>
+<li><code>.throttle(for: .seconds(3), scheduler: DispatchQueue.main, latest: true)</code><br />
+It is similar to the <code>debounce</code>, the significant difference is that the <code>throttle</code> would emit the first value and then relay the first or latest value during every specified interval.</li>
+</ul>
+<h3 id="timeout"><a class="markdownIt-Anchor" href="#timeout"></a> timeout</h3>
+<ul>
+<li><code>.timeout(.seconds(5), scheduler: DispatchQueue.main)</code><br />
+The upstream publisher needs to emit new values within the specified interval after beginning or emitting a value, or else the subscription will be timeout and complete with a finished or error event.</li>
+</ul>
+<h3 id="measureinterval"><a class="markdownIt-Anchor" href="#measureinterval"></a> measureInterval</h3>
+<ul>
+<li><code>let measurer = publisher.measureInterval(using: RunLoop.main)</code><br />
+It will return a new publisher that emits values representing intervals between each consecutive value received from the source publisher.</li>
+</ul>
+<h2 id="sequence-operators"><a class="markdownIt-Anchor" href="#sequence-operators"></a> Sequence Operators</h2>
+<h3 id="min"><a class="markdownIt-Anchor" href="#min"></a> min</h3>
+<p>It will only relay the minimum value after the upstream publisher completes.<br />
+<img src="http://book.csl.cool/img/20220413153302.png" alt="" /></p>
+<h3 id="max"><a class="markdownIt-Anchor" href="#max"></a> max</h3>
+<p>It will only relay the maximum value after the upstream publisher completes.<br />
+<img src="http://book.csl.cool/img/20220413153652.png" alt="" /></p>
+<h3 id="first"><a class="markdownIt-Anchor" href="#first"></a> first</h3>
+<p>It will return the first value and instantly finish the subscription.<br />
+<img src="http://book.csl.cool/img/20220413154944.png" alt="" /></p>
+<h3 id="last"><a class="markdownIt-Anchor" href="#last"></a> last</h3>
+<p>It will only replay the last value after the upstream publisher finishes.<br />
+<img src="http://book.csl.cool/img/20220413155742.png" alt="" /></p>
+<h3 id="outputat"><a class="markdownIt-Anchor" href="#outputat"></a> output(at:)</h3>
+<p>It will only replay the value at the specified index of the upstream publisher’s values.<br />
+<img src="http://book.csl.cool/img/20220413160329.png" alt="" /></p>
+<h3 id="outputin"><a class="markdownIt-Anchor" href="#outputin"></a> output(in:)</h3>
+<p>It will only relay the upstream publisher’s values at the indices in the specified range.<br />
+<img src="http://book.csl.cool/img/20220413161416.png" alt="" /></p>
+<h3 id="count"><a class="markdownIt-Anchor" href="#count"></a> count()</h3>
+<p>It will only emit a number value representing the amount of the upstream publisher’s values.<br />
+<img src="http://book.csl.cool/img/20220413161637.png" alt="" /></p>
+<h3 id="contains"><a class="markdownIt-Anchor" href="#contains"></a> contains</h3>
+<ul>
+<li><code>contains(1)</code></li>
+<li><code>contains(where: &#123; $0 &gt; 99 &#125;)</code><br />
+It will emit a boolean value representing whether the values from the upstream publisher contain the specified value or have any value meets the condition.<br />
+<img src="http://book.csl.cool/img/20220415110521.png" alt="" /></li>
+</ul>
+<h3 id="allsatisfy"><a class="markdownIt-Anchor" href="#allsatisfy"></a> allSatisfy</h3>
+<p>It will emit a boolean values indicating whether all values emitted by the upstream publisher match that predicate.<br />
+<img src="http://book.csl.cool/img/20220415110815.png" alt="" /></p>
+<h3 id="reduce"><a class="markdownIt-Anchor" href="#reduce"></a> reduce</h3>
+<p>It will iteratively accumulate a new value based on the emissions of the upstream publisher.<br />
+<img src="http://book.csl.cool/img/20220415112634.png" alt="" /></p>
+<h2 id="networking"><a class="markdownIt-Anchor" href="#networking"></a> Networking</h2>
+<h3 id="datataskpublisher"><a class="markdownIt-Anchor" href="#datataskpublisher"></a> dataTaskPublisher</h3>
+<p>Converting a normal data task to a publisher.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">guard</span> <span class="keyword">let</span> url <span class="operator">=</span> <span class="type">URL</span>(string: <span class="string">&quot;https://github.com&quot;</span>) <span class="keyword">else</span> &#123; <span class="keyword">return</span> &#125;</span><br><span class="line"></span><br><span class="line"><span class="type">URLSession</span>.share</span><br><span class="line">  .dataTaskPublisher(for: url)</span><br></pre></td></tr></table></figure>
+<h3 id="decodetypedecoder"><a class="markdownIt-Anchor" href="#decodetypedecoder"></a> decode(type:decoder:)</h3>
+<p>Easily decoding the requested data from the data task publisher above.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">URLSession</span>.share</span><br><span class="line">  .dataTaskPublisher(for: url)</span><br><span class="line">  .decode(type: <span class="type">MyType</span>.<span class="keyword">self</span>, decoder: <span class="type">JSONDecoder</span>())</span><br></pre></td></tr></table></figure>
+<h2 id="debug"><a class="markdownIt-Anchor" href="#debug"></a> Debug</h2>
+<h3 id="print"><a class="markdownIt-Anchor" href="#print"></a> print</h3>
+<p>It will print all events of the upstream publisher. Contain subscription and value request events.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">(<span class="number">1</span><span class="operator">...</span><span class="number">3</span>).publisher</span><br><span class="line">  .print(<span class="string">&quot;number&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// number: receive subscription: (1...3)</span></span><br><span class="line"><span class="comment">// number: request unlimited</span></span><br><span class="line"><span class="comment">// number: receive value: (1)</span></span><br><span class="line"><span class="comment">// number: receive value: (2)</span></span><br><span class="line"><span class="comment">// number: receive value: (3)</span></span><br><span class="line"><span class="comment">// number: receive finished</span></span><br></pre></td></tr></table></figure>
+<h3 id="handleevents"><a class="markdownIt-Anchor" href="#handleevents"></a> handleEvents</h3>
+<p>Used to execute some side effects or monitor the publisher’s actual events.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">publisher</span><br><span class="line">  .handleEvents(receiveSubscription: &#123; <span class="keyword">_</span> <span class="keyword">in</span> </span><br><span class="line"></span><br><span class="line">  &#125;, receiveOutput: &#123; <span class="keyword">_</span> <span class="keyword">in</span> </span><br><span class="line"></span><br><span class="line">  &#125;, receiveCancel: &#123; </span><br><span class="line"></span><br><span class="line">  &#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="breakpointreceivesubscriptionreceiveoutputreceivecompletion"><a class="markdownIt-Anchor" href="#breakpointreceivesubscriptionreceiveoutputreceivecompletion"></a> breakpoint(receiveSubscription:receiveOutput:receiveCompletion:)</h3>
+<p>If events from the upstream publisher match one of these conditions, it will trigger a breakpoint to help you find out what is wrong.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.breakpoint(receiveOutput: &#123; value <span class="keyword">in</span> </span><br><span class="line">  <span class="keyword">return</span> value <span class="operator">&lt;</span> <span class="number">0</span> <span class="comment">// Expects the value isn&#x27;t less than zero.</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="timer"><a class="markdownIt-Anchor" href="#timer"></a> Timer</h2>
+<p>We usually need to repeatedly execute some operations when coding. Combine also provides some convenient approaches to help us create a timer publisher.​</p>
+<h3 id="using-runloop"><a class="markdownIt-Anchor" href="#using-runloop"></a> Using RunLoop</h3>
+<p>We all know that our applications are running in an endless loop on our devices. Of course, we can use this feature to implement a timer.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> runLoop <span class="operator">=</span> <span class="type">RunLoop</span>.main </span><br><span class="line"> </span><br><span class="line"><span class="keyword">let</span> subscription <span class="operator">=</span> runLoop.schedule( </span><br><span class="line">  after: runLoop.now, </span><br><span class="line">  interval: .seconds(<span class="number">1</span>), </span><br><span class="line">  tolerance: .milliseconds(<span class="number">100</span>) </span><br><span class="line">) &#123; </span><br><span class="line">  <span class="built_in">print</span>(<span class="string">&quot;Timer fired&quot;</span>) </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Cancels the subscription will terminate the timer.</span></span><br><span class="line">subscription.cancel()</span><br></pre></td></tr></table></figure>
+<h3 id="timer-2"><a class="markdownIt-Anchor" href="#timer-2"></a> Timer</h3>
+<p>Another common class used to create a timing loop is <code>Timer</code>. Combine provides a more modern API to handily create a timer without other setup boilerplate used in ordinary coding.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> publisher <span class="operator">=</span> <span class="type">Timer</span>.publish(every: <span class="number">1.0</span>, on: .main, in: .common)</span><br></pre></td></tr></table></figure>
+<p>The above publisher  is of type <code>ConnectablePublisher</code>, which is a variant of Publisher. It won’t start firing upon subscription until you explicitly call its <code>connect()</code> method.</p>
+<h3 id="using-dispatchqueue"><a class="markdownIt-Anchor" href="#using-dispatchqueue"></a> Using DispatchQueue</h3>
+<p>DispatchQueue provides an interface to start a timing loop. But unfortunately, Combine does not provide any convenient methods for it, so we have to write some complicated code to implement a timer.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> queue <span class="operator">=</span> <span class="type">DispatchQueue</span>.main</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> source <span class="operator">=</span> <span class="type">PassthroughSubject</span>&lt;<span class="type">Int</span>, <span class="type">Never</span>&gt;()</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> counter <span class="operator">=</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> cancelable <span class="operator">=</span> queue.schedule(</span><br><span class="line">  after: queue.now,</span><br><span class="line">  interval: .seconds(<span class="number">1</span>)</span><br><span class="line">) &#123;</span><br><span class="line">  source.send(counter)</span><br><span class="line">  counter <span class="operator">+=</span> <span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> subscription <span class="operator">=</span> source.sink &#123;</span><br><span class="line">  <span class="built_in">print</span>(<span class="string">&quot;Timer emitted <span class="subst">\(<span class="variable">$0</span>)</span>&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="key-value-observing"><a class="markdownIt-Anchor" href="#key-value-observing"></a> Key-Value Observing</h2>
+<p>KVO has always been an essential component in Objective-C. We can use it to observe value changes of properties of KVO-compliant objects.</p>
+<h3 id="publisherforoptions"><a class="markdownIt-Anchor" href="#publisherforoptions"></a> publisher(for:options:)</h3>
+<p>For a KVO-compliant object, you can directly call its <code>publisher</code> method with a key path of the property you want to observe to observe value changes of the property.</p>
+<p>Besides classes based on Objective-C, customized classes we declare in Swift cannot be observed by KVO. These classes require to satisfy some requirements.​</p>
+<ul>
+<li>The class needs conforming to <code>NSObject</code> protocol.</li>
+<li>The properties you want to observe must be marked with <code>@objc dynamic</code>.</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Storage</span>: <span class="title class_ inherited__">NSObject</span> &#123;</span><br><span class="line">  <span class="keyword">@objc</span> <span class="keyword">dynamic</span> <span class="keyword">var</span> size: <span class="type">Int</span> <span class="operator">=</span> <span class="number">0</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> storage <span class="operator">=</span> <span class="type">Storage</span>()</span><br><span class="line"></span><br><span class="line">storage.publisher(for: \.size)</span><br><span class="line">  .sink &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;The size of the storage changes to <span class="subst">\(<span class="variable">$0</span>)</span>&quot;</span>)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">storage.size <span class="operator">=</span> <span class="number">100</span></span><br><span class="line">storage.size <span class="operator">=</span> <span class="number">200</span></span><br></pre></td></tr></table></figure>
+<h3 id="observedobject"><a class="markdownIt-Anchor" href="#observedobject"></a> ObservedObject</h3>
+<p>A Swift class conforming to <code>ObservedObject</code> protocol will get a property <code>objectWillChange</code> of type Publisher. You need to call the objectWillChange’s <code>send()</code> method when you think of the object’s value changed. In most cases, properties value influences the whole object’s value, so we can invoke the <code>send()</code> method in property observer <code>didSet</code>.  Fortunately, Combine provides a property wrapper <code>@Published</code> to help us simplify these boilerplate code.<br />
+Every property marked with <code>@Published</code> will trigger the objectWillChange’s <code>send</code> method when their values change.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Storage</span>: <span class="title class_ inherited__">ObservedObject</span> &#123;</span><br><span class="line">  <span class="meta">@Published</span> <span class="keyword">var</span> size: <span class="type">Int</span> <span class="operator">=</span> <span class="number">0</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> storage <span class="operator">=</span> <span class="type">Storage</span>()</span><br><span class="line">storage.objectWillChange.sink &#123;</span><br><span class="line">  <span class="built_in">print</span>(<span class="string">&quot;storage will change&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">storage.size <span class="operator">=</span> <span class="number">100</span></span><br><span class="line">storage.size <span class="operator">=</span> <span class="number">200</span></span><br></pre></td></tr></table></figure>
+<h2 id="resource-management"><a class="markdownIt-Anchor" href="#resource-management"></a> Resource Management</h2>
+<p>Publishers are usually structures. A publisher of value type would be copied when passed to a method or assigned to another variable. Multiple subscribers that subscribe to the same publisher will also trigger all values that are repeatedly emitted.</p>
+<p>If the publisher executes some resource-intensive tasks(like data decoding, requesting remote data), repeatedly emitting values would result in performance issues. If we can use these values repeatedly, the problem will be solved.</p>
+<h3 id="share"><a class="markdownIt-Anchor" href="#share"></a> share()</h3>
+<p>The purpose of this operator is to let you obtain a publisher by <strong>reference</strong> rather than by <strong>value</strong>. Then, when subscribed by multiple subscribers, a publisher will never be copied many times.</p>
+<h3 id="multicast_"><a class="markdownIt-Anchor" href="#multicast_"></a> multicast(_😃</h3>
+<p>Sometimes we want to share a subscription to new subscribers and replay emitted values. Other reactive frameworks usually provide a <code>shareReplay</code> method to do this. Unfortunately, Combine does not provide a similar one.  But Swift gave us another method called <code>multicast</code> to deal with this situation.</p>
+<p><code>ulticast</code> will use a subject to relay the values of the upstream publisher and return a new publisher of the <code>ConnectablePublisher</code> type. The connectable publisher does not start emitting values until you call its <code>connect</code> method. This gives you plenty of time to set up all the subscribers you need before connecting it to the upstream publisher and starting work.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> subject <span class="operator">=</span> <span class="type">PassthroughSubject</span>&lt;<span class="type">Data</span>, <span class="type">URLError</span>&gt;()</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> multicasted <span class="operator">=</span> <span class="type">URLSession</span>.shared</span><br><span class="line">  .dataTaskPublisher(for: <span class="type">URL</span>(string: <span class="string">&quot;https://www.github.com&quot;</span>)<span class="operator">!</span>)</span><br><span class="line">  .map(\.data)</span><br><span class="line">  multicast(subject: subject)</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> sub1 <span class="operator">=</span> multicasted</span><br><span class="line">  .sink(</span><br><span class="line">    receiveCompletion: &#123; <span class="keyword">_</span> <span class="keyword">in</span> &#125;</span><br><span class="line">    receiveValue: &#123; <span class="built_in">print</span>(<span class="string">&quot;1: <span class="subst">\(<span class="variable">$0</span>)</span>&quot;</span>)&#125;</span><br><span class="line">  )</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> sub2 <span class="operator">=</span> multicasted</span><br><span class="line">  .sink(</span><br><span class="line">    receiveCompletion: &#123; <span class="keyword">_</span> <span class="keyword">in</span> &#125;</span><br><span class="line">    receiveValue: &#123; <span class="built_in">print</span>(<span class="string">&quot;2: <span class="subst">\(<span class="variable">$0</span>)</span>&quot;</span>) &#125;</span><br><span class="line">  )</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> cancelable <span class="operator">=</span> multicasted.connect()</span><br></pre></td></tr></table></figure>
+<h3 id="future"><a class="markdownIt-Anchor" href="#future"></a> Future</h3>
+<p>Future is a kind of publisher that provides a block with a promise parameter. In the block, you can call the promise with a value, either a failure or a finished event. So Future is usually used in events that only need to send a value or return an error, such as network request.<br />
+The other special characteristic is that Future is of class of reference type rather than struct of value type.<br />
+A future will start immediately when created, and its values will be cached to provide for other new subscribers, rather than calculating repeatedly.</p>
+<h2 id="error-handling"><a class="markdownIt-Anchor" href="#error-handling"></a> Error Handling</h2>
+<p>When declaring a publisher type, we notice that it requires two associated types, Output and Error. The Output represents the type of emitted values from the publisher, and the Error represents the type of the error value carried by a failure completion event.</p>
+<p>In practice, some publishers may never emit a failure event, such as a button click. And more situations are fallible, such as network requests, we should properly deal with these error events to display a user-friendly failure page.</p>
+<p>Combine provides sufficient operators and types to cover these scenarios.  In this section, we start with never-failing publishers. We have used them many times above.</p>
+<h3 id="never"><a class="markdownIt-Anchor" href="#never"></a> Never</h3>
+<p>A <code>Just</code> publisher is a never-failing publisher that just returns a certain value. Combine provides many variations of common methods for never-failing publishers. Using <code>sink</code> method to subscribe a never-failing publisher can ignore the completion block, and more operators we will talk about later.</p>
+<ul>
+<li><code>setFailureType</code><br />
+It can convert an infallible publisher to be fallible.</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">MyError</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> publisher <span class="operator">=</span> <span class="type">Just</span>(<span class="string">&quot;Hello&quot;</span>) <span class="comment">// Publisher&lt;String, Never&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> newPublisher <span class="operator">=</span> <span class="type">Just</span>(<span class="string">&quot;Hello&quot;</span>)</span><br><span class="line">  .setFailureType(to: <span class="type">MyError</span>.<span class="keyword">self</span>)  <span class="comment">// Publisher&lt;String, MyError&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>assign(to:on:)</code><br />
+Binding values to a property. It can only be called by never-failing publishers.</li>
+</ul>
+<blockquote>
+<p>The parameter at <code>on</code> argument will be captured by the subscription. Be careful strong reference cycles.</p>
+</blockquote>
+<ul>
+<li><code>assertNoFailure</code><br />
+​Add an assertion for your publisher that you think does not return errors. If the publisher emits a failure event, the application in the development environment will throw a fatal error exception.​</li>
+</ul>
+<h3 id="dealing-with-errors"><a class="markdownIt-Anchor" href="#dealing-with-errors"></a> Dealing with Errors</h3>
+<ul>
+<li>
+<p><code>try*</code><br />
+In Combine, many value transforming operators have a <code>try</code> variation for executing methods that may throw errors. The new returned publisher will be fallible with error type equal to the type of errors thrown in the bloc.</p>
+</li>
+<li>
+<p><code>mapError</code><br />
+Used to convert error types in failure events.</p>
+</li>
+<li>
+<p><code>retry</code><br />
+​A publisher sends a failure event that does not finish immediately, but retry multiple times.</p>
+</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Api</span></span><br><span class="line">  .requestUserInfo()</span><br><span class="line">  .retry(<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>replaceError(with:)</code><br />
+Replaces errors with default values, then the publisher will become infallible.</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Api</span></span><br><span class="line">  .requestAvatar()</span><br><span class="line">  .replaceError(with: <span class="type">UIImage</span>(named: <span class="string">&quot;avatar_placeholder&quot;</span>)<span class="operator">!</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="schedulers"><a class="markdownIt-Anchor" href="#schedulers"></a> Schedulers</h2>
+<p>A <strong>schedular</strong> is a protocol that defines when and how to execute a closure.</p>
+<blockquote>
+<p>Note, a scheduler is not equal to a thread.</p>
+</blockquote>
+<h3 id="where-to-use-a-scheduler"><a class="markdownIt-Anchor" href="#where-to-use-a-scheduler"></a> Where to use a scheduler?</h3>
+<p>We have two fundamental scenarios where we should specify schedulers.</p>
+<ul>
+<li><code>subscribe(on:options:)</code>
+<ul>
+<li>Create subscriptions and transforming operations on the specified scheduler.</li>
+</ul>
+</li>
+<li><code>receive(on:options:)</code>
+<ul>
+<li>Receive values on the specified scheduler.</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">(<span class="number">1</span><span class="operator">...</span><span class="number">1</span>)</span><br><span class="line">    .publisher</span><br><span class="line">    .handleEvents(receiveOutput: &#123; <span class="keyword">_</span> <span class="keyword">in</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;handle in thread <span class="subst">\(Thread.current)</span>&quot;</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">    .subscribe(on: <span class="type">DispatchQueue</span>.main)</span><br><span class="line">    .receive(on: <span class="type">DispatchQueue</span>.global())</span><br><span class="line">    .sink &#123; <span class="keyword">_</span> <span class="keyword">in</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;sink in thread <span class="subst">\(Thread.current)</span>&quot;</span>)</span><br><span class="line">    &#125;.store(in: <span class="operator">&amp;</span>disposeBag.cancellations)</span><br><span class="line"></span><br><span class="line"><span class="comment">// handle in thread &lt;_NSMainThread: 0x60000343cb40&gt;&#123;number = 1, name = main&#125;</span></span><br><span class="line"><span class="comment">// sink in thread &lt;NSThread: 0x600003456800&gt;&#123;number = 3, name = (null)&#125;</span></span><br></pre></td></tr></table></figure>
+<p>​As you can see, we manipulate the subscriber that fetches values in the main thread and receives values in the global thread.</p>
+<p>Furthermore, there are some operators using <code>Scheduler</code> as their parameters.</p>
+<ul>
+<li><code>debounce(for:scheduler:options:)</code></li>
+<li><code>delay(for:tolerance:scheduler:options:)</code></li>
+<li><code>measureInterval(using:options:)</code></li>
+<li><code>throttle(for:scheduler:latest:)</code></li>
+<li><code>timeout(_:scheduler:options:customError:)</code></li>
+</ul>
+<h3 id="implementations-of-scheduler"><a class="markdownIt-Anchor" href="#implementations-of-scheduler"></a> Implementations of Scheduler</h3>
+<p>Apple provides four concrete implementations for Scheduler protocol.</p>
+<ul>
+<li><code>ImmediateScheduler</code>
+<ul>
+<li>A simple scheduler that executes code immediately on the current thread.</li>
+</ul>
+</li>
+<li><code>RunLoop</code><br />
+​- Tied to the thread object of the foundation.
+<ul>
+<li>Nowadays, RunLoop is a less useful class to manage threads. We prefer to use DispatchQueue to manipulate how to execute tasks. But in some specific situations, like Timer, RunLoop is also needed.</li>
+</ul>
+</li>
+<li><code>DispatchQueue</code>
+<ul>
+<li>Can either be serial or concurrent.</li>
+</ul>
+</li>
+<li><code>OperationQueue</code>
+<ul>
+<li>A queue that regulates the execution of work items.</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>Please note that the values you receive on concurrent schedulers are unsorted.</p>
+</blockquote>
+<h2 id="custom-publishers-and-operators"><a class="markdownIt-Anchor" href="#custom-publishers-and-operators"></a> Custom Publishers and Operators</h2>
+<p>We have multiple approaches to custom our own publishers and operators based on existing Combine components.</p>
+<ul>
+<li>Extends methods for <code>Publisher</code>.</li>
+<li>Implements a type in the <code>Publishers</code> namespace with a <code>Subscription</code> that produces values.</li>
+<li>Same as above, but with a subscription that transforms values from upstream publishers.</li>
+</ul>
+<h3 id="1-extends-methods-for-publisher"><a class="markdownIt-Anchor" href="#1-extends-methods-for-publisher"></a> 1. Extends Methods for Publisher</h3>
+<p>The simplest way to create an operator is to extend a method for the protocol <code>Publisher</code>.</p>
+<p>Now we practice to create a <code>unwrap</code> operator that filters all nil values form the upstream publisher, like <code>compactMap</code> but without any block and more readable.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extension</span> <span class="title class_">Publisher</span> &#123;</span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">unwrap</span>&lt;<span class="type">T</span>&gt;() -&gt; <span class="type">AnyPublisher</span>&lt;<span class="type">T</span>, <span class="type">Failure</span>&gt; <span class="keyword">where</span> <span class="type">Output</span> <span class="operator">==</span> <span class="type">Optional</span>&lt;<span class="type">T</span>&gt; &#123;</span><br><span class="line">        compactMap &#123; <span class="variable">$0</span> &#125;.eraseToAnyPublisher()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">[<span class="number">0</span>, <span class="literal">nil</span>, <span class="number">2</span>]</span><br><span class="line">    .publisher</span><br><span class="line">    .unwrap()</span><br><span class="line">    .sink &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="variable">$0</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 0</span></span><br><span class="line"><span class="comment">// 2</span></span><br></pre></td></tr></table></figure>
+<p>Erasing the new publisher’s type can hide redundant type details and improve extendability.</p>
+<h3 id="creating-a-publisher-that-produces-values"><a class="markdownIt-Anchor" href="#creating-a-publisher-that-produces-values"></a> Creating a Publisher that produces values</h3>
+<p>We have talked about the relationship between Publisher, Subscriber, and Subscription above.<br />
+In Combine, we always write code about Publisher or Subscriber and hardly make contact with Subscription, but Subscription is the unsung hero of Combine.</p>
+<p>A subscription bridges a publisher and a subscriber and captures the subscriber in order to avoid it being released. This is why we should store the subscription into a set by the <code>store(in:)</code> method.</p>
+<p>Today, we ready to create a <code>DispatchTimerPublisher</code> that will emit time values according to a specified configuration.</p>
+<ul>
+<li>First, we define a structure <code>DispatchTimerConfiguration</code> representing our timer’s configuration.</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">DispatchTimerConfiguration</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> queue: <span class="type">DispatchQueue</span>?</span><br><span class="line">    <span class="keyword">let</span> interval: <span class="type">DispatchTimeInterval</span></span><br><span class="line">    <span class="keyword">let</span> leeway: <span class="type">DispatchTimeInterval</span></span><br><span class="line">    <span class="keyword">let</span> times: <span class="type">Subscribers</span>.<span class="type">Demand</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Then, we declare our new publisher <code>DispatchTimer</code> in the Publishers namespace.</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extension</span> <span class="title class_">Publishers</span> &#123;</span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">DispatchTimer</span>: <span class="title class_ inherited__">Publisher</span> &#123;</span><br><span class="line">        <span class="keyword">typealias</span> <span class="type">Output</span> <span class="operator">=</span> <span class="type">DispatchTime</span></span><br><span class="line">        <span class="keyword">typealias</span> <span class="type">Failure</span> <span class="operator">=</span> <span class="type">Never</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">let</span> configuration: <span class="type">DispatchTimerConfiguration</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">init</span>(<span class="params">configuration</span>: <span class="type">DispatchTimerConfiguration</span>) &#123;</span><br><span class="line">            <span class="keyword">self</span>.configuration <span class="operator">=</span> configuration</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">func</span> <span class="title function_">receive</span>&lt;<span class="type">S</span>&gt;(<span class="params">subscriber</span>: <span class="type">S</span>)</span><br><span class="line">        <span class="keyword">where</span></span><br><span class="line">            <span class="type">S</span> : <span class="type">Subscriber</span>,</span><br><span class="line">            <span class="type">Never</span> <span class="operator">==</span> <span class="type">S</span>.<span class="type">Failure</span>,</span><br><span class="line">            <span class="type">DispatchTime</span> <span class="operator">==</span> <span class="type">S</span>.<span class="type">Input</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">let</span> subscription <span class="operator">=</span> <span class="type">DispatchTimerSubscription</span>(</span><br><span class="line">                subscriber: subscriber,</span><br><span class="line">                configuration: configuration</span><br><span class="line">            )</span><br><span class="line">            subscriber.receive(subscription: subscription)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p>As you can see, the core code is the <code>receive(subscriber:)</code> method. We should pass a Subscription to the received subscriber, then the subscriber will use it to request values.</p>
+</li>
+<li>
+<p>Final, the most important part of our DispatchTimer is the DispatchTimerSubscription.</p>
+</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">DispatchTimerSubscription</span>&lt;<span class="type">S</span>: <span class="type">Subscriber</span>&gt;:</span><br><span class="line">    <span class="title class_ inherited__">Subscription</span> <span class="keyword">where</span> <span class="title class_ inherited__">S</span>.<span class="title class_ inherited__">Input</span> == <span class="title class_ inherited__">DispatchTime</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">let</span> configuration: <span class="type">DispatchTimerConfiguration</span></span><br><span class="line">    <span class="keyword">var</span> times: <span class="type">Subscribers</span>.<span class="type">Demand</span></span><br><span class="line">    <span class="keyword">var</span> requested: <span class="type">Subscribers</span>.<span class="type">Demand</span> <span class="operator">=</span> .none</span><br><span class="line">    <span class="keyword">var</span> source: <span class="type">DispatchSourceTimer</span>?</span><br><span class="line">    <span class="keyword">var</span> subscriber: <span class="type">S</span>?</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">init</span>(</span><br><span class="line">        <span class="params">subscriber</span>: <span class="type">S</span>,</span><br><span class="line">        <span class="params">configuration</span>: <span class="type">DispatchTimerConfiguration</span></span><br><span class="line">    ) &#123;</span><br><span class="line">        <span class="keyword">self</span>.configuration <span class="operator">=</span> configuration</span><br><span class="line">        <span class="keyword">self</span>.subscriber <span class="operator">=</span> subscriber</span><br><span class="line">        <span class="keyword">self</span>.times <span class="operator">=</span> configuration.times</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">request</span>(<span class="keyword">_</span> <span class="params">demand</span>: <span class="type">Subscribers</span>.<span class="type">Demand</span>) &#123;</span><br><span class="line">        <span class="keyword">guard</span> times <span class="operator">&gt;</span> .none <span class="keyword">else</span> &#123;</span><br><span class="line">            subscriber<span class="operator">?</span>.receive(completion: .finished)</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        requested <span class="operator">+=</span> demand</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> source <span class="operator">==</span> <span class="literal">nil</span>, requested <span class="operator">&gt;</span> .none &#123;</span><br><span class="line">            <span class="keyword">let</span> source <span class="operator">=</span> <span class="type">DispatchSource</span>.makeTimerSource(queue: configuration.queue)</span><br><span class="line">            </span><br><span class="line">            source.schedule(</span><br><span class="line">                deadline: .now() <span class="operator">+</span> configuration.interval,</span><br><span class="line">                repeating: configuration.interval,</span><br><span class="line">                leeway: configuration.leeway</span><br><span class="line">            )</span><br><span class="line">            </span><br><span class="line">            source.setEventHandler &#123; [<span class="keyword">weak</span> <span class="keyword">self</span>] <span class="keyword">in</span></span><br><span class="line">                <span class="keyword">guard</span></span><br><span class="line">                    <span class="keyword">let</span> <span class="keyword">self</span> <span class="operator">=</span> <span class="keyword">self</span>,</span><br><span class="line">                    <span class="keyword">self</span>.requested <span class="operator">&gt;</span> .none</span><br><span class="line">                <span class="keyword">else</span> &#123; <span class="keyword">return</span> &#125;</span><br><span class="line">                </span><br><span class="line">                <span class="keyword">self</span>.requested <span class="operator">-=</span> .max(<span class="number">1</span>)</span><br><span class="line">                <span class="keyword">self</span>.times <span class="operator">-=</span> .max(<span class="number">1</span>)</span><br><span class="line">                </span><br><span class="line">                <span class="keyword">_</span> <span class="operator">=</span> <span class="keyword">self</span>.subscriber<span class="operator">?</span>.receive(.now())</span><br><span class="line">                </span><br><span class="line">                <span class="keyword">if</span> <span class="keyword">self</span>.times <span class="operator">==</span> .none &#123;</span><br><span class="line">                    <span class="keyword">self</span>.subscriber<span class="operator">?</span>.receive(completion: .finished)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            source.activate()</span><br><span class="line">            <span class="keyword">self</span>.source <span class="operator">=</span> source</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">cancel</span>() &#123;</span><br><span class="line">        source <span class="operator">=</span> <span class="literal">nil</span></span><br><span class="line">        subscriber <span class="operator">=</span> <span class="literal">nil</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>There are two methods we have to implement, <code>cancel</code> and <code>request(_:)</code>
+<ul>
+<li>The method <code>cancel</code>, as it literally means, is used to cancel the subscription. Normally, we should break the connection between the publisher and the subscriber and do not hold the captured subscriber.</li>
+<li>The method <code>request(_:)</code> is the core. We will manipulate the generated values here.</li>
+</ul>
+</li>
+</ul>
+<p>For using easily, we can extend a shortcut method for our publisher <code>DispatchTimer</code>.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extension</span> <span class="title class_">Publishers</span> &#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">func</span> <span class="title function_">timer</span>(</span><br><span class="line">        <span class="params">queue</span>: <span class="type">DispatchQueue</span>? <span class="operator">=</span> <span class="literal">nil</span>,</span><br><span class="line">        <span class="params">interval</span>: <span class="type">DispatchTimeInterval</span>,</span><br><span class="line">        <span class="params">leeway</span>: <span class="type">DispatchTimeInterval</span> <span class="operator">=</span> .nanoseconds(<span class="number">0</span>),</span><br><span class="line">        <span class="params">times</span>: <span class="type">Subscribers</span>.<span class="type">Demand</span> <span class="operator">=</span> .unlimited</span><br><span class="line">    ) -&gt; <span class="type">Publishers</span>.<span class="type">DispatchTimer</span> &#123;</span><br><span class="line">        <span class="type">Publishers</span>.<span class="type">DispatchTimer</span>(configuration: .<span class="keyword">init</span>(</span><br><span class="line">            queue: queue,</span><br><span class="line">            interval: interval,</span><br><span class="line">            leeway: leeway,</span><br><span class="line">            times: times</span><br><span class="line">        ))</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="publishers-transforming-values"><a class="markdownIt-Anchor" href="#publishers-transforming-values"></a> Publishers Transforming Values</h3>
+<p>In RxSwift, we can use the operator <code>shareReplay</code> to cache and replay emitted values for new coming subscribers to avoid recomputing the same data. Unfortunately, Combine does not provide us with a similar one, but we can implement it ourselves.</p>
+<p>Our <code>ShareReplay</code> design is like this.</p>
+<ol>
+<li>Every subscriber has an individual subscription.</li>
+<li>A new ‘ShareReplay’ publisher will wrap the upstream publisher and store all subscriptions received by subscribers.</li>
+<li>The <code>ShareReplay</code> publisher will relay the upstream publisher’s value to subscribers and cache these values.</li>
+<li>If a new subscriber connects, the publisher will replay the cached values.</li>
+</ol>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fileprivate</span> <span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">ShareReplaySubscription</span>&lt;<span class="type">Output</span>, <span class="type">Failure</span>: <span class="type">Error</span>&gt;: <span class="title class_ inherited__">Subscription</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> capacity: <span class="type">Int</span></span><br><span class="line">    <span class="keyword">var</span> subscriber: <span class="type">AnySubscriber</span>&lt;<span class="type">Output</span>, <span class="type">Failure</span>&gt;?</span><br><span class="line">    <span class="keyword">var</span> demand: <span class="type">Subscribers</span>.<span class="type">Demand</span> <span class="operator">=</span> .none</span><br><span class="line">    <span class="keyword">var</span> buffer: [<span class="type">Output</span>]</span><br><span class="line">    <span class="keyword">var</span> completion: <span class="type">Subscribers</span>.<span class="type">Completion</span>&lt;<span class="type">Failure</span>&gt;?</span><br><span class="line"></span><br><span class="line">    <span class="keyword">init</span>&lt;<span class="type">S</span>&gt;(</span><br><span class="line">        <span class="params">subscriber</span>: <span class="type">S</span>,</span><br><span class="line">        <span class="params">replay</span>: [<span class="type">Output</span>],</span><br><span class="line">        <span class="params">capacity</span>: <span class="type">Int</span>,</span><br><span class="line">        <span class="params">completion</span>: <span class="type">Subscribers</span>.<span class="type">Completion</span>&lt;<span class="type">Failure</span>&gt;?</span><br><span class="line">    ) <span class="keyword">where</span> <span class="type">S</span>: <span class="type">Subscriber</span>, <span class="type">Failure</span> <span class="operator">==</span> <span class="type">S</span>.<span class="type">Failure</span>, <span class="type">Output</span> <span class="operator">==</span> <span class="type">S</span>.<span class="type">Input</span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.subscriber <span class="operator">=</span> <span class="type">AnySubscriber</span>(subscriber)</span><br><span class="line">        <span class="keyword">self</span>.buffer <span class="operator">=</span> replay</span><br><span class="line">        <span class="keyword">self</span>.capacity <span class="operator">=</span> capacity</span><br><span class="line">        <span class="keyword">self</span>.completion <span class="operator">=</span> completion</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">func</span> <span class="title function_">complete</span>(<span class="params">with</span> <span class="params">completion</span>: <span class="type">Subscribers</span>.<span class="type">Completion</span>&lt;<span class="type">Failure</span>&gt;) &#123;</span><br><span class="line">        <span class="keyword">guard</span> <span class="keyword">let</span> subscriber <span class="operator">=</span> subscriber <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">self</span>.subscriber <span class="operator">=</span> <span class="literal">nil</span></span><br><span class="line">        <span class="keyword">self</span>.completion <span class="operator">=</span> <span class="literal">nil</span></span><br><span class="line">        <span class="keyword">self</span>.buffer.removeAll()</span><br><span class="line">        subscriber.receive(completion: completion)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">func</span> <span class="title function_">emitAsNeeded</span>() &#123;</span><br><span class="line">        <span class="keyword">guard</span> <span class="keyword">let</span> subscriber <span class="operator">=</span> subscriber <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> <span class="keyword">self</span>.demand <span class="operator">&gt;</span> .none <span class="operator">&amp;&amp;</span> <span class="operator">!</span>buffer.isEmpty &#123;</span><br><span class="line">            <span class="keyword">self</span>.demand <span class="operator">-=</span> .max(<span class="number">1</span>)</span><br><span class="line">            <span class="keyword">let</span> nextDemand <span class="operator">=</span> subscriber.receive(buffer.removeFirst())</span><br><span class="line">            <span class="keyword">if</span> nextDemand <span class="operator">!=</span> .none &#123;</span><br><span class="line">                <span class="keyword">self</span>.demand <span class="operator">+=</span> nextDemand</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">let</span> completion <span class="operator">=</span> completion &#123;</span><br><span class="line">            complete(with: completion)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">request</span>(<span class="keyword">_</span> <span class="params">demand</span>: <span class="type">Subscribers</span>.<span class="type">Demand</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> demand <span class="operator">!=</span> .none &#123;</span><br><span class="line">            <span class="keyword">self</span>.demand <span class="operator">+=</span> demand</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        emitAsNeeded()</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">cancel</span>() &#123;</span><br><span class="line">        complete(with: .finished)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">receive</span>(<span class="keyword">_</span> <span class="params">input</span>: <span class="type">Output</span>) &#123;</span><br><span class="line">        <span class="keyword">guard</span> subscriber <span class="operator">!=</span> <span class="literal">nil</span> <span class="keyword">else</span> &#123; <span class="keyword">return</span> &#125;</span><br><span class="line">        </span><br><span class="line">        buffer.append(input)</span><br><span class="line">        <span class="keyword">if</span> buffer.count <span class="operator">&gt;</span> capacity &#123;</span><br><span class="line">            buffer.removeFirst()</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        emitAsNeeded()</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">receive</span>(<span class="params">completion</span>: <span class="type">Subscribers</span>.<span class="type">Completion</span>&lt;<span class="type">Failure</span>&gt;) &#123;</span><br><span class="line">        <span class="keyword">guard</span> <span class="keyword">let</span> subscriber <span class="operator">=</span> subscriber <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">self</span>.subscriber <span class="operator">=</span> <span class="literal">nil</span></span><br><span class="line">        <span class="keyword">self</span>.buffer.removeAll()</span><br><span class="line">        subscriber.receive(completion: completion)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">extension</span> <span class="title class_">Publishers</span> &#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">ShareReplay</span>&lt;<span class="type">Upstream</span>: <span class="type">Publisher</span>&gt;: <span class="title class_ inherited__">Publisher</span> &#123;</span><br><span class="line">        <span class="keyword">typealias</span> <span class="type">Output</span> <span class="operator">=</span> <span class="type">Upstream</span>.<span class="type">Output</span></span><br><span class="line">        <span class="keyword">typealias</span> <span class="type">Failure</span> <span class="operator">=</span> <span class="type">Upstream</span>.<span class="type">Failure</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">let</span> lock <span class="operator">=</span> <span class="type">NSRecursiveLock</span>()</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">let</span> upstream: <span class="type">Upstream</span></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">let</span> capacity: <span class="type">Int</span></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">var</span> replay <span class="operator">=</span> [<span class="type">Output</span>]()</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">var</span> subscriptions <span class="operator">=</span> [<span class="type">ShareReplaySubscription</span>&lt;<span class="type">Output</span>, <span class="type">Failure</span>&gt;]()</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">var</span> completion: <span class="type">Subscribers</span>.<span class="type">Completion</span>&lt;<span class="type">Failure</span>&gt;?</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">init</span>(<span class="params">upstream</span>: <span class="type">Upstream</span>, <span class="params">capacity</span>: <span class="type">Int</span>) &#123;</span><br><span class="line">            <span class="keyword">self</span>.upstream <span class="operator">=</span> upstream</span><br><span class="line">            <span class="keyword">self</span>.capacity <span class="operator">=</span> capacity</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">func</span> <span class="title function_">relay</span>(<span class="keyword">_</span> <span class="params">value</span>: <span class="type">Output</span>) &#123;</span><br><span class="line">            lock.lock()</span><br><span class="line">            <span class="keyword">defer</span> &#123; lock.unlock() &#125;</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">guard</span> completion <span class="operator">==</span> <span class="literal">nil</span> <span class="keyword">else</span> &#123; <span class="keyword">return</span> &#125;</span><br><span class="line">            </span><br><span class="line">            </span><br><span class="line">            replay.append(value)</span><br><span class="line">            <span class="keyword">if</span> replay.count <span class="operator">&gt;</span> capacity &#123;</span><br><span class="line">                replay.removeFirst()</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            subscriptions.forEach &#123;</span><br><span class="line">                <span class="variable">$0</span>.receive(value)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">func</span> <span class="title function_">complete</span>(<span class="keyword">_</span> <span class="params">completion</span>: <span class="type">Subscribers</span>.<span class="type">Completion</span>&lt;<span class="type">Failure</span>&gt;) &#123;</span><br><span class="line">            lock.lock()</span><br><span class="line">            <span class="keyword">defer</span> &#123; lock.unlock() &#125;</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">self</span>.completion <span class="operator">=</span> completion</span><br><span class="line">            </span><br><span class="line">            subscriptions.forEach &#123;</span><br><span class="line">                <span class="variable">$0</span>.receive(completion: completion)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">func</span> <span class="title function_">receive</span>&lt;<span class="type">S</span>&gt;(<span class="params">subscriber</span>: <span class="type">S</span>)</span><br><span class="line">        <span class="keyword">where</span></span><br><span class="line">            <span class="type">S</span> : <span class="type">Subscriber</span>,</span><br><span class="line">            <span class="type">Upstream</span>.<span class="type">Failure</span> <span class="operator">==</span> <span class="type">S</span>.<span class="type">Failure</span>,</span><br><span class="line">            <span class="type">Upstream</span>.<span class="type">Output</span> <span class="operator">==</span> <span class="type">S</span>.<span class="type">Input</span></span><br><span class="line">        &#123;</span><br><span class="line">            lock.lock()</span><br><span class="line">            <span class="keyword">defer</span> &#123; lock.unlock() &#125;</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">let</span> subscription <span class="operator">=</span> <span class="type">ShareReplaySubscription</span>(</span><br><span class="line">                subscriber: subscriber,</span><br><span class="line">                replay: replay,</span><br><span class="line">                capacity: capacity,</span><br><span class="line">                completion: completion)</span><br><span class="line">            </span><br><span class="line">            subscriptions.append(subscription)</span><br><span class="line">            subscriber.receive(subscription: subscription)</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">guard</span> subscriptions.count <span class="operator">==</span> <span class="number">1</span> <span class="keyword">else</span> &#123; <span class="keyword">return</span> &#125;</span><br><span class="line">            <span class="keyword">let</span> sink <span class="operator">=</span> <span class="type">AnySubscriber</span> &#123;</span><br><span class="line">                <span class="variable">$0</span>.request(.unlimited)</span><br><span class="line">            &#125; receiveValue: &#123; [<span class="keyword">weak</span> <span class="keyword">self</span>] (value: <span class="type">Output</span>) -&gt; <span class="type">Subscribers</span>.<span class="type">Demand</span> <span class="keyword">in</span></span><br><span class="line">                <span class="keyword">self</span><span class="operator">?</span>.relay(value)</span><br><span class="line">                <span class="keyword">return</span> .none</span><br><span class="line">            &#125; receiveCompletion: &#123; [<span class="keyword">weak</span> <span class="keyword">self</span>] <span class="keyword">in</span></span><br><span class="line">                <span class="keyword">self</span><span class="operator">?</span>.complete(<span class="variable">$0</span>)</span><br><span class="line">            &#125;</span><br><span class="line">            upstream.subscribe(sink)</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>The subscribe(subscriber:) method of Publisher doesn’t return a Callable value. When we use this method to subscribe to a Subject, you will find that the subscriber is not released before receiving a completion event, even if the publisher is not captured.</p>
+</blockquote>
+<p>A test subscriber detecting whether invoking the deinit method.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MySubscriber</span>&lt;<span class="type">T</span>&gt;: <span class="title class_ inherited__">Subscriber</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> combineIdentifier <span class="operator">=</span> <span class="type">CombineIdentifier</span>()</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">typealias</span> <span class="type">Input</span> <span class="operator">=</span> <span class="type">T</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">typealias</span> <span class="type">Failure</span> <span class="operator">=</span> <span class="type">Never</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">receive</span>(<span class="params">subscription</span>: <span class="type">Subscription</span>) &#123;</span><br><span class="line">        subscription.request(.unlimited)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">receive</span>(<span class="keyword">_</span> <span class="params">input</span>: <span class="type">T</span>) -&gt; <span class="type">Subscribers</span>.<span class="type">Demand</span> &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;receive value <span class="subst">\(input)</span>&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> .none</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">receive</span>(<span class="params">completion</span>: <span class="type">Subscribers</span>.<span class="type">Completion</span>&lt;<span class="type">Never</span>&gt;) &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;receive completion <span class="subst">\(completion)</span>&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">deinit</span> &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;subscriber deinit&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Executing below code, the console doesn’t print any deinit message. No object hold the publisher or subscriber, but they are not be released.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">test</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> subscriber <span class="operator">=</span> <span class="type">MySubscriber</span>&lt;<span class="type">Int</span>&gt;()</span><br><span class="line">    <span class="keyword">let</span> publisher <span class="operator">=</span> <span class="type">PassthroughSubject</span>&lt;<span class="type">Int</span>, <span class="type">Never</span>&gt;()</span><br><span class="line">    publisher.subscribe(subscriber)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>If the publisher send a completion event, the console will print deinit message.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">test</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> subscriber <span class="operator">=</span> <span class="type">MySubscriber</span>&lt;<span class="type">Int</span>&gt;()</span><br><span class="line">    <span class="keyword">let</span> publisher <span class="operator">=</span> <span class="type">PassthroughSubject</span>&lt;<span class="type">Int</span>, <span class="type">Never</span>&gt;()</span><br><span class="line">    publisher.subscribe(subscriber)</span><br><span class="line"></span><br><span class="line">    publisher.send(completion: .finished) </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// receive completion finished</span></span><br><span class="line"><span class="comment">// subscriber deinit</span></span><br></pre></td></tr></table></figure>
+<p>​If we use our custom publisher <code>Dispatchtimer</code> as we wrote in the above sections, the publisher, subscription and subscriber will be published immediately. So why do they have different behaviors?  I think Apple does some special actions in Subject, it may store the subscription in a global table and remove it when receiving a completion event.  Based on this, we should be aware that do not use the <code>subscribe(subscriber:)</code> method if you want to cancel the subscription before receiving a completion event. Besides, if you custom a publisher, carefully use this method(be released immediately) unless you know how to manage subscriptions correctly.</p>
+<h3 id="backpressure"><a class="markdownIt-Anchor" href="#backpressure"></a> Backpressure</h3>
+<p>In the majority of reactive frameworks, a subscriber just receives values from the upstream publisher regardless of whether it can consume these values. It’s a <code>pull</code> design, as opposed to a <code>push</code> one. This means that subscribers ask publishers to emit values and specify how many they want to receive. This design is more adaptive and we can use it to optimize our data stream to save computing resources.</p>
+<p>In Combine, we usually use two methods to implement backpressure.</p>
+<ul>
+<li>A publisher with a custom <code>Subscription</code> to deal with congestion.</li>
+<li>A subscriber delivers value at the end of a chain of publishers.</li>
+</ul>
+<p>If we define a subscription producing values, it is easy to manipulate the speed of producing new values according to the subscriber’s demand. Today we are mainly talking about the second approach.</p>
+<p>Extends a <code>pausableSink</code> method in the Publishers namespace. It takes two block parameters of <code>receiveValue</code> and <code>receiveCompletion</code>. Every time you receive a new value from the <code>receiveValue</code> block, you can return a boolean value that represents whether you need to request a new value.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Conforming entities can be paused.</span></span><br><span class="line"><span class="keyword">protocol</span> <span class="title class_">Pausable</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> paused: <span class="type">Bool</span> &#123; <span class="keyword">get</span> &#125;</span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">resume</span>()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">PausableSubscriber</span>&lt;<span class="type">Input</span>, <span class="type">Failure</span>: <span class="type">Error</span>&gt;:</span><br><span class="line">    <span class="title class_ inherited__">Subscriber</span>,</span><br><span class="line">    <span class="title class_ inherited__">Pausable</span>,</span><br><span class="line">    <span class="title class_ inherited__">Cancellable</span></span><br><span class="line">&#123;</span><br><span class="line">    </span><br><span class="line">   <span class="keyword">let</span> combineIdentifier <span class="operator">=</span> <span class="type">CombineIdentifier</span>()</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">let</span> receiveValue: (<span class="type">Input</span>) -&gt; <span class="type">Bool</span></span><br><span class="line">    <span class="keyword">let</span> receiveCompletion: (<span class="type">Subscribers</span>.<span class="type">Completion</span>&lt;<span class="type">Failure</span>&gt;) -&gt; <span class="type">Void</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> subscription: <span class="type">Subscription</span>? <span class="operator">=</span> <span class="literal">nil</span></span><br><span class="line">    <span class="keyword">var</span> paused <span class="operator">=</span> <span class="literal">false</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">init</span>(</span><br><span class="line">        <span class="params">receiveValue</span>: <span class="keyword">@escaping</span> (<span class="type">Input</span>) -&gt; <span class="type">Bool</span>,</span><br><span class="line">        <span class="params">receiveCompletion</span>: <span class="keyword">@escaping</span> (<span class="type">Subscribers</span>.<span class="type">Completion</span>&lt;<span class="type">Failure</span>&gt;) -&gt; <span class="type">Void</span></span><br><span class="line">    ) &#123;</span><br><span class="line">        <span class="keyword">self</span>.receiveValue <span class="operator">=</span> receiveValue</span><br><span class="line">        <span class="keyword">self</span>.receiveCompletion <span class="operator">=</span> receiveCompletion</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">cancel</span>() &#123;</span><br><span class="line">        subscription<span class="operator">?</span>.cancel()</span><br><span class="line">        subscription <span class="operator">=</span> <span class="literal">nil</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// Invoking `resume` method will request the subscription for a new value again.</span></span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">resume</span>() &#123;</span><br><span class="line">        <span class="keyword">guard</span> paused <span class="keyword">else</span> &#123; <span class="keyword">return</span> &#125;</span><br><span class="line">        paused <span class="operator">=</span> <span class="literal">false</span></span><br><span class="line">        subscription<span class="operator">?</span>.request(.max(<span class="number">1</span>))</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">receive</span>(<span class="params">subscription</span>: <span class="type">Subscription</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.subscription <span class="operator">=</span> subscription</span><br><span class="line">        subscription.request(.max(<span class="number">1</span>))</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">    <span class="comment">// Receives a new value, checking whether need more values by the receiveValue block.</span></span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">receive</span>(<span class="keyword">_</span> <span class="params">input</span>: <span class="type">Input</span>) -&gt; <span class="type">Subscribers</span>.<span class="type">Demand</span> &#123;</span><br><span class="line">        paused <span class="operator">=</span> receiveValue(input) <span class="operator">==</span> <span class="literal">false</span></span><br><span class="line">        <span class="keyword">return</span> paused <span class="operator">?</span> .none : .max(<span class="number">1</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">receive</span>(<span class="params">completion</span>: <span class="type">Subscribers</span>.<span class="type">Completion</span>&lt;<span class="type">Failure</span>&gt;) &#123;</span><br><span class="line">        receiveCompletion(completion)</span><br><span class="line">        subscription <span class="operator">=</span> <span class="literal">nil</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">extension</span> <span class="title class_">Publisher</span> &#123;</span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">pausableSink</span>(</span><br><span class="line">        <span class="params">receiveCompletion</span>: <span class="keyword">@escaping</span> (<span class="type">Subscribers</span>.<span class="type">Completion</span>&lt;<span class="type">Failure</span>&gt;) -&gt; <span class="type">Void</span>,</span><br><span class="line">        <span class="params">receiveValue</span>: <span class="keyword">@escaping</span> (<span class="type">Output</span>) -&gt; <span class="type">Bool</span></span><br><span class="line">    ) -&gt; <span class="type">Pausable</span> &amp; <span class="type">Cancellable</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> pausable <span class="operator">=</span> <span class="type">PausableSubscriber</span>(</span><br><span class="line">            receiveValue: receiveValue,</span><br><span class="line">            receiveCompletion: receiveCompletion</span><br><span class="line">        )</span><br><span class="line">        subscribe(pausable)</span><br><span class="line">        <span class="keyword">return</span> pausable</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+
+
+      
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#kinds-of-subscriber"><span class="toc-number">1.</span> <span class="toc-text"> Kinds of Subscriber</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#kinds-of-publisher"><span class="toc-number">2.</span> <span class="toc-text"> Kinds of Publisher</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#combine-with-asyncawait"><span class="toc-number">3.</span> <span class="toc-text"> Combine with async&#x2F;await</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#transforming-operators"><span class="toc-number">4.</span> <span class="toc-text"> Transforming Operators</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#collect"><span class="toc-number">4.1.</span> <span class="toc-text"> collect</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#map"><span class="toc-number">4.2.</span> <span class="toc-text"> map</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#trymap"><span class="toc-number">4.3.</span> <span class="toc-text"> tryMap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#flatmap"><span class="toc-number">4.4.</span> <span class="toc-text"> flatMap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#replacenilwith"><span class="toc-number">4.5.</span> <span class="toc-text"> replaceNil(with:)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#replaceemptywith"><span class="toc-number">4.6.</span> <span class="toc-text"> replaceEmpty(with:)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#scan"><span class="toc-number">4.7.</span> <span class="toc-text"> scan</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#filtering-operators"><span class="toc-number">5.</span> <span class="toc-text"> Filtering Operators</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#filter"><span class="toc-number">5.1.</span> <span class="toc-text"> filter</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#removeduplicates"><span class="toc-number">5.2.</span> <span class="toc-text"> removeDuplicates</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ignoreoutput"><span class="toc-number">5.3.</span> <span class="toc-text"> ignoreOutput</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#firstwhere"><span class="toc-number">5.4.</span> <span class="toc-text"> first(where:)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lastwhere"><span class="toc-number">5.5.</span> <span class="toc-text"> last(where:)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dropfirst"><span class="toc-number">5.6.</span> <span class="toc-text"> dropFirst</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dropwhile"><span class="toc-number">5.7.</span> <span class="toc-text"> drop(while:)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dropuntiloutputfrom"><span class="toc-number">5.8.</span> <span class="toc-text"> drop(untilOutputFrom:)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#prefix2"><span class="toc-number">5.9.</span> <span class="toc-text"> prefix(2)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#prefixwhile"><span class="toc-number">5.10.</span> <span class="toc-text"> prefix(while: )</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#prefixuntiloutputfrom"><span class="toc-number">5.11.</span> <span class="toc-text"> prefix(untilOutputFrom: )</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#combining-operators"><span class="toc-number">6.</span> <span class="toc-text"> Combining Operators</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#prependoutput"><span class="toc-number">6.1.</span> <span class="toc-text"> prepend(Output…)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#prependsequence"><span class="toc-number">6.2.</span> <span class="toc-text"> prepend(Sequence)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#prependpublisher"><span class="toc-number">6.3.</span> <span class="toc-text"> prepend(Publisher)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#appendoutput"><span class="toc-number">6.4.</span> <span class="toc-text"> append(Output…)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#appendsequence"><span class="toc-number">6.5.</span> <span class="toc-text"> append(Sequence)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#appendpublisher"><span class="toc-number">6.6.</span> <span class="toc-text"> append(Publisher)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#switchtolatest"><span class="toc-number">6.7.</span> <span class="toc-text"> switchToLatest</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mergewith"><span class="toc-number">6.8.</span> <span class="toc-text"> merge(with:)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#combinelatest"><span class="toc-number">6.9.</span> <span class="toc-text"> combineLatest</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#zip"><span class="toc-number">6.10.</span> <span class="toc-text"> zip</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#timing-operators"><span class="toc-number">7.</span> <span class="toc-text"> Timing Operators</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#delayfortolerancescheduleroptions"><span class="toc-number">7.1.</span> <span class="toc-text"> delay(for:tolerance:scheduler:options)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#collectbytimedispatchqueuemain-seconds4"><span class="toc-number">7.2.</span> <span class="toc-text"> collect(.byTime(DispatchQueue.main, .seconds(4)))</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#debounce"><span class="toc-number">7.3.</span> <span class="toc-text"> debounce</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#throttle"><span class="toc-number">7.4.</span> <span class="toc-text"> throttle</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#timeout"><span class="toc-number">7.5.</span> <span class="toc-text"> timeout</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#measureinterval"><span class="toc-number">7.6.</span> <span class="toc-text"> measureInterval</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sequence-operators"><span class="toc-number">8.</span> <span class="toc-text"> Sequence Operators</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#min"><span class="toc-number">8.1.</span> <span class="toc-text"> min</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#max"><span class="toc-number">8.2.</span> <span class="toc-text"> max</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#first"><span class="toc-number">8.3.</span> <span class="toc-text"> first</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#last"><span class="toc-number">8.4.</span> <span class="toc-text"> last</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#outputat"><span class="toc-number">8.5.</span> <span class="toc-text"> output(at:)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#outputin"><span class="toc-number">8.6.</span> <span class="toc-text"> output(in:)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#count"><span class="toc-number">8.7.</span> <span class="toc-text"> count()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#contains"><span class="toc-number">8.8.</span> <span class="toc-text"> contains</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#allsatisfy"><span class="toc-number">8.9.</span> <span class="toc-text"> allSatisfy</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#reduce"><span class="toc-number">8.10.</span> <span class="toc-text"> reduce</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#networking"><span class="toc-number">9.</span> <span class="toc-text"> Networking</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#datataskpublisher"><span class="toc-number">9.1.</span> <span class="toc-text"> dataTaskPublisher</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#decodetypedecoder"><span class="toc-number">9.2.</span> <span class="toc-text"> decode(type:decoder:)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#debug"><span class="toc-number">10.</span> <span class="toc-text"> Debug</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#print"><span class="toc-number">10.1.</span> <span class="toc-text"> print</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#handleevents"><span class="toc-number">10.2.</span> <span class="toc-text"> handleEvents</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#breakpointreceivesubscriptionreceiveoutputreceivecompletion"><span class="toc-number">10.3.</span> <span class="toc-text"> breakpoint(receiveSubscription:receiveOutput:receiveCompletion:)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#timer"><span class="toc-number">11.</span> <span class="toc-text"> Timer</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#using-runloop"><span class="toc-number">11.1.</span> <span class="toc-text"> Using RunLoop</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#timer-2"><span class="toc-number">11.2.</span> <span class="toc-text"> Timer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#using-dispatchqueue"><span class="toc-number">11.3.</span> <span class="toc-text"> Using DispatchQueue</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#key-value-observing"><span class="toc-number">12.</span> <span class="toc-text"> Key-Value Observing</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#publisherforoptions"><span class="toc-number">12.1.</span> <span class="toc-text"> publisher(for:options:)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#observedobject"><span class="toc-number">12.2.</span> <span class="toc-text"> ObservedObject</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#resource-management"><span class="toc-number">13.</span> <span class="toc-text"> Resource Management</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#share"><span class="toc-number">13.1.</span> <span class="toc-text"> share()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#multicast_"><span class="toc-number">13.2.</span> <span class="toc-text"> multicast(_😃</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#future"><span class="toc-number">13.3.</span> <span class="toc-text"> Future</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#error-handling"><span class="toc-number">14.</span> <span class="toc-text"> Error Handling</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#never"><span class="toc-number">14.1.</span> <span class="toc-text"> Never</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dealing-with-errors"><span class="toc-number">14.2.</span> <span class="toc-text"> Dealing with Errors</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#schedulers"><span class="toc-number">15.</span> <span class="toc-text"> Schedulers</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#where-to-use-a-scheduler"><span class="toc-number">15.1.</span> <span class="toc-text"> Where to use a scheduler?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#implementations-of-scheduler"><span class="toc-number">15.2.</span> <span class="toc-text"> Implementations of Scheduler</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#custom-publishers-and-operators"><span class="toc-number">16.</span> <span class="toc-text"> Custom Publishers and Operators</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-extends-methods-for-publisher"><span class="toc-number">16.1.</span> <span class="toc-text"> 1. Extends Methods for Publisher</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#creating-a-publisher-that-produces-values"><span class="toc-number">16.2.</span> <span class="toc-text"> Creating a Publisher that produces values</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#publishers-transforming-values"><span class="toc-number">16.3.</span> <span class="toc-text"> Publishers Transforming Values</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#backpressure"><span class="toc-number">16.4.</span> <span class="toc-text"> Backpressure</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2022/03/30/ios-dev/swift/learning-combine-again/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2022/03/30/ios-dev/swift/learning-combine-again/&text=Learning Combine Again"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2022/03/30/ios-dev/swift/learning-combine-again/&title=Learning Combine Again"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2022/03/30/ios-dev/swift/learning-combine-again/&is_video=false&description=Learning Combine Again"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Learning Combine Again&body=Check out this article: https://csl.cool/2022/03/30/ios-dev/swift/learning-combine-again/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2022/03/30/ios-dev/swift/learning-combine-again/&title=Learning Combine Again"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2022/03/30/ios-dev/swift/learning-combine-again/&title=Learning Combine Again"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2022/03/30/ios-dev/swift/learning-combine-again/&title=Learning Combine Again"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2022/03/30/ios-dev/swift/learning-combine-again/&title=Learning Combine Again"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2022/03/30/ios-dev/swift/learning-combine-again/&name=Learning Combine Again&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2022/03/30/ios-dev/swift/learning-combine-again/&t=Learning Combine Again"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+      <div id="end">
+    <img src="/images/post-end.png" alt="">
+</div> 
+      
+      <div id='valine'>
+    <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+            el: '#vcomments',
+            notify: true,
+            verify: true,
+            appId: '7zw6tQBddCfPvbaVtBGxUy0G-gzGzoHsz',
+            appKey: 'voPGHhBz7MozpUm0Fq2AMFmv',
+            placeholder: '想说点啥...',
+            avatar: 'monsterid',           
+        })
+    </script>
+</div>
+      
+      
+      <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 SSBun
+    <a target="_blank" rel="noopener" href="http://www.beian.miit.gov.cn/">京ICP备20001935号-1</a>
+    <div id="friend-link-container">
+      
+      
+    </div>
+  </div>
+  
+    <div class="footer-right">
+      <nav>
+        <ul>
+          
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/search/">Search</a></li>
+      
+      <li><a href="/categories/">Categories</a></li>
+      
+      <li><a href="/notes/">Notes</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+      </ul>
+      </nav>
+    </div>
+  
+</footer>
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?c2fdf3bebd0db8e40c37a4f37d76d33b";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Umami Analytics -->
+<!--  -->
+  <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="d39cc16d-90eb-47b6-8bf0-8e4cd43c704d"></script>
+<!--  -->
+<!-- Disqus Comments -->
+
+
+
+    
+    <script src="/lib/blackcat/l2dwidget.min.js"></script>
+    <script type="text/javascript">
+      var config = {
+        model: {
+          jsonPath: '/lib/blackcat/hijiki.model.json',
+        },
+        display: {
+          superSample: 1,
+          width: 245,
+          height: 245,
+          position: 'left',
+          hOffset: 0,
+          vOffset: 0,
+        },
+        mobile: {
+          show: false,
+          scale: 1,
+          motion: false,
+        },
+        react: {
+          opacityDefault: 1,
+          opacityOnHover: 0.75
+        }
+      };
+      L2Dwidget.init(config);
+    </script>
+    
+  </body>
+
+  </html>

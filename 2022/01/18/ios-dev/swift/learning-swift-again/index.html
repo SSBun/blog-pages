@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang=en>
+  <head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="I have used Swift for 6 years, from the first version to the version 5.5 now. I had learned Objective-C just for four months when I first learned Swift. At that time, I had written an application by O">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Learning Swift Again">
+<meta property="og:url" content="https://csl.cool/2022/01/18/ios-dev/swift/learning-swift-again/index.html">
+<meta property="og:site_name" content="CSL MEMO">
+<meta property="og:description" content="I have used Swift for 6 years, from the first version to the version 5.5 now. I had learned Objective-C just for four months when I first learned Swift. At that time, I had written an application by O">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://book.csl.cool/img/20220120191322.png">
+<meta property="og:image" content="http://book.csl.cool/img/20220129113940.png">
+<meta property="article:published_time" content="2022-01-18T11:09:45.000Z">
+<meta property="article:modified_time" content="2022-01-18T11:09:45.000Z">
+<meta property="article:author" content="SSBun">
+<meta property="article:tag" content="Swift">
+<meta property="article:tag" content="Review">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://book.csl.cool/img/20220120191322.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Learning Swift Again</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="CSL MEMO" type="application/atom+xml" />
+    
+    <!-- umami web analytics -->
+    <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+  <body class="max-width mx-auto px3 ltr">
+    
+    <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2022/03/01/ios-dev/swift/swift-attributes/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2022/01/13/ios-dev/tip-display-specified-parts-of-an-image-in-uiimageview/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2022/01/18/ios-dev/swift/learning-swift-again/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2022/01/18/ios-dev/swift/learning-swift-again/&text=Learning Swift Again"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2022/01/18/ios-dev/swift/learning-swift-again/&title=Learning Swift Again"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2022/01/18/ios-dev/swift/learning-swift-again/&is_video=false&description=Learning Swift Again"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Learning Swift Again&body=Check out this article: https://csl.cool/2022/01/18/ios-dev/swift/learning-swift-again/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2022/01/18/ios-dev/swift/learning-swift-again/&title=Learning Swift Again"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2022/01/18/ios-dev/swift/learning-swift-again/&title=Learning Swift Again"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2022/01/18/ios-dev/swift/learning-swift-again/&title=Learning Swift Again"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2022/01/18/ios-dev/swift/learning-swift-again/&title=Learning Swift Again"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2022/01/18/ios-dev/swift/learning-swift-again/&name=Learning Swift Again&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2022/01/18/ios-dev/swift/learning-swift-again/&t=Learning Swift Again"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#the-basics"><span class="toc-number">1.</span> <span class="toc-text"> The Basics</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#implicitly-unwrapped-optional"><span class="toc-number">1.1.</span> <span class="toc-text"> Implicitly Unwrapped Optional</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#assertions-preconditions-and-fatal-errors"><span class="toc-number">1.2.</span> <span class="toc-text"> Assertions, Preconditions and Fatal Errors</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#meattype"><span class="toc-number">1.3.</span> <span class="toc-text"> MeatType</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#self-type"><span class="toc-number">1.4.</span> <span class="toc-text"> Self Type</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#basic-operators"><span class="toc-number">2.</span> <span class="toc-text"> Basic Operators</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#remainder-operator"><span class="toc-number">2.1.</span> <span class="toc-text"> Remainder Operator</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#comparison-operators"><span class="toc-number">2.2.</span> <span class="toc-text"> Comparison Operators</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#range-operators"><span class="toc-number">2.3.</span> <span class="toc-text"> Range Operators</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#strings-and-characters"><span class="toc-number">3.</span> <span class="toc-text"> Strings and Characters</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#string-literals"><span class="toc-number">3.1.</span> <span class="toc-text"> String Literals</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#extended-string-delimiters"><span class="toc-number">3.2.</span> <span class="toc-text"> Extended String Delimiters</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#unicode-scalars-and-extended-grapheme-clusters"><span class="toc-number">3.3.</span> <span class="toc-text"> Unicode Scalars and Extended Grapheme Clusters</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#counting-characters"><span class="toc-number">3.4.</span> <span class="toc-text"> Counting Characters</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#string-indices"><span class="toc-number">3.5.</span> <span class="toc-text"> String Indices</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#comparing-strings"><span class="toc-number">3.6.</span> <span class="toc-text"> Comparing Strings</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#control-flow"><span class="toc-number">4.</span> <span class="toc-text"> Control Flow</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#where"><span class="toc-number">4.1.</span> <span class="toc-text"> Where</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fallthrough"><span class="toc-number">4.2.</span> <span class="toc-text"> Fallthrough</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#labeled-statements"><span class="toc-number">4.3.</span> <span class="toc-text"> Labeled Statements</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#functions"><span class="toc-number">5.</span> <span class="toc-text"> Functions</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#variadic-parameters"><span class="toc-number">5.1.</span> <span class="toc-text"> Variadic Parameters</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#closures"><span class="toc-number">6.</span> <span class="toc-text"> Closures</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#escaping-closures"><span class="toc-number">6.1.</span> <span class="toc-text"> Escaping Closures</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#enumerations"><span class="toc-number">7.</span> <span class="toc-text"> Enumerations</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#recursive-enumerations"><span class="toc-number">7.1.</span> <span class="toc-text"> Recursive Enumerations</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#properties"><span class="toc-number">8.</span> <span class="toc-text"> Properties</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#lazy-stored-properties"><span class="toc-number">8.1.</span> <span class="toc-text"> Lazy Stored Properties</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#property-observers"><span class="toc-number">8.2.</span> <span class="toc-text"> Property Observers</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#property-wrapper"><span class="toc-number">8.3.</span> <span class="toc-text"> Property Wrapper</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#global-and-local-variables"><span class="toc-number">8.4.</span> <span class="toc-text"> Global and Local Variables</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#type-properties"><span class="toc-number">8.5.</span> <span class="toc-text"> Type Properties</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#type-property-syntax"><span class="toc-number">8.6.</span> <span class="toc-text"> Type Property Syntax</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#methods"><span class="toc-number">9.</span> <span class="toc-text"> Methods</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#inheritance"><span class="toc-number">10.</span> <span class="toc-text"> Inheritance</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#accessing-superclasses-methods-properties-and-subscripts"><span class="toc-number">10.1.</span> <span class="toc-text"> Accessing superclasses Methods, Properties, and Subscripts</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#preventing-overrides"><span class="toc-number">10.2.</span> <span class="toc-text"> Preventing Overrides</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#initialization"><span class="toc-number">11.</span> <span class="toc-text"> Initialization</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#setting-initial-values-for-stored-properties"><span class="toc-number">11.1.</span> <span class="toc-text"> Setting initial values for Stored Properties</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#initializer-delegation-for-value-types"><span class="toc-number">11.2.</span> <span class="toc-text"> Initializer Delegation for Value Types</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#initializer-delegation-for-class-types"><span class="toc-number">11.3.</span> <span class="toc-text"> Initializer Delegation for Class Types</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#two-phase-initialization"><span class="toc-number">11.4.</span> <span class="toc-text"> Two-Phase Initialization</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#initializer-inheritance-and-overriding"><span class="toc-number">11.5.</span> <span class="toc-text"> Initializer Inheritance and Overriding</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#automatic-initializer-inheritance"><span class="toc-number">11.6.</span> <span class="toc-text"> Automatic Initializer Inheritance</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#overriding-a-failable-initializer"><span class="toc-number">11.7.</span> <span class="toc-text"> Overriding a Failable Initializer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#required-initializers"><span class="toc-number">11.8.</span> <span class="toc-text"> Required Initializers</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#optional-chaining"><span class="toc-number">12.</span> <span class="toc-text"> Optional Chaining</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#calling-methods-through-optional-chaining"><span class="toc-number">12.1.</span> <span class="toc-text"> Calling Methods Through Optional Chaining</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#linking-multiple-levels-of-chaining"><span class="toc-number">12.2.</span> <span class="toc-text"> Linking Multiple Levels of Chaining</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#concurrency"><span class="toc-number">13.</span> <span class="toc-text"> Concurrency</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#type-casting"><span class="toc-number">14.</span> <span class="toc-text"> Type Casting</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#type-casting-for-any-and-anyobject"><span class="toc-number">14.1.</span> <span class="toc-text"> Type Casting for Any and AnyObject</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nested-types"><span class="toc-number">15.</span> <span class="toc-text"> Nested Types</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#extensions"><span class="toc-number">16.</span> <span class="toc-text"> Extensions</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#protocols"><span class="toc-number">17.</span> <span class="toc-text"> Protocols</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#property-requirements"><span class="toc-number">17.1.</span> <span class="toc-text"> Property Requirements</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mutating-method-requirements"><span class="toc-number">17.2.</span> <span class="toc-text"> Mutating Method Requirements</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#initializer-requirements"><span class="toc-number">17.3.</span> <span class="toc-text"> Initializer Requirements</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#protocol-extensions"><span class="toc-number">17.4.</span> <span class="toc-text"> Protocol Extensions</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#generics"><span class="toc-number">18.</span> <span class="toc-text"> Generics</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#type-constraints"><span class="toc-number">18.1.</span> <span class="toc-text"> Type Constraints</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#opaque-types"><span class="toc-number">19.</span> <span class="toc-text"> Opaque Types</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#automatic-reference-counting"><span class="toc-number">20.</span> <span class="toc-text"> Automatic Reference Counting</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#unowned-optional-references"><span class="toc-number">20.1.</span> <span class="toc-text"> Unowned Optional References</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#defining-a-capture-list"><span class="toc-number">20.2.</span> <span class="toc-text"> Defining a Capture List</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#memory-safety"><span class="toc-number">21.</span> <span class="toc-text"> Memory Safety</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#access-control"><span class="toc-number">22.</span> <span class="toc-text"> Access Control</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#advanced-operators"><span class="toc-number">23.</span> <span class="toc-text"> Advanced Operators</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#result-builder"><span class="toc-number">23.1.</span> <span class="toc-text"> Result Builder</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+      
+      <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Learning Swift Again
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">SSBun</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-01-18T11:09:45.000Z" itemprop="datePublished">2022-01-18</time>
+        
+        (Updated: <time datetime="2022-01-18T11:09:45.000Z" itemprop="dateModified">2022-01-18</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Review/" rel="tag">Review</a>, <a class="tag-link-link" href="/tags/Swift/" rel="tag">Swift</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>I have used Swift for 6 years, from the first version to the version 5.5 now. I had learned Objective-C just for four months when I first learned Swift. At that time, I had written an application by Objective-C and then I decide to rewrite the application by Swift. It’s a very painful experience for me, especially the Optional Value, I had to unwrap the optional values again and again before using them. But I love its new concise grammar compared with Objective-C.</p>
+<p>I didn’t know whether or not I can use it when I work in a company to write an iOS project, because almost all of the development teams were using Objective-C as the major development language. Maybe I can use Swift in company projects after two or three years I thought at the time. Fortunately, the company I first joined is a entrepreneurial team, we had only two iOS developers. I decided to import Swift to our projects one year later because I thought I had learned Swift for a whole year and written several example applications.</p>
+<p>In that after I began using Swift in company’s projects, I have never backed to Objective-C. The Swift has updated several significant versions in these years, some versions need us to make many syntax modifications in our projects. And I have to learn these new features and changes over and over again. I don’t know how many times learning Swift this is, but now I decide to read the official Swift document seriously to search the knowledge I missed.</p>
+<p><strong>This is a checklist to record the syntax problems I’m interested in and some magical usages about some types.</strong></p>
+<h2 id="the-basics"><a class="markdownIt-Anchor" href="#the-basics"></a> The Basics</h2>
+<h3 id="implicitly-unwrapped-optional"><a class="markdownIt-Anchor" href="#implicitly-unwrapped-optional"></a> Implicitly Unwrapped Optional</h3>
+<blockquote>
+<p>When should we use implicitly unwrapped optionals?</p>
+</blockquote>
+<p>First, we should know that the implicitly unwrapped optionals are also of the normal <code>Optional</code> type.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> value: <span class="type">Int</span>!</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">type</span>(of: value))</span><br><span class="line"><span class="comment">// Optional&lt;Int&gt;</span></span><br></pre></td></tr></table></figure>
+<p>When you assign an implicitly unwrapped optional to an optional variable, the compiler do nothing, because they are the same type. But when you assign an implicitly unwrapped optional to an un-optional variable, the compile will force-unwraps the value. If the implicitly unwrapped optional is nil and you try to access its wrapped value, you’ll trigger a runtime error.</p>
+<p>We all know that we shouldn’t use implicitly unwrapped optionals, because they are dangerous to crash applications. But we still need it in some special situations, such as below.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Owner</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> pet: <span class="type">Pet</span>!</span><br><span class="line">    <span class="keyword">init</span>() &#123;</span><br><span class="line">        pet <span class="operator">=</span> <span class="type">Pet</span>(owner: <span class="keyword">self</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Pet</span> &#123;</span><br><span class="line">    <span class="keyword">weak</span> <span class="keyword">var</span> owner: <span class="type">Owner</span>?</span><br><span class="line">    <span class="keyword">init</span>(<span class="params">owner</span>: <span class="type">Owner</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.owner <span class="operator">=</span> owner</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>An owner must has a pet, to initialize a pet needing an owner. If we modify the <code>var pet: Pet!</code> to <code>var pet: Pet</code>, the compiler will require us to assign a value to the property <code>pet</code> before using the <code>self</code>, but we have to get the <code>self</code> to create a pet, they conflict each other. So we need to use implicitly unwrapped optional to declare that the <code>pet</code> must has a value and to tell the compiler not checking the property during initialization because we will assign it a value soon after.</p>
+<h3 id="assertions-preconditions-and-fatal-errors"><a class="markdownIt-Anchor" href="#assertions-preconditions-and-fatal-errors"></a> Assertions, Preconditions and Fatal Errors</h3>
+<blockquote>
+<p>What’s the Precondition?</p>
+</blockquote>
+<p>They are all used to check code conditions. We usually use Assertions, such as <code>assert(id != nil, &quot;The goods id cannot be nil.&quot;)</code>. Sometimes, we would use <code>assert(false, &quot;error message&quot;)</code> under a checked condition situation, here is a better syntax <code>assertFailure(&quot;error message&quot;)</code>.</p>
+<p>I have never used Preconditions. To be honest, I have never heard about it. They are all same in usages, but the compiler evaluates Assertions only in development mode. The Preconditions can be still checked in release mode if the compiler doesn’t open the unchecked mode(-Ounchecked).</p>
+<p>The Fatal Errors are always checked in any compiler mode.</p>
+<h3 id="meattype"><a class="markdownIt-Anchor" href="#meattype"></a> MeatType</h3>
+<p>A metatype type refers to the type of any type, including class types, structure types, enumeration types, and protocol types.</p>
+<ol>
+<li>The metatype of a class, structure, enumeration type is the name of that type followed by <code>.Type</code> (let metatype: SomeClass.Type)</li>
+<li>The metatype of a protocol type is the name of the protocol followed by <code>.Protocol</code>(let metatype: SomeProtocol.Protocol). If you want to depict the metatype of the concrete type satisfying the protocol conformance, you can use the type followed by <code>.Type</code> to do this.(let concreteMetatype = SomeProtocol.Type)</li>
+<li>You can postfix the types with <code>.self</code> to get their metatypes. (let metatype: SomeClass.Type = SomeClass.self)</li>
+</ol>
+<p>We can use a type’s metatype to construct its instances. But if the type is class type, we must declare the class type with <code>final</code> or mark the initializers that will be used as <code>required</code>.</p>
+<h3 id="self-type"><a class="markdownIt-Anchor" href="#self-type"></a> Self Type</h3>
+<p>Swift provides the <code>Self</code> type that we can conveniently use it to represent the type itself without repeating its name. The <code>Self</code> refers to the same type as the <code>type(of:)</code> function in the Swift standard library.</p>
+<h2 id="basic-operators"><a class="markdownIt-Anchor" href="#basic-operators"></a> Basic Operators</h2>
+<h3 id="remainder-operator"><a class="markdownIt-Anchor" href="#remainder-operator"></a> Remainder Operator</h3>
+<blockquote>
+<p>A knowledge point about <code>%</code>.</p>
+</blockquote>
+<p>We use the <code>%</code> to calculate a number’s remainder. We assume an expression <code>let reminder = a % b</code>, the sign of the number b is ignored when calculating. This means that <code>a % b</code> and <code>a % -b</code> always give the same answer.</p>
+<h3 id="comparison-operators"><a class="markdownIt-Anchor" href="#comparison-operators"></a> Comparison Operators</h3>
+<blockquote>
+<p>Compare two tuples.</p>
+</blockquote>
+<p>We can use comparison operators directly to compare two tuples.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(<span class="number">10</span>, <span class="string">&quot;a&quot;</span>) <span class="operator">&gt;</span> (<span class="number">9</span>, <span class="string">&quot;b&quot;</span>) <span class="comment">// true</span></span><br><span class="line">(<span class="number">9</span>, <span class="string">&quot;a&quot;</span>) <span class="operator">&gt;</span> (<span class="number">9</span>, <span class="string">&quot;b&quot;</span>)  <span class="comment">// false</span></span><br><span class="line">(<span class="number">9</span>, <span class="string">&quot;a&quot;</span>) <span class="operator">==</span> (<span class="number">9</span>, <span class="string">&quot;a&quot;</span>)  <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p>The compiler will compare their elements one by one from left to right.</p>
+<h3 id="range-operators"><a class="markdownIt-Anchor" href="#range-operators"></a> Range Operators</h3>
+<blockquote>
+<p>How many kinds of range operators?</p>
+</blockquote>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="built_in">type</span>(of: <span class="number">1</span><span class="operator">...</span><span class="number">2</span>)) <span class="comment">// ClosedRange&lt;Int&gt;</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">type</span>(of: <span class="number">1</span><span class="operator">..&lt;</span><span class="number">2</span>)) <span class="comment">// Range&lt;Int&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">type</span>(of: <span class="number">1</span><span class="operator">...</span>))  <span class="comment">// PartialRangeFrom&lt;Int&gt;</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">type</span>(of: <span class="operator">...</span><span class="number">1</span>))  <span class="comment">// PartialRangeThrough&lt;Int&gt;</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">type</span>(of: <span class="operator">..&lt;</span><span class="number">1</span>))  <span class="comment">// PartialRangeUpTo&lt;Int&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">type</span>(of: <span class="operator">...</span>))   <span class="comment">// (UnboundedRange_) -&gt; ()</span></span><br></pre></td></tr></table></figure>
+<p>The <code>...</code> can only be used in sequences to declare slicing all elements of it.</p>
+<p>There are some alias types of range operators.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">typealias</span> <span class="type">CountableRange</span>&lt;<span class="type">Bound</span>&gt; <span class="operator">=</span> <span class="type">Range</span>&lt;<span class="type">Bound</span>&gt; <span class="keyword">where</span> <span class="type">Bound</span> : <span class="type">Strideable</span>, <span class="type">Bound</span>.<span class="type">Stride</span> : <span class="type">SignedInteger</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">typealias</span> <span class="type">CountableClosedRange</span>&lt;<span class="type">Bound</span>&gt; <span class="operator">=</span> <span class="type">ClosedRange</span>&lt;<span class="type">Bound</span>&gt; <span class="keyword">where</span> <span class="type">Bound</span> : <span class="type">Strideable</span>, <span class="type">Bound</span>.<span class="type">Stride</span> : <span class="type">SignedInteger</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">typealias</span> <span class="type">CountablePartialRangeFrom</span>&lt;<span class="type">Bound</span>&gt; <span class="operator">=</span> <span class="type">PartialRangeFrom</span>&lt;<span class="type">Bound</span>&gt; <span class="keyword">where</span> <span class="type">Bound</span> : <span class="type">Strideable</span>, <span class="type">Bound</span>.<span class="type">Stride</span> : <span class="type">SignedInteger</span></span><br></pre></td></tr></table></figure>
+<h2 id="strings-and-characters"><a class="markdownIt-Anchor" href="#strings-and-characters"></a> Strings and Characters</h2>
+<h3 id="string-literals"><a class="markdownIt-Anchor" href="#string-literals"></a> String Literals</h3>
+<blockquote>
+<p>Set up a single line string with the multiline string literal format via the symbol <code>\</code>.</p>
+</blockquote>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> softWrappedQuotation <span class="operator">=</span> <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">The White Rabbit put on his spectacles.  &quot;Where shall I begin, <span class="subst">\</span></span></span><br><span class="line"><span class="subst"><span class="string"></span>please your Majesty?&quot; he asked.</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>A multiline string can be indented to match the surrounding code.</p>
+</blockquote>
+<p><img src="http://book.csl.cool/img/20220120191322.png" alt="" /></p>
+<h3 id="extended-string-delimiters"><a class="markdownIt-Anchor" href="#extended-string-delimiters"></a> Extended String Delimiters</h3>
+<blockquote>
+<p>Do not render string interpolations.</p>
+</blockquote>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> name <span class="operator">=</span> <span class="string">&quot;CSL&quot;</span></span><br><span class="line"><span class="keyword">let</span> age <span class="operator">=</span> <span class="number">25</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;name: <span class="subst">\(name)</span><span class="subst">\n</span>age: <span class="subst">\(age)</span>&quot;</span>)</span><br><span class="line"><span class="comment">//name: CSL</span></span><br><span class="line"><span class="comment">//age: 25</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">#&quot;name: \(name)\nage: \(age)&quot;#</span>)</span><br><span class="line"><span class="comment">//name: \(name)\nage: \(age)</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">##&quot;name: \(name)\#nage: \(age)&quot;##</span>)</span><br><span class="line"><span class="comment">//name: \(name)</span></span><br><span class="line"><span class="comment">//age: \(age)</span></span><br></pre></td></tr></table></figure>
+<p>We can surround the string with <strong>number signs</strong> <code>#</code> to disable string interpolation. If we want to use string interpolation in a string that uses extended delimiters, we can add a sign <code>#</code> behind the backslash of string interpolations.</p>
+<h3 id="unicode-scalars-and-extended-grapheme-clusters"><a class="markdownIt-Anchor" href="#unicode-scalars-and-extended-grapheme-clusters"></a> Unicode Scalars and Extended Grapheme Clusters</h3>
+<blockquote>
+<p>What is a Swift’s string composed by?</p>
+</blockquote>
+<p>A string contains a sequence of characters of Swift’s <code>Character</code> type.<br />
+Every instance of Swift’s <code>Character</code> type represents a single <code>extended grapheme cluster</code>.<br />
+An extended grapheme cluster contains a sequence of <code>unicode scalars</code>.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> eAcute: <span class="type">Character</span> <span class="operator">=</span> <span class="string">&quot;<span class="subst">\u&#123;E9&#125;</span>&quot;</span>                         <span class="comment">// é</span></span><br><span class="line"><span class="keyword">let</span> combinedEAcute: <span class="type">Character</span> <span class="operator">=</span> <span class="string">&quot;<span class="subst">\u&#123;65&#125;</span><span class="subst">\u&#123;301&#125;</span>&quot;</span>          <span class="comment">// e followed by ́</span></span><br></pre></td></tr></table></figure>
+<p>The two characters above are rendered as the same format but they are absolutely different in underlying values.</p>
+<h3 id="counting-characters"><a class="markdownIt-Anchor" href="#counting-characters"></a> Counting Characters</h3>
+<blockquote>
+<p>Do you know how to calculate the length of a string?</p>
+</blockquote>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> eAcute: <span class="type">String</span> <span class="operator">=</span> <span class="string">&quot;<span class="subst">\u&#123;E9&#125;</span>&quot;</span></span><br><span class="line"><span class="keyword">let</span> combinedEAcute: <span class="type">String</span> <span class="operator">=</span> <span class="string">&quot;<span class="subst">\u&#123;65&#125;</span><span class="subst">\u&#123;301&#125;</span>&quot;</span></span><br><span class="line"><span class="keyword">let</span> combinedEAcute2: <span class="type">NSString</span> <span class="operator">=</span> <span class="string">&quot;<span class="subst">\u&#123;65&#125;</span><span class="subst">\u&#123;301&#125;</span>&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(eAcute.count) <span class="comment">// 1</span></span><br><span class="line"><span class="built_in">print</span>(combinedEAcute.count) <span class="comment">// 1</span></span><br><span class="line"><span class="built_in">print</span>(combinedEAcute2.length) <span class="comment">// 2</span></span><br></pre></td></tr></table></figure>
+<p>As you can see, the count of a string of Swift’s String type means the count of extended grapheme clusters. The length of a string of NSString is based on the number of 16-bit code units within the string’s UTF-16 representation.</p>
+<h3 id="string-indices"><a class="markdownIt-Anchor" href="#string-indices"></a> String Indices</h3>
+<blockquote>
+<p>Why does Swift not provide the Int indices for String?</p>
+</blockquote>
+<p>As mentioned above, a string is composed by a sequence of grapheme clusters and a grapheme cluster might contain several unicode scalars(<em>One scalar occupies 21 bits memory</em>). So the compiler can not use an int index to offset the memory address to find the specific character, because the memory size one character occupied is uncertain.</p>
+<h3 id="comparing-strings"><a class="markdownIt-Anchor" href="#comparing-strings"></a> Comparing Strings</h3>
+<blockquote>
+<p><code>&quot;\u&#123;E9&#125;&quot;</code> == <code>&quot;\u&#123;65&#125;\u&#123;301&#125;&quot;</code>, true or false?</p>
+</blockquote>
+<p>The result of the comparison expression above is true. The <code>&quot;\u&#123;E9&#125;&quot;</code> is <code>é</code> and the <code>&quot;\u&#123;65&#125;\u&#123;301&#125;&quot;</code> is <code>e</code> followed by <code>́ </code>. Theirs unicode scalars are not equal, but the representations of their grapheme clusters are all the character <code>é</code>. So Swift thinks they are the same strings.</p>
+<h2 id="control-flow"><a class="markdownIt-Anchor" href="#control-flow"></a> Control Flow</h2>
+<h3 id="where"><a class="markdownIt-Anchor" href="#where"></a> Where</h3>
+<blockquote>
+<p>Using <code>Where</code> in switch cases to perform dynamic filtering.</p>
+</blockquote>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> yetAnotherPoint <span class="operator">=</span> (<span class="number">1</span>, <span class="operator">-</span><span class="number">1</span>)</span><br><span class="line"><span class="keyword">switch</span> yetAnotherPoint &#123;</span><br><span class="line"><span class="keyword">case</span> <span class="keyword">let</span> (x, y) <span class="keyword">where</span> x <span class="operator">==</span> y:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;(<span class="subst">\(x)</span>, <span class="subst">\(y)</span>) is on the line x == y&quot;</span>)</span><br><span class="line"><span class="keyword">case</span> <span class="keyword">let</span> (x, y) <span class="keyword">where</span> x <span class="operator">==</span> <span class="operator">-</span>y:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;(<span class="subst">\(x)</span>, <span class="subst">\(y)</span>) is on the line x == -y&quot;</span>)</span><br><span class="line"><span class="keyword">case</span> <span class="keyword">let</span> (x, y):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;(<span class="subst">\(x)</span>, <span class="subst">\(y)</span>) is just some arbitrary point&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>You can write any boolean result expressions following the statement <code>where</code>.</p>
+<h3 id="fallthrough"><a class="markdownIt-Anchor" href="#fallthrough"></a> Fallthrough</h3>
+<blockquote>
+<p>Fallthrough won’t check the next case’s conditions, directly executes its block.</p>
+</blockquote>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> age <span class="operator">=</span> <span class="number">18</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">switch</span> age &#123;</span><br><span class="line"><span class="keyword">case</span> <span class="number">18</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;18&quot;</span>)</span><br><span class="line">    <span class="keyword">fallthrough</span></span><br><span class="line"><span class="keyword">case</span> <span class="number">19</span><span class="operator">...</span><span class="number">100</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;An adult&quot;</span>)</span><br><span class="line"><span class="keyword">default</span>:</span><br><span class="line">    <span class="keyword">break</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 18</span></span><br><span class="line"><span class="comment">// An adult</span></span><br></pre></td></tr></table></figure>
+<p>The variable age is 18 of type Int, it’s outside of the range <code>19...100</code>. But the compiler would ignore the next case’s condition checking to straightly execute its block when using the keyword <code>fallthrough</code>.</p>
+<h3 id="labeled-statements"><a class="markdownIt-Anchor" href="#labeled-statements"></a> Labeled Statements</h3>
+<blockquote>
+<p>Exit the specified one in nested control flows.</p>
+</blockquote>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> <span class="number">0</span><span class="operator">...</span><span class="number">2</span> &#123;</span><br><span class="line">    <span class="keyword">switch</span> x &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">break</span> </span><br><span class="line">        <span class="comment">// Want to exit the outer loop.</span></span><br><span class="line">        <span class="comment">// But can only exit the switch scope and still enter the next loop.</span></span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;outer: <span class="subst">\(x)</span>&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>In the switch statement,  we want to exit the outer loop when checking the x is equal to 2. But the break statement in the switch’s scope means exiting the switch control flow rather than the outer loop.<br />
+The resolution is to label the outer loop and to use the break followed by the loop’s label to definitely exit the outer loop.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">outerLoop: <span class="keyword">for</span> x <span class="keyword">in</span> <span class="number">0</span><span class="operator">...</span><span class="number">2</span> &#123;</span><br><span class="line">    <span class="keyword">switch</span> x &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">break</span> outerLoop <span class="comment">// Want to exit the outer loop.</span></span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;outer: <span class="subst">\(x)</span>&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Every control statements can prefix labels.</p>
+<h2 id="functions"><a class="markdownIt-Anchor" href="#functions"></a> Functions</h2>
+<h3 id="variadic-parameters"><a class="markdownIt-Anchor" href="#variadic-parameters"></a> Variadic Parameters</h3>
+<blockquote>
+<p>We can define multiple variadic parameters for a function.</p>
+</blockquote>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">zip</span>(<span class="params">leftValues</span>: <span class="type">String</span>..., <span class="params">rightValues</span>: <span class="type">String</span>...) -&gt; [(<span class="type">String</span>, <span class="type">String</span>)] &#123;</span><br><span class="line">    <span class="built_in">zip</span>(leftValues, rightValues).map(&#123; <span class="variable">$0</span> &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>We defined a zip method of variadic parameter style above. The count of variadic parameters is unlimited, but every parameter following a variadic parameter must have the argument label.</p>
+<h2 id="closures"><a class="markdownIt-Anchor" href="#closures"></a> Closures</h2>
+<h3 id="escaping-closures"><a class="markdownIt-Anchor" href="#escaping-closures"></a> Escaping Closures</h3>
+<blockquote>
+<p>Escaping closures can’t capture a mutable reference to self for structures.</p>
+</blockquote>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">SomeStruct</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> x <span class="operator">=</span> <span class="number">10</span></span><br><span class="line">    <span class="keyword">mutating</span> <span class="keyword">func</span> <span class="title function_">doSomething</span>() &#123;</span><br><span class="line">        someFunctionWithNonescapingClosure &#123; x <span class="operator">=</span> <span class="number">200</span> &#125;  <span class="comment">// Ok</span></span><br><span class="line">        someFunctionWithEscapingClosure &#123; x <span class="operator">=</span> <span class="number">100</span> &#125;     <span class="comment">// Error</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Structures and enumerations don’t allow shared mutability.</p>
+<h2 id="enumerations"><a class="markdownIt-Anchor" href="#enumerations"></a> Enumerations</h2>
+<h3 id="recursive-enumerations"><a class="markdownIt-Anchor" href="#recursive-enumerations"></a> Recursive Enumerations</h3>
+<blockquote>
+<p>Use <code>indirect</code> to indicate that an enumeration or enumeration cases are recursive.</p>
+</blockquote>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">MatryoshkaDoll</span> &#123;</span><br><span class="line">    <span class="keyword">case</span> empty</span><br><span class="line">    <span class="keyword">indirect</span> <span class="keyword">case</span> doll(<span class="type">MatryoshkaDoll</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>The inner of a matryoshka doll has either a smaller doll or nothing. We declare an enumeration above named <code>MatryoshkaDoll</code> to represent a matryoshka doll. The case <code>doll</code> of the enumeration has an associated value of type <code>MatryoshkaDoll</code> means it has another one in its inner. The case doll’s associated values  a value of itself enumeration type means it’s a recursive case that we need to add the <code>indirect</code> attribute before the keyword case. Alternatively, you can only add the <code>indirect</code> attribute before the keyword <code>enum</code> of the enumeration to indicate all cases of the enumeration are indirect.</p>
+<h2 id="properties"><a class="markdownIt-Anchor" href="#properties"></a> Properties</h2>
+<h3 id="lazy-stored-properties"><a class="markdownIt-Anchor" href="#lazy-stored-properties"></a> Lazy Stored Properties</h3>
+<blockquote>
+<p>Access a lazy stored property in multiple threads simultaneously isn’t thread-safe.</p>
+</blockquote>
+<p>If we access a lazy stored property of an instance in multiple threads simultaneously, the initialization of the property would be executed repeatedly.</p>
+<h3 id="property-observers"><a class="markdownIt-Anchor" href="#property-observers"></a> Property Observers</h3>
+<blockquote>
+<p>What’s the observers calling order when we assign a new value to an override stored property of a subclass instance?</p>
+</blockquote>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> age <span class="operator">=</span> <span class="number">0</span> &#123;</span><br><span class="line">        <span class="keyword">didSet</span> &#123;</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;person&#x27;s age was set to <span class="subst">\(age)</span>&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">willSet</span> &#123;</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;person&#x27;s age will be set to <span class="subst">\(newValue)</span>&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Student</span>: <span class="title class_ inherited__">Person</span> &#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="keyword">var</span> age: <span class="type">Int</span> &#123;</span><br><span class="line">        <span class="keyword">didSet</span> &#123;</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;student&#x27;s age was set to <span class="subst">\(age)</span>&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">willSet</span> &#123;</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;student&#x27;s age will be set to <span class="subst">\(newValue)</span>&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> me <span class="operator">=</span> <span class="type">Student</span>()</span><br><span class="line">me.age <span class="operator">=</span> <span class="number">100</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// student&#x27;s age will be set to 100</span></span><br><span class="line"><span class="comment">// person&#x27;s age will be set to 100</span></span><br><span class="line"><span class="comment">// person&#x27;s age was set to 100</span></span><br><span class="line"><span class="comment">// student&#x27;s age was set to 100</span></span><br></pre></td></tr></table></figure>
+<p>As described in the example above, if we set a new value to the <code>age</code> property of an <code>Student</code> instance, the <code>willSet</code> property observer of the <code>age</code> property in <code>Student</code>(subclass) is invoked before it’s invoked in <code>Person</code>(superclass), but the <code>didSet</code> property observer is invoked in <code>Student</code>(subclass) after it’s invoked in <code>Person</code>(superclass).</p>
+<p>The calling order is like this: <code>willSet(subclass)</code> -&gt; <code>willSet(superclass)</code> -&gt; <code>didSet(superclass)</code> -&gt; <code>didSet(subclass)</code>.</p>
+<blockquote>
+<p>If we pass a value property as an <code>inout</code> parameter to a function, the property observers for that property will be invoked even though the function doesn’t change the property’s value in its body.</p>
+</blockquote>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> me <span class="operator">=</span> <span class="type">Student</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">func</span> <span class="title function_">modify</span>(<span class="params">age</span>: <span class="keyword">inout</span> <span class="type">Int</span>) &#123;&#125;</span><br><span class="line"></span><br><span class="line">modify(age: <span class="operator">&amp;</span>me.age)</span><br><span class="line"></span><br><span class="line"><span class="comment">// student&#x27;s age will be set to 0</span></span><br><span class="line"><span class="comment">// person&#x27;s age will be set to 0</span></span><br><span class="line"><span class="comment">// person&#x27;s age was set to 0</span></span><br><span class="line"><span class="comment">// student&#x27;s age was set to 0</span></span><br></pre></td></tr></table></figure>
+<p>This is because the implementation principle of the <code>inout</code> parameter. The value of the inout parameter will be written back to the property at the end of the function. The writing operation would trigger the property observers for the property.</p>
+<h3 id="property-wrapper"><a class="markdownIt-Anchor" href="#property-wrapper"></a> Property Wrapper</h3>
+<blockquote>
+<p>You can use a structure, class, or <strong>enumeration</strong> to define a property wrapper.</p>
+</blockquote>
+<p>Usually, we would use a structure or class to implement a property wrapper, because they can have stored properties to as the storage of the <code>wrappedValue</code>.</p>
+<p>If we don’t need to store the <code>wrappedValue</code>’s value or the underlying storage system is global static or is a singleton like UserDefaults or DataBase, using enumerations maybe is an alternative choice.</p>
+<blockquote>
+<p>When you apply a wrapper to a property, the compiler <strong>synthesizes</strong> code that provides storage for the wrapper and code that provides access to the property through the wrapper.</p>
+</blockquote>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@propertyWrapper</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">TwelveOrLess</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> number <span class="operator">=</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">var</span> wrappedValue: <span class="type">Int</span> &#123;</span><br><span class="line">        <span class="keyword">get</span> &#123; <span class="keyword">return</span> number &#125;</span><br><span class="line">        <span class="keyword">set</span> &#123; number <span class="operator">=</span> <span class="built_in">min</span>(newValue, <span class="number">12</span>) &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>The example above is from official documents. The <code>TwelveOrLess</code> property wrapper would limit the value of the Int property to max 12.<br />
+We can use it like below.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">SmallRectangle</span> &#123;</span><br><span class="line">    <span class="meta">@TwelveOrLess</span> <span class="keyword">var</span> height: <span class="type">Int</span></span><br><span class="line">    <span class="meta">@TwelveOrLess</span> <span class="keyword">var</span> width: <span class="type">Int</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> rectangle <span class="operator">=</span> <span class="type">SmallRectangle</span>()</span><br><span class="line"><span class="built_in">print</span>(rectangle.height)</span><br><span class="line"><span class="comment">// Prints &quot;0&quot;</span></span><br><span class="line"></span><br><span class="line">rectangle.height <span class="operator">=</span> <span class="number">10</span></span><br><span class="line"><span class="built_in">print</span>(rectangle.height)</span><br><span class="line"><span class="comment">// Prints &quot;10&quot;</span></span><br><span class="line"></span><br><span class="line">rectangle.height <span class="operator">=</span> <span class="number">24</span></span><br><span class="line"><span class="built_in">print</span>(rectangle.height)</span><br><span class="line"><span class="comment">// Prints &quot;12&quot;</span></span><br></pre></td></tr></table></figure>
+<p>We use the <code>TwelveOrLess</code> wrapper to modify the two properties <code>height</code> and <code>width</code> of the <code>SmallRectangle</code> struct. When we build code, the compiler will automatically synthesize code for wrapped properties to provide access methods and private storage properties like below.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">SmallRectangle</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> _height <span class="operator">=</span> <span class="type">TwelveOrLess</span>()</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> _width <span class="operator">=</span> <span class="type">TwelveOrLess</span>()</span><br><span class="line">    <span class="keyword">var</span> height: <span class="type">Int</span> &#123;</span><br><span class="line">        <span class="keyword">get</span> &#123; <span class="keyword">return</span> _height.wrappedValue &#125;</span><br><span class="line">        <span class="keyword">set</span> &#123; _height.wrappedValue <span class="operator">=</span> newValue &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> width: <span class="type">Int</span> &#123;</span><br><span class="line">        <span class="keyword">get</span> &#123; <span class="keyword">return</span> _width.wrappedValue &#125;</span><br><span class="line">        <span class="keyword">set</span> &#123; _width.wrappedValue <span class="operator">=</span> newValue &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>As described in the example above, the wrapped properties will be converted to computed properties, and the value storing is actually supported by the stored properties of type <code>TwelveOrLess</code>(propertyWrapper). The underlying private stored properties are named with the wrapped properties names prefixed an underscore.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">SmallRectangle</span> &#123;</span><br><span class="line">    <span class="meta">@TwelveOrLess</span> <span class="keyword">var</span> height: <span class="type">Int</span></span><br><span class="line">    <span class="meta">@TwelveOrLess</span> <span class="keyword">var</span> width: <span class="type">Int</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">accessSynthesizedProperties</span>() &#123;</span><br><span class="line">        <span class="built_in">print</span>(_height, _width)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">SmallRectangle</span>().accessSynthesizedProperties()</span><br><span class="line"><span class="comment">// TwelveOrLess(number: 0) TwelveOrLess(number: 0)</span></span><br></pre></td></tr></table></figure>
+<p>As you can see, we can directly access the <code>_height</code> and the <code>_width</code> properties. They are of type <code>TwelveOrLess</code>.</p>
+<blockquote>
+<p>How to set up initial values for wrapped properties?</p>
+</blockquote>
+<p>Int the example above, we can not customize an initial value for the wrapped value. Before learning set up an initial value, let’s take a look at how the <code>propertyWrapper</code> is instanced, because the initial value you passed is actually stored to the underlying property wrappers.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@propertyWrapper</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">SmallNumber</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> number: <span class="type">Int</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> maximum: <span class="type">Int</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> wrappedValue: <span class="type">Int</span> &#123;</span><br><span class="line">        <span class="keyword">get</span> &#123; <span class="keyword">return</span> number &#125;</span><br><span class="line">        <span class="keyword">set</span> &#123; number <span class="operator">=</span> <span class="built_in">min</span>(newValue, maximum) &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">init</span>() &#123;</span><br><span class="line">        number <span class="operator">=</span> <span class="number">0</span></span><br><span class="line">        maximum <span class="operator">=</span> <span class="number">12</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>If we just write a pure property wrapper type name for a property like below, the code synthesized by the compiler will call the wrapper’s <code>init()</code> initializer.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">SmallRectangle</span> &#123;</span><br><span class="line">    <span class="meta">@SmallNumber</span> <span class="keyword">var</span> height: <span class="type">Int</span></span><br><span class="line">    <span class="comment">// private var _height = SmallNumber()</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Of course, you can add other initializers for SmallNumber to pass some initial arguments.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@propertyWrapper</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">SmallNumber</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">init</span>(<span class="params">number</span>: <span class="type">Int</span>, <span class="params">maximum</span>: <span class="type">Int</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.number <span class="operator">=</span> number</span><br><span class="line">        <span class="keyword">self</span>.maximum <span class="operator">=</span> maximum</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">SmallRectangle</span> &#123;</span><br><span class="line">    <span class="meta">@SmallNumber</span>(number: <span class="number">10</span>, maximum: <span class="number">100</span>) <span class="keyword">var</span> height: <span class="type">Int</span></span><br><span class="line">    <span class="comment">// private var _height = SmallNumber(number: 10, maximum: 100)</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Alternatively, if you implements an <code>init(wrappedValue:)</code> initializer for the <code>propertyWrapper</code>, you can assign a initial value to the wrapped property as part of declaring the property.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@propertyWrapper</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">SmallNumber</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">init</span>(<span class="params">wrappedValue</span>: <span class="type">Int</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.number <span class="operator">=</span> wrappedValue</span><br><span class="line">        <span class="keyword">self</span>.maximum <span class="operator">=</span> <span class="number">12</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">SmallRectangle</span> &#123;</span><br><span class="line">    <span class="meta">@SmallNumber</span> <span class="keyword">var</span> height: <span class="type">Int</span> <span class="operator">=</span> <span class="number">100</span></span><br><span class="line">    <span class="comment">// private var _height = SmallNumber(wrappedValue: 100)</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>There is a complex usage that you can config the SmallNumber wrapper with custom arguments and assign an initial value to the property in one single declaring code.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@propertyWrapper</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">SmallNumber</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    </span><br><span class="line">   <span class="keyword">init</span>(<span class="params">wrappedValue</span>: <span class="type">Int</span>, <span class="params">maximum</span>: <span class="type">Int</span>) &#123;</span><br><span class="line">        number <span class="operator">=</span> wrappedValue</span><br><span class="line">        <span class="keyword">self</span>.maximum <span class="operator">=</span> maximum</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">SmallRectangle</span> &#123;</span><br><span class="line">    <span class="meta">@SmallNumber</span>(maximum: <span class="number">100</span>) <span class="keyword">var</span> height: <span class="type">Int</span> <span class="operator">=</span> <span class="number">80</span></span><br><span class="line">    <span class="comment">// private var _height = SmallNumber(wrappedValue: 80, maximum: 100)</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>If the initializer has an parameter named <code>wrappedValue</code>, the initial value to the wrapped property will be pass to the initializer as the <code>wrappedValue</code> parameter’s argument.</p>
+<blockquote>
+<p>Using projected values to expand property wrappers functionality.</p>
+</blockquote>
+<p>Projected values are similar as wrapped values. You can declare a property named <code>projectedValue</code> of any type you need and then use the dollar sign <code>$</code> followed the property’s name to access its projected value.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@propertyWrapper</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">SmallNumber</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> number: <span class="type">Int</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> maximum: <span class="type">Int</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> wrappedValue: <span class="type">Int</span> &#123;</span><br><span class="line">        <span class="keyword">get</span> &#123; <span class="keyword">return</span> number &#125;</span><br><span class="line">        <span class="keyword">set</span> &#123;</span><br><span class="line">            number <span class="operator">=</span> <span class="built_in">min</span>(newValue, maximum)</span><br><span class="line">            projectedValue <span class="operator">+=</span> <span class="number">1</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private(set)</span> <span class="keyword">var</span> projectedValue: <span class="type">Int</span> <span class="operator">=</span> <span class="number">0</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">init</span>() &#123;</span><br><span class="line">        number <span class="operator">=</span> <span class="number">0</span></span><br><span class="line">        maximum <span class="operator">=</span> <span class="number">12</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">init</span>(<span class="params">wrappedValue</span>: <span class="type">Int</span>, <span class="params">maximum</span>: <span class="type">Int</span>) &#123;</span><br><span class="line">        number <span class="operator">=</span> wrappedValue</span><br><span class="line">        <span class="keyword">self</span>.maximum <span class="operator">=</span> maximum</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>We add a property named <code>projectedValue</code> in SmallNumber to record how many times the wrapped property has been changed.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> rectangle <span class="operator">=</span> <span class="type">SmallRectangle</span>()</span><br><span class="line">(<span class="number">0</span><span class="operator">...</span><span class="number">10</span>).forEach &#123;</span><br><span class="line">    rectangle.height <span class="operator">=</span> <span class="variable">$0</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">print</span>(rectangle.<span class="variable">$height</span>) <span class="comment">// 11</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>From Swift 5.4 onwards the property wrapper can be used in parameters of functions. Although the parameters of functions are <code>let</code> constants wil limit the power of properties wrappers, but we can also utilize the all features like using in properties or variables.</li>
+</ul>
+<h3 id="global-and-local-variables"><a class="markdownIt-Anchor" href="#global-and-local-variables"></a> Global and Local Variables</h3>
+<blockquote>
+<p>All the computing, observing and property wrappers can be used in global or local variables.</p>
+</blockquote>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">ValueBox</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> value: <span class="keyword">Any</span></span><br><span class="line">    <span class="keyword">init</span>(<span class="keyword">_</span> <span class="params">value</span>: <span class="keyword">Any</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.value <span class="operator">=</span> value</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> globalStoredVariable: <span class="type">ValueBox</span> <span class="operator">=</span> <span class="type">ValueBox</span>(<span class="number">100</span>)</span><br><span class="line"><span class="keyword">var</span> globalComputedVariable: <span class="type">ValueBox</span> &#123;</span><br><span class="line">    <span class="keyword">get</span> &#123; globalStoredVariable &#125;</span><br><span class="line">    <span class="keyword">set</span> &#123; globalStoredVariable <span class="operator">=</span> newValue &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">func</span> <span class="title function_">someFunction</span>() &#123;</span><br><span class="line">    <span class="keyword">var</span> localStoredVariable: <span class="type">ValueBox</span> <span class="operator">=</span> <span class="type">ValueBox</span>(<span class="number">200</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> localComputedVariable: <span class="type">ValueBox</span> &#123;</span><br><span class="line">        <span class="keyword">get</span> &#123; localStoredVariable &#125;</span><br><span class="line">        <span class="keyword">set</span> &#123; localStoredVariable <span class="operator">=</span> newValue &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@SmallNumber</span>(maximum: <span class="number">120</span>)</span><br><span class="line">    <span class="keyword">var</span> age: <span class="type">Int</span> <span class="operator">=</span> <span class="number">27</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>As you can see, we separate variables to four kinds, <code>globalStoredVariable</code>, <code>globalComputedVariable</code>, <code>localStoredVariable</code> and <code>localComputedVariable</code>. Property wrappers can only be used in <code>localStoredVariable</code>, the global variables and computed variables are not supported.</p>
+<blockquote>
+<p>Global constants and variables are always computed lazily, in a similar manner to lazy stored properties.</p>
+</blockquote>
+<h3 id="type-properties"><a class="markdownIt-Anchor" href="#type-properties"></a> Type Properties</h3>
+<blockquote>
+<p>Stored type properties are always computed lazily</p>
+</blockquote>
+<p>Stored type properties are always computed lazily, they are initialized on their fist access. Unlike lazy instance properties, Swift guarantee that they are initialized only once, even when accessed by multiple threads simultaneously.</p>
+<h3 id="type-property-syntax"><a class="markdownIt-Anchor" href="#type-property-syntax"></a> Type Property Syntax</h3>
+<blockquote>
+<p>The differences between <code>static</code> and <code>class</code> when defining a type property.</p>
+</blockquote>
+<p>We can use <code>static</code> to define a type property, stored or computed. If you want to override a computed type property in a subclass, you need to replace <code>static</code> to <code>class</code>.</p>
+<h2 id="methods"><a class="markdownIt-Anchor" href="#methods"></a> Methods</h2>
+<blockquote>
+<p>The differences of the implicit <code>self</code> property between classes and structures.</p>
+</blockquote>
+<p>The implicit property <code>self</code> in classes is a constant that you can’t assign a new value to it. But the <code>self</code> in structures or enumerations is a variable that you can assign a new value to it in a mutating method.</p>
+<blockquote>
+<p>The differences between <code>class</code> and <code>static</code> when defining a type method.</p>
+</blockquote>
+<p>Using the <code>class</code> keyword to replace of the <code>static</code> keyword to define a type method to make it can be overridden by subclasses.</p>
+<h2 id="inheritance"><a class="markdownIt-Anchor" href="#inheritance"></a> Inheritance</h2>
+<h3 id="accessing-superclasses-methods-properties-and-subscripts"><a class="markdownIt-Anchor" href="#accessing-superclasses-methods-properties-and-subscripts"></a> Accessing superclasses Methods, Properties, and Subscripts</h3>
+<blockquote>
+<p>Where can we use the <code>super</code> keyword?</p>
+</blockquote>
+<ul>
+<li>An overridden method, calling <code>super.someMethod()</code>.</li>
+<li>An overridden property, calling <code>super.someProperty</code> in getter or setter.</li>
+<li>An overridden subscript, calling <code>super[someIndex]</code>.</li>
+</ul>
+<blockquote>
+<p>Overrides getter and setter for stored or computed properties inherited from superclasses.</p>
+</blockquote>
+<p>The subclass doesn’t know the property’s nature is computed or stored when inheriting it from the superclass. So we can override properties of any type and don’t care whether its type is computed or stored.</p>
+<p>However, we can only override a read-only property to be a read-write property, but we can not override a read-write property to be a read-only property.</p>
+<blockquote>
+<p>Overrides property observers for variable stored properties or read-write computed properties.</p>
+</blockquote>
+<p>The constant properties and read-only properties value can’t change, so they don’t need the <code>willSet</code> and <code>didSet</code> observers.</p>
+<h3 id="preventing-overrides"><a class="markdownIt-Anchor" href="#preventing-overrides"></a> Preventing Overrides</h3>
+<blockquote>
+<p>Using the <code>final</code> keyword to prevent any override.</p>
+</blockquote>
+<p>We can write the <code>final</code> modifier before the method, property, or subscript’s introducer keyword to prevent them from being overridden. The method, property, or subscript defined in an extension can also use the <code>final</code> modifier. Adding the <code>final</code> modifier before the <code>class</code> introducer can mark the class type that can’t be inherited.</p>
+<h2 id="initialization"><a class="markdownIt-Anchor" href="#initialization"></a> Initialization</h2>
+<h3 id="setting-initial-values-for-stored-properties"><a class="markdownIt-Anchor" href="#setting-initial-values-for-stored-properties"></a> Setting initial values for Stored Properties</h3>
+<blockquote>
+<p>When you assign a default value to a stored property, or set its initial value within an initializer. The value of the property is set directly, without calling any property observers.</p>
+</blockquote>
+<blockquote>
+<p>For class instances, a constant property can be modified during initialization only by the class that introduces it. It can’t be modified by a subclass.</p>
+</blockquote>
+<h3 id="initializer-delegation-for-value-types"><a class="markdownIt-Anchor" href="#initializer-delegation-for-value-types"></a> Initializer Delegation for Value Types</h3>
+<blockquote>
+<p>Customizes an initializer for a structure and keeps its automatically generated memberwise initializer.</p>
+</blockquote>
+<p>When we provide a custom initializer for structures or classes, the automatically generated initializer(memberwise initializer for structures) will be disabled. If you still want to access the default initializer, you can place your custom initializers in an extension for the type rather than declaring them in the type’s original implementation.</p>
+<h3 id="initializer-delegation-for-class-types"><a class="markdownIt-Anchor" href="#initializer-delegation-for-class-types"></a> Initializer Delegation for Class Types</h3>
+<blockquote>
+<p>Initializer delegation rules</p>
+</blockquote>
+<ol>
+<li>A designated initializer must call a designated initializer from its immediate superclass.</li>
+<li>A convenience initializer must call an initializer from the same class.</li>
+<li>A convenience initializer must ultimately call a designated initializer.</li>
+</ol>
+<p><img src="http://book.csl.cool/img/20220129113940.png" alt="" /></p>
+<h3 id="two-phase-initialization"><a class="markdownIt-Anchor" href="#two-phase-initialization"></a> Two-Phase Initialization</h3>
+<blockquote>
+<p>How to write a correct initializer?</p>
+</blockquote>
+<p>To completely initialize an instance of a class needs through two phases. The first phase is allocating memory for the new instance and initializing all stored properties with a default value. The second phase is customizing properties further and then the instance is ready for use.</p>
+<p>The detail checking rules in the <a target="_blank" rel="noopener" href="https://docs.swift.org/swift-book/LanguageGuide/Initialization.html#">official document</a>.<br />
+Next, let me show you a standard example:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Superclass</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> property1: <span class="type">Int</span></span><br><span class="line">    <span class="keyword">let</span> property2: <span class="type">Int</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">init</span>(<span class="params">property1</span>: <span class="type">Int</span>, <span class="params">property2</span>: <span class="type">Int</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.property1 <span class="operator">=</span> property1</span><br><span class="line">        <span class="keyword">self</span>.property2 <span class="operator">=</span> property2</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Subclass</span>: <span class="title class_ inherited__">Superclass</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> property3: <span class="type">Int</span></span><br><span class="line">    <span class="keyword">let</span> property4: <span class="type">Int</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">init</span>(<span class="params">property3</span>: <span class="type">Int</span>, <span class="params">property4</span>: <span class="type">Int</span>) &#123;</span><br><span class="line">        <span class="comment">// **Phase 1**</span></span><br><span class="line">        <span class="comment">// You must initialize all stored properties introduced by current class.</span></span><br><span class="line">        <span class="keyword">self</span>.property3 <span class="operator">=</span> property3</span><br><span class="line">        <span class="keyword">self</span>.property4 <span class="operator">=</span> property4</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// self.property2 = 10</span></span><br><span class="line">        <span class="comment">// You can&#x27;t access the properties inherited from superclasses,</span></span><br><span class="line">        <span class="comment">// because these properties will later be overridden by the superclass initializer.</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">super</span>.<span class="keyword">init</span>(property1: <span class="number">0</span>, property2: <span class="number">0</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// **Phase 2**</span></span><br><span class="line">        <span class="comment">// you can now customize any property or call any instance method.</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">self</span>.property1 <span class="operator">=</span> <span class="number">0</span></span><br><span class="line">        <span class="keyword">self</span>.property3 <span class="operator">=</span> <span class="number">2</span></span><br><span class="line">        instanceMethod()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">convenience</span> <span class="keyword">init</span>(<span class="params">value</span>: <span class="type">Int</span>) &#123;</span><br><span class="line">        <span class="comment">// **Phase 1**</span></span><br><span class="line">        <span class="comment">// self.property3 = value</span></span><br><span class="line">        <span class="comment">// In convenience initializers, you can&#x27;t access any property, introduced by </span></span><br><span class="line">        <span class="comment">// current class or inherited from superclasses, before delegating to another initializer.</span></span><br><span class="line">        <span class="keyword">self</span>.<span class="keyword">init</span>(property3: value, property4: value)</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// *Phase 2*</span></span><br><span class="line">        <span class="comment">// you can now customize any property or call any instance method.</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">self</span>.property2 <span class="operator">=</span> <span class="number">1</span></span><br><span class="line">        <span class="keyword">self</span>.property4 <span class="operator">=</span> <span class="number">3</span></span><br><span class="line">        instanceMethod()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">func</span> <span class="title function_">instanceMethod</span>() &#123;</span><br><span class="line">        <span class="comment">// Do something...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>A subclass designated initializer must initialize all stored properties introduced by itself before calling the superclass initializer.</li>
+<li>Before calling the superclass initializer, the subclass can’t access any inherited properties or instance methods.</li>
+<li>After then, you can begins customizing any property or calling instance methods you want.</li>
+<li>Within a subclass convenience initializer, you can’t access any property before calling another initializer.</li>
+<li>Then, you can customize whatever you want.</li>
+</ol>
+<blockquote>
+<p>If an initializer doesn’t do any customization in phase 2, and the superclass has a zero-argument designated initializer, you can omit a call to <code>super.init()</code> after initializing all stored properties.</p>
+</blockquote>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> name: <span class="type">String</span> <span class="operator">=</span> <span class="string">&quot;&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Student</span>: <span class="title class_ inherited__">Person</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> number: <span class="type">Int</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">init</span>(<span class="params">number</span>: <span class="type">Int</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.number <span class="operator">=</span> number</span><br><span class="line"></span><br><span class="line">        <span class="comment">// super.init()</span></span><br><span class="line">        <span class="comment">// You can ignore this line of code. The compiler will automatically synthesize it for you.</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="initializer-inheritance-and-overriding"><a class="markdownIt-Anchor" href="#initializer-inheritance-and-overriding"></a> Initializer Inheritance and Overriding</h3>
+<p>By default, subclasses in Swift don’t inherit any initializer from its superclasses. If you want to use initializers that’s the same as the superclass, you can customize them again.</p>
+<blockquote>
+<p>Constant properties can only be modified in initializers for the classes introduced them. So subclasses can only modify inherited variable properties during initialization, but can’t modify inherited constant properties.</p>
+</blockquote>
+<p>Just like overriding properties, methods, or descriptions. If a subclass override a superclass initializer, it needs to add an <code>override</code> modifier before the initializer.</p>
+<p>When you inherit a superclass designated initializer, you always need to write the <code>override</code> modifier before your overriding initializer, whether your implementation of it is designated or convenience.</p>
+<p>Conversely, if you override a superclass convenience initializer, subclasses can’t directly access superclasses convenience initializers, so strictly speaking that you subclass doesn’t provide an override of the superclass initializer. Therefore, you don’t need writing the <code>override</code> modifier for your overriding initializers.</p>
+<h3 id="automatic-initializer-inheritance"><a class="markdownIt-Anchor" href="#automatic-initializer-inheritance"></a> Automatic Initializer Inheritance</h3>
+<p>In some specific scenes, subclasses can inherit their superclass initializers.</p>
+<p><strong>Rule 1</strong><br />
+If your subclass doesn’t define any designated initializer, it automatically inherits all of its superclass designated initializers.</p>
+<p><strong>Rule 2</strong><br />
+If your subclass provides an implementation of all its superclass designated initializers, it automatically inherits all of its superclass convenience initializers.(satisfying the rule 1, or overriding all superclass designated initializers. Overriding superclass designated initializers to convenience initializers is also ok)</p>
+<h3 id="overriding-a-failable-initializer"><a class="markdownIt-Anchor" href="#overriding-a-failable-initializer"></a> Overriding a Failable Initializer</h3>
+<blockquote>
+<p>You can override a failable initializer with a nonfailable initializer but not the other way around.</p>
+</blockquote>
+<p>You can delegate from <code>init!</code> to <code>init?</code> and vise versa, and you can override <code>init?</code> with <code>init!</code> and vice versa. And also you can delegate from <code>init</code> to <code>init!</code> and visa versa.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">init</span>() &#123;&#125;</span><br><span class="line">    <span class="keyword">init?</span>(<span class="params">name</span>: <span class="type">String</span>) &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Student</span>: <span class="title class_ inherited__">Person</span> &#123;</span><br><span class="line">    <span class="comment">// By default, we can&#x27;t override a nonfailable initializer with </span></span><br><span class="line">    <span class="comment">// a failable initializer, but the implicit `init!` failable initializer</span></span><br><span class="line">    <span class="comment">// is an exception.</span></span><br><span class="line">    <span class="keyword">override</span> <span class="keyword">init!</span>() &#123; </span><br><span class="line">        <span class="keyword">super</span>.<span class="keyword">init</span>() </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">override</span> <span class="keyword">init!</span>(<span class="params">name</span>: <span class="type">String</span>) &#123; </span><br><span class="line">        <span class="keyword">super</span>.<span class="keyword">init</span>(name: name ) </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="required-initializers"><a class="markdownIt-Anchor" href="#required-initializers"></a> Required Initializers</h3>
+<p>Write a <code>required</code> modifier before the definition of a class initializer to indicate that every subclass of the class must implement that initializer.</p>
+<p>You don’t have to provide an <code>override</code> modifier when overriding a required designated initializer, you can think <code>required init</code> to <code>required override init</code>.</p>
+<p>You don’t have to explicitly implement a required initializer if you can satisfy the requirement with an inherited initializer.</p>
+<h2 id="optional-chaining"><a class="markdownIt-Anchor" href="#optional-chaining"></a> Optional Chaining</h2>
+<h3 id="calling-methods-through-optional-chaining"><a class="markdownIt-Anchor" href="#calling-methods-through-optional-chaining"></a> Calling Methods Through Optional Chaining</h3>
+<p>We know that a function without specifying a returned value type returns a <code>Void</code>(alias to empty tuple <code>()</code>) value. Alternatively, the assignment operation also returns a <code>Void</code> value.</p>
+<p>So we can compare a method call’s returned value against nil to see if the method call was successful.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> pet: <span class="type">Pet</span>?</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Pet</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> name: <span class="type">String</span>?</span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">call</span>() &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> me <span class="operator">=</span> <span class="type">Person</span>()</span><br><span class="line"><span class="keyword">if</span> me.pet<span class="operator">?</span>.call() <span class="operator">!=</span> <span class="literal">nil</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;The method call of the person&#x27;s pet was called.&quot;</span>)</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Didn&#x27;t invoke the method call.&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Similarly, we can also compare the returned value of an assignment operation against nil to see if the property was set successfully.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (me.pet<span class="operator">?</span>.name <span class="operator">=</span> <span class="string">&quot;Raspberry&quot;</span>) <span class="operator">!=</span> <span class="literal">nil</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Succeeded in assigning the value to the `name` property&quot;</span>)</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Failed to assign the value to the `name` property&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="linking-multiple-levels-of-chaining"><a class="markdownIt-Anchor" href="#linking-multiple-levels-of-chaining"></a> Linking Multiple Levels of Chaining</h3>
+<ol>
+<li>If the type you are trying to retrieve isn’t optional, it will become an optional because of the optional chaining.</li>
+<li>If the type you are trying to retrieve is <strong>already</strong> optional, it won’t become more optional because of the chaining.</li>
+</ol>
+<h2 id="concurrency"><a class="markdownIt-Anchor" href="#concurrency"></a> Concurrency</h2>
+<blockquote>
+<p>What’s the <code>__consuming</code> keyword?</p>
+</blockquote>
+<p>Unused syntax feature <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/51292799/what-does-consuming-do-in-swift">StackOverflow</a></p>
+<blockquote>
+<p>What’s the <code>@rethrows</code> keyword before definitions of protocols?</p>
+</blockquote>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@rethrows</span> <span class="keyword">public</span> <span class="keyword">protocol</span> <span class="title class_">AsyncSequence</span> &#123;</span><br><span class="line">    <span class="comment">// Content...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>If you want to executes a sequence of asynchronous tasks, you can call the asynchronous methods within a block scope of a loop method. Otherwise the more concise way is using the <code>AsyncSequence</code> type. Swift provides many extensions for common asynchronous types to conform to the <code>AsyncSequence</code> protocol. Then you can easily use the <code>for await-in</code> pattern to iterate a sequence of asynchronous tasks. Of course, you can custom you own types that conform to the <code>AsyncSequence</code> protocol.</p>
+<blockquote>
+<p>Executing asynchronous tasks in parallel.</p>
+</blockquote>
+<p>Using <code>await</code> to call synchronous tasks is sequential. But sometimes the multiple tasks are executing independently, so they can run at the same time to increase the processing performance. This time, you can select to use the <code>await let</code> pattern to execute several tasks in parallel.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">generateDiplomaImage</span>() <span class="keyword">async</span> <span class="keyword">throws</span> -&gt; <span class="type">UIImage</span> &#123;</span><br><span class="line">    <span class="keyword">await</span> <span class="keyword">let</span> diplomaTemplate <span class="operator">=</span> downloadDiplomaTemplate()</span><br><span class="line">    <span class="keyword">await</span> <span class="keyword">let</span> aQRCodeImage <span class="operator">=</span> downloadQRCodeImage()</span><br><span class="line">    <span class="keyword">let</span> diploma <span class="operator">=</span>  <span class="keyword">try</span> <span class="keyword">await</span> composite(diplomaTemplate, aQRCodeImage)</span><br><span class="line">    <span class="comment">// let diploma =  composite(try await diplomaTemplate, try await aQRCodeImage)</span></span><br><span class="line">    <span class="comment">// You can fetch these parameters values separately.</span></span><br><span class="line">    <span class="keyword">return</span> diploma</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="type-casting"><a class="markdownIt-Anchor" href="#type-casting"></a> Type Casting</h2>
+<h3 id="type-casting-for-any-and-anyobject"><a class="markdownIt-Anchor" href="#type-casting-for-any-and-anyobject"></a> Type Casting for Any and AnyObject</h3>
+<blockquote>
+<p>The type <code>Any</code> represents values of any type, including <code>optional</code> types.</p>
+</blockquote>
+<p>Swift gives you a warning if you use an optional value where a value of Any type is expected. If you really do need to use an optional value as an Any value, you can explicitly cast the optional to Any.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> optionalNumber: <span class="type">Int</span>? <span class="operator">=</span> <span class="number">3</span></span><br><span class="line">things.append(optionalNumber)        <span class="comment">// Warning</span></span><br><span class="line">things.append(optionalNumber <span class="keyword">as</span> <span class="keyword">Any</span>) <span class="comment">// No warning</span></span><br></pre></td></tr></table></figure>
+<h2 id="nested-types"><a class="markdownIt-Anchor" href="#nested-types"></a> Nested Types</h2>
+<h2 id="extensions"><a class="markdownIt-Anchor" href="#extensions"></a> Extensions</h2>
+<blockquote>
+<p>Extensions can add new functionality to a type, but they can’t override existing functionality.</p>
+</blockquote>
+<blockquote>
+<p>Extensions can add new computed properties for a type, but they can’t add stored properties, or add any property observers to existing properties.</p>
+</blockquote>
+<p>Extensions can’t override any properties or methods for a type.</p>
+<blockquote>
+<p>Extensions can only expand new convenience initializers for a type, adding designated initializers and deinitializers aren’t allowed.</p>
+</blockquote>
+<h2 id="protocols"><a class="markdownIt-Anchor" href="#protocols"></a> Protocols</h2>
+<p>Swift thinks that all protocols should be used as type constraints rather than type declarations. In fact, a type declared by a protocol will be implicitly cast to a <code>existential</code> that carries the protocol’s information.</p>
+<p>In Swift 5.6, a new syntax <code>any Protocol</code> will be introduced to explicitly declare variables of <code>existential</code> types. Existential containers will erase all information about the actual type, you can only access methods or variables required by the protocol.<br />
+Erasing type information will prevent the performance improvement by Swift compiler, so we should always use <code>generic types</code> or <code>opaque types</code> to support Swift compiler to optimize code performance base on static type system.</p>
+<p>Good news, in Swift 5.7, all protocols (having associated values or using Self) can be used as existential types, but remember do not abuse it.</p>
+<h3 id="property-requirements"><a class="markdownIt-Anchor" href="#property-requirements"></a> Property Requirements</h3>
+<ol>
+<li>A protocol can require a property to be gettable or gettable and settable.</li>
+<li>If a protocol require a property to be gettable and settable, the requirement can’t be satisfied by a constant stored property or a read-only computed property.</li>
+<li>If a protocol require a property to be gettable, the requirement can be satisfied by any kind of property. And it’s valid for the property to be also settable if this is useful for your own code.</li>
+</ol>
+<blockquote>
+<p>Always using the <code>static</code> keyword to require a type property in protocols, you can implement it by using <code>static</code> or <code>class</code> freely in classes.</p>
+</blockquote>
+<h3 id="mutating-method-requirements"><a class="markdownIt-Anchor" href="#mutating-method-requirements"></a> Mutating Method Requirements</h3>
+<blockquote>
+<p>A protocol instance method requirement marked with <code>mutating</code>.</p>
+</blockquote>
+<ol>
+<li>The adopting classes can ignore the mutating keyword.</li>
+<li>And the adopting value types(structures or enumerations) can also ignore the mutating keyword if their implementation to this method don’t mutate themselves instances when executing.</li>
+<li>If the protocol instance methods requirement doesn’t prefix with <code>mutating</code>, the implementation to this method in value types prefixed with <code>mutating</code> isn’t fulfilled to the requirement.</li>
+</ol>
+<h3 id="initializer-requirements"><a class="markdownIt-Anchor" href="#initializer-requirements"></a> Initializer Requirements</h3>
+<blockquote>
+<p>A protocol initializer requirement requires that the adopting classes must mark their implementing initializer as <code>required</code>.</p>
+</blockquote>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protocol</span> <span class="title class_">InitWithName</span> &#123;</span><br><span class="line">    <span class="keyword">init</span>(<span class="params">name</span>: <span class="type">String</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span>: <span class="title class_ inherited__">InitWithName</span> &#123;</span><br><span class="line">    <span class="keyword">required</span> <span class="keyword">init</span>(<span class="params">name</span>: <span class="type">String</span>) &#123;</span><br><span class="line">        <span class="comment">//...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>This rule can make sure all subclasses of the <code>Person</code> class perform to the <code>InitWithName</code> protocol.<br />
+If the class conforming to the protocol was marked as <code>final</code>(final classes can’t be inherited), you can omit the <code>required</code> modifier.<br />
+<em>Note that a final subclass inherited from a superclass defined a required initializer has to override the required initializer with the <code>required</code> modifier</em></p>
+<p>If a subclass overrides a designated initializer from its superclass, and also implements a matching initializer requirement from a protocol, mark the initializer implementation with both the <code>required</code> and <code>override</code> modifiers.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protocol</span> <span class="title class_">SomeProtocol</span> &#123;</span><br><span class="line">    <span class="keyword">init</span>()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">SomeSuperClass</span> &#123;</span><br><span class="line">    <span class="keyword">init</span>() &#123;</span><br><span class="line">        <span class="comment">// initializer implementation goes here</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">SomeSubClass</span>: <span class="title class_ inherited__">SomeSuperClass</span>, <span class="title class_ inherited__">SomeProtocol</span> &#123;</span><br><span class="line">    <span class="comment">// &quot;required&quot; from SomeProtocol conformance; &quot;override&quot; from SomeSuperClass</span></span><br><span class="line">    <span class="keyword">required</span> <span class="keyword">override</span> <span class="keyword">init</span>() &#123;</span><br><span class="line">        <span class="comment">// initializer implementation goes here</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="protocol-extensions"><a class="markdownIt-Anchor" href="#protocol-extensions"></a> Protocol Extensions</h3>
+<blockquote>
+<p>Protocol extensions can add implementation to conforming types but can’t make a protocol extend or inherit from another protocol.</p>
+</blockquote>
+<h2 id="generics"><a class="markdownIt-Anchor" href="#generics"></a> Generics</h2>
+<h3 id="type-constraints"><a class="markdownIt-Anchor" href="#type-constraints"></a> Type Constraints</h3>
+<p>When defining a generic type function, we can require type constraints to limit the selection scope of the generic types. As described in above, we know that we can also add type constraints when expanding an existing type.</p>
+<p>Normally, we constrain a generic type by appending a colon(😃 following a type name or protocol composition that represents the generic type has to inherits from the class type or conforms to the protocol or protocol composition.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">someFunction</span>&lt;<span class="type">T</span>: <span class="type">SomeClass</span> &amp; <span class="type">SomeProtocol</span>&gt;(<span class="params">a</span>: <span class="type">T</span>) &#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>In extensions with type constraints, we can also write type constraints with the <code>where</code> clause. Similar to generic type constraints above, we can write a extension example like this:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extension</span> <span class="title class_">Array</span> <span class="keyword">where</span> <span class="type">Element</span>: <span class="type">SomeClass</span> &amp; <span class="type">SomeProtocol</span> &#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>This means that the type of elements of an array has to inherit from <code>SomeClass</code> and conform to <code>SomeProtocol</code> to use the additional functionality expanded by the extension.</p>
+<p>In addition to the colon symbol, we can replace it with the equal to(<code>==</code>)  operator in extension constraints. That means the Element type has to be <code>SomeClass</code>, not its subclasses.</p>
+<h2 id="opaque-types"><a class="markdownIt-Anchor" href="#opaque-types"></a> Opaque Types</h2>
+<p>We know the <code>Opaque Type</code>’s syntax is <code>some SomeProtocol</code>. It’s similar to Protocol but having completely different meaning. You use a protocol as a method’s return value means that this method can return values of various types conforming to the protocol. A function or method has an opaque return value means that they return a value of a certain type conforming to the protocol, but they hide the return value’s type information.</p>
+<p>The biggest difference is that a protocol return value doesn’t have any certain type information-the actual return values type can be any conforming types, but an opaque return value takes the implicit type information the compiler can access-the method’s body can only return the same type values.</p>
+<p>Why do we use an opaque return value to replace of a protocol one? A protocol value is clearly more flexible. Let’s see an example:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protocol</span> <span class="title class_">Animal</span>: <span class="title class_ inherited__">Comparable</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">func</span> <span class="title function_">catchAnAnimal</span>() -&gt; <span class="type">Animal</span> &#123; <span class="comment">/*...*/</span> &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> oneAnimal <span class="operator">=</span> catchAnAnimal()</span><br><span class="line"><span class="keyword">let</span> anotherAnimal <span class="operator">=</span> catchAnAnimal()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> oneAnimal <span class="operator">==</span> anotherAnimal &#123; <span class="comment">// You get a compile error.</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>The method <code>catchAnAnimal</code> will return a value conforming to <code>Animal</code>. We call this method twice to return two values of <code>Animal</code>, but they can’t be compared by the compare <code>==</code> operator. Because the compiler can’t determine whether these two values are of the same type although they are both conforming to <code>Animal</code>. <strong>Swift is a type-safe language that you can’t compare two values of different types</strong>.<br />
+But if we replace the protocol value of an opaque values, we can satisfy the situation above.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">catchAnAnimal</span>() -&gt; <span class="keyword">some</span> <span class="type">Animal</span> &#123; <span class="comment">/*...*/</span> &#125;</span><br></pre></td></tr></table></figure>
+<p>The method <code>catchAnAnimal</code> also returns a value that conforms to <code>Animal</code>, but the difference from Protocol is that the opaque return values from one method is always of the same type. The compiler make sure that all return branches of the method can only return values of the same type in compiling-time. So that we can compare values returned by the method <code>catchAnAnimal</code> returning opaque values above.</p>
+<p>There is another special situation about that a value of a protocol doesn’t conform to the protocol itself. As shown in the example below:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Dog</span>: <span class="title class_ inherited__">Animal</span> &#123;&#125;</span><br><span class="line"><span class="keyword">func</span> <span class="title function_">getAnAnimal</span>&lt;<span class="type">T</span>: <span class="type">Animal</span>&gt;(<span class="params">from</span> <span class="params">animal</span>: <span class="type">T</span>) -&gt; <span class="type">Animal</span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">getAnAnimal(from: getAnAnimal(from: <span class="type">Dog</span>())) <span class="comment">// error: Protocol Animal as a type cannot conform to the protocol itself.</span></span><br></pre></td></tr></table></figure>
+<p>In the example above, you build the code will result in a compiling-time error. The error info is that <em>Protocol Animal as a type cannot conform to the protocol itself</em>. Why? It’s all because of the type-safe. The type T for the generic method is certain in compiling-time, so the animal parameter is of the certain type T not the protocol Animal. You can think the T is a type placeholder and it will be replaced to a certain type(Dog, Cat, or others). So if the method takes a Dog property but you pass it a value of Animal, there’s obviously an error of type matching.</p>
+<p>If we do a little modifications for the method, giving it an opaque return value, you can build the code successfully. <s>This is due to whether the opaque type or generic type are all type placeholders, they are representing one certain type at compile time.</s><br />
+<strong>Not like C++ or Rust, Swift doesn’t always specialize generic functions to certain type functions</strong></p>
+<p>In additional to the usages above, opaque values have another functionality. We know that protocols with associated values or using Self can’t be used as types. They can only be used in type constraints. This is because the protocol with different associated values are completely different types. When you pass an argument of protocol Container with an associated Element to a method, how do we use the elements of the container without type information about these elements?<br />
+If we use opaque values to replace result values of protocols with associated values of methods, the compiling can pass because of the types are constant and the compiler can get their type information.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protocol</span> <span class="title class_">Container</span> &#123;</span><br><span class="line">    <span class="keyword">associatedtype</span> <span class="type">Element</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">IntContainer</span>: <span class="title class_ inherited__">Container</span> &#123;</span><br><span class="line">    <span class="keyword">typealias</span> <span class="type">Element</span> <span class="operator">=</span> <span class="type">Int</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">func</span> <span class="title function_">makeIntContainer</span>() -&gt; <span class="keyword">some</span> <span class="type">Container</span> &#123;</span><br><span class="line">    <span class="type">IntContainer</span>()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>As you can see above, the type of <code>some Container</code> is a certain type. In compiling-time, you can argue that the compiler think of <code>some Container</code> as <code>IntContainer</code>.</p>
+<h2 id="automatic-reference-counting"><a class="markdownIt-Anchor" href="#automatic-reference-counting"></a> Automatic Reference Counting</h2>
+<blockquote>
+<p>Keyword <code>unowned(unsafe)</code></p>
+</blockquote>
+<p>The <code>unowned</code> keyword has two different formats, <code>unowned(safe)</code> and <code>unowned(unsafe)</code>. We write the <code>unowned</code> before a property or variable means that the instance assigned to the property or variable won’t be strong referenced. But we must sure the instance to that property refers isn’t deallocated when accessing.</p>
+<p>The other format <code>unowned(unsafe)</code> is equivalent of Objective-C’s <code>@property(assign)</code> or <code>__unsafe_unretained</code>. It shouldn’t be used in Swift code, because it’s purpose is to bridge to code written in Objective-C.</p>
+<p>An <code>__unsafe_unretained</code> value is a simple pointer, it won’t increase the referenced instance’s reference count just like using the <code>weak</code> keyword. But the only difference from <code>weak</code> is the pointer won’t be automatically set to nil when the value it refers to is deallocated. The benefit of using <code>__unsafe_unretained</code> is having more performance, because the runtime doesn’t need to record the pointer and set the pointer to nil in due time.</p>
+<h3 id="unowned-optional-references"><a class="markdownIt-Anchor" href="#unowned-optional-references"></a> Unowned Optional References</h3>
+<p>We can declare a property of Optional as unowned. We know the unowned modifier can only be used for reference types, but Optional is an exception. A property declared with <code>weak</code> has to be a variable of Optional, because the property may be set to nil in run-time. Not like weak, an unowned optional property won’t be set to nil when the value it refers to is deallocated. It behaves the same as an unowned property with an extra implication that the property may be nil. If the value of an unowned optional property is <code>Optional.none</code>, you can safely access it whenever. But if its value is of <code>Optional.some</code>, you can think of it as a normal unowned property. <em>Trying to unwrap an unowned optional property that’s referenced value has been deallocated will trigger a runtime error.</em></p>
+<h3 id="defining-a-capture-list"><a class="markdownIt-Anchor" href="#defining-a-capture-list"></a> Defining a Capture List</h3>
+<p>Let’s firstly see an example:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> name: <span class="type">String</span></span><br><span class="line">    <span class="keyword">var</span> block: (() -&gt; <span class="type">Void</span>)<span class="operator">?</span></span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="keyword">init</span>(<span class="params">name</span>: <span class="type">String</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.name <span class="operator">=</span> name</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;A person <span class="subst">\(name)</span> is initializing.&quot;</span>)</span><br><span class="line">        doTest()</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">func</span> <span class="title function_">doTest</span>() &#123;</span><br><span class="line">        block <span class="operator">=</span> &#123;</span><br><span class="line">            <span class="keyword">_</span> <span class="operator">=</span> <span class="keyword">self</span>.name <span class="comment">// Capturing self will cause a strong reference cycle.</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">deinit</span> &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;A person <span class="subst">\(name)</span> is deiniting.&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>AS you can see above, if we directly use <code>self</code> in the body of the block property of the instance, this will cause a reference cycle. Using a capture list can break the reference cycle, we usually write the capture list like this:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">func</span> <span class="title function_">doTest</span>() &#123;</span><br><span class="line">    block <span class="operator">=</span> &#123; [<span class="keyword">weak</span> <span class="keyword">self</span>] <span class="keyword">in</span></span><br><span class="line">        <span class="keyword">_</span> <span class="operator">=</span> <span class="keyword">self</span><span class="operator">?</span>.name</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Using <code>[weak self]</code>, the block will only weakly reference to self for preventing a strong reference cycle. But the <code>weak self</code> makes self in the block’s be an optional value, so we need to add a question mark after self before accessing it.</p>
+<blockquote>
+<p>Unfamiliar usages for Capture List.</p>
+</blockquote>
+<p>If we just want to use the <code>name</code> property in the block’s body, we can only write <code>[name]</code> in the capture list, and then we can directly use the <code>name</code> like a local variable in the block’s body. Another writing format is <code>[name = self.name]</code>.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">func</span> <span class="title function_">doTest</span>() &#123;</span><br><span class="line">    block <span class="operator">=</span> &#123; [name] <span class="keyword">in</span></span><br><span class="line">        <span class="keyword">_</span> <span class="operator">=</span> name</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="memory-safety"><a class="markdownIt-Anchor" href="#memory-safety"></a> Memory Safety</h2>
+<blockquote>
+<p>Keeping memory access safety in single thread.</p>
+</blockquote>
+<p>Whenever we read the value of a variable or assign a new to the variable will access its location in memory. If a function or method gets a value’s write permission and another operation writes or reads the value at the same time, there is a memory conflict occurred. There are three key points that least one operation gets the write access, accessing the same location in memory, and their accessing durations overlap.</p>
+<p>In our development routine, the <code>inout</code> parameters is the most possible place occurring memory conflicts.<br />
+We list the three commonest scenes:</p>
+<ol>
+<li>Simultaneously accessing an inout parameter’s location in memory in functions body.</li>
+</ol>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> stepSize <span class="operator">=</span> <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">func</span> <span class="title function_">increment</span>(<span class="keyword">_</span> <span class="params">number</span>: <span class="keyword">inout</span> <span class="type">Int</span>) &#123; </span><br><span class="line">    <span class="comment">// 1. The inout parameter number&#x27;s accessing permission has been held until this function call ends.</span></span><br><span class="line">    number <span class="operator">+=</span> stepSize <span class="comment">// 2. Try to read the value of stepSize.</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">increment(<span class="operator">&amp;</span>stepSize) <span class="comment">// The operations of number 1 and 2 will access the value of stepSize simultaneously. </span></span><br><span class="line"><span class="comment">// Error: conflicting accesses to stepSize</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">balance</span>(<span class="keyword">_</span> <span class="params">x</span>: <span class="keyword">inout</span> <span class="type">Int</span>, <span class="keyword">_</span> <span class="params">y</span>: <span class="keyword">inout</span> <span class="type">Int</span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> sum <span class="operator">=</span> x <span class="operator">+</span> y</span><br><span class="line">    x <span class="operator">=</span> sum <span class="operator">/</span> <span class="number">2</span></span><br><span class="line">    y <span class="operator">=</span> sum <span class="operator">-</span> x</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> playerOneScore <span class="operator">=</span> <span class="number">42</span></span><br><span class="line"><span class="keyword">var</span> playerTwoScore <span class="operator">=</span> <span class="number">30</span></span><br><span class="line">balance(<span class="operator">&amp;</span>playerOneScore, <span class="operator">&amp;</span>playerTwoScore)  <span class="comment">// OK</span></span><br><span class="line">balance(<span class="operator">&amp;</span>playerOneScore, <span class="operator">&amp;</span>playerOneScore)  <span class="comment">// Error</span></span><br></pre></td></tr></table></figure>
+<p>See the last line of code, these two inout parameters refers to the same location in memory of the global variable <code>playerTwoScore</code>. The function will get the <code>playerTwoScore</code>’s accessing permission twice at the same time. This will result in a memory conflict.</p>
+<ol start="2">
+<li>Mutating functions in structures.</li>
+</ol>
+<p>A function of structures marked with the <code>mutating</code> modifier means that the function can modify the structure itself when calling, so the mutating function will holds the structure’s accessing permission.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Player</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> name: <span class="type">String</span></span><br><span class="line">    <span class="keyword">var</span> health: <span class="type">Int</span></span><br><span class="line">    <span class="keyword">var</span> energy: <span class="type">Int</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">let</span> maxHealth <span class="operator">=</span> <span class="number">10</span></span><br><span class="line">    <span class="keyword">mutating</span> <span class="keyword">func</span> <span class="title function_">restoreHealth</span>() &#123;</span><br><span class="line">        health <span class="operator">=</span> <span class="type">Player</span>.maxHealth</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">extension</span> <span class="title class_">Player</span> &#123;</span><br><span class="line">    <span class="keyword">mutating</span> <span class="keyword">func</span> <span class="title function_">shareHealth</span>(<span class="params">with</span> <span class="params">teammate</span>: <span class="keyword">inout</span> <span class="type">Player</span>) &#123;</span><br><span class="line">        balance(<span class="operator">&amp;</span>teammate.health, <span class="operator">&amp;</span>health)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> oscar <span class="operator">=</span> <span class="type">Player</span>(name: <span class="string">&quot;Oscar&quot;</span>, health: <span class="number">10</span>, energy: <span class="number">10</span>)</span><br><span class="line"><span class="keyword">var</span> maria <span class="operator">=</span> <span class="type">Player</span>(name: <span class="string">&quot;Maria&quot;</span>, health: <span class="number">5</span>, energy: <span class="number">10</span>)</span><br><span class="line">oscar.shareHealth(with: <span class="operator">&amp;</span>maria)  <span class="comment">// OK</span></span><br><span class="line">oscar.shareHealth(with: <span class="operator">&amp;</span>oscar)  <span class="comment">// Error</span></span><br></pre></td></tr></table></figure>
+<p>As show in the code above, the <code>searchHealth</code> is a mutating function, it will hold the accessing permission of the player itself. If we pass the <code>searchHealth</code> function a inout parameter that refers to the same player, there is a memory conflict.</p>
+<ol start="3">
+<li>If you pass a property of structures as a function’s inout parameter, the function gets the whole structure’s accessing permission.</li>
+</ol>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> holly <span class="operator">=</span> <span class="type">Player</span>(name: <span class="string">&quot;Holly&quot;</span>, health: <span class="number">10</span>, energy: <span class="number">10</span>)</span><br><span class="line">balance(<span class="operator">&amp;</span>holly.health, <span class="operator">&amp;</span>holly.energy)  <span class="comment">// Error</span></span><br></pre></td></tr></table></figure>
+<h2 id="access-control"><a class="markdownIt-Anchor" href="#access-control"></a> Access Control</h2>
+<blockquote>
+<p>Main guiding principle of declaring access levels</p>
+</blockquote>
+<ol>
+<li>The main guiding principle of declaring access levels is that the access level of your custom entities(methods, types) must be more or as restrictive as the access levels of its constituent types.</li>
+<li>If you state the whole custom type as <code>private</code> or <code>fileprivate</code>, all its properties, methods, or nested types are declared as <code>private</code> or <code>fileprivate</code> by default. But if you state the custom type as <code>public</code> or <code>open</code>, all its constituent’s access levels are <code>internal</code> rather than the corresponding access levels. This rule is used to prevent accidently leaking the detail implementation of your code’s functionality when your declare your code as <code>public</code> or <code>open</code> for creating an API.</li>
+</ol>
+<blockquote>
+<p>The <code>open</code> access level can only be used in class types.</p>
+</blockquote>
+<p><strong>Custom Types</strong></p>
+<ol>
+<li>Defining a custom type as <code>private</code> or <code>file private</code>, all its properties or methods are marked as <code>private</code> or <code>file private</code>.</li>
+<li>Defining a custom type as <code>public</code> or <code>open</code>, all its properties or methods are marked as <code>internal</code> rather than the corresponding access levels.</li>
+</ol>
+<p><strong>Tuple Types</strong><br />
+A tuple type can’t define its own access level. The access level of a tuple type depends on the one of the lowest access level of its elements.</p>
+<p><strong>Function Types</strong><br />
+A function’s highest access level depends on the most restrictive access level of its constituent types(property types and return value types). If you don’t explicitly state the function’s access level(defaults to <code>internal</code>) and the inferred access level of the function is lower than <code>internal</code>, the compiler will report an error that warns you to explicitly add <code>private</code> or <code>fileprivate</code> keywords for your function.</p>
+<p><strong>Enumeration Types</strong><br />
+Similarly, an enumeration with a raw value type or associated values, its highest access level depends on the lowest access level of its constituent types, raw value type and associated values type.</p>
+<p><strong>Nested Types</strong><br />
+A nested type’s access level is normally equal to its containing type. But if the containing type is declared as <code>public</code>, the nested type’s access level is <code>internal</code> by default. You can then explicitly add the <code>public</code> modifier for the nested type to upgrade its access level to <code>public</code>.</p>
+<p><strong>Subclassing</strong></p>
+<ol>
+<li>A subclass’s access level must be lower than its superclass.</li>
+<li>The access level of any member of the class can have a higher level than the class itself.</li>
+<li>An overriding member of the subclass can have a higher access level than the overridden member of its superclass.</li>
+<li>There is an exception that the subclass can’t override the member as <code>private</code> if it’s <code>fileprivate</code> in the superclass.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Kinds</th>
+<th>Superclass</th>
+<th>Subclass</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Class Type</td>
+<td>Any access level</td>
+<td>Lower</td>
+</tr>
+<tr>
+<td>Members</td>
+<td>open/public/internal</td>
+<td>Any access level(equal, lower, or higher)</td>
+</tr>
+<tr>
+<td>Members</td>
+<td>fileprivate</td>
+<td>fileprivate or higher(can’t be private)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Constants, Variables, Properties, and Subscripts</strong></p>
+<ol>
+<li>A constant, variable, or property can’t be more public than its type.</li>
+<li>Similarly, a subscript’s access level can’t be public than either its index type or return type.</li>
+</ol>
+<p><strong>Default Memberwise Initializers for Structure Types</strong><br />
+The access level of the default memberwise initializer of a structure depends on the lowest access level of its all stored properties. Having any <code>private</code> stored property, the memberwise initializer is considered as <code>private</code>. Likewise, having any <code>fileprivate</code> stored property, the memberwise initializer is considered as <code>fileprivate</code>.</p>
+<p><strong>Protocols</strong></p>
+<ol>
+<li>The requirements of protocols can’t be separately defined to different access levels.</li>
+<li>If we can access a protocol in an access context, all the protocol’s implementations of the classes conforming to the protocol and visible in the context must be accessible.</li>
+<li>As described above, if a public class conforms to a public protocol, all its implements for the protocol’s requirements must be explicitly marked as public or more higher access levels(open, if can)</li>
+</ol>
+<p><strong>Protocol Inheritance</strong><br />
+As with class inheritance, a sub protocol’s access level can’t be more public than its super protocol.</p>
+<p><strong>Extensions</strong></p>
+<ol>
+<li>If you extend a public or internal type, the extension will be marked as <code>internal</code>.</li>
+<li>If you extend a private or fileprivate type, the extension will be marked as <code>private</code> or <code>fileprivate</code></li>
+<li>You can explicitly specify the extension’s access level, as a result, all its extended properties, methods, and so on are marked as the specified access level.</li>
+<li>An extension conforming to a protocol can’t explicitly specify an access level, its access level is marked as equal to the protocol by default.</li>
+</ol>
+<p><strong>Type Aliases</strong><br />
+The type alias access level can be lower or equal to the type it aliases.</p>
+<blockquote>
+<p>An identifier prefixed with one underscore <code>_</code> means its access level is <code>internal</code> even though explicitly marked as <code>public</code>.<br />
+An identifier prefixed with two underscores are reserved for the Swift compiler and standard library.</p>
+</blockquote>
+<h2 id="advanced-operators"><a class="markdownIt-Anchor" href="#advanced-operators"></a> Advanced Operators</h2>
+<blockquote>
+<p>Two ways to define operators for you custom types.</p>
+</blockquote>
+<ol>
+<li>Global methods</li>
+</ol>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Point</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> x: <span class="type">Int</span></span><br><span class="line">    <span class="keyword">var</span> y: <span class="type">Int</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">func</span> <span class="title function_">+</span>(<span class="params">left</span>: <span class="type">Point</span>, <span class="params">right</span>: <span class="type">Point</span>) -&gt; <span class="type">Point</span> &#123;</span><br><span class="line">    <span class="type">Point</span>(x: left.x <span class="operator">+</span> right.x, y: left.y <span class="operator">+</span> right.y)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> a <span class="operator">=</span> <span class="type">Point</span>(x: <span class="number">1</span>, y: <span class="number">2</span>)</span><br><span class="line"><span class="keyword">let</span> b <span class="operator">=</span> <span class="type">Point</span>(x: <span class="number">2</span>, y: <span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(a <span class="operator">+</span> b) <span class="comment">//#=&gt; Point(x: 3, y: 5)</span></span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>Extensions</li>
+</ol>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Point</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> x: <span class="type">Int</span></span><br><span class="line">    <span class="keyword">var</span> y: <span class="type">Int</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">extension</span> <span class="title class_">Point</span> &#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">func</span> <span class="title function_">+</span>(<span class="params">left</span>: <span class="type">Point</span>, <span class="params">right</span>: <span class="type">Point</span>) -&gt; <span class="type">Point</span> &#123;</span><br><span class="line">        <span class="type">Point</span>(x: left.x <span class="operator">+</span> right.x, y: left.y <span class="operator">+</span> right.y)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> a <span class="operator">=</span> <span class="type">Point</span>(x: <span class="number">1</span>, y: <span class="number">2</span>)</span><br><span class="line"><span class="keyword">let</span> b <span class="operator">=</span> <span class="type">Point</span>(x: <span class="number">2</span>, y: <span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(a <span class="operator">+</span> b)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>We can’t overload the default assignment operator(<code>=</code>) and the ternary condition operator(a ? b : c).</p>
+</blockquote>
+<blockquote>
+<p>You don’t specify a precedence for a prefix or postfix operator. However, if you apply both a prefix and postfix operator to the same operand, the postfix operator is applied first.</p>
+</blockquote>
+<h3 id="result-builder"><a class="markdownIt-Anchor" href="#result-builder"></a> Result Builder</h3>
+<p>Link to <a target="_blank" rel="noopener" href="http://www.csl.cool/2021/05/06/ios-dev/swift/swift-result-builder/">Swift 5.4 New Feature ResultBuilder</a></p>
+
+  </div>
+</article>
+
+
+
+      
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#the-basics"><span class="toc-number">1.</span> <span class="toc-text"> The Basics</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#implicitly-unwrapped-optional"><span class="toc-number">1.1.</span> <span class="toc-text"> Implicitly Unwrapped Optional</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#assertions-preconditions-and-fatal-errors"><span class="toc-number">1.2.</span> <span class="toc-text"> Assertions, Preconditions and Fatal Errors</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#meattype"><span class="toc-number">1.3.</span> <span class="toc-text"> MeatType</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#self-type"><span class="toc-number">1.4.</span> <span class="toc-text"> Self Type</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#basic-operators"><span class="toc-number">2.</span> <span class="toc-text"> Basic Operators</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#remainder-operator"><span class="toc-number">2.1.</span> <span class="toc-text"> Remainder Operator</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#comparison-operators"><span class="toc-number">2.2.</span> <span class="toc-text"> Comparison Operators</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#range-operators"><span class="toc-number">2.3.</span> <span class="toc-text"> Range Operators</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#strings-and-characters"><span class="toc-number">3.</span> <span class="toc-text"> Strings and Characters</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#string-literals"><span class="toc-number">3.1.</span> <span class="toc-text"> String Literals</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#extended-string-delimiters"><span class="toc-number">3.2.</span> <span class="toc-text"> Extended String Delimiters</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#unicode-scalars-and-extended-grapheme-clusters"><span class="toc-number">3.3.</span> <span class="toc-text"> Unicode Scalars and Extended Grapheme Clusters</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#counting-characters"><span class="toc-number">3.4.</span> <span class="toc-text"> Counting Characters</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#string-indices"><span class="toc-number">3.5.</span> <span class="toc-text"> String Indices</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#comparing-strings"><span class="toc-number">3.6.</span> <span class="toc-text"> Comparing Strings</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#control-flow"><span class="toc-number">4.</span> <span class="toc-text"> Control Flow</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#where"><span class="toc-number">4.1.</span> <span class="toc-text"> Where</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fallthrough"><span class="toc-number">4.2.</span> <span class="toc-text"> Fallthrough</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#labeled-statements"><span class="toc-number">4.3.</span> <span class="toc-text"> Labeled Statements</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#functions"><span class="toc-number">5.</span> <span class="toc-text"> Functions</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#variadic-parameters"><span class="toc-number">5.1.</span> <span class="toc-text"> Variadic Parameters</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#closures"><span class="toc-number">6.</span> <span class="toc-text"> Closures</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#escaping-closures"><span class="toc-number">6.1.</span> <span class="toc-text"> Escaping Closures</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#enumerations"><span class="toc-number">7.</span> <span class="toc-text"> Enumerations</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#recursive-enumerations"><span class="toc-number">7.1.</span> <span class="toc-text"> Recursive Enumerations</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#properties"><span class="toc-number">8.</span> <span class="toc-text"> Properties</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#lazy-stored-properties"><span class="toc-number">8.1.</span> <span class="toc-text"> Lazy Stored Properties</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#property-observers"><span class="toc-number">8.2.</span> <span class="toc-text"> Property Observers</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#property-wrapper"><span class="toc-number">8.3.</span> <span class="toc-text"> Property Wrapper</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#global-and-local-variables"><span class="toc-number">8.4.</span> <span class="toc-text"> Global and Local Variables</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#type-properties"><span class="toc-number">8.5.</span> <span class="toc-text"> Type Properties</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#type-property-syntax"><span class="toc-number">8.6.</span> <span class="toc-text"> Type Property Syntax</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#methods"><span class="toc-number">9.</span> <span class="toc-text"> Methods</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#inheritance"><span class="toc-number">10.</span> <span class="toc-text"> Inheritance</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#accessing-superclasses-methods-properties-and-subscripts"><span class="toc-number">10.1.</span> <span class="toc-text"> Accessing superclasses Methods, Properties, and Subscripts</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#preventing-overrides"><span class="toc-number">10.2.</span> <span class="toc-text"> Preventing Overrides</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#initialization"><span class="toc-number">11.</span> <span class="toc-text"> Initialization</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#setting-initial-values-for-stored-properties"><span class="toc-number">11.1.</span> <span class="toc-text"> Setting initial values for Stored Properties</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#initializer-delegation-for-value-types"><span class="toc-number">11.2.</span> <span class="toc-text"> Initializer Delegation for Value Types</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#initializer-delegation-for-class-types"><span class="toc-number">11.3.</span> <span class="toc-text"> Initializer Delegation for Class Types</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#two-phase-initialization"><span class="toc-number">11.4.</span> <span class="toc-text"> Two-Phase Initialization</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#initializer-inheritance-and-overriding"><span class="toc-number">11.5.</span> <span class="toc-text"> Initializer Inheritance and Overriding</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#automatic-initializer-inheritance"><span class="toc-number">11.6.</span> <span class="toc-text"> Automatic Initializer Inheritance</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#overriding-a-failable-initializer"><span class="toc-number">11.7.</span> <span class="toc-text"> Overriding a Failable Initializer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#required-initializers"><span class="toc-number">11.8.</span> <span class="toc-text"> Required Initializers</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#optional-chaining"><span class="toc-number">12.</span> <span class="toc-text"> Optional Chaining</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#calling-methods-through-optional-chaining"><span class="toc-number">12.1.</span> <span class="toc-text"> Calling Methods Through Optional Chaining</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#linking-multiple-levels-of-chaining"><span class="toc-number">12.2.</span> <span class="toc-text"> Linking Multiple Levels of Chaining</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#concurrency"><span class="toc-number">13.</span> <span class="toc-text"> Concurrency</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#type-casting"><span class="toc-number">14.</span> <span class="toc-text"> Type Casting</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#type-casting-for-any-and-anyobject"><span class="toc-number">14.1.</span> <span class="toc-text"> Type Casting for Any and AnyObject</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nested-types"><span class="toc-number">15.</span> <span class="toc-text"> Nested Types</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#extensions"><span class="toc-number">16.</span> <span class="toc-text"> Extensions</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#protocols"><span class="toc-number">17.</span> <span class="toc-text"> Protocols</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#property-requirements"><span class="toc-number">17.1.</span> <span class="toc-text"> Property Requirements</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mutating-method-requirements"><span class="toc-number">17.2.</span> <span class="toc-text"> Mutating Method Requirements</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#initializer-requirements"><span class="toc-number">17.3.</span> <span class="toc-text"> Initializer Requirements</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#protocol-extensions"><span class="toc-number">17.4.</span> <span class="toc-text"> Protocol Extensions</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#generics"><span class="toc-number">18.</span> <span class="toc-text"> Generics</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#type-constraints"><span class="toc-number">18.1.</span> <span class="toc-text"> Type Constraints</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#opaque-types"><span class="toc-number">19.</span> <span class="toc-text"> Opaque Types</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#automatic-reference-counting"><span class="toc-number">20.</span> <span class="toc-text"> Automatic Reference Counting</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#unowned-optional-references"><span class="toc-number">20.1.</span> <span class="toc-text"> Unowned Optional References</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#defining-a-capture-list"><span class="toc-number">20.2.</span> <span class="toc-text"> Defining a Capture List</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#memory-safety"><span class="toc-number">21.</span> <span class="toc-text"> Memory Safety</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#access-control"><span class="toc-number">22.</span> <span class="toc-text"> Access Control</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#advanced-operators"><span class="toc-number">23.</span> <span class="toc-text"> Advanced Operators</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#result-builder"><span class="toc-number">23.1.</span> <span class="toc-text"> Result Builder</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2022/01/18/ios-dev/swift/learning-swift-again/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2022/01/18/ios-dev/swift/learning-swift-again/&text=Learning Swift Again"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2022/01/18/ios-dev/swift/learning-swift-again/&title=Learning Swift Again"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2022/01/18/ios-dev/swift/learning-swift-again/&is_video=false&description=Learning Swift Again"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Learning Swift Again&body=Check out this article: https://csl.cool/2022/01/18/ios-dev/swift/learning-swift-again/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2022/01/18/ios-dev/swift/learning-swift-again/&title=Learning Swift Again"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2022/01/18/ios-dev/swift/learning-swift-again/&title=Learning Swift Again"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2022/01/18/ios-dev/swift/learning-swift-again/&title=Learning Swift Again"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2022/01/18/ios-dev/swift/learning-swift-again/&title=Learning Swift Again"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2022/01/18/ios-dev/swift/learning-swift-again/&name=Learning Swift Again&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2022/01/18/ios-dev/swift/learning-swift-again/&t=Learning Swift Again"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+      <div id="end">
+    <img src="/images/post-end.png" alt="">
+</div> 
+      
+      <div id='valine'>
+    <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+            el: '#vcomments',
+            notify: true,
+            verify: true,
+            appId: '7zw6tQBddCfPvbaVtBGxUy0G-gzGzoHsz',
+            appKey: 'voPGHhBz7MozpUm0Fq2AMFmv',
+            placeholder: '想说点啥...',
+            avatar: 'monsterid',           
+        })
+    </script>
+</div>
+      
+      
+      <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 SSBun
+    <a target="_blank" rel="noopener" href="http://www.beian.miit.gov.cn/">京ICP备20001935号-1</a>
+    <div id="friend-link-container">
+      
+      
+    </div>
+  </div>
+  
+    <div class="footer-right">
+      <nav>
+        <ul>
+          
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/search/">Search</a></li>
+      
+      <li><a href="/categories/">Categories</a></li>
+      
+      <li><a href="/notes/">Notes</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+      </ul>
+      </nav>
+    </div>
+  
+</footer>
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?c2fdf3bebd0db8e40c37a4f37d76d33b";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Umami Analytics -->
+<!--  -->
+  <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="d39cc16d-90eb-47b6-8bf0-8e4cd43c704d"></script>
+<!--  -->
+<!-- Disqus Comments -->
+
+
+
+    
+    <script src="/lib/blackcat/l2dwidget.min.js"></script>
+    <script type="text/javascript">
+      var config = {
+        model: {
+          jsonPath: '/lib/blackcat/hijiki.model.json',
+        },
+        display: {
+          superSample: 1,
+          width: 245,
+          height: 245,
+          position: 'left',
+          hOffset: 0,
+          vOffset: 0,
+        },
+        mobile: {
+          show: false,
+          scale: 1,
+          motion: false,
+        },
+        react: {
+          opacityDefault: 1,
+          opacityOnHover: 0.75
+        }
+      };
+      L2Dwidget.init(config);
+    </script>
+    
+  </body>
+
+  </html>

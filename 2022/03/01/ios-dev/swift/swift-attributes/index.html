@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang=en>
+  <head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="The attributes of Swift is a powerful tool that helps us to design more reliable, concise, and flexible code. In addition of @discardableResult, @escaping, @autoclosure and so on that we usually use,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to Use Attributes of Swift">
+<meta property="og:url" content="https://csl.cool/2022/03/01/ios-dev/swift/swift-attributes/index.html">
+<meta property="og:site_name" content="CSL MEMO">
+<meta property="og:description" content="The attributes of Swift is a powerful tool that helps us to design more reliable, concise, and flexible code. In addition of @discardableResult, @escaping, @autoclosure and so on that we usually use,">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-03-01T10:23:59.000Z">
+<meta property="article:modified_time" content="2022-03-01T10:23:59.000Z">
+<meta property="article:author" content="SSBun">
+<meta property="article:tag" content="Swift">
+<meta property="article:tag" content="Attributes">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>How to Use Attributes of Swift</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="CSL MEMO" type="application/atom+xml" />
+    
+    <!-- umami web analytics -->
+    <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+  <body class="max-width mx-auto px3 ltr">
+    
+    <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2022/03/04/ruby/learning-ruby-again/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2022/01/18/ios-dev/swift/learning-swift-again/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2022/03/01/ios-dev/swift/swift-attributes/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2022/03/01/ios-dev/swift/swift-attributes/&text=How to Use Attributes of Swift"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2022/03/01/ios-dev/swift/swift-attributes/&title=How to Use Attributes of Swift"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2022/03/01/ios-dev/swift/swift-attributes/&is_video=false&description=How to Use Attributes of Swift"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=How to Use Attributes of Swift&body=Check out this article: https://csl.cool/2022/03/01/ios-dev/swift/swift-attributes/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2022/03/01/ios-dev/swift/swift-attributes/&title=How to Use Attributes of Swift"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2022/03/01/ios-dev/swift/swift-attributes/&title=How to Use Attributes of Swift"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2022/03/01/ios-dev/swift/swift-attributes/&title=How to Use Attributes of Swift"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2022/03/01/ios-dev/swift/swift-attributes/&title=How to Use Attributes of Swift"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2022/03/01/ios-dev/swift/swift-attributes/&name=How to Use Attributes of Swift&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2022/03/01/ios-dev/swift/swift-attributes/&t=How to Use Attributes of Swift"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#available"><span class="toc-number">1.</span> <span class="toc-text"> available</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#discardableresult"><span class="toc-number">2.</span> <span class="toc-text"> discardableResult</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dynamiccallable"><span class="toc-number">3.</span> <span class="toc-text"> dynamicCallable</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dynamicmemberlookup"><span class="toc-number">4.</span> <span class="toc-text"> dynamicMemberLookup</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#frozen"><span class="toc-number">5.</span> <span class="toc-text"> frozen</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#gkinspectable"><span class="toc-number">6.</span> <span class="toc-text"> GKInspectable</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#inlinable-usablefrominline"><span class="toc-number">7.</span> <span class="toc-text"> inlinable &amp; usableFromInline</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#main-nsapplication-and-uiapplication"><span class="toc-number">8.</span> <span class="toc-text"> main, NSApplication, and UIApplication</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nonobjc"><span class="toc-number">9.</span> <span class="toc-text"> nonobjc</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nscopying"><span class="toc-number">10.</span> <span class="toc-text"> NSCopying</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nsmanaged"><span class="toc-number">11.</span> <span class="toc-text"> NSManaged</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#objc"><span class="toc-number">12.</span> <span class="toc-text"> objc</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#objcmembers"><span class="toc-number">13.</span> <span class="toc-text"> objcMembers</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#propertywrapper"><span class="toc-number">14.</span> <span class="toc-text"> propertyWrapper</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#resultbuilder"><span class="toc-number">15.</span> <span class="toc-text"> resultBuilder</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#requires_stored_property_inits"><span class="toc-number">16.</span> <span class="toc-text"> requires_stored_property_inits</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#testable"><span class="toc-number">17.</span> <span class="toc-text"> testable</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#warn_unqualified_access"><span class="toc-number">18.</span> <span class="toc-text"> warn_unqualified_access</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#autoclosure"><span class="toc-number">19.</span> <span class="toc-text"> autoclosure</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#convention"><span class="toc-number">20.</span> <span class="toc-text"> convention</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#escaping"><span class="toc-number">21.</span> <span class="toc-text"> escaping</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#unknown"><span class="toc-number">22.</span> <span class="toc-text"> unknown</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+      
+      <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        How to Use Attributes of Swift
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">SSBun</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-03-01T10:23:59.000Z" itemprop="datePublished">2022-03-01</time>
+        
+        (Updated: <time datetime="2022-03-01T10:23:59.000Z" itemprop="dateModified">2022-03-01</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Attributes/" rel="tag">Attributes</a>, <a class="tag-link-link" href="/tags/Swift/" rel="tag">Swift</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>The attributes of Swift is a powerful tool that helps us to design more reliable, concise, and flexible code.<br />
+In addition of <code>@discardableResult</code>, <code>@escaping</code>, <code>@autoclosure</code> and so on that we usually use, Swift has many another attributes that we can use to write some ingenious usages.</p>
+<p>Firstly, I list all attributes of Swift below</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Modifier Scope</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>available</code></td>
+<td>declaration of types, properties, or methods</td>
+</tr>
+<tr>
+<td><code>discardableResult</code></td>
+<td>declaration of methods</td>
+</tr>
+<tr>
+<td><code>dynamicCallable</code></td>
+<td>declaration of types</td>
+</tr>
+<tr>
+<td><code>dynamicMemberLookUp</code></td>
+<td>declaration of types</td>
+</tr>
+<tr>
+<td><code>frozen</code></td>
+<td>declaration of structures, or enumerations</td>
+</tr>
+<tr>
+<td><code>BKInspectable</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>inlinable</code></td>
+<td>function, computed property, subscript, initializer, or deinitializer</td>
+</tr>
+<tr>
+<td><code>main</code></td>
+<td>declaration of structures, classes, or enumerations</td>
+</tr>
+<tr>
+<td><code>nonobjc</code></td>
+<td>method, property, initializer</td>
+</tr>
+<tr>
+<td><code>NSApplicationMain</code></td>
+<td>same as <code>main</code></td>
+</tr>
+<tr>
+<td><code>NSCopying</code></td>
+<td>stored variable properties of classes</td>
+</tr>
+<tr>
+<td><code>NSManaged</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>objc</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>objcMembers</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>propertyWrapper</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>resultBuilder</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>requires_stored_property_inits</code></td>
+<td>declaration of classes</td>
+</tr>
+<tr>
+<td><code>testable</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>UIApplicationMain</code></td>
+<td>same as <code>main</code></td>
+</tr>
+<tr>
+<td><code>usableFromInline</code></td>
+<td>same as <code>inlinable</code></td>
+</tr>
+<tr>
+<td><code>warn_unqualified_access</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>IBAction</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>IBSegueAction</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>IBOutlet</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>IBDesignable</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>IBInspectable</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>autoclosure</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>convention</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>escaping</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>unknown</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>_marker</code></td>
+<td>Used to mark a marker-protocol.</td>
+</tr>
+<tr>
+<td><code>globalActor</code></td>
+<td>Used to custom a global actor.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="available"><a class="markdownIt-Anchor" href="#available"></a> <code>available</code></h2>
+<ol>
+<li>The availability limitation for platforms and versions.</li>
+</ol>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@available</span>(<span class="keyword">iOS</span> <span class="number">11.0</span>, <span class="keyword">macOS</span> <span class="number">11.0</span>, <span class="operator">*</span>)</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>The availability limitation for Swift version.</li>
+</ol>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@available</span>(<span class="keyword">swift</span> <span class="number">5.0</span>)</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>Indicates the type or function can’t be used in current context.</li>
+</ol>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@available</span>(</span><br><span class="line">    <span class="operator">*</span>,</span><br><span class="line">    unavailable, </span><br><span class="line">    renamed: <span class="string">&quot;renamedFunctionName&quot;</span>,</span><br><span class="line">    message: <span class="string">&quot;This method was already obsoleted.&quot;</span>)</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>Warns developers that the type or function will be deprecated.</li>
+</ol>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@available</span>(</span><br><span class="line">    <span class="keyword">macOS</span>,</span><br><span class="line">    introduced: <span class="number">8.0</span>,</span><br><span class="line">    deprecated: <span class="number">9.0</span>,</span><br><span class="line">    obsoleted: <span class="number">11.0</span>,</span><br><span class="line">    renamed: <span class="string">&quot;function4&quot;</span>,</span><br><span class="line">    message: <span class="string">&quot;rename the function3 to function4.&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="discardableresult"><a class="markdownIt-Anchor" href="#discardableresult"></a> <code>discardableResult</code></h2>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@discardableResult</span></span><br><span class="line"><span class="keyword">func</span> <span class="title function_">requestUserInfo</span>() -&gt; <span class="type">Cancelable</span> &#123; <span class="operator">...</span> &#125;</span><br><span class="line"></span><br><span class="line">requestUserInfo() <span class="comment">// No warning.</span></span><br></pre></td></tr></table></figure>
+<h2 id="dynamiccallable"><a class="markdownIt-Anchor" href="#dynamiccallable"></a> <code>dynamicCallable</code></h2>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@dynamicCallable</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Storage</span> &#123;</span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">dynamicallyCall</span>(<span class="params">withArguments</span> <span class="params">keys</span>: [<span class="type">Int</span>]) -&gt; [<span class="type">Int</span>] &#123; <span class="operator">..</span> &#125;</span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">dynamicallyCall</span>(<span class="params">withArguments</span> <span class="params">keys</span>: [<span class="type">String</span>]) -&gt; [<span class="type">String</span>] &#123; <span class="operator">...</span> &#125;</span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">dynamicallyCall</span>(<span class="params">withArguments</span> <span class="params">keys</span>: [<span class="type">Double</span>]) &#123; <span class="operator">...</span> &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">dynamicallyCall</span>(<span class="params">withKeywordArguments</span> <span class="params">pairs</span>: <span class="type">KeyValuePairs</span>&lt;<span class="type">String</span>, <span class="type">Int</span>&gt;) &#123; <span class="operator">...</span> &#125;</span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">dynamicallyCall</span>(<span class="params">withKeywordArguments</span> <span class="params">pairs</span>: [<span class="params">String</span>: <span class="type">String</span>]) -&gt; [<span class="type">String</span>] &#123; <span class="operator">...</span> &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> storage <span class="operator">=</span> <span class="type">Storage</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> intArr <span class="operator">=</span> storage(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line"><span class="keyword">let</span> stringArr <span class="operator">=</span> storage(<span class="string">&quot;123&quot;</span>, <span class="string">&quot;234&quot;</span>)</span><br><span class="line"></span><br><span class="line">storage(name: <span class="number">100</span>, age: <span class="number">200</span>, weight: <span class="number">300</span>)</span><br></pre></td></tr></table></figure>
+<ol>
+<li>The <code>struct</code>, <code>class</code>, <code>enumeration</code> or <code>protocol</code> marked with <code>@dynamicCallable</code> must have either the function <code>dynamicallyCall(withArguments:)</code> or <code>func dynamicallyCall(withKeywordArguments:)</code>.</li>
+<li>The arguments of the function <code>dynamicallyCall(withArguments:)</code> is conforming to <code>ExpressibleByArrayLiteral</code>.</li>
+<li>The keyword arguments of the function <code>dynamicallyCall(withKeywordArguments:)</code> is conforming to <code>ExpressibleByDictionaryLiteral</code> and its <code>Key</code> must be <code>ExpressibleByStringLiteral</code> conformance.</li>
+</ol>
+<p>Except <code>dynamicCallable</code>, Swift provides another way to make a value can be called directly. The way is to write a method <code>callAsFunction</code> for your type.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Storage</span> &#123;</span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">callAsFunction</span>() &#123;<span class="operator">...</span>&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">callAsFunction</span>(<span class="params">key</span>: <span class="type">String</span>) &#123;<span class="operator">...</span>&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> storage <span class="operator">=</span> <span class="type">Storage</span>()</span><br><span class="line">storage()</span><br><span class="line">storage(key: <span class="string">&quot;name&quot;</span>)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Mind you, if you implement @dynamicCallable and callAsFunction at the same time, the callAsFunction will override the functionality of @dynamicCallable(will be ignored).</p>
+</blockquote>
+<h2 id="dynamicmemberlookup"><a class="markdownIt-Anchor" href="#dynamicmemberlookup"></a> <code>dynamicMemberLookup</code></h2>
+<p>dynamicMemberLookup attribute requires the struct, class, enum, or protocol to have a <code>subscript(dynamicMember:)</code> method that accepts either <code>ExpressibleByStringLiteral</code> or a <code>key path</code>.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@dynamicMemberLookup</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Storage</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> database: [<span class="type">String</span>: <span class="keyword">Any</span>] <span class="operator">=</span> [:]</span><br><span class="line">    <span class="keyword">subscript</span>(<span class="params">dynamicMember</span> <span class="params">member</span>: <span class="type">String</span>) -&gt; <span class="keyword">Any</span><span class="operator">?</span> &#123;</span><br><span class="line">        <span class="keyword">get</span> &#123;</span><br><span class="line">          database[member]</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">set</span> &#123;</span><br><span class="line">          database[member] <span class="operator">=</span> newValue</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> storage <span class="operator">=</span> <span class="type">Storage</span>()</span><br><span class="line">storage.age <span class="operator">=</span> <span class="number">18</span></span><br><span class="line"><span class="built_in">print</span>(storage.age) <span class="comment">// 18</span></span><br></pre></td></tr></table></figure>
+<p>The argument member of the method must be <code>ExpressibleByStringLiteral</code> conformance, usually be <code>String</code>.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@dynamicMemberLookup</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">ValueWrapper</span>&lt;<span class="type">Wrapped</span>&gt; &#123;</span><br><span class="line">    <span class="keyword">let</span> wrappedValue: <span class="type">Wrapped</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">subscript</span>&lt;<span class="type">T</span>&gt;(<span class="params">dynamicMember</span> <span class="params">keyPath</span>: <span class="type">KeyPath</span>&lt;<span class="type">Wrapped</span>, <span class="type">T</span>&gt;) -&gt; <span class="type">T</span> &#123;</span><br><span class="line">        <span class="keyword">get</span> &#123;</span><br><span class="line">            wrappedValue[keyPath: keyPath]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> name: <span class="type">String</span></span><br><span class="line">    <span class="keyword">var</span> age: <span class="type">Int</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> me <span class="operator">=</span> <span class="type">Person</span>(name: <span class="string">&quot;csl&quot;</span>, age: <span class="number">18</span>)</span><br><span class="line"><span class="keyword">let</span> wrapper <span class="operator">=</span> <span class="type">ValueWrapper</span>(wrappedValue: me)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(wrapper.csl) <span class="comment">// csl</span></span><br><span class="line"><span class="built_in">print</span>(wrapper.age) <span class="comment">// 18</span></span><br><span class="line"><span class="built_in">print</span>(wrapper.weight) <span class="comment">// Error: value of type `Person` has no member weight.</span></span><br></pre></td></tr></table></figure>
+<p>Using key path (supports <code>KeyPath</code>, <code>WriteableKeyPath</code>, or <code>ReferenceWritableKeyPath</code>) as the dynamicMember’s type can support compile-time type checking.</p>
+<h2 id="frozen"><a class="markdownIt-Anchor" href="#frozen"></a> <code>frozen</code></h2>
+<p>Restricts modifiability of structures or enumerations in future versions to boost performance.</p>
+<p>In <strong>library evolution mode</strong>, apply this attribute to structures or enumerations makes them cannot add, remove, or reorder enumeration cases or stored properties in future versions.</p>
+<p>Frozen types, the types of the stored properties of frozen structures, and the associated values of frozen enumeration cases must be <code>public</code> or marked with the <code>usableFromInline</code> attribute.</p>
+<p>Detail in <a target="_blank" rel="noopener" href="https://docs.swift.org/swift-book/ReferenceManual/Attributes.html">documents</a></p>
+<h2 id="gkinspectable"><a class="markdownIt-Anchor" href="#gkinspectable"></a> <code>GKInspectable</code></h2>
+<p>Apply this attribute to expose a custom GameplayKit component property to the SpriteKit editor UI. Applying this attribute also implies the objc attribute</p>
+<h2 id="inlinable-usablefrominline"><a class="markdownIt-Anchor" href="#inlinable-usablefrominline"></a> <code>inlinable</code> &amp; <code>usableFromInline</code></h2>
+<p>Applying these two attributes to a function, method, computed property, subscript, initializer or deinitializer will expose their detailed implementation when being called as APIs. The caller will copy the implementation code directly to the calling context.</p>
+<p><code>inlinable</code> is used for <code>public</code> targets. <code>usableFromInline</code> is use for <code>internal</code> targets.<br />
+These modifiers can’t decorate <code>private</code> or <code>fileprivate</code> targets.</p>
+<h2 id="main-nsapplication-and-uiapplication"><a class="markdownIt-Anchor" href="#main-nsapplication-and-uiapplication"></a> <code>main</code>, <code>NSApplication</code>, and <code>UIApplication</code></h2>
+<p>Apply this attribute to a structure, class, or enumeration declaration to indicate that it contains the top-level entry point for program flow.</p>
+<p>The type marked as <code>@main</code> must have a type method <code>main</code> without any arguments or return values.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@main</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">MyApp</span> &#123;</span><br><span class="line">  <span class="keyword">static</span> <span class="keyword">func</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="comment">// Initializes your application.</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>The <code>UIApplication</code> is used for iOS projects and the <code>NSApplication</code> is used for macOS projects.<br />
+If you want to make an executable, you must provides at least one top-level entry point, as discussed in <a target="_blank" rel="noopener" href="https://docs.swift.org/swift-book/ReferenceManual/Declarations.html#ID352">Top-Level Code</a></p>
+<h2 id="nonobjc"><a class="markdownIt-Anchor" href="#nonobjc"></a> <code>nonobjc</code></h2>
+<p>Apply this attribute to a method, property, or initializer declaration to suppress an implicit <code>objc</code> attribute. The <code>nonobjc</code> attribute tells the compiler to make the declaration unavailable in Objective-C language code.</p>
+<h2 id="nscopying"><a class="markdownIt-Anchor" href="#nscopying"></a> <code>NSCopying</code></h2>
+<p>Applying this attribute to a stored variable property of a class causes the property’s <code>setter</code> to be synthesized with a copy of the property’s value-returned by the <code>copyWithZone(_:)</code> method-instead of the value of the property itself.</p>
+<p>The type of the property must conform to <code>NSCopying</code>.</p>
+<h2 id="nsmanaged"><a class="markdownIt-Anchor" href="#nsmanaged"></a> <code>NSManaged</code></h2>
+<p>Used in <code>Core Data</code>.</p>
+<h2 id="objc"><a class="markdownIt-Anchor" href="#objc"></a> <code>objc</code></h2>
+<p>Apply this attribute to any declaration that can be represented in Objective-C code-for examples</p>
+<ol>
+<li><code>nonnested classes</code></li>
+<li><code>protocols</code></li>
+<li><code>nongeneric enumerations(constrained to integer raw-value types)</code></li>
+<li><code>properties</code> and <code>methods(including getters and setters) of classes</code></li>
+<li><code>protocols</code> and <code>optional members fo a protocol</code></li>
+<li><code>initializers</code></li>
+<li><code>subscripts(including getters and setters)</code></li>
+</ol>
+<p>Applying this attribute to an extension has the same effect as applying it to every member of that extension that isn’t explicitly marked with <code>nonobjc</code> attribute.</p>
+<p>Applying the attribute with one argument to the declarations listed above can rename them for Objective-C.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@objc</span> <span class="keyword">class</span> <span class="title class_">Storage</span>: <span class="title class_ inherited__">NSObject</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> database: [<span class="type">String</span>: <span class="keyword">Any</span>] <span class="operator">=</span> [:]</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">@objc</span> <span class="keyword">subscript</span>(<span class="params">dynamicMember</span> <span class="params">member</span>: <span class="type">String</span>) -&gt; <span class="keyword">Any</span><span class="operator">?</span> &#123;</span><br><span class="line">        <span class="keyword">@objc</span>(query:)</span><br><span class="line">        <span class="keyword">get</span> &#123;</span><br><span class="line">          database[member]</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">@objc</span>(saveValue:key:)</span><br><span class="line">        <span class="keyword">set</span> &#123;</span><br><span class="line">          database[member] <span class="operator">=</span> newValue</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="objcmembers"><a class="markdownIt-Anchor" href="#objcmembers"></a> <code>objcMembers</code></h2>
+<p>Apply the attribute to a class declaration, to implicitly apply the <code>objc</code> to all Objective-C compatible members of the class, its extensions, its subclasses, and all of the extensions of its subclasses.</p>
+<p>Recommend to use <code>objc</code> to replace of <code>objcMembers</code> to decrease the binary size of you product and boost performance.</p>
+<h2 id="propertywrapper"><a class="markdownIt-Anchor" href="#propertywrapper"></a> <code>propertyWrapper</code></h2>
+<p>Detail in <a target="_blank" rel="noopener" href="http://www.csl.cool/2022/01/18/ios-dev/swift/learning-swift-again/">Learning Swift Again</a></p>
+<h2 id="resultbuilder"><a class="markdownIt-Anchor" href="#resultbuilder"></a> <code>resultBuilder</code></h2>
+<p>Detail in <a target="_blank" rel="noopener" href="http://www.csl.cool/2021/05/06/ios-dev/swift/swift-result-builder/">Swift5.4 New Feature ResultBuilder</a></p>
+<h2 id="requires_stored_property_inits"><a class="markdownIt-Anchor" href="#requires_stored_property_inits"></a> <code>requires_stored_property_inits</code></h2>
+<p>Apply this attribute to a class declaration to require all its stored properties within the class to provide a default value as part of their definition.</p>
+<h2 id="testable"><a class="markdownIt-Anchor" href="#testable"></a> <code>testable</code></h2>
+<p>Used in <code>import</code> declaration. All <code>internal</code> entities within the module imported with <code>@testable</code> will be treated as <code>public</code> in unit test.<br />
+All classes and class members of <code>internal</code> or <code>public</code> will be treated as <code>open</code> in unit test.</p>
+<h2 id="warn_unqualified_access"><a class="markdownIt-Anchor" href="#warn_unqualified_access"></a> <code>warn_unqualified_access</code></h2>
+<p>Used in declarations of top-level functions, instance methods, or class or static methods.<br />
+Displaying a warning when you access a method marked with <code>@warn_unqualified_access</code> attribute without a preceding qualifier.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">test</span>() &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;--------&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">enum</span> <span class="title class_">MyNameSpace</span> &#123;</span><br><span class="line">    <span class="keyword">@warn_unqualified_access</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">func</span> <span class="title function_">test</span>() &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;********&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">func</span> <span class="title function_">run</span>() &#123;</span><br><span class="line">        test() <span class="comment">// Warning: Use of &#x27;test&#x27; treated as a reference to static method in enum &#x27;MyNameSpace&#x27;</span></span><br><span class="line">        <span class="keyword">self</span>.test() <span class="comment">// OK.</span></span><br><span class="line">        <span class="type">MyNameSpace</span>.test() <span class="comment">// OK.</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="autoclosure"><a class="markdownIt-Anchor" href="#autoclosure"></a> <code>autoclosure</code></h2>
+<p>Used in argument declarations of methods. The commonest usage is to delay the passed value’s evolution when being called.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">calculateComplexValue</span>() -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;a time-consuming calculation.&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="number">999</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">func</span> <span class="title function_">execute</span>(<span class="params">cache</span>: <span class="type">Int</span>?, <span class="params">value</span>: <span class="keyword">@autoclosure</span> () -&gt; <span class="type">Int</span>) &#123;</span><br><span class="line">   <span class="keyword">let</span> <span class="keyword">_</span> <span class="operator">=</span> cache <span class="operator">??</span> value()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">execute(cache: <span class="number">100</span>, value: calculateComplexValue()) <span class="comment">// Doesn&#x27;t all the `calculateComplexValue` function.</span></span><br></pre></td></tr></table></figure>
+<h2 id="convention"><a class="markdownIt-Anchor" href="#convention"></a> <code>convention</code></h2>
+<p>Apply this attribute to decorate the type of a block. Then we can pass these decorated blocks to the arguments of C-pointer function or Objective-C block type when calling a method.</p>
+<ul>
+<li><code>@convention(c)</code>: Defines a block as a C-pointer function.</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">CGFloat</span> myCFunction(<span class="type">CGFloat</span> (callback)(<span class="type">CGFloat</span> x, <span class="type">CGFloat</span> y)) &#123;</span><br><span class="line">    <span class="keyword">return</span> callback(<span class="number">1.1</span>, <span class="number">2.2</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> swiftCallback : <span class="keyword">@convention(c)</span> (<span class="type">CGFloat</span>, <span class="type">CGFloat</span>) -&gt; <span class="type">CGFloat</span> <span class="operator">=</span> &#123;</span><br><span class="line">    (x, y) -&gt; <span class="type">CGFloat</span> <span class="keyword">in</span></span><br><span class="line">    <span class="keyword">return</span> x <span class="operator">+</span> y</span><br><span class="line">&#125; </span><br><span class="line"><span class="keyword">let</span> result <span class="operator">=</span> myCFunction( swiftCallback )</span><br><span class="line"><span class="built_in">print</span>(result) <span class="comment">// 3.3</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>@convention(oc)</code>: Defines a block as a Objective-C block.</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> animationsBlock : <span class="keyword">@convention(block)</span> () -&gt; () <span class="operator">=</span> &#123;</span><br><span class="line">		<span class="type">NSLog</span>(<span class="string">&quot;start&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> completionBlock : <span class="keyword">@convention(block)</span> (<span class="type">Bool</span>) -&gt; () <span class="operator">=</span> &#123;</span><br><span class="line">		(<span class="type">Bool</span> completion) <span class="keyword">in</span></span><br><span class="line">			<span class="type">NSLog</span>(<span class="string">&quot;start&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">UIView</span>.animateWithDuration(<span class="number">2</span>, animations: animationsBlock, completion: completionBlock)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>@convention(swift)</code>: Defines a pure Swift block.</li>
+</ul>
+<h2 id="escaping"><a class="markdownIt-Anchor" href="#escaping"></a> <code>escaping</code></h2>
+<p>Applying this attribute to a block argument of a function or method indicates the block argument might be called outside of the function’s scope.</p>
+<h2 id="unknown"><a class="markdownIt-Anchor" href="#unknown"></a> <code>unknown</code></h2>
+<p>Apply this attribute to the <code>default</code> case of a enumeration switching. If the switching doesn’t match all cases of the enumerations, the compiler will throw an warning message(just a pure <code>default</code> case will match all unmatched cases without any reminder. if the unfrozen enumeration adds some new cases, we might miss processing these cases).</p>
+
+  </div>
+</article>
+
+
+
+      
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#available"><span class="toc-number">1.</span> <span class="toc-text"> available</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#discardableresult"><span class="toc-number">2.</span> <span class="toc-text"> discardableResult</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dynamiccallable"><span class="toc-number">3.</span> <span class="toc-text"> dynamicCallable</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dynamicmemberlookup"><span class="toc-number">4.</span> <span class="toc-text"> dynamicMemberLookup</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#frozen"><span class="toc-number">5.</span> <span class="toc-text"> frozen</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#gkinspectable"><span class="toc-number">6.</span> <span class="toc-text"> GKInspectable</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#inlinable-usablefrominline"><span class="toc-number">7.</span> <span class="toc-text"> inlinable &amp; usableFromInline</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#main-nsapplication-and-uiapplication"><span class="toc-number">8.</span> <span class="toc-text"> main, NSApplication, and UIApplication</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nonobjc"><span class="toc-number">9.</span> <span class="toc-text"> nonobjc</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nscopying"><span class="toc-number">10.</span> <span class="toc-text"> NSCopying</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nsmanaged"><span class="toc-number">11.</span> <span class="toc-text"> NSManaged</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#objc"><span class="toc-number">12.</span> <span class="toc-text"> objc</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#objcmembers"><span class="toc-number">13.</span> <span class="toc-text"> objcMembers</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#propertywrapper"><span class="toc-number">14.</span> <span class="toc-text"> propertyWrapper</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#resultbuilder"><span class="toc-number">15.</span> <span class="toc-text"> resultBuilder</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#requires_stored_property_inits"><span class="toc-number">16.</span> <span class="toc-text"> requires_stored_property_inits</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#testable"><span class="toc-number">17.</span> <span class="toc-text"> testable</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#warn_unqualified_access"><span class="toc-number">18.</span> <span class="toc-text"> warn_unqualified_access</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#autoclosure"><span class="toc-number">19.</span> <span class="toc-text"> autoclosure</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#convention"><span class="toc-number">20.</span> <span class="toc-text"> convention</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#escaping"><span class="toc-number">21.</span> <span class="toc-text"> escaping</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#unknown"><span class="toc-number">22.</span> <span class="toc-text"> unknown</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2022/03/01/ios-dev/swift/swift-attributes/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2022/03/01/ios-dev/swift/swift-attributes/&text=How to Use Attributes of Swift"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2022/03/01/ios-dev/swift/swift-attributes/&title=How to Use Attributes of Swift"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2022/03/01/ios-dev/swift/swift-attributes/&is_video=false&description=How to Use Attributes of Swift"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=How to Use Attributes of Swift&body=Check out this article: https://csl.cool/2022/03/01/ios-dev/swift/swift-attributes/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2022/03/01/ios-dev/swift/swift-attributes/&title=How to Use Attributes of Swift"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2022/03/01/ios-dev/swift/swift-attributes/&title=How to Use Attributes of Swift"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2022/03/01/ios-dev/swift/swift-attributes/&title=How to Use Attributes of Swift"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2022/03/01/ios-dev/swift/swift-attributes/&title=How to Use Attributes of Swift"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2022/03/01/ios-dev/swift/swift-attributes/&name=How to Use Attributes of Swift&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2022/03/01/ios-dev/swift/swift-attributes/&t=How to Use Attributes of Swift"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+      <div id="end">
+    <img src="/images/post-end.png" alt="">
+</div> 
+      
+      <div id='valine'>
+    <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+            el: '#vcomments',
+            notify: true,
+            verify: true,
+            appId: '7zw6tQBddCfPvbaVtBGxUy0G-gzGzoHsz',
+            appKey: 'voPGHhBz7MozpUm0Fq2AMFmv',
+            placeholder: '想说点啥...',
+            avatar: 'monsterid',           
+        })
+    </script>
+</div>
+      
+      
+      <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 SSBun
+    <a target="_blank" rel="noopener" href="http://www.beian.miit.gov.cn/">京ICP备20001935号-1</a>
+    <div id="friend-link-container">
+      
+      
+    </div>
+  </div>
+  
+    <div class="footer-right">
+      <nav>
+        <ul>
+          
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/search/">Search</a></li>
+      
+      <li><a href="/categories/">Categories</a></li>
+      
+      <li><a href="/notes/">Notes</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+      </ul>
+      </nav>
+    </div>
+  
+</footer>
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?c2fdf3bebd0db8e40c37a4f37d76d33b";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Umami Analytics -->
+<!--  -->
+  <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="d39cc16d-90eb-47b6-8bf0-8e4cd43c704d"></script>
+<!--  -->
+<!-- Disqus Comments -->
+
+
+
+    
+    <script src="/lib/blackcat/l2dwidget.min.js"></script>
+    <script type="text/javascript">
+      var config = {
+        model: {
+          jsonPath: '/lib/blackcat/hijiki.model.json',
+        },
+        display: {
+          superSample: 1,
+          width: 245,
+          height: 245,
+          position: 'left',
+          hOffset: 0,
+          vOffset: 0,
+        },
+        mobile: {
+          show: false,
+          scale: 1,
+          motion: false,
+        },
+        react: {
+          opacityDefault: 1,
+          opacityOnHover: 0.75
+        }
+      };
+      L2Dwidget.init(config);
+    </script>
+    
+  </body>
+
+  </html>

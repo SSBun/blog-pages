@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang=en>
+  <head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="此为译文，原文连接: Automatic conversions between Double and CGFloat values in Swift 5.5  Swift5.5 新特性: 编译器现在能够在 CGFloat 和 Double 之间自动进行转换. 尽管在 64 位系统中，CGFloat 和 Double 在底层是相等的类型，但是在 Swift5.5 以前因为 Swift 的强类型系">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在 Swift5.5 中 Double 和 CGFloat 的自动转换">
+<meta property="og:url" content="https://csl.cool/2021/06/21/ios-dev/swift/double-cgfloat-auto-conversions/index.html">
+<meta property="og:site_name" content="CSL MEMO">
+<meta property="og:description" content="此为译文，原文连接: Automatic conversions between Double and CGFloat values in Swift 5.5  Swift5.5 新特性: 编译器现在能够在 CGFloat 和 Double 之间自动进行转换. 尽管在 64 位系统中，CGFloat 和 Double 在底层是相等的类型，但是在 Swift5.5 以前因为 Swift 的强类型系">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-06-21T05:37:07.000Z">
+<meta property="article:modified_time" content="2021-06-21T05:37:07.000Z">
+<meta property="article:author" content="SSBun">
+<meta property="article:tag" content="Swift">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>在 Swift5.5 中 Double 和 CGFloat 的自动转换</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="CSL MEMO" type="application/atom+xml" />
+    
+    <!-- umami web analytics -->
+    <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+  <body class="max-width mx-auto px3 ltr">
+    
+    <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2021/06/21/c++/c--store-a-number/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2021/06/18/c++/character-encoding-in-c/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2021/06/21/ios-dev/swift/double-cgfloat-auto-conversions/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2021/06/21/ios-dev/swift/double-cgfloat-auto-conversions/&text=在 Swift5.5 中 Double 和 CGFloat 的自动转换"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2021/06/21/ios-dev/swift/double-cgfloat-auto-conversions/&title=在 Swift5.5 中 Double 和 CGFloat 的自动转换"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2021/06/21/ios-dev/swift/double-cgfloat-auto-conversions/&is_video=false&description=在 Swift5.5 中 Double 和 CGFloat 的自动转换"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=在 Swift5.5 中 Double 和 CGFloat 的自动转换&body=Check out this article: https://csl.cool/2021/06/21/ios-dev/swift/double-cgfloat-auto-conversions/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2021/06/21/ios-dev/swift/double-cgfloat-auto-conversions/&title=在 Swift5.5 中 Double 和 CGFloat 的自动转换"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2021/06/21/ios-dev/swift/double-cgfloat-auto-conversions/&title=在 Swift5.5 中 Double 和 CGFloat 的自动转换"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2021/06/21/ios-dev/swift/double-cgfloat-auto-conversions/&title=在 Swift5.5 中 Double 和 CGFloat 的自动转换"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2021/06/21/ios-dev/swift/double-cgfloat-auto-conversions/&title=在 Swift5.5 中 Double 和 CGFloat 的自动转换"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2021/06/21/ios-dev/swift/double-cgfloat-auto-conversions/&name=在 Swift5.5 中 Double 和 CGFloat 的自动转换&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2021/06/21/ios-dev/swift/double-cgfloat-auto-conversions/&t=在 Swift5.5 中 Double 和 CGFloat 的自动转换"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+      
+      <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        在 Swift5.5 中 Double 和 CGFloat 的自动转换
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">SSBun</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-06-21T05:37:07.000Z" itemprop="datePublished">2021-06-21</time>
+        
+        (Updated: <time datetime="2021-06-21T05:37:07.000Z" itemprop="dateModified">2021-06-21</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Swift/" rel="tag">Swift</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p>此为译文，原文连接: <a target="_blank" rel="noopener" href="https://www.swiftbysundell.com/tips/double-cgfloat-auto-conversions/">Automatic conversions between Double and CGFloat values in Swift 5.5</a></p>
+</blockquote>
+<p><em>Swift5.5 新特性:</em> <strong>编译器现在能够在 CGFloat 和 Double 之间自动进行转换.</strong></p>
+<p>尽管在 64 位系统中，CGFloat 和 Double 在底层是相等的类型，但是在 Swift5.5 以前因为 Swift 的强类型系统，CGFloat 和 Double 之间必须手动强转才能使用。CGFloat 和 Double 在 Swift 的类型系统当中也确实是完全不同的两个类型。</p>
+<p>然而，当我们使用字面量的时候，编译器总是能够根据上下文自动选择合适的变量类型。例如，在下面的 SwiftUI 视图中，我们设置了 <code>scaleEffect</code> 和 <code>opacity</code>  两个修饰器，它们一个接收 CGFloat 类型的值， 一个接收 Double 类型的值，我们直接使用字面量，并没有指定数据类型。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">DecorationImage</span>: <span class="title class_ inherited__">View</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> name: <span class="type">String</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">Image</span>(name)</span><br><span class="line">            .scaleEffect(<span class="number">0.5</span>) <span class="comment">// This is a CGFloat</span></span><br><span class="line">            .opacity(<span class="number">0.8</span>) <span class="comment">// This is a Double</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果我们替换字面量为两个属性，然后我们强制设置<code>scale</code> 为 CGFloat 类型，如果不强制设置的话，根据上下文，编译器会把 <code>scale</code> 自动解释为 Double 类型。当我们把这个属性赋值给 <code>scaleEffect</code>时，编译器会报错。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">DecorationImage</span>: <span class="title class_ inherited__">View</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> name: <span class="type">String</span></span><br><span class="line">    <span class="keyword">var</span> scale: <span class="type">CGFloat</span> <span class="operator">=</span> <span class="number">0.5</span></span><br><span class="line">    <span class="keyword">var</span> opacity: <span class="type">CGFloat</span> <span class="operator">=</span> <span class="number">0.8</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">Image</span>(name)</span><br><span class="line">            .scaleEffect(scale)</span><br><span class="line">            .opacity(opacity)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但是在 Swift5.5 中，就不在有这个的问题了，我们现在可以随意的把一个 Double 类型的值传到一个接收 CGFloat 参数的函数中去。反之，我们也可以自由的设置我们的属性是 CGFloat 或是 Double， 亦或者不再指定它们的类型，让编译器把它们的类型默认为 Double。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">DecorationImage</span>: <span class="title class_ inherited__">View</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> name: <span class="type">String</span></span><br><span class="line">    <span class="keyword">var</span> scale <span class="operator">=</span> <span class="number">0.5</span></span><br><span class="line">    <span class="keyword">var</span> opacity <span class="operator">=</span> <span class="number">0.8</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">Image</span>(name)</span><br><span class="line">            .scaleEffect(scale)</span><br><span class="line">            .opacity(opacity)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个新特性不仅仅只适用于系统 API，任何使用到 CGFloat 和 Double 类型的代码都可以使用这个特性，虽然是一个很小的改动，但是非常的好用。</p>
+
+  </div>
+</article>
+
+
+
+      
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2021/06/21/ios-dev/swift/double-cgfloat-auto-conversions/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2021/06/21/ios-dev/swift/double-cgfloat-auto-conversions/&text=在 Swift5.5 中 Double 和 CGFloat 的自动转换"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2021/06/21/ios-dev/swift/double-cgfloat-auto-conversions/&title=在 Swift5.5 中 Double 和 CGFloat 的自动转换"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2021/06/21/ios-dev/swift/double-cgfloat-auto-conversions/&is_video=false&description=在 Swift5.5 中 Double 和 CGFloat 的自动转换"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=在 Swift5.5 中 Double 和 CGFloat 的自动转换&body=Check out this article: https://csl.cool/2021/06/21/ios-dev/swift/double-cgfloat-auto-conversions/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2021/06/21/ios-dev/swift/double-cgfloat-auto-conversions/&title=在 Swift5.5 中 Double 和 CGFloat 的自动转换"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2021/06/21/ios-dev/swift/double-cgfloat-auto-conversions/&title=在 Swift5.5 中 Double 和 CGFloat 的自动转换"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2021/06/21/ios-dev/swift/double-cgfloat-auto-conversions/&title=在 Swift5.5 中 Double 和 CGFloat 的自动转换"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2021/06/21/ios-dev/swift/double-cgfloat-auto-conversions/&title=在 Swift5.5 中 Double 和 CGFloat 的自动转换"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2021/06/21/ios-dev/swift/double-cgfloat-auto-conversions/&name=在 Swift5.5 中 Double 和 CGFloat 的自动转换&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2021/06/21/ios-dev/swift/double-cgfloat-auto-conversions/&t=在 Swift5.5 中 Double 和 CGFloat 的自动转换"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+      <div id="end">
+    <img src="/images/post-end.png" alt="">
+</div> 
+      
+      <div id='valine'>
+    <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+            el: '#vcomments',
+            notify: true,
+            verify: true,
+            appId: '7zw6tQBddCfPvbaVtBGxUy0G-gzGzoHsz',
+            appKey: 'voPGHhBz7MozpUm0Fq2AMFmv',
+            placeholder: '想说点啥...',
+            avatar: 'monsterid',           
+        })
+    </script>
+</div>
+      
+      
+      <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 SSBun
+    <a target="_blank" rel="noopener" href="http://www.beian.miit.gov.cn/">京ICP备20001935号-1</a>
+    <div id="friend-link-container">
+      
+      
+    </div>
+  </div>
+  
+    <div class="footer-right">
+      <nav>
+        <ul>
+          
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/search/">Search</a></li>
+      
+      <li><a href="/categories/">Categories</a></li>
+      
+      <li><a href="/notes/">Notes</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+      </ul>
+      </nav>
+    </div>
+  
+</footer>
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?c2fdf3bebd0db8e40c37a4f37d76d33b";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Umami Analytics -->
+<!--  -->
+  <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="d39cc16d-90eb-47b6-8bf0-8e4cd43c704d"></script>
+<!--  -->
+<!-- Disqus Comments -->
+
+
+
+    
+    <script src="/lib/blackcat/l2dwidget.min.js"></script>
+    <script type="text/javascript">
+      var config = {
+        model: {
+          jsonPath: '/lib/blackcat/hijiki.model.json',
+        },
+        display: {
+          superSample: 1,
+          width: 245,
+          height: 245,
+          position: 'left',
+          hOffset: 0,
+          vOffset: 0,
+        },
+        mobile: {
+          show: false,
+          scale: 1,
+          motion: false,
+        },
+        react: {
+          opacityDefault: 1,
+          opacityOnHover: 0.75
+        }
+      };
+      L2Dwidget.init(config);
+    </script>
+    
+  </body>
+
+  </html>

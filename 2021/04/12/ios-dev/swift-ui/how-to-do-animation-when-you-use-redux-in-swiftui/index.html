@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang=en>
+  <head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="I’m writing a macOS application using Redux in SwiftUI. In the Redux, I declared an EnvironmentObject Store, a struct AppState and an enum AppAction. The AppState is a Published property in the Store.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to do animation when you use Redux in SwiftUI">
+<meta property="og:url" content="https://csl.cool/2021/04/12/ios-dev/swift-ui/how-to-do-animation-when-you-use-redux-in-swiftui/index.html">
+<meta property="og:site_name" content="CSL MEMO">
+<meta property="og:description" content="I’m writing a macOS application using Redux in SwiftUI. In the Redux, I declared an EnvironmentObject Store, a struct AppState and an enum AppAction. The AppState is a Published property in the Store.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20210412184058.png">
+<meta property="og:image" content="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20210412184023.png">
+<meta property="og:image" content="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20210412183954.png">
+<meta property="article:published_time" content="2021-04-12T09:13:52.000Z">
+<meta property="article:modified_time" content="2021-04-12T09:13:52.000Z">
+<meta property="article:author" content="SSBun">
+<meta property="article:tag" content="SwiftUI">
+<meta property="article:tag" content="Animation">
+<meta property="article:tag" content="Redux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20210412184058.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>How to do animation when you use Redux in SwiftUI</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="CSL MEMO" type="application/atom+xml" />
+    
+    <!-- umami web analytics -->
+    <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+  <body class="max-width mx-auto px3 ltr">
+    
+    <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2021/04/14/notes/learning-basic-english--vocabularies/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2021/04/08/ios-dev/swift/observers-app-lifecycle-in-swiftui/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2021/04/12/ios-dev/swift-ui/how-to-do-animation-when-you-use-redux-in-swiftui/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2021/04/12/ios-dev/swift-ui/how-to-do-animation-when-you-use-redux-in-swiftui/&text=How to do animation when you use Redux in SwiftUI"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2021/04/12/ios-dev/swift-ui/how-to-do-animation-when-you-use-redux-in-swiftui/&title=How to do animation when you use Redux in SwiftUI"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2021/04/12/ios-dev/swift-ui/how-to-do-animation-when-you-use-redux-in-swiftui/&is_video=false&description=How to do animation when you use Redux in SwiftUI"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=How to do animation when you use Redux in SwiftUI&body=Check out this article: https://csl.cool/2021/04/12/ios-dev/swift-ui/how-to-do-animation-when-you-use-redux-in-swiftui/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2021/04/12/ios-dev/swift-ui/how-to-do-animation-when-you-use-redux-in-swiftui/&title=How to do animation when you use Redux in SwiftUI"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2021/04/12/ios-dev/swift-ui/how-to-do-animation-when-you-use-redux-in-swiftui/&title=How to do animation when you use Redux in SwiftUI"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2021/04/12/ios-dev/swift-ui/how-to-do-animation-when-you-use-redux-in-swiftui/&title=How to do animation when you use Redux in SwiftUI"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2021/04/12/ios-dev/swift-ui/how-to-do-animation-when-you-use-redux-in-swiftui/&title=How to do animation when you use Redux in SwiftUI"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2021/04/12/ios-dev/swift-ui/how-to-do-animation-when-you-use-redux-in-swiftui/&name=How to do animation when you use Redux in SwiftUI&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2021/04/12/ios-dev/swift-ui/how-to-do-animation-when-you-use-redux-in-swiftui/&t=How to do animation when you use Redux in SwiftUI"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+      
+      <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        How to do animation when you use Redux in SwiftUI
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">SSBun</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-04-12T09:13:52.000Z" itemprop="datePublished">2021-04-12</time>
+        
+        (Updated: <time datetime="2021-04-12T09:13:52.000Z" itemprop="dateModified">2021-04-12</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Animation/" rel="tag">Animation</a>, <a class="tag-link-link" href="/tags/Redux/" rel="tag">Redux</a>, <a class="tag-link-link" href="/tags/SwiftUI/" rel="tag">SwiftUI</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>I’m writing a macOS application using Redux in SwiftUI. In the Redux, I declared an EnvironmentObject <code>Store</code>, a struct AppState and an enum AppAction. The AppState is a Published property in the Store. When we dispatch an AppAction to the Store, it will generate a new AppState through the old AppState and the Action. The AppState is the data source of all the pages. All the UI is rendered by AppState. It’s more simple and powerful than using MVC or MVVM in SwiftUI.</p>
+<p><img src="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20210412184058.png" alt="" /></p>
+<p>But, there are some questions about the animation. Modifying the AppState, we want to do an animation for the changed UI. If we use the implicit animation, all the views might get animation although some we don’t want.</p>
+<p>How about the explicit animation?  The explicit animation has the same questions as the implicit animation. If you want to get the correct animation, you must reduce the impact area of the state’s changes.</p>
+<p>So we can set a @State animation property in the special view to control it’s animation, and then use the explicit animation to change it. But how can we observe the AppState’s changes to modify the animation property? The SwiftUI provides a function <code>onReceive</code> to observe a publisher. Be lucky, the AppState is a Publish property of the ObservedObject Store. We can use the <code>store.$appState</code> to get the publisher and work with the <code>map</code> to get the value we want.</p>
+<p><img src="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20210412184023.png" alt="" /></p>
+<p><img src="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20210412183954.png" alt="" /></p>
+
+  </div>
+</article>
+
+
+
+      
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2021/04/12/ios-dev/swift-ui/how-to-do-animation-when-you-use-redux-in-swiftui/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2021/04/12/ios-dev/swift-ui/how-to-do-animation-when-you-use-redux-in-swiftui/&text=How to do animation when you use Redux in SwiftUI"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2021/04/12/ios-dev/swift-ui/how-to-do-animation-when-you-use-redux-in-swiftui/&title=How to do animation when you use Redux in SwiftUI"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2021/04/12/ios-dev/swift-ui/how-to-do-animation-when-you-use-redux-in-swiftui/&is_video=false&description=How to do animation when you use Redux in SwiftUI"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=How to do animation when you use Redux in SwiftUI&body=Check out this article: https://csl.cool/2021/04/12/ios-dev/swift-ui/how-to-do-animation-when-you-use-redux-in-swiftui/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2021/04/12/ios-dev/swift-ui/how-to-do-animation-when-you-use-redux-in-swiftui/&title=How to do animation when you use Redux in SwiftUI"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2021/04/12/ios-dev/swift-ui/how-to-do-animation-when-you-use-redux-in-swiftui/&title=How to do animation when you use Redux in SwiftUI"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2021/04/12/ios-dev/swift-ui/how-to-do-animation-when-you-use-redux-in-swiftui/&title=How to do animation when you use Redux in SwiftUI"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2021/04/12/ios-dev/swift-ui/how-to-do-animation-when-you-use-redux-in-swiftui/&title=How to do animation when you use Redux in SwiftUI"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2021/04/12/ios-dev/swift-ui/how-to-do-animation-when-you-use-redux-in-swiftui/&name=How to do animation when you use Redux in SwiftUI&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2021/04/12/ios-dev/swift-ui/how-to-do-animation-when-you-use-redux-in-swiftui/&t=How to do animation when you use Redux in SwiftUI"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+      <div id="end">
+    <img src="/images/post-end.png" alt="">
+</div> 
+      
+      <div id='valine'>
+    <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+            el: '#vcomments',
+            notify: true,
+            verify: true,
+            appId: '7zw6tQBddCfPvbaVtBGxUy0G-gzGzoHsz',
+            appKey: 'voPGHhBz7MozpUm0Fq2AMFmv',
+            placeholder: '想说点啥...',
+            avatar: 'monsterid',           
+        })
+    </script>
+</div>
+      
+      
+      <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 SSBun
+    <a target="_blank" rel="noopener" href="http://www.beian.miit.gov.cn/">京ICP备20001935号-1</a>
+    <div id="friend-link-container">
+      
+      
+    </div>
+  </div>
+  
+    <div class="footer-right">
+      <nav>
+        <ul>
+          
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/search/">Search</a></li>
+      
+      <li><a href="/categories/">Categories</a></li>
+      
+      <li><a href="/notes/">Notes</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+      </ul>
+      </nav>
+    </div>
+  
+</footer>
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?c2fdf3bebd0db8e40c37a4f37d76d33b";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Umami Analytics -->
+<!--  -->
+  <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="d39cc16d-90eb-47b6-8bf0-8e4cd43c704d"></script>
+<!--  -->
+<!-- Disqus Comments -->
+
+
+
+    
+    <script src="/lib/blackcat/l2dwidget.min.js"></script>
+    <script type="text/javascript">
+      var config = {
+        model: {
+          jsonPath: '/lib/blackcat/hijiki.model.json',
+        },
+        display: {
+          superSample: 1,
+          width: 245,
+          height: 245,
+          position: 'left',
+          hOffset: 0,
+          vOffset: 0,
+        },
+        mobile: {
+          show: false,
+          scale: 1,
+          motion: false,
+        },
+        react: {
+          opacityDefault: 1,
+          opacityOnHover: 0.75
+        }
+      };
+      L2Dwidget.init(config);
+    </script>
+    
+  </body>
+
+  </html>

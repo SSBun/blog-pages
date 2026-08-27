@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang=en>
+  <head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="最近项目中越来越多的页面开始使用 Flutter 进行开发，这时一个棘手的问题就暴露出来，我们项目中对 Flutter 页面横竖屏的控制非常的僵硬，基本上就是在被跳转的页面的 init 方法中进行了横竖屏的设置，然后在 dispose 的时候再改回去，当初这样写的原因在于任务紧张并且团队初次使用了 Flutter 来开发，对 Flutter 中的各种机制还不是特别的了解，并且就几个页面，跳转的逻">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Flutter&#x2F;flutter_boost 中页面横竖屏控制">
+<meta property="og:url" content="https://csl.cool/2020/11/12/frontend/flutter-controls-screen-orientation/index.html">
+<meta property="og:site_name" content="CSL MEMO">
+<meta property="og:description" content="最近项目中越来越多的页面开始使用 Flutter 进行开发，这时一个棘手的问题就暴露出来，我们项目中对 Flutter 页面横竖屏的控制非常的僵硬，基本上就是在被跳转的页面的 init 方法中进行了横竖屏的设置，然后在 dispose 的时候再改回去，当初这样写的原因在于任务紧张并且团队初次使用了 Flutter 来开发，对 Flutter 中的各种机制还不是特别的了解，并且就几个页面，跳转的逻">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20201116115103.png">
+<meta property="article:published_time" content="2020-11-12T07:33:47.000Z">
+<meta property="article:modified_time" content="2020-11-12T07:33:47.000Z">
+<meta property="article:author" content="SSBun">
+<meta property="article:tag" content="Flutter">
+<meta property="article:tag" content="Screen Orientation">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20201116115103.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Flutter/flutter_boost 中页面横竖屏控制</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="CSL MEMO" type="application/atom+xml" />
+    
+    <!-- umami web analytics -->
+    <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+  <body class="max-width mx-auto px3 ltr">
+    
+    <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/11/30/notes/weekly-20201130/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/11/03/reading/kingfisher-souce-reading/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2020/11/12/frontend/flutter-controls-screen-orientation/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2020/11/12/frontend/flutter-controls-screen-orientation/&text=Flutter/flutter_boost 中页面横竖屏控制"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2020/11/12/frontend/flutter-controls-screen-orientation/&title=Flutter/flutter_boost 中页面横竖屏控制"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2020/11/12/frontend/flutter-controls-screen-orientation/&is_video=false&description=Flutter/flutter_boost 中页面横竖屏控制"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Flutter/flutter_boost 中页面横竖屏控制&body=Check out this article: https://csl.cool/2020/11/12/frontend/flutter-controls-screen-orientation/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2020/11/12/frontend/flutter-controls-screen-orientation/&title=Flutter/flutter_boost 中页面横竖屏控制"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2020/11/12/frontend/flutter-controls-screen-orientation/&title=Flutter/flutter_boost 中页面横竖屏控制"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2020/11/12/frontend/flutter-controls-screen-orientation/&title=Flutter/flutter_boost 中页面横竖屏控制"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2020/11/12/frontend/flutter-controls-screen-orientation/&title=Flutter/flutter_boost 中页面横竖屏控制"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2020/11/12/frontend/flutter-controls-screen-orientation/&name=Flutter/flutter_boost 中页面横竖屏控制&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2020/11/12/frontend/flutter-controls-screen-orientation/&t=Flutter/flutter_boost 中页面横竖屏控制"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88"><span class="toc-number">1.</span> <span class="toc-text"> 实现方案</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%91%E5%90%AC%E5%AF%BC%E8%88%AA%E6%A0%88"><span class="toc-number">1.1.</span> <span class="toc-text"> 监听导航栈</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A1%B5%E9%9D%A2%E9%85%8D%E7%BD%AE"><span class="toc-number">1.2.</span> <span class="toc-text"> 页面配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#flutter_boost-%E4%B8%AD%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8"><span class="toc-number">2.</span> <span class="toc-text"> flutter_boost 中如何使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%BA%E6%99%AF%E4%B8%80-flutter-%E5%86%85%E9%83%A8%E8%B7%B3%E8%BD%AC%E4%B9%9F%E4%BD%BF%E7%94%A8-flutter_boost"><span class="toc-number">2.1.</span> <span class="toc-text"> 场景一: flutter 内部跳转也使用 flutter_boost</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%BA%E6%99%AF%E4%BA%8C-flutter-%E5%86%85%E9%83%A8%E8%B7%B3%E8%BD%AC%E4%B8%8D%E4%BD%BF%E7%94%A8-flutter_boost"><span class="toc-number">2.2.</span> <span class="toc-text"> 场景二: flutter 内部跳转不使用 flutter_boost</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">3.</span> <span class="toc-text"> 总结</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+      
+      <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Flutter/flutter_boost 中页面横竖屏控制
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">SSBun</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-11-12T07:33:47.000Z" itemprop="datePublished">2020-11-12</time>
+        
+        (Updated: <time datetime="2020-11-12T07:33:47.000Z" itemprop="dateModified">2020-11-12</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Flutter/">Flutter</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Flutter/" rel="tag">Flutter</a>, <a class="tag-link-link" href="/tags/Screen-Orientation/" rel="tag">Screen Orientation</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p><img src="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20201116115103.png" alt="" /></p>
+<p>最近项目中越来越多的页面开始使用 Flutter 进行开发，这时一个棘手的问题就暴露出来，我们项目中对 Flutter 页面横竖屏的控制非常的僵硬，基本上就是在被跳转的页面的 init 方法中进行了横竖屏的设置，然后在 dispose 的时候再改回去，当初这样写的原因在于任务紧张并且团队初次使用了 Flutter 来开发，对 Flutter 中的各种机制还不是特别的了解，并且就几个页面，跳转的逻辑十分的简单，就将就了一下。</p>
+<p>现在页面多了，这样写的缺点就很大了。严重依赖页面间的跳转顺序，一切的横竖屏设置都是依赖于固定路径的跳转，否者在 dispose 的时候就无法设置正确的屏幕方向，在 Flutter 中最理想的是使用 route 来进行任意的跳转，我们这种写法对此而言简直就是灾难。</p>
+<h2 id="实现方案"><a class="markdownIt-Anchor" href="#实现方案"></a> 实现方案</h2>
+<p>正好最近有时间就研究了一下这个问题，并找到了一个相对可靠的解决方案，根据我的经验，我想实现一种类似于 iOS 当中横竖屏控制的机制。在 iOS 当中，每个 ViewController 都能重写三个只读属性，来设置自己的屏幕方向。这样每个页面只需要声明自己的屏幕方向，就能在显示自身时获得正确的显示，无须关心导航栈中的其他页面，屏幕方向的控制都交给 Navigator 来管理。</p>
+<h3 id="监听导航栈"><a class="markdownIt-Anchor" href="#监听导航栈"></a> 监听导航栈</h3>
+<p>要实现上述功能，最重要的一点就是，我们要监听导航栈的变动，在 Flutter 中，当我们 push 一个页面和 pop 一个页面的时候，我们需要监听到两个数据，一个是 push 时要去的页面，一个是 pop 时所要返回的页面。这样我们就能通过读取页面的配置信息来修改屏幕方向，实现类似的效果。</p>
+<p>在 Flutter 中我们创建一个 <code>MaterialApp</code> 时，有一个属性是 <code>final List&lt;NavigatorObserver&gt; navigatorObservers;</code>， 其中的 <code>NavigatorObserver</code> 是一个类，里面定义了两个重要的方法 <code>void didPush(Route&lt;dynamic&gt; route, Route&lt;dynamic&gt; previousRoute) &#123; &#125;</code> 和 <code>void didPop(Route&lt;dynamic&gt; route, Route&lt;dynamic&gt; previousRoute) &#123; &#125;</code>。当 Flutter 页面中的导航栈发生变化时，会通知所有的 navigatorObservers，并调用上面的两个方法。</p>
+<p>这里我们需要实现一个自己的 navigatorObserver 来监听导航栈，这里我们定义一个:</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">OrientationNavigatorObserver</span> <span class="keyword">extends</span> <span class="title">NavigatorObserver</span> </span>&#123;</span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  <span class="keyword">void</span> didPush(Route route, Route previousRoute) &#123;</span><br><span class="line">    debugPrint(</span><br><span class="line">        <span class="string">&#x27;didPush route: <span class="subst">$route</span> previousRoute: <span class="subst">$previousRoute</span>&#x27;</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  <span class="keyword">void</span> didPop(Route route, Route previousRoute) &#123;</span><br><span class="line">    debugPrint(</span><br><span class="line">        <span class="string">&#x27;didPop route: <span class="subst">$route</span> previousRoute: <span class="subst">$previousRoute</span>&#x27;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>将 <code>OrientationNavigatorObserver</code> 设置到 navigatorObservers 中以后，我们在两个方法里面都打印出 <code>route</code> 和 <code>previousRoute</code>，运行项目进行一些跳转，观察打印的信息，这里可能会出现多种情况：</p>
+<p>首先，如果你在项目中使用了是这样的跳转方法:</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Navigator.of(context)</span><br><span class="line">.push(MaterialPageRoute(builder: (context) &#123;</span><br><span class="line">    <span class="keyword">return</span> VipTaskRegular();</span><br><span class="line">&#125;));</span><br></pre></td></tr></table></figure>
+<p>直接使用 push 方法进行跳转，打印出的信息中 <code>settings</code> 的值会是 (null, null)，而这个 <code>route</code>  不会携带和你的 widget （这里是 VipTaskRegular）相关的信息，我们就无法确定跳转的页面，也就无法进行相关的设置，settings 中的两个值，一个是 name（路由）,还有 arguments （携带的参数），所以使用 push 直接进行跳转的页面我们是无能为力的。</p>
+<p>其实使用 push 进行页面跳转不是最优方法，在现在的开发模式中，无论是原生应用还是 Flutter 都开始流行使用路由地址来进行页面跳转，就像 web 那样。通过一个确定的 <code>uri</code> 我们在任何页面都能跳转到任何页面。Flutter 也是推荐先在 MaterialApp 中的 <code>routes</code> 注册路由，然后我们就能通过 <code>pushNamed(context, routeName)</code> 直接进行页面跳转，这种方案代码更加简洁，结构上也清晰。</p>
+<p>与此同时，我们就能在 <code>didPush</code> 和 <code>didPop</code>  的 route 中捕获到 <code>route.settings.name</code> 。因为路由地址和页面是一一对应的，通过这个 routeName 我们就能知道对应的页面是什么了。</p>
+<blockquote>
+<p>didPush 中将要显示的页面是 route, 而在 didPop 中将要返回的页面是 previousRoute</p>
+</blockquote>
+<h3 id="页面配置"><a class="markdownIt-Anchor" href="#页面配置"></a> 页面配置</h3>
+<p>解决了监听的问题，接下来就是如何读取页面的相关设置。最初的想法还是依赖于 iOS 中的机制（方案一）：</p>
+<ol>
+<li>我想要定义一个抽象类，里面定义上读取横竖屏方向的静态属性或方法（因为无法获取 widget 实例，实例方法和属性也就无从获取了）</li>
+<li>各个页面实现抽象类中的属性和方法，返回配置信息</li>
+<li>在导航监听中，通过 routeName 获取才页面的类型，并读取配置</li>
+<li>通过配置信息设置横竖屏方向</li>
+</ol>
+<p>但是，上面的设想中，第一条就无法实现，Dart 中的静态方法是无法向下传递给子类的，所以无论是 extends 还是 implements,都是无效的。其次，存储页面的 Type 类型到 Map 中，再读取出来时，也只能通过 switch 进行类型判断。这都是因为我们无法实现一个可以定义静态属性和方法的抽象类。因为无法获取到 widget 的实例，我们也无法像 iOS 那样，通过读取实例的属性来获取配置信息。</p>
+<p>既然上面的行不通，其次也实现不了像 iOS 那样的效果，毕竟如果读取不到实例，也就无法在运行时让实例通过属性来自由控制屏幕的方向，我们就索性设置一个配置表，通过 routeName 和 config 的对应，我们读取预设值进行相关的设置。这样我们就只需要在一个集中的地方，统一注册相关的设置就 ok 了</p>
+<blockquote>
+<p>通过配置表统一设置，和通过实现协议各自配置，孰优孰劣就见仁见智了，iOS 中更推崇自己的事情自己干。</p>
+</blockquote>
+<p>这里我直接把相关的代码粘贴上来:</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Flutter page orientation config.</span></span><br><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">OrientationSupport</span> </span>&#123;</span><br><span class="line">  <span class="built_in">bool</span> <span class="keyword">get</span> available;</span><br><span class="line">  <span class="built_in">List</span>&lt;DeviceOrientation&gt; <span class="keyword">get</span> preferredOrientations;</span><br><span class="line">  <span class="built_in">List</span>&lt;SystemUiOverlay&gt; <span class="keyword">get</span> overlays;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Default horizontal config.</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">OrientationSupportHorizontal</span> <span class="keyword">implements</span> <span class="title">OrientationSupport</span> </span>&#123;</span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  <span class="built_in">bool</span> <span class="keyword">get</span> available =&gt; <span class="keyword">true</span>;</span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  <span class="built_in">List</span>&lt;DeviceOrientation&gt; <span class="keyword">get</span> preferredOrientations =&gt; Platform.isIOS</span><br><span class="line">      ? [DeviceOrientation.landscapeRight]</span><br><span class="line">      : [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight];</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  <span class="built_in">List</span>&lt;SystemUiOverlay&gt; <span class="keyword">get</span> overlays =&gt;</span><br><span class="line">      [SystemUiOverlay.top, SystemUiOverlay.bottom];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Default vertical config.</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">OrientationSupportVertical</span> <span class="keyword">implements</span> <span class="title">OrientationSupport</span> </span>&#123;</span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  <span class="built_in">bool</span> <span class="keyword">get</span> available =&gt; <span class="keyword">true</span>;</span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  <span class="built_in">List</span>&lt;DeviceOrientation&gt; <span class="keyword">get</span> preferredOrientations =&gt;</span><br><span class="line">      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown];</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  <span class="built_in">List</span>&lt;SystemUiOverlay&gt; <span class="keyword">get</span> overlays =&gt; [];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">OrientationSupportStay</span> <span class="keyword">implements</span> <span class="title">OrientationSupport</span> </span>&#123;</span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  <span class="built_in">bool</span> <span class="keyword">get</span> available =&gt; <span class="keyword">false</span>;</span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  <span class="built_in">List</span>&lt;DeviceOrientation&gt; <span class="keyword">get</span> preferredOrientations =&gt; [];</span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  <span class="built_in">List</span>&lt;SystemUiOverlay&gt; <span class="keyword">get</span> overlays =&gt; [];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">OrientationSupportVertical _vertical() =&gt; OrientationSupportVertical();</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">OrientationSupportManager</span> </span>&#123;</span><br><span class="line">  <span class="keyword">static</span> <span class="built_in">Map</span>&lt;<span class="built_in">String</span>, OrientationSupport&gt; _list = &#123;</span><br><span class="line">    WordMainPage.name: _vertical(),</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Leo default page orientation is horizontal.</span></span><br><span class="line">  <span class="keyword">static</span> OrientationSupport <span class="keyword">get</span> defaultOrientationSupport =&gt;</span><br><span class="line">      OrientationSupportHorizontal();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">static</span> <span class="keyword">void</span> register(<span class="built_in">String</span> route, OrientationSupport orientationSupport) =&gt;</span><br><span class="line">      _list[route] = orientationSupport;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">static</span> <span class="keyword">void</span> registerVertical(<span class="built_in">String</span> route) =&gt;</span><br><span class="line">      register(route, OrientationSupportVertical());</span><br><span class="line"></span><br><span class="line">  <span class="keyword">static</span> OrientationSupport retrieve(<span class="built_in">String</span> route) =&gt; _list[route];</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><code>OrientationSupport</code> 是配置类，里面定义了屏幕方向和状态栏等显示状态，这些都是在屏幕转换时需要改变的设定。下面就分别定义了横屏和竖屏的常用配置，和一个不触发任何转屏操作的类（它的作用主要是给那些横竖屏都兼容的页面使用的，比如弹窗）<code>OrientationSupportManager</code> 中用来注册各自页面的横竖屏设置。</p>
+<p>为了方便使用，在我们的项目中，因为大部分的屏幕是横屏的，所以我会设定一个 <code>defaultOrientationSupport</code> 为横屏，这样在后续处理的时候，我就只用注册竖屏的界面，而不用把所有的页面都设置一遍。</p>
+<p>接下来的操作就是在 <code>NavigatorObserver</code> 中根据监听来修改屏幕的方向了，代码如下：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">OrientationNavigatorObserver</span> <span class="keyword">extends</span> <span class="title">NavigatorObserver</span> </span>&#123;</span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  <span class="keyword">void</span> didPush(Route route, Route previousRoute) &#123;</span><br><span class="line">    debugPrint(<span class="string">&#x27;didPush route: <span class="subst">$route</span> previousRoute: <span class="subst">$previousRoute</span>&#x27;</span>);</span><br><span class="line">    _setupOrientation(route.settings.name);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  <span class="keyword">void</span> didPop(Route route, Route previousRoute) &#123;</span><br><span class="line">    debugPrint(<span class="string">&#x27;didPop route: <span class="subst">$route</span> previousRoute: <span class="subst">$previousRoute</span>&#x27;</span>);</span><br><span class="line">    _setupOrientation(previousRoute.settings.name);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">void</span> _setupOrientation(<span class="built_in">String</span> route) &#123;</span><br><span class="line">    <span class="comment">// assert(route != null, &#x27;The page have not register route&#x27;);</span></span><br><span class="line">    <span class="keyword">if</span> (route != <span class="keyword">null</span>) &#123;</span><br><span class="line">      <span class="keyword">var</span> orientationSupport = OrientationSupportManager.retrieve(route);</span><br><span class="line">      orientationSupport ??=</span><br><span class="line">          OrientationSupportManager.defaultOrientationSupport;</span><br><span class="line">      <span class="keyword">if</span> (!orientationSupport.available) <span class="keyword">return</span>;</span><br><span class="line">      <span class="comment">// assert(orientationSupport != null,</span></span><br><span class="line">      <span class="comment">// &#x27;$route have not register orientation support&#x27;);</span></span><br><span class="line">      SystemChrome.setPreferredOrientations(</span><br><span class="line">          orientationSupport.preferredOrientations);</span><br><span class="line">      SystemChrome.setEnabledSystemUIOverlays(orientationSupport.overlays);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果路由为空的话，就不做任何响应，正常的情况下任何页面的跳转都必须通过 pushNamed 来进行，这样的 routeName 是不会为空的。不过也不排除像 alert 弹窗这样的页面，在 Flutter 中也是用 push 显示，但是因为没有特殊的意义且生命周期短暂就没有用 pushNamed 来跳转的事例。然后就是通过 routeName 进行检索，拿到配置，如果没有获取到，就使用默认配置。最后通过 <code>SystemChrome</code> 来设置屏幕方向。</p>
+<h2 id="flutter_boost-中如何使用"><a class="markdownIt-Anchor" href="#flutter_boost-中如何使用"></a> flutter_boost 中如何使用</h2>
+<p>我们的项目属于原生中嵌入 Flutter 页面，在处理 Native 和 Flutter 的导航关系时，使用了 <a target="_blank" rel="noopener" href="https://github.com/alibaba/flutter_boost">alibaba/flutter_boost</a>。这里也分为两个场景的使用:</p>
+<h3 id="场景一-flutter-内部跳转也使用-flutter_boost"><a class="markdownIt-Anchor" href="#场景一-flutter-内部跳转也使用-flutter_boost"></a> 场景一: flutter 内部跳转也使用 flutter_boost</h3>
+<p>在 Flutter 内部的跳转也使用了 <code>flutter_boost</code> 来进行处理的话，通过设置 MaterialApp 的 <code>navigatorObservers</code> 是没有用的，所有的导航跳转都被 flutter_boost 接管了，我们需要通过 <code>FlutterBoost.singleton.addContainerObserver(BoostContainerObserver observer)</code> 进行监听设置。 BoostContainerObserver 就是一个 block 函数，它提供的信息和原来的 NavigatorObserver 差不多。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> BoostContainerObserver = <span class="keyword">void</span> <span class="built_in">Function</span>(</span><br><span class="line">    ContainerOperation operation, BoostContainerSettings settings);</span><br><span class="line"></span><br><span class="line"><span class="keyword">enum</span> ContainerOperation &#123; Push, Onstage, Pop, Remove &#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BoostContainerSettings</span> </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> BoostContainerSettings(&#123;</span><br><span class="line">    <span class="keyword">this</span>.uniqueId = <span class="string">&#x27;default&#x27;</span>,</span><br><span class="line">    <span class="keyword">this</span>.name = <span class="string">&#x27;default&#x27;</span>,</span><br><span class="line">    <span class="keyword">this</span>.params,</span><br><span class="line">    <span class="keyword">this</span>.builder,</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">final</span> <span class="built_in">String</span> uniqueId;</span><br><span class="line">  <span class="keyword">final</span> <span class="built_in">String</span> name;</span><br><span class="line">  <span class="keyword">final</span> <span class="built_in">Map</span>&lt;<span class="built_in">String</span>, <span class="built_in">dynamic</span>&gt; params;</span><br><span class="line">  <span class="keyword">final</span> WidgetBuilder builder;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>和原来的方法一样，我们需要监听的是 <code>Push</code> 和 <code>Pop</code> 操作，而 settings 里的 <code>name</code> 就是 rotueName。</p>
+<h3 id="场景二-flutter-内部跳转不使用-flutter_boost"><a class="markdownIt-Anchor" href="#场景二-flutter-内部跳转不使用-flutter_boost"></a> 场景二: flutter 内部跳转不使用 flutter_boost</h3>
+<p>还有一种情况就是，在 flutter -&gt; native 和 native -&gt; flutter 中使用 flutter_boost。但是在 flutter -&gt; flutter 时，还是使用 flutter 内部的 <code>push</code> 方法进行跳转。</p>
+<p>在这种情况下，我们使用 <code>FlutterBoost.singleton.addBoostNavigatorObserver</code> 来添加一个 <code>NavigatorObserver</code>, 然后在项目中运行，flutter 内部相互之间的跳转是没有问题的，但是当你从 native 跳转到 flutter 页面的时候，你会发现进入的 flutter 页面横竖屏设置没有生效，但是再后续的 flutter 内部的跳转，横竖屏的设置是生效的。</p>
+<p>进一步研究，我们发现从 native A 跳转 flutter B 的时候，无论这个 B 页面的 routeName 在 <code>flutter_boost</code> 和 <code>MaterialApp</code> 中的注册路由为何值，在我们的监听中，routeName 都会变为 <code>/</code>。这就导致对 B 页面的横竖屏设置失效了。要解决这个问题，我们就需要同时监听 <code>FlutterBoost.singleton.addContainerObserver</code>。</p>
+<p>当从 native -&gt; flutter 的时候，在 <code>Push</code> 方法中，我们能监听到 B 页面正确的 routeName。这里我们就能读取到相对应的配置信息，然后把配置信息更新到配置表中，key 不是 routeName 而是 <code>/</code>。通过覆盖 <code>/</code> 的默认配置，我们就能修复这个问题。在 <code>OrientationNavigatorObserver</code> 添加这个监听:</p>
+<blockquote>
+<p>NavigatorObserver 的调用时机晚于 ContainerObserver</p>
+</blockquote>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">void</span> flutterContainerObserver(</span><br><span class="line">      ContainerOperation operation, BoostContainerSettings settings) &#123;</span><br><span class="line">    debugPrint(</span><br><span class="line">        <span class="string">&#x27;operation: <span class="subst">$operation</span>, settings: name -&gt; <span class="subst">$&#123;settings.name&#125;</span> params -&gt; <span class="subst">$&#123;settings.params&#125;</span>&#x27;</span>);</span><br><span class="line">    <span class="keyword">if</span> (operation == ContainerOperation.Push) &#123;</span><br><span class="line">      <span class="keyword">var</span> routeName = settings.name;</span><br><span class="line">      OrientationSupport orientationSupport =</span><br><span class="line">          OrientationSupportManager.retrieve(routeName) ?? OrientationSupportManager.defaultOrientationSupport;</span><br><span class="line">      OrientationSupportManager.register(<span class="string">&#x27;/&#x27;</span>, orientationSupport);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h2>
+<p>通过使用集中的配置将横竖屏的设置代码从各个页面中抽离出来，各个页面无感知的实现了页面横竖屏的设定。因为依赖使用 <code>pushNamed</code> 来进行页面跳转，也使得团队的代码风格更加统一，所有的页面都能通过 routeName 来进行跳转，方便了以后的开发和维护。现阶段的局限是，因为无法获取到页面实例，也就无法通过页面实例内部的属性，来动态的调整横竖屏。不过因为配置项是一个接口，通过自定义某个页面的特殊配置类，然后再在页面中修改这个配置类的静态属性的话，应该也能实现动态的修改，不过这样的场景较为少见。</p>
+
+  </div>
+</article>
+
+
+
+      
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88"><span class="toc-number">1.</span> <span class="toc-text"> 实现方案</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%91%E5%90%AC%E5%AF%BC%E8%88%AA%E6%A0%88"><span class="toc-number">1.1.</span> <span class="toc-text"> 监听导航栈</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A1%B5%E9%9D%A2%E9%85%8D%E7%BD%AE"><span class="toc-number">1.2.</span> <span class="toc-text"> 页面配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#flutter_boost-%E4%B8%AD%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8"><span class="toc-number">2.</span> <span class="toc-text"> flutter_boost 中如何使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%BA%E6%99%AF%E4%B8%80-flutter-%E5%86%85%E9%83%A8%E8%B7%B3%E8%BD%AC%E4%B9%9F%E4%BD%BF%E7%94%A8-flutter_boost"><span class="toc-number">2.1.</span> <span class="toc-text"> 场景一: flutter 内部跳转也使用 flutter_boost</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%BA%E6%99%AF%E4%BA%8C-flutter-%E5%86%85%E9%83%A8%E8%B7%B3%E8%BD%AC%E4%B8%8D%E4%BD%BF%E7%94%A8-flutter_boost"><span class="toc-number">2.2.</span> <span class="toc-text"> 场景二: flutter 内部跳转不使用 flutter_boost</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">3.</span> <span class="toc-text"> 总结</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2020/11/12/frontend/flutter-controls-screen-orientation/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2020/11/12/frontend/flutter-controls-screen-orientation/&text=Flutter/flutter_boost 中页面横竖屏控制"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2020/11/12/frontend/flutter-controls-screen-orientation/&title=Flutter/flutter_boost 中页面横竖屏控制"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2020/11/12/frontend/flutter-controls-screen-orientation/&is_video=false&description=Flutter/flutter_boost 中页面横竖屏控制"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Flutter/flutter_boost 中页面横竖屏控制&body=Check out this article: https://csl.cool/2020/11/12/frontend/flutter-controls-screen-orientation/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2020/11/12/frontend/flutter-controls-screen-orientation/&title=Flutter/flutter_boost 中页面横竖屏控制"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2020/11/12/frontend/flutter-controls-screen-orientation/&title=Flutter/flutter_boost 中页面横竖屏控制"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2020/11/12/frontend/flutter-controls-screen-orientation/&title=Flutter/flutter_boost 中页面横竖屏控制"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2020/11/12/frontend/flutter-controls-screen-orientation/&title=Flutter/flutter_boost 中页面横竖屏控制"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2020/11/12/frontend/flutter-controls-screen-orientation/&name=Flutter/flutter_boost 中页面横竖屏控制&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2020/11/12/frontend/flutter-controls-screen-orientation/&t=Flutter/flutter_boost 中页面横竖屏控制"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+      <div id="end">
+    <img src="/images/post-end.png" alt="">
+</div> 
+      
+      <div id='valine'>
+    <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+            el: '#vcomments',
+            notify: true,
+            verify: true,
+            appId: '7zw6tQBddCfPvbaVtBGxUy0G-gzGzoHsz',
+            appKey: 'voPGHhBz7MozpUm0Fq2AMFmv',
+            placeholder: '想说点啥...',
+            avatar: 'monsterid',           
+        })
+    </script>
+</div>
+      
+      
+      <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 SSBun
+    <a target="_blank" rel="noopener" href="http://www.beian.miit.gov.cn/">京ICP备20001935号-1</a>
+    <div id="friend-link-container">
+      
+      
+    </div>
+  </div>
+  
+    <div class="footer-right">
+      <nav>
+        <ul>
+          
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/search/">Search</a></li>
+      
+      <li><a href="/categories/">Categories</a></li>
+      
+      <li><a href="/notes/">Notes</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+      </ul>
+      </nav>
+    </div>
+  
+</footer>
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?c2fdf3bebd0db8e40c37a4f37d76d33b";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Umami Analytics -->
+<!--  -->
+  <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="d39cc16d-90eb-47b6-8bf0-8e4cd43c704d"></script>
+<!--  -->
+<!-- Disqus Comments -->
+
+
+
+    
+    <script src="/lib/blackcat/l2dwidget.min.js"></script>
+    <script type="text/javascript">
+      var config = {
+        model: {
+          jsonPath: '/lib/blackcat/hijiki.model.json',
+        },
+        display: {
+          superSample: 1,
+          width: 245,
+          height: 245,
+          position: 'left',
+          hOffset: 0,
+          vOffset: 0,
+        },
+        mobile: {
+          show: false,
+          scale: 1,
+          motion: false,
+        },
+        react: {
+          opacityDefault: 1,
+          opacityOnHover: 0.75
+        }
+      };
+      L2Dwidget.init(config);
+    </script>
+    
+  </body>
+
+  </html>

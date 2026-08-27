@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang=en>
+  <head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="转场动画涉及到的包括导航控制器的 Push 动画和 Pop 动画，以及普通控制器的 Present 和 Dismiss 动画，主要就是通过控制器遵守 UIViewControllerTransitioningDelegate，并实现对应的方法，返回一个遵守 UIViewControllerAnimatedTransitioning 协议的对象，而主要的动画实现就是写在这个对象当中  如果是 Pus">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UIViewController 的 Push,Pop 和 Present,Dismiss 转场动画">
+<meta property="og:url" content="https://csl.cool/2016/08/29/ios-dev/ios-push-pop-present-dismiss-animation/index.html">
+<meta property="og:site_name" content="CSL MEMO">
+<meta property="og:description" content="转场动画涉及到的包括导航控制器的 Push 动画和 Pop 动画，以及普通控制器的 Present 和 Dismiss 动画，主要就是通过控制器遵守 UIViewControllerTransitioningDelegate，并实现对应的方法，返回一个遵守 UIViewControllerAnimatedTransitioning 协议的对象，而主要的动画实现就是写在这个对象当中  如果是 Pus">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2016-08-29T06:11:54.000Z">
+<meta property="article:modified_time" content="2016-08-29T06:11:54.000Z">
+<meta property="article:author" content="SSBun">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="Animation">
+<meta property="article:tag" content="UIKit">
+<meta property="article:tag" content="Transition">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>UIViewController 的 Push,Pop 和 Present,Dismiss 转场动画</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="CSL MEMO" type="application/atom+xml" />
+    
+    <!-- umami web analytics -->
+    <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+  <body class="max-width mx-auto px3 ltr">
+    
+    <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2016/10/18/ios-dev/ios-macro-definition/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2016/06/28/ios-dev/ca-layer-ca-emitter-layer/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2016/08/29/ios-dev/ios-push-pop-present-dismiss-animation/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2016/08/29/ios-dev/ios-push-pop-present-dismiss-animation/&text=UIViewController 的 Push,Pop 和 Present,Dismiss 转场动画"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2016/08/29/ios-dev/ios-push-pop-present-dismiss-animation/&title=UIViewController 的 Push,Pop 和 Present,Dismiss 转场动画"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2016/08/29/ios-dev/ios-push-pop-present-dismiss-animation/&is_video=false&description=UIViewController 的 Push,Pop 和 Present,Dismiss 转场动画"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=UIViewController 的 Push,Pop 和 Present,Dismiss 转场动画&body=Check out this article: https://csl.cool/2016/08/29/ios-dev/ios-push-pop-present-dismiss-animation/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2016/08/29/ios-dev/ios-push-pop-present-dismiss-animation/&title=UIViewController 的 Push,Pop 和 Present,Dismiss 转场动画"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2016/08/29/ios-dev/ios-push-pop-present-dismiss-animation/&title=UIViewController 的 Push,Pop 和 Present,Dismiss 转场动画"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2016/08/29/ios-dev/ios-push-pop-present-dismiss-animation/&title=UIViewController 的 Push,Pop 和 Present,Dismiss 转场动画"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2016/08/29/ios-dev/ios-push-pop-present-dismiss-animation/&title=UIViewController 的 Push,Pop 和 Present,Dismiss 转场动画"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2016/08/29/ios-dev/ios-push-pop-present-dismiss-animation/&name=UIViewController 的 Push,Pop 和 Present,Dismiss 转场动画&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2016/08/29/ios-dev/ios-push-pop-present-dismiss-animation/&t=UIViewController 的 Push,Pop 和 Present,Dismiss 转场动画"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+      
+      <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        UIViewController 的 Push,Pop 和 Present,Dismiss 转场动画
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">SSBun</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2016-08-29T06:11:54.000Z" itemprop="datePublished">2016-08-29</time>
+        
+        (Updated: <time datetime="2016-08-29T06:11:54.000Z" itemprop="dateModified">2016-08-29</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/iOS/">iOS</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Animation/" rel="tag">Animation</a>, <a class="tag-link-link" href="/tags/Transition/" rel="tag">Transition</a>, <a class="tag-link-link" href="/tags/UIKit/" rel="tag">UIKit</a>, <a class="tag-link-link" href="/tags/iOS/" rel="tag">iOS</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>转场动画涉及到的包括导航控制器的 <code>Push</code> 动画和 <code>Pop</code> 动画，以及普通控制器的 <code>Present</code> 和 <code>Dismiss</code> 动画，主要就是通过控制器遵守 <code>UIViewControllerTransitioningDelegate</code>，并实现对应的方法，返回一个遵守 <code>UIViewControllerAnimatedTransitioning</code> 协议的对象，而主要的动画实现就是写在这个对象当中</p>
+<ul>
+<li>如果是 Push 和 Pop 动画需要再 push 控制器和 pop 时的控制器里同时实现导航控制器的代理以实现 Push 和 Pop 的动画，而 Present 和 Dismiss 动画只需要在 Presnent 的时候设置代理，并实现 present 和 dismiss 的协议方法就OK了</li>
+<li>为了方便使用，一般会封装代理返回的动画协议对象<code>UIViewControllerAnimatedTransitioning</code>，通过之类来进一步处理各种各样的转场动画</li>
+</ul>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  ViewController.m</span></span><br><span class="line"><span class="comment">//  transitionDemo</span></span><br><span class="line"><span class="comment">//  Copyright © 2016年 SSBun. All rights reserved.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#import <span class="string">&quot;ViewController.h&quot;</span></span></span><br><span class="line"><span class="meta">#import <span class="string">&quot;TwoViewController.h&quot;</span></span></span><br><span class="line"><span class="meta">#import <span class="string">&quot;PushAnimator.h&quot;</span></span></span><br><span class="line"><span class="meta">#import <span class="string">&quot;PresentAnimator.h&quot;</span></span></span><br><span class="line"><span class="meta">#import <span class="string">&quot;DismissAnimator.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">ViewController</span> ()&lt;<span class="title">UIViewControllerTransitioningDelegate</span>,<span class="title">UINavigationControllerDelegate</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">ViewController</span></span></span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)viewDidLoad &#123;</span><br><span class="line">    [<span class="variable language_">super</span> viewDidLoad];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)viewWillAppear:(<span class="type">BOOL</span>)animated</span><br><span class="line">&#123;</span><br><span class="line">    [<span class="variable language_">super</span> viewWillAppear:animated];</span><br><span class="line">    <span class="keyword">self</span>.navigationController.delegate = <span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)touchesBegan:(<span class="built_in">NSSet</span>&lt;<span class="built_in">UITouch</span> *&gt; *)touches withEvent:(<span class="built_in">UIEvent</span> *)event</span><br><span class="line">&#123;</span><br><span class="line">    TwoViewController *twoVc = [[TwoViewController alloc] init];</span><br><span class="line">    <span class="comment">// Present</span></span><br><span class="line">    twoVc.transitioningDelegate  = <span class="keyword">self</span>;</span><br><span class="line">    twoVc.modalPresentationStyle = <span class="built_in">UIModalPresentationCustom</span>;</span><br><span class="line">    [<span class="keyword">self</span> presentViewController:twoVc</span><br><span class="line">                       animated:<span class="literal">YES</span></span><br><span class="line">                     completion:^&#123;</span><br><span class="line">                     &#125;];</span><br><span class="line">    <span class="comment">// Push</span></span><br><span class="line">    <span class="comment">// [self.navigationController pushViewController:twoVc animated:YES];</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> mark - 动画代理</span></span><br><span class="line">- (<span class="type">id</span> &lt;<span class="built_in">UIViewControllerAnimatedTransitioning</span>&gt;)navigationController:(<span class="built_in">UINavigationController</span> *)navigationController</span><br><span class="line">                                   animationControllerForOperation:(<span class="built_in">UINavigationControllerOperation</span>)operation</span><br><span class="line">                                                fromViewController:(<span class="built_in">UIViewController</span> *)fromVC</span><br><span class="line">                                                  toViewController:(<span class="built_in">UIViewController</span> *)toVC&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> ([toVC isKindOfClass:[TwoViewController <span class="keyword">class</span>]]) &#123;</span><br><span class="line">        </span><br><span class="line">        PushAnimator *transition = [[PushAnimator alloc] init];</span><br><span class="line">        <span class="keyword">return</span> transition;</span><br><span class="line">        </span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nil</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> mark - 定制转场动画 (Present 与 Dismiss动画代理)</span></span><br><span class="line">- (<span class="type">id</span>&lt;<span class="built_in">UIViewControllerAnimatedTransitioning</span>&gt;)animationControllerForPresentedController:(<span class="built_in">UIViewController</span> *)presented</span><br><span class="line">                                                                  presentingController:(<span class="built_in">UIViewController</span> *)presenting</span><br><span class="line">                                                                      sourceController:(<span class="built_in">UIViewController</span> *)source &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 推出控制器的动画</span></span><br><span class="line">    <span class="keyword">return</span> [PresentAnimator new];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">id</span>&lt;<span class="built_in">UIViewControllerAnimatedTransitioning</span>&gt;)animationControllerForDismissedController:(<span class="built_in">UIViewController</span> *)dismissed &#123;</span><br><span class="line">    </span><br><span class="line">    DismissAnimator *dismissAnimator   = [DismissAnimator new];</span><br><span class="line">    dismissAnimator.transitionDuration = <span class="number">1.</span>f;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 退出控制器动画</span></span><br><span class="line">    <span class="keyword">return</span> dismissAnimator;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>可以看出协议方法主要时返回了一个遵守 <code>&lt;UIViewControllerAnimatedTransitioning&gt;</code> 协议的对象，所以主要的重点在实现这个对象上</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//  BaseAnimator.h</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#import <span class="string">&lt;Foundation/Foundation.h&gt;</span></span></span><br><span class="line"><span class="meta">#import <span class="string">&lt;UIKit/UIKit.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">BaseAnimator</span> : <span class="title">NSObject</span> &lt;<span class="title">UIViewControllerAnimatedTransitioning</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *  动画执行时间(默认值为0.5s)</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>) <span class="built_in">NSTimeInterval</span>  transitionDuration;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *  == 子类重写此方法实现动画效果 ==</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> *  动画事件</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">- (<span class="type">void</span>)animateTransitionEvent;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *  == 在animateTransitionEvent使用才有效 ==</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> *  源头控制器</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">readonly</span>, <span class="keyword">weak</span>) <span class="built_in">UIViewController</span> *fromViewController;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *  == 在animateTransitionEvent使用才有效 ==</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> *  目标控制器</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">readonly</span>, <span class="keyword">weak</span>) <span class="built_in">UIViewController</span> *toViewController;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *  == 在animateTransitionEvent使用才有效 ==</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> *  containerView</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">readonly</span>, <span class="keyword">weak</span>) <span class="built_in">UIView</span>           *containerView;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *  动画事件结束</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">- (<span class="type">void</span>)completeTransition;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//  BaseAnimator.m</span></span><br><span class="line"><span class="meta">#import <span class="string">&quot;BaseAnimator.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">BaseAnimator</span> ()</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">weak</span>) <span class="type">id</span> &lt;<span class="built_in">UIViewControllerContextTransitioning</span>&gt; transitionContext;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">weak</span>) <span class="built_in">UIViewController</span>  *fromViewController;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">weak</span>) <span class="built_in">UIViewController</span>  *toViewController;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">weak</span>) <span class="built_in">UIView</span>            *containerView;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">BaseAnimator</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> mark - 初始化</span></span><br><span class="line">- (<span class="keyword">instancetype</span>)init &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">self</span> = [<span class="variable language_">super</span> init];</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">self</span>) &#123;</span><br><span class="line">    </span><br><span class="line">        <span class="comment">// 默认参数设置</span></span><br><span class="line">        [<span class="keyword">self</span> deafultSet];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)deafultSet &#123;</span><br><span class="line">    </span><br><span class="line">    _transitionDuration = <span class="number">0.5</span>f;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> mark - 动画代理</span></span><br><span class="line">- (<span class="built_in">NSTimeInterval</span>)transitionDuration:(<span class="type">id</span> &lt;<span class="built_in">UIViewControllerContextTransitioning</span>&gt;)transitionContext &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> _transitionDuration;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)animateTransition:(<span class="type">id</span> &lt;<span class="built_in">UIViewControllerContextTransitioning</span>&gt;)transitionContext &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">self</span>.fromViewController = [transitionContext viewControllerForKey:<span class="built_in">UITransitionContextFromViewControllerKey</span>];</span><br><span class="line">    <span class="keyword">self</span>.toViewController   = [transitionContext viewControllerForKey:<span class="built_in">UITransitionContextToViewControllerKey</span>];</span><br><span class="line">    <span class="keyword">self</span>.containerView      = [transitionContext containerView];</span><br><span class="line">    <span class="keyword">self</span>.transitionContext  = transitionContext;</span><br><span class="line">    </span><br><span class="line">    [<span class="keyword">self</span> animateTransitionEvent];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)animateTransitionEvent &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/* == 代码示例 ==</span></span><br><span class="line"><span class="comment">     </span></span><br><span class="line"><span class="comment">    UIView *tmpView  = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];</span></span><br><span class="line"><span class="comment">    [self.containerView addSubview:self.toViewController.view];</span></span><br><span class="line"><span class="comment">    [self.containerView addSubview:tmpView];</span></span><br><span class="line"><span class="comment">    </span></span><br><span class="line"><span class="comment">    [UIView animateWithDuration:self.transitionDuration</span></span><br><span class="line"><span class="comment">                          delay:0.0f</span></span><br><span class="line"><span class="comment">         usingSpringWithDamping:1 initialSpringVelocity:0.f options:0 animations:^&#123;</span></span><br><span class="line"><span class="comment">             </span></span><br><span class="line"><span class="comment">             tmpView.frame = CGRectMake(0, 0, 100, 100);</span></span><br><span class="line"><span class="comment">             </span></span><br><span class="line"><span class="comment">         &#125; completion:^(BOOL finished) &#123;</span></span><br><span class="line"><span class="comment">             </span></span><br><span class="line"><span class="comment">             [tmpView removeFromSuperview];</span></span><br><span class="line"><span class="comment">             [self completeTransition];</span></span><br><span class="line"><span class="comment">         &#125;];</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> mark -</span></span><br><span class="line">- (<span class="type">void</span>)completeTransition &#123;</span><br><span class="line"></span><br><span class="line">    [<span class="keyword">self</span>.transitionContext completeTransition:!<span class="keyword">self</span>.transitionContext.transitionWasCancelled];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>其中的 <code>fromViewController</code> 就是准备跳转的控制器，<code>toViewController</code> 就是要跳转到的控制器，<code>containerView</code> 是整个动画的画布，需要将要跳转到的控制器的 <code>view</code> 添加到画布上执行动画，而在 <code>animateTransitionEvent</code> 中就时具体实现动画的过程了，不要忘了还要返回动画时间，用起来的时候就看各自的发挥了，可以编写子类来实现这个方法～</p>
+
+  </div>
+</article>
+
+
+
+      
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2016/08/29/ios-dev/ios-push-pop-present-dismiss-animation/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2016/08/29/ios-dev/ios-push-pop-present-dismiss-animation/&text=UIViewController 的 Push,Pop 和 Present,Dismiss 转场动画"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2016/08/29/ios-dev/ios-push-pop-present-dismiss-animation/&title=UIViewController 的 Push,Pop 和 Present,Dismiss 转场动画"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2016/08/29/ios-dev/ios-push-pop-present-dismiss-animation/&is_video=false&description=UIViewController 的 Push,Pop 和 Present,Dismiss 转场动画"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=UIViewController 的 Push,Pop 和 Present,Dismiss 转场动画&body=Check out this article: https://csl.cool/2016/08/29/ios-dev/ios-push-pop-present-dismiss-animation/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2016/08/29/ios-dev/ios-push-pop-present-dismiss-animation/&title=UIViewController 的 Push,Pop 和 Present,Dismiss 转场动画"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2016/08/29/ios-dev/ios-push-pop-present-dismiss-animation/&title=UIViewController 的 Push,Pop 和 Present,Dismiss 转场动画"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2016/08/29/ios-dev/ios-push-pop-present-dismiss-animation/&title=UIViewController 的 Push,Pop 和 Present,Dismiss 转场动画"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2016/08/29/ios-dev/ios-push-pop-present-dismiss-animation/&title=UIViewController 的 Push,Pop 和 Present,Dismiss 转场动画"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2016/08/29/ios-dev/ios-push-pop-present-dismiss-animation/&name=UIViewController 的 Push,Pop 和 Present,Dismiss 转场动画&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2016/08/29/ios-dev/ios-push-pop-present-dismiss-animation/&t=UIViewController 的 Push,Pop 和 Present,Dismiss 转场动画"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+      <div id="end">
+    <img src="/images/post-end.png" alt="">
+</div> 
+      
+      <div id='valine'>
+    <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+            el: '#vcomments',
+            notify: true,
+            verify: true,
+            appId: '7zw6tQBddCfPvbaVtBGxUy0G-gzGzoHsz',
+            appKey: 'voPGHhBz7MozpUm0Fq2AMFmv',
+            placeholder: '想说点啥...',
+            avatar: 'monsterid',           
+        })
+    </script>
+</div>
+      
+      
+      <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 SSBun
+    <a target="_blank" rel="noopener" href="http://www.beian.miit.gov.cn/">京ICP备20001935号-1</a>
+    <div id="friend-link-container">
+      
+      
+    </div>
+  </div>
+  
+    <div class="footer-right">
+      <nav>
+        <ul>
+          
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/search/">Search</a></li>
+      
+      <li><a href="/categories/">Categories</a></li>
+      
+      <li><a href="/notes/">Notes</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+      </ul>
+      </nav>
+    </div>
+  
+</footer>
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?c2fdf3bebd0db8e40c37a4f37d76d33b";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Umami Analytics -->
+<!--  -->
+  <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="d39cc16d-90eb-47b6-8bf0-8e4cd43c704d"></script>
+<!--  -->
+<!-- Disqus Comments -->
+
+
+
+    
+    <script src="/lib/blackcat/l2dwidget.min.js"></script>
+    <script type="text/javascript">
+      var config = {
+        model: {
+          jsonPath: '/lib/blackcat/hijiki.model.json',
+        },
+        display: {
+          superSample: 1,
+          width: 245,
+          height: 245,
+          position: 'left',
+          hOffset: 0,
+          vOffset: 0,
+        },
+        mobile: {
+          show: false,
+          scale: 1,
+          motion: false,
+        },
+        react: {
+          opacityDefault: 1,
+          opacityOnHover: 0.75
+        }
+      };
+      L2Dwidget.init(config);
+    </script>
+    
+  </body>
+
+  </html>

@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang=en>
+  <head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="In Swift 5.9, the Swift team introduced multiple amazing features, such as Macros, variable consuming and Actor Custom Executor. The Macros is a marvelous enhancement to Swift and for all Swift develo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Swift Noncopyable Type and Variable Ownerships">
+<meta property="og:url" content="https://csl.cool/2023/06/05/ios-dev/swift/swift-noncopyable-types-and-variable-ownership/index.html">
+<meta property="og:site_name" content="CSL MEMO">
+<meta property="og:description" content="In Swift 5.9, the Swift team introduced multiple amazing features, such as Macros, variable consuming and Actor Custom Executor. The Macros is a marvelous enhancement to Swift and for all Swift develo">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-06-05T06:54:04.000Z">
+<meta property="article:modified_time" content="2023-06-05T06:54:04.000Z">
+<meta property="article:author" content="SSBun">
+<meta property="article:tag" content="Swift">
+<meta property="article:tag" content="New Features">
+<meta property="article:tag" content="Swift 5.9">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Swift Noncopyable Type and Variable Ownerships</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="CSL MEMO" type="application/atom+xml" />
+    
+    <!-- umami web analytics -->
+    <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+  <body class="max-width mx-auto px3 ltr">
+    
+    <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2023/06/13/ios-dev/my-first-swift-macro/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2023/05/15/ios-dev/customize-building-scripts-for-xcode/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2023/06/05/ios-dev/swift/swift-noncopyable-types-and-variable-ownership/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2023/06/05/ios-dev/swift/swift-noncopyable-types-and-variable-ownership/&text=Swift Noncopyable Type and Variable Ownerships"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2023/06/05/ios-dev/swift/swift-noncopyable-types-and-variable-ownership/&title=Swift Noncopyable Type and Variable Ownerships"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2023/06/05/ios-dev/swift/swift-noncopyable-types-and-variable-ownership/&is_video=false&description=Swift Noncopyable Type and Variable Ownerships"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Swift Noncopyable Type and Variable Ownerships&body=Check out this article: https://csl.cool/2023/06/05/ios-dev/swift/swift-noncopyable-types-and-variable-ownership/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2023/06/05/ios-dev/swift/swift-noncopyable-types-and-variable-ownership/&title=Swift Noncopyable Type and Variable Ownerships"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2023/06/05/ios-dev/swift/swift-noncopyable-types-and-variable-ownership/&title=Swift Noncopyable Type and Variable Ownerships"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2023/06/05/ios-dev/swift/swift-noncopyable-types-and-variable-ownership/&title=Swift Noncopyable Type and Variable Ownerships"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2023/06/05/ios-dev/swift/swift-noncopyable-types-and-variable-ownership/&title=Swift Noncopyable Type and Variable Ownerships"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2023/06/05/ios-dev/swift/swift-noncopyable-types-and-variable-ownership/&name=Swift Noncopyable Type and Variable Ownerships&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2023/06/05/ios-dev/swift/swift-noncopyable-types-and-variable-ownership/&t=Swift Noncopyable Type and Variable Ownerships"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#noncopyable"><span class="toc-number">1.</span> <span class="toc-text"> Noncopyable</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#consuming-borrowing"><span class="toc-number">2.</span> <span class="toc-text"> consuming &amp; borrowing</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#consume"><span class="toc-number">3.</span> <span class="toc-text"> consume</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#trivial-types-trivially-destroyed-types"><span class="toc-number">4.</span> <span class="toc-text"> trivial types &amp; trivially-destroyed types</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+      
+      <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Swift Noncopyable Type and Variable Ownerships
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">SSBun</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-06-05T06:54:04.000Z" itemprop="datePublished">2023-06-05</time>
+        
+        (Updated: <time datetime="2023-06-05T06:54:04.000Z" itemprop="dateModified">2023-06-05</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/New-Features/" rel="tag">New Features</a>, <a class="tag-link-link" href="/tags/Swift/" rel="tag">Swift</a>, <a class="tag-link-link" href="/tags/Swift-5-9/" rel="tag">Swift 5.9</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>In Swift 5.9, the Swift team introduced multiple amazing features, such as <code>Macros</code>, <code>variable consuming</code> and <code>Actor Custom Executor</code>.</p>
+<p>The <code>Macros</code> is a marvelous enhancement to Swift and for all Swift developers. I will post another article for exploring what the macro is and how to build a macro of our own.</p>
+<p>In this post, we will learn a new type <code>Noncopyable</code> and some attributes collaborating with it.</p>
+<h2 id="noncopyable"><a class="markdownIt-Anchor" href="#noncopyable"></a> Noncopyable</h2>
+<p>The value types like <code>struct</code> and <code>enum</code> are implicitly copy-on-write types in Swift. If we assign a exited struct instance to another variable and change the instance’s value, the struct value will duplicate itself to two instances with distinct memory addresses.<br />
+Namely the <code>struct</code> and <code>enum</code> values are implicitly copyable and don’t share their inner data in different places.</p>
+<p>The <code>Noncopyable</code> type is not a real Swift protocol that we can use it as type declarations. We can only use it decorate struct or enum declarations with a specific attribute <code>~Copyable</code>.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">SecretNumber</span>: ~<span class="title class_ inherited__">Copyable</span> &#123;</span><br><span class="line">  <span class="keyword">var</span> value: <span class="type">Int</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">init</span>(<span class="keyword">_</span> <span class="params">value</span>: <span class="type">Int</span>) &#123;</span><br><span class="line">    <span class="keyword">self</span>.value <span class="operator">=</span> value</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">deinit</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;secrete number deinit: <span class="subst">\(value)</span>&quot;</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>As you can see, a noncopyable struct can declare the <code>deinit</code> method that can only be used in classes usually.<br />
+Before diving into, I list some limitations for using noncopyable types:</p>
+<ul>
+<li>Only structs and enums can be noncopyable.</li>
+<li>A struct or enum having noncopyable properties must also be noncopyable.</li>
+<li>Noncopyable types cannot be used in generics situations at this time.</li>
+</ul>
+<p>Here is an example for illustrating how the noncopyable type SecretNumber behaves:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> number <span class="operator">=</span> <span class="type">SecretNumber</span>(<span class="number">666</span>)</span><br><span class="line"><span class="keyword">let</span> copyNumber <span class="operator">=</span> number</span><br><span class="line"><span class="built_in">print</span>(copyNumber.value) <span class="comment">// 666</span></span><br><span class="line"><span class="built_in">print</span>(number.value) <span class="comment">// compilation error</span></span><br></pre></td></tr></table></figure>
+<p>In above code, the expression <code>let copyNumber = number</code> will assign the number’s data to the new variable copyNumber and the old variable <code>number</code> will be consumed that means the variable <code>number</code> is invalid or uninitialized after assigning.</p>
+<p>As a result, when we invoke the expression <code>print(number.value)</code> to access the variable number will trigger a compilation error: <code>'message' used after consume</code>. We cannot reuse the variable <code>number</code> after it was consumed.</p>
+<p>If you watch the output in the console carefully, you will notice that the deinit log was printed before the value printing of the number. This is a slight distinction between noncopyable types and classes.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">ClassNumber</span> &#123;</span><br><span class="line">  <span class="keyword">var</span> value: <span class="type">Int</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">init</span>(<span class="keyword">_</span> <span class="params">value</span>: <span class="type">Int</span>) &#123;</span><br><span class="line">    <span class="keyword">self</span>.value <span class="operator">=</span> value</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">deinit</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;class number deinit: <span class="subst">\(value)</span>&quot;</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">func</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">  <span class="keyword">let</span> secretNumber <span class="operator">=</span> <span class="type">SecretNumber</span>(<span class="number">100</span>)</span><br><span class="line">  <span class="built_in">print</span>(secretNumber.value)</span><br><span class="line">  <span class="keyword">let</span> classNumber <span class="operator">=</span> <span class="type">ClassNumber</span>(<span class="number">200</span>)</span><br><span class="line">  <span class="built_in">print</span>(classNumber.value)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// secret number deinit: 100</span></span><br><span class="line"><span class="comment">// 100</span></span><br><span class="line"><span class="comment">// 200</span></span><br><span class="line"><span class="comment">// class number deinit: 200</span></span><br></pre></td></tr></table></figure>
+<h2 id="consuming-borrowing"><a class="markdownIt-Anchor" href="#consuming-borrowing"></a> consuming &amp; borrowing</h2>
+<p>Besides using noncopyable types as local variables, we need passing them into method as parameters. When we create a normal method that take a parameter of the <code>SecretNumber</code> type, we will get a compilation error: <code>Noncopyable parameter must specify its ownership</code>.<br />
+Xcode provides three options for us to resolve this problem:</p>
+<ul>
+<li>Add <code>borrowing</code> for an immutable reference.</li>
+<li>Add <code>inout</code> for a mutable reference.</li>
+<li>Add <code>consuming</code> to take the value from the caller.<br />
+The <code>inout</code> attribute is familiar for us. That means the caller will pass a reference pointer into the inout parameter and any modification to the inout parameter will influence the outer variable.</li>
+</ul>
+<p>The <code>borrowing</code> and <code>consuming</code> are two new attributes specially offered to noncopyable types.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">consume</span>(<span class="keyword">_</span> <span class="params">number</span>: <span class="keyword">consuming</span> <span class="type">SecretNumber</span>) &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">func</span> <span class="title function_">borrow</span>(<span class="keyword">_</span> <span class="params">number</span>: <span class="keyword">borrowing</span> <span class="type">SecretNumber</span>) &#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>Literally, the consume method will consume the parameter like assigning the value to another variable. Actually, it is just that.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> number <span class="operator">=</span> <span class="type">SecretNumber</span>(<span class="number">100</span>)</span><br><span class="line"><span class="keyword">consume</span>(number)</span><br><span class="line"><span class="built_in">print</span>(number.value) <span class="comment">// compilation error: `number` used after consume.</span></span><br></pre></td></tr></table></figure>
+<p>Inside the method <code>consume(:)</code>, the consuming parameter number still is a normal noncopyable value and we can use it is like using a normal local noncopyable variable.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">consume</span>(<span class="keyword">_</span> <span class="params">number</span>: <span class="keyword">consuming</span> <span class="type">SecretNumber</span>) &#123;</span><br><span class="line">  <span class="keyword">let</span> copyNumber <span class="operator">=</span> number</span><br><span class="line">  <span class="built_in">print</span>(copyNumber.value) <span class="comment">// xxx</span></span><br><span class="line">  <span class="built_in">print</span>(number.value) <span class="comment">// compilation error: `number` used after consume.</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>The other attribute <code>borrowing</code> means that the parameter is just borrowing the outer value with readonly mode. You can think it of a <code>const SecretNumber * const number</code> reference pointer.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">borrow</span>(<span class="keyword">_</span> <span class="params">number</span>: <span class="keyword">borrowing</span> <span class="type">SecretNumber</span>) &#123;</span><br><span class="line">  <span class="comment">// borrowing value can be used or borrowed.</span></span><br><span class="line">  <span class="built_in">print</span>(number.value) <span class="comment">// xxx</span></span><br><span class="line">  borrow(number) <span class="comment">// ignores the cycle invoking.</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// borrowing value cannot be consumed.</span></span><br><span class="line">  <span class="comment">// compilation error: `value` has guaranteed ownership but was assumed.</span></span><br><span class="line">  <span class="keyword">consume</span>(number)</span><br><span class="line">  <span class="keyword">let</span> copyNumber <span class="operator">=</span> number <span class="comment">// compilation error</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Otherwise, a noncopyable variable “borrowed” by other methods can still be used in subsequent code.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> number <span class="operator">=</span> <span class="type">SecretNumber</span>(<span class="number">999</span>)</span><br><span class="line">borrow(number)</span><br><span class="line">borrow(number)</span><br><span class="line"><span class="comment">// The number variable can still be used or consumed after borrowed.</span></span><br><span class="line"><span class="built_in">print</span>(number.value) <span class="comment">// 999</span></span><br><span class="line"><span class="keyword">consume</span>(number)</span><br><span class="line"><span class="comment">// or</span></span><br><span class="line"><span class="comment">// let copyNumber = number</span></span><br><span class="line"><span class="comment">// print(number.value) // compilation error</span></span><br></pre></td></tr></table></figure>
+<p>We can also use the <code>consuming</code> or <code>borrowing</code> attribute to decorate functions in noncopyable types.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">SecretNumber</span>: ~<span class="title class_ inherited__">Copyable</span> &#123;</span><br><span class="line">  <span class="keyword">var</span> value: <span class="type">Int</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">init</span>(<span class="keyword">_</span> <span class="params">value</span>: <span class="type">Int</span>) &#123;</span><br><span class="line">    <span class="keyword">self</span>.value <span class="operator">=</span> value</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">deinit</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;secrete number deinit: <span class="subst">\(value)</span>&quot;</span>)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">consuming</span> <span class="keyword">func</span> <span class="title function_">consume</span>() &#123;&#125;</span><br><span class="line">  <span class="keyword">borrowing</span> <span class="keyword">func</span> <span class="title function_">borrow</span>() &#123;&#125;</span><br><span class="line">  <span class="keyword">mutating</span> <span class="keyword">func</span> <span class="title function_">mutate</span>() &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>A noncopyable instance invoke a <code>consuming</code> instance method will consume itself and then the instance variable cannot be accessed in subsequent code.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> number <span class="operator">=</span> <span class="type">SecretNumber</span>(<span class="number">666</span>)</span><br><span class="line">number.consume()</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(number.value) <span class="comment">// compilation error.</span></span><br></pre></td></tr></table></figure>
+<p>Inside the consuming function, we can access or consume <code>self</code>.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">consuming</span> <span class="keyword">func</span> <span class="title function_">consume</span>() &#123;</span><br><span class="line">  <span class="keyword">let</span> otherSelf <span class="operator">=</span> <span class="keyword">self</span> <span class="comment">// consumes self.</span></span><br><span class="line">  <span class="built_in">print</span>(value) <span class="comment">// compilation error.</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Inside the borrowing function, we can only read properties but cannot assign self to another variable.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">borrowing</span> <span class="keyword">func</span> <span class="title function_">borrow</span>() &#123;</span><br><span class="line">  <span class="built_in">print</span>(value) <span class="comment">// xxx</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> otherSelf <span class="operator">=</span> <span class="keyword">self</span> <span class="comment">// compilation error: &#x27;self&#x27; has guaranteed ownership but was consumed.</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Invoking borrowing instance functions of a noncopyable variable doesn’t affect the variable at all.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> number <span class="operator">=</span> <span class="type">SecretNumber</span>(<span class="number">200</span>)</span><br><span class="line">number.borrow()</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(number.value) <span class="comment">// 200</span></span><br><span class="line"><span class="keyword">let</span> copyNumber <span class="operator">=</span> number <span class="comment">// consumes the number.</span></span><br><span class="line"><span class="comment">// or</span></span><br><span class="line"><span class="comment">// number.consume()</span></span><br><span class="line"><span class="built_in">print</span>(number.value) <span class="comment">// compilation error.</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Notes that normal functions without any attributes behave identically as borrowing functions.</p>
+</blockquote>
+<p>We all know functions declared with the attribute <code>mutating</code> can change properties or assign a new value to the <code>self</code>. Can we consume self in a mutating function? The answer is YES. Extra, we need reassign a new value to self after consuming self, because a <code>mutating</code> method is still a normal function that doesn’t consume the variable to outer.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">mutating</span> <span class="keyword">func</span> <span class="title function_">mutate</span>() &#123;</span><br><span class="line">  <span class="keyword">let</span> <span class="keyword">copy</span> <span class="operator">=</span> <span class="keyword">self</span></span><br><span class="line">  <span class="comment">// compilation error: &#x27;self&#x27; consumed but not reinitialized before end of function</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Reminder to reinitialize self in mutating functions of noncopyable types after resuming self.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">mutating</span> <span class="keyword">func</span> <span class="title function_">mutate</span>() &#123;</span><br><span class="line">  <span class="keyword">let</span> <span class="keyword">copy</span> <span class="operator">=</span> <span class="keyword">self</span></span><br><span class="line">  <span class="keyword">self</span> <span class="operator">=</span> <span class="type">SecretNumber</span>(<span class="number">333</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>In some special situations, we may do some cleanup work or releasing resources in the <code>deinit</code> function. If we have a consuming function that will do the same operations above, the resources will be released twice separately in the consuming function and the deinit function.<br />
+Let’s say we have a <code>FileDescriptor</code> type like below.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">FileDescriptor</span>: ~<span class="title class_ inherited__">Copyable</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> fd: <span class="type">CInt</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">init</span>(<span class="params">descriptor</span>: <span class="type">CInt</span>) &#123; <span class="keyword">self</span>.fd <span class="operator">=</span> descriptor &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">write</span>(<span class="params">buffer</span>: [<span class="type">UInt8</span>]) <span class="keyword">throws</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> written <span class="operator">=</span> buffer.withUnsafeBufferPointer &#123;</span><br><span class="line">            <span class="type">Darwin</span>.write(fd, <span class="variable">$0</span>.baseAddress, <span class="variable">$0</span>.count)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">consuming</span> <span class="keyword">func</span> <span class="title function_">close</span>() &#123;</span><br><span class="line">        <span class="type">Darwin</span>.close(fd)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;close: close file&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">deinit</span> &#123;</span><br><span class="line">        <span class="type">Darwin</span>.close(fd)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;deinit: close file&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> file <span class="operator">=</span> <span class="type">FileDescriptor</span>(<span class="number">100</span>)</span><br><span class="line">file.write([<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>])</span><br><span class="line">file.close()</span><br><span class="line"></span><br><span class="line"><span class="comment">// close: close file</span></span><br><span class="line"><span class="comment">// deinit: close file</span></span><br></pre></td></tr></table></figure>
+<p>Swift has provided a new operator <code>discard</code> that can be used in consuming methods to suppress the invoking of the deinit method.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">FileDescriptor</span>: ~<span class="title class_ inherited__">Copyable</span> &#123;</span><br><span class="line">  <span class="operator">...</span></span><br><span class="line">  <span class="keyword">consuming</span> <span class="keyword">func</span> <span class="title function_">close</span>() &#123;</span><br><span class="line">    <span class="type">Darwin</span>.close(fd)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;closed the file.&quot;</span>)</span><br><span class="line"></span><br><span class="line">    discard <span class="keyword">self</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="operator">...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> file <span class="operator">=</span> <span class="type">FileDescriptor</span>(<span class="number">100</span>)</span><br><span class="line">file.write([<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>])</span><br><span class="line">file.close()</span><br><span class="line"></span><br><span class="line"><span class="comment">// close: close file</span></span><br></pre></td></tr></table></figure>
+<p>We can only use the <code>discard</code> operator in consuming methods with the format <code>discard self</code> and all stored properties of the noncopyable type must be of <code>trivially-destroyed</code> types. If we redefine the number property of our <code>SecretNumber</code> struct to be of String type and discard self in the consume method, we will receive a compiler error.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">SecretNumber</span>: ~<span class="title class_ inherited__">Copyable</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> value: <span class="type">String</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">consuming</span> <span class="keyword">func</span> <span class="title function_">consume</span>() &#123;</span><br><span class="line">        discard <span class="keyword">self</span> <span class="comment">// compilation error: Can only &#x27;discard&#x27; type &#x27;SecretNumber&#x27; if it contains trivially-destroyed stored properties at this time</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">deinit</span> &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>There are many behavioral distinctions between trivial or non-trivial types when we use them in the Swift variable ownership system. We will discuss the trivial types and influences produced by them in detail at the end of this post.</p>
+<h2 id="consume"><a class="markdownIt-Anchor" href="#consume"></a> consume</h2>
+<p>The <code>consuming</code> and <code>borrowing</code> attributes are only available with noncopyable types. If we want to consume a normal variable of any type, we can use the new operator <code>consume</code>. A local variable following a <code>consume</code> operator when be assigned to another variable or passed to functions will forward the variable itself, without copying.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> message <span class="operator">=</span> <span class="string">&quot;secret content&quot;</span></span><br><span class="line"><span class="built_in">print</span>(message) <span class="comment">// Prints content of the message and then destroys it.</span></span><br><span class="line"><span class="keyword">_</span> <span class="operator">=</span> <span class="keyword">consume</span> message</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(message) <span class="comment">// compilation error: `message` used after being consumed.</span></span><br></pre></td></tr></table></figure>
+<p>If the local variable is mutable, we can reuse the variable message by reassigning a new value to it after consuming it.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> message <span class="operator">=</span> <span class="string">&quot;secret content&quot;</span></span><br><span class="line"><span class="keyword">_</span> <span class="operator">=</span> <span class="keyword">consume</span> message <span class="comment">// Consumes the local variable.</span></span><br><span class="line"></span><br><span class="line">message <span class="operator">=</span> <span class="string">&quot;plain text&quot;</span> <span class="comment">// Reactivates the local variable.</span></span><br><span class="line"><span class="built_in">print</span>(message) <span class="comment">// plain text</span></span><br></pre></td></tr></table></figure>
+<div class="admonition warning"><p class="admonition-title">Empty Struct cannot be consumed
+</p><p>If you define a struct with empty properties, using <code>consume</code> operator will cause a compiler error.
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Pet</span> {}</span><br><span class="line"><span class="keyword">var</span> tom <span class="operator">=</span> <span class="type">Pet</span>()</span><br><span class="line"><span class="keyword">var</span> other <span class="operator">=</span> <span class="keyword">consume</span> tom <span class="comment">// 'consume' applied to value that the compiler does not support. This is a compiler bug. Please file a bug with a small example of the bug</span></span><br></pre></td></tr></table></figure></p>
+</div>
+<h2 id="trivial-types-trivially-destroyed-types"><a class="markdownIt-Anchor" href="#trivial-types-trivially-destroyed-types"></a> trivial types &amp; trivially-destroyed types</h2>
+<p>In the discussion about the <code>discard</code> operator above, we have said the necessary condition is all stored properties of the noncopyable type must be of <code>trivially-destroyed</code> types. This is due to noncopyable types have deinit methods used to safely release resources, but the <code>discard self</code> syntax will suppress the invocation of the deinit method. That means resources in the object may not have been released correctly and produced unexpected behaviors and memory leaks.</p>
+<p>The main feature of <code>trivially-destroyed</code> types is that they can be safely destroyed without any additional cleanup operations. This ensure the <code>discard self</code> operation is safe.</p>
+<p>In Swift official documents, there is a brief description to trivial types:</p>
+<p><em>A trivial type can be copied bit for bit with no indirection or reference-counting operations. Generally, native Swift types that do not contain strong or weak references or other forms of indirection are trivial, as are imported C structs and enums. Copying memory that contains values of nontrivial types can only be done safely with a typed pointer. Copying bytes directly from nontrivial, in-memory values does not produce valid copies and can only be done by calling a C API, such as memmove().</em></p>
+<p>I have tested many types and listed some below considered trivial types in Swift. It’s worth nothing that whether a type is considered <code>trivial</code> or not depends on variety of factors, including the size and complexity of the type. For example, even types that contain reference types (such as classes) or other non-trivial elements may be considered trivial if they meet certain criteria. Therefore, while the below list covers many of the most common cases, it is not exhaustive.</p>
+<ul>
+<li>Builtin integer types (Int, UInt, Int8, UInt8, Int16, UInt16, Int32, UInt32, Int64, UInt64)</li>
+<li>Builtin floating-point types (Float, Double, Float80)</li>
+<li>Builtin Boolean type (Bool)</li>
+<li>Raw pointer types (UnsafePointer, UnsafeMutablePointer, UnsafeRawPointer, UnsafeMutableRawPointer)</li>
+<li>AnyOptional and its derivatives (such as Optional<Int>)</li>
+<li>OptionSet types</li>
+<li>Function types (() -&gt; Void, (Int) -&gt; String)</li>
+<li>Tuples containing trivial types only</li>
+<li>Enums that have no associated values or only have associated values of trivial types.</li>
+<li>Structs containing stored properties of trivial types only</li>
+</ul>
+<p>All trivially-destroyed types are also trivial types, the converse is not necessarily true. Conceptually, a trivial type is a type that has a simple structure and can be safely copied by simply copying its underlying memory and a trivial-destroyed type means whose instances can be destroyed without requiring any additional cleanup operations.</p>
+<p>Now, we declare two general struct types for testing the <code>consume</code> operator:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">TrivialStruct</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> age: <span class="type">Int</span> <span class="operator">=</span> <span class="number">100</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">NontrivialStruct</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> name: <span class="type">String</span> <span class="operator">=</span> <span class="string">&quot;csl&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>When we use the <code>consume</code> to handle a nontrivial value, we will get expected behaviors as we comprehended in above learning.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> value <span class="operator">=</span> <span class="type">NontrivialStruct</span>()</span><br><span class="line"><span class="keyword">_</span> <span class="operator">=</span> <span class="keyword">consume</span> value</span><br><span class="line"><span class="built_in">print</span>(value) <span class="comment">// compilation error: `value` used after being consumed.</span></span><br></pre></td></tr></table></figure>
+<p>But if we replace the <code>NontrivialStruct</code> to the <code>TrivialStruct</code>, we will receive a compilation error: <code>'consume' applied to value that the compiler does not support checking</code>. And if we also change the <code>var</code> to the <code>let</code>, the compilation error disappeared, but confusingly the value can still be used after being consumed.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> value <span class="operator">=</span> <span class="type">TrivialStruct</span>()</span><br><span class="line"><span class="keyword">_</span> <span class="operator">=</span> <span class="keyword">consume</span> value <span class="comment">// compilation error: &#x27;consume&#x27; applied to value that the compiler does not support checking</span></span><br><span class="line"><span class="built_in">print</span>(value)</span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> value <span class="operator">=</span> <span class="type">TrivialStruct</span>()</span><br><span class="line"><span class="keyword">_</span> <span class="operator">=</span> <span class="keyword">consume</span> value</span><br><span class="line"><span class="comment">// The value can still be accessed after being consumed.</span></span><br><span class="line"><span class="built_in">print</span>(value) <span class="comment">// TrivialStruct(age: 100)</span></span><br></pre></td></tr></table></figure>
+<p>For understanding what underlying operations the compiler did, we can use the swiftc to generate canonical SIL code for our example code with the command <code>swiftc main.swift -emit-silgen</code>.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// var value = NontrivialStruct()</span></span><br><span class="line"><span class="comment">// _ = consume value</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// main()</span></span><br><span class="line">sil hidden [ossa] @<span class="variable">$s4mainAAyyF</span> : $<span class="meta">@convention</span>(thin) () -&gt; () &#123;</span><br><span class="line">bb0:</span><br><span class="line">  <span class="operator">%</span><span class="number">0</span> <span class="operator">=</span> metatype $<span class="meta">@thin</span> <span class="type">NontrivialStruct</span>.<span class="keyword">Type</span>      <span class="comment">// user: %2</span></span><br><span class="line">  <span class="comment">// function_ref NontrivialStruct.init()</span></span><br><span class="line">  <span class="operator">%</span><span class="number">1</span> <span class="operator">=</span> function_ref @<span class="variable">$s4main16NontrivialStructVACycfC</span> : $<span class="meta">@convention</span>(method) (<span class="meta">@thin</span> <span class="type">NontrivialStruct</span>.<span class="keyword">Type</span>) -&gt; <span class="meta">@owned</span> <span class="type">NontrivialStruct</span> <span class="comment">// user: %2</span></span><br><span class="line">  <span class="operator">%</span><span class="number">2</span> <span class="operator">=</span> apply <span class="operator">%</span><span class="number">1</span>(<span class="operator">%</span><span class="number">0</span>) : $<span class="meta">@convention</span>(method) (<span class="meta">@thin</span> <span class="type">NontrivialStruct</span>.<span class="keyword">Type</span>) -&gt; <span class="meta">@owned</span> <span class="type">NontrivialStruct</span> <span class="comment">// users: %12, %3</span></span><br><span class="line">  <span class="operator">%</span><span class="number">3</span> <span class="operator">=</span> begin_borrow [lexical] <span class="operator">%</span><span class="number">2</span> : <span class="variable">$NontrivialStruct</span> <span class="comment">// users: %11, %5, %4</span></span><br><span class="line">  debug_value <span class="operator">%</span><span class="number">3</span> : <span class="variable">$NontrivialStruct</span>, <span class="keyword">let</span>, name <span class="string">&quot;value&quot;</span> <span class="comment">// id: %4</span></span><br><span class="line">  <span class="operator">%</span><span class="number">5</span> <span class="operator">=</span> copy_value <span class="operator">%</span><span class="number">3</span> : <span class="variable">$NontrivialStruct</span>          <span class="comment">// user: %6</span></span><br><span class="line">  <span class="operator">%</span><span class="number">6</span> <span class="operator">=</span> move_value [allows_diagnostics] <span class="operator">%</span><span class="number">5</span> : <span class="variable">$NontrivialStruct</span> <span class="comment">// users: %10, %7</span></span><br><span class="line">  <span class="operator">%</span><span class="number">7</span> <span class="operator">=</span> begin_borrow [lexical] <span class="operator">%</span><span class="number">6</span> : <span class="variable">$NontrivialStruct</span> <span class="comment">// users: %9, %8</span></span><br><span class="line">  debug_value <span class="operator">%</span><span class="number">7</span> : <span class="variable">$NontrivialStruct</span>, <span class="keyword">let</span>, name <span class="string">&quot;another&quot;</span> <span class="comment">// id: %8</span></span><br><span class="line">  end_borrow <span class="operator">%</span><span class="number">7</span> : <span class="variable">$NontrivialStruct</span>               <span class="comment">// id: %9</span></span><br><span class="line">  destroy_value <span class="operator">%</span><span class="number">6</span> : <span class="variable">$NontrivialStruct</span>            <span class="comment">// id: %10</span></span><br><span class="line">  end_borrow <span class="operator">%</span><span class="number">3</span> : <span class="variable">$NontrivialStruct</span>               <span class="comment">// id: %11</span></span><br><span class="line">  destroy_value <span class="operator">%</span><span class="number">2</span> : <span class="variable">$NontrivialStruct</span>            <span class="comment">// id: %12</span></span><br><span class="line">  <span class="operator">%</span><span class="number">13</span> <span class="operator">=</span> tuple ()                                  <span class="comment">// user: %14</span></span><br><span class="line">  <span class="keyword">return</span> <span class="operator">%</span><span class="number">13</span> : $()                                <span class="comment">// id: %14</span></span><br><span class="line">&#125; <span class="comment">// end sil function &#x27;$s4mainAAyyF&#x27;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// var value = TrivialStruct()</span></span><br><span class="line"><span class="comment">// _ = consume value</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// main()</span></span><br><span class="line">sil hidden @<span class="variable">$s4mainAAyyF</span> : $<span class="meta">@convention</span>(thin) () -&gt; () &#123;</span><br><span class="line">bb0:</span><br><span class="line">  <span class="operator">%</span><span class="number">0</span> <span class="operator">=</span> metatype $<span class="meta">@thin</span> <span class="type">TrivialStruct</span>.<span class="keyword">Type</span>         <span class="comment">// user: %2</span></span><br><span class="line">  <span class="comment">// function_ref TrivialStruct.init()</span></span><br><span class="line">  <span class="operator">%</span><span class="number">1</span> <span class="operator">=</span> function_ref @<span class="variable">$s4main13TrivialStructVACycfC</span> : $<span class="meta">@convention</span>(method) (<span class="meta">@thin</span> <span class="type">TrivialStruct</span>.<span class="keyword">Type</span>) -&gt; <span class="type">TrivialStruct</span> <span class="comment">// user: %2</span></span><br><span class="line">  <span class="operator">%</span><span class="number">2</span> <span class="operator">=</span> apply <span class="operator">%</span><span class="number">1</span>(<span class="operator">%</span><span class="number">0</span>) : $<span class="meta">@convention</span>(method) (<span class="meta">@thin</span> <span class="type">TrivialStruct</span>.<span class="keyword">Type</span>) -&gt; <span class="type">TrivialStruct</span> <span class="comment">// users: %4, %3</span></span><br><span class="line">  debug_value <span class="operator">%</span><span class="number">2</span> : <span class="variable">$TrivialStruct</span>, <span class="keyword">let</span>, name <span class="string">&quot;value&quot;</span> <span class="comment">// id: %3</span></span><br><span class="line">  debug_value <span class="operator">%</span><span class="number">2</span> : <span class="variable">$TrivialStruct</span>, <span class="keyword">let</span>, name <span class="string">&quot;another&quot;</span> <span class="comment">// id: %4</span></span><br><span class="line">  <span class="operator">%</span><span class="number">5</span> <span class="operator">=</span> tuple ()                                   <span class="comment">// user: %6</span></span><br><span class="line">  <span class="keyword">return</span> <span class="operator">%</span><span class="number">5</span> : $()                                 <span class="comment">// id: %6</span></span><br><span class="line">&#125; <span class="comment">// end sil function &#x27;$s4mainAAyyF&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>As you can see above, a non-trivial value will do some operations about ownership and a trivial value is treaded as normal variables without any additional operations. So we can continually use the value even though it has already been consumed.</p>
+<p>Then we redefine our <code>NontrivialStruct</code> and <code>TrivialStruct</code> to be noncopyable types and add empty consuming methods for them.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">TrivialStruct</span>: ~<span class="title class_ inherited__">Copyable</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> age: <span class="type">Int</span> <span class="operator">=</span> <span class="number">100</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">consuming</span> <span class="keyword">func</span> <span class="title function_">consume</span>() &#123;&#125;</span><br><span class="line">    <span class="keyword">deinit</span> &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;deinit age: <span class="subst">\(age)</span>&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">NontrivialStruct</span>: ~<span class="title class_ inherited__">Copyable</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> name: <span class="type">String</span> <span class="operator">=</span> <span class="string">&quot;csl&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">consuming</span> <span class="keyword">func</span> <span class="title function_">consume</span>() &#123;&#125;</span><br><span class="line">     <span class="keyword">deinit</span> &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;deinit name: <span class="subst">\(name)</span>&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Whether we use <code>let</code> or <code>var</code> and <code>NontrivialStruct</code> or <code>TrivialStruct</code>, they all behaved expectedly. Then I found another question that we can still modify properties of the noncopyable variable having been consumed.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> value <span class="operator">=</span> <span class="type">TrivialStruct</span>()</span><br><span class="line">value.consume()</span><br><span class="line"></span><br><span class="line">value.age <span class="operator">=</span> <span class="number">200</span></span><br><span class="line">value.consume()</span><br><span class="line"></span><br><span class="line"><span class="comment">// deinit age: 100</span></span><br><span class="line"><span class="comment">// deinit age: 200</span></span><br></pre></td></tr></table></figure>
+<div class="admonition warning"><p class="admonition-title">Out of Date
+</p><p>Swift team has fixed this problem. Now we reassign values to a consumed instance's properties will trigger a compiler error: <code>cannot partially reinitialize 'tom' after it has been consumed; only full reinitialization is allowed</code>.</p>
+<p>We must reinitialize the instance integrally.</p>
+</div>
+<p>Execute the above code, the console wil print deinit messages twice. This is because modifying a struct will trigger the copy-on-write to duplicate a new instance. But if the TrivialStruct is of normal copyable types, the compiler doesn’t allow us to modify properties of the variable being consumed by the syntax <code>consume value</code>.</p>
+<p>Even if we don’t invoke the method <code>value.consume()</code>, we can also see twice deinit messages. The funny thing is that if we declare the struct with more than one properties, we will see some strange behaviors.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">SingleStruct</span>: ~<span class="title class_ inherited__">Copyable</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> age: <span class="type">Int</span> <span class="operator">=</span> <span class="number">100</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">consuming</span> <span class="keyword">func</span> <span class="title function_">consume</span>() &#123;&#125;</span><br><span class="line">    <span class="keyword">deinit</span> &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;single deinit age: <span class="subst">\(age)</span>&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">MultipleStruct</span>: ~<span class="title class_ inherited__">Copyable</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> age: <span class="type">Int</span> <span class="operator">=</span> <span class="number">100</span></span><br><span class="line">    <span class="keyword">var</span> weight: <span class="type">Float</span> <span class="operator">=</span> <span class="number">80</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">consuming</span> <span class="keyword">func</span> <span class="title function_">consume</span>() &#123;&#125;</span><br><span class="line">    <span class="keyword">deinit</span> &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;multiple deinit age: <span class="subst">\(age)</span>&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">  <span class="keyword">var</span> single <span class="operator">=</span> <span class="type">SingleStruct</span>()</span><br><span class="line">  <span class="keyword">var</span> multiple <span class="operator">=</span> <span class="type">MultipleStruct</span>()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// single deinit age: 100</span></span><br><span class="line"><span class="comment">// multiple deinit age: 100</span></span><br></pre></td></tr></table></figure>
+<p>Just create instances and then their deinit methods will be invoked once the calling stack ended.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">  <span class="keyword">var</span> single <span class="operator">=</span> <span class="type">SingleStruct</span>()</span><br><span class="line">  <span class="built_in">print</span>(single.age)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> multiple <span class="operator">=</span> <span class="type">MultipleStruct</span>()</span><br><span class="line">  <span class="built_in">print</span>(multiple.age)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// single deinit age: 100</span></span><br></pre></td></tr></table></figure>
+<p>The variable <code>multiple</code> having two properties didn’t invoke its deinit method.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">var</span> single <span class="operator">=</span> <span class="type">SingleStruct</span>()</span><br><span class="line">    single.consume()</span><br><span class="line">    single.age <span class="operator">=</span> <span class="number">999</span></span><br><span class="line">    <span class="comment">// single.consume() // ok</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> multiple <span class="operator">=</span> <span class="type">MultipleStruct</span>()</span><br><span class="line">    multiple.consume()</span><br><span class="line">    multiple.age <span class="operator">=</span> <span class="number">999</span></span><br><span class="line">    <span class="comment">// multiple.consume() // compilation error.</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// single deinit age: 100</span></span><br><span class="line"><span class="comment">// single deinit age: 999</span></span><br><span class="line"><span class="comment">// multiple deinit age: 100</span></span><br></pre></td></tr></table></figure>
+<p>The deinit method invoked when invoking the consume method. The variable multiple didn’t invoke the deinit method again after modifying its property age.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">var</span> single <span class="operator">=</span> <span class="type">SingleStruct</span>()</span><br><span class="line">    single.consume()</span><br><span class="line">    single.age <span class="operator">=</span> <span class="number">999</span></span><br><span class="line">    single.consume() <span class="comment">// ok</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> multiple <span class="operator">=</span> <span class="type">MultipleStruct</span>()</span><br><span class="line">    multiple.consume()</span><br><span class="line">    multiple.age <span class="operator">=</span> <span class="number">999</span></span><br><span class="line">    multiple.consume() <span class="comment">// compilation error.</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>The compiler threw an error when we tried to invoke the consume method after reassigning the property age. If we reassign all properties of the consumed variable and compile again, we will get expected output.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">var</span> single <span class="operator">=</span> <span class="type">SingleStruct</span>()</span><br><span class="line">    single.consume()</span><br><span class="line">    single.age <span class="operator">=</span> <span class="number">999</span></span><br><span class="line">    single.consume() <span class="comment">// ok</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> multiple <span class="operator">=</span> <span class="type">MultipleStruct</span>()</span><br><span class="line">    multiple.consume()</span><br><span class="line">    multiple.age <span class="operator">=</span> <span class="number">999</span></span><br><span class="line">    multiple.weight <span class="operator">=</span> <span class="number">300</span></span><br><span class="line">    multiple.consume()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// single deinit age: 100</span></span><br><span class="line"><span class="comment">// single deinit age: 999</span></span><br><span class="line"><span class="comment">// multiple deinit age: 100</span></span><br><span class="line"><span class="comment">// multiple deinit age: 999</span></span><br></pre></td></tr></table></figure>
+<p>Finally, I proposed a assumption that a noncopyable variable with multiple stored properties must reassign all its properties for completing initialization after being consumed. A consumed variable with multiple properties will not invoke its deinit method after properties are changed unless invoking the consume method again.</p>
+
+  </div>
+</article>
+
+
+
+      
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#noncopyable"><span class="toc-number">1.</span> <span class="toc-text"> Noncopyable</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#consuming-borrowing"><span class="toc-number">2.</span> <span class="toc-text"> consuming &amp; borrowing</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#consume"><span class="toc-number">3.</span> <span class="toc-text"> consume</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#trivial-types-trivially-destroyed-types"><span class="toc-number">4.</span> <span class="toc-text"> trivial types &amp; trivially-destroyed types</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2023/06/05/ios-dev/swift/swift-noncopyable-types-and-variable-ownership/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2023/06/05/ios-dev/swift/swift-noncopyable-types-and-variable-ownership/&text=Swift Noncopyable Type and Variable Ownerships"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2023/06/05/ios-dev/swift/swift-noncopyable-types-and-variable-ownership/&title=Swift Noncopyable Type and Variable Ownerships"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2023/06/05/ios-dev/swift/swift-noncopyable-types-and-variable-ownership/&is_video=false&description=Swift Noncopyable Type and Variable Ownerships"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Swift Noncopyable Type and Variable Ownerships&body=Check out this article: https://csl.cool/2023/06/05/ios-dev/swift/swift-noncopyable-types-and-variable-ownership/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2023/06/05/ios-dev/swift/swift-noncopyable-types-and-variable-ownership/&title=Swift Noncopyable Type and Variable Ownerships"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2023/06/05/ios-dev/swift/swift-noncopyable-types-and-variable-ownership/&title=Swift Noncopyable Type and Variable Ownerships"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2023/06/05/ios-dev/swift/swift-noncopyable-types-and-variable-ownership/&title=Swift Noncopyable Type and Variable Ownerships"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2023/06/05/ios-dev/swift/swift-noncopyable-types-and-variable-ownership/&title=Swift Noncopyable Type and Variable Ownerships"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2023/06/05/ios-dev/swift/swift-noncopyable-types-and-variable-ownership/&name=Swift Noncopyable Type and Variable Ownerships&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2023/06/05/ios-dev/swift/swift-noncopyable-types-and-variable-ownership/&t=Swift Noncopyable Type and Variable Ownerships"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+      <div id="end">
+    <img src="/images/post-end.png" alt="">
+</div> 
+      
+      <div id='valine'>
+    <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+            el: '#vcomments',
+            notify: true,
+            verify: true,
+            appId: '7zw6tQBddCfPvbaVtBGxUy0G-gzGzoHsz',
+            appKey: 'voPGHhBz7MozpUm0Fq2AMFmv',
+            placeholder: '想说点啥...',
+            avatar: 'monsterid',           
+        })
+    </script>
+</div>
+      
+      
+      <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 SSBun
+    <a target="_blank" rel="noopener" href="http://www.beian.miit.gov.cn/">京ICP备20001935号-1</a>
+    <div id="friend-link-container">
+      
+      
+    </div>
+  </div>
+  
+    <div class="footer-right">
+      <nav>
+        <ul>
+          
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/search/">Search</a></li>
+      
+      <li><a href="/categories/">Categories</a></li>
+      
+      <li><a href="/notes/">Notes</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+      </ul>
+      </nav>
+    </div>
+  
+</footer>
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?c2fdf3bebd0db8e40c37a4f37d76d33b";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Umami Analytics -->
+<!--  -->
+  <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="d39cc16d-90eb-47b6-8bf0-8e4cd43c704d"></script>
+<!--  -->
+<!-- Disqus Comments -->
+
+
+
+    
+    <script src="/lib/blackcat/l2dwidget.min.js"></script>
+    <script type="text/javascript">
+      var config = {
+        model: {
+          jsonPath: '/lib/blackcat/hijiki.model.json',
+        },
+        display: {
+          superSample: 1,
+          width: 245,
+          height: 245,
+          position: 'left',
+          hOffset: 0,
+          vOffset: 0,
+        },
+        mobile: {
+          show: false,
+          scale: 1,
+          motion: false,
+        },
+        react: {
+          opacityDefault: 1,
+          opacityOnHover: 0.75
+        }
+      };
+      L2Dwidget.init(config);
+    </script>
+    
+  </body>
+
+  </html>

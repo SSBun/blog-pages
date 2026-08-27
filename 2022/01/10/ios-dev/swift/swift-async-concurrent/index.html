@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang=en>
+  <head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Reading notes of the book Swift 异步和并发   Swift Concurrency Usage Guide  Task  Begins an async task from a sync method.    123456789func reloadView(with data: Data?) &#123; ... &#125;func requestData()">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Swift Async and Concurrent">
+<meta property="og:url" content="https://csl.cool/2022/01/10/ios-dev/swift/swift-async-concurrent/index.html">
+<meta property="og:site_name" content="CSL MEMO">
+<meta property="og:description" content="Reading notes of the book Swift 异步和并发   Swift Concurrency Usage Guide  Task  Begins an async task from a sync method.    123456789func reloadView(with data: Data?) &#123; ... &#125;func requestData()">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-01-10T03:29:29.000Z">
+<meta property="article:modified_time" content="2022-01-10T03:29:29.000Z">
+<meta property="article:author" content="SSBun">
+<meta property="article:tag" content="Swift">
+<meta property="article:tag" content="Concurrency">
+<meta property="article:tag" content="Async&#x2F;Await">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Swift Async and Concurrent</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="CSL MEMO" type="application/atom+xml" />
+    
+    <!-- umami web analytics -->
+    <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+  <body class="max-width mx-auto px3 ltr">
+    
+    <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2022/01/13/ios-dev/tip-display-specified-parts-of-an-image-in-uiimageview/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2021/12/23/scripts/apple-script-guide/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2022/01/10/ios-dev/swift/swift-async-concurrent/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2022/01/10/ios-dev/swift/swift-async-concurrent/&text=Swift Async and Concurrent"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2022/01/10/ios-dev/swift/swift-async-concurrent/&title=Swift Async and Concurrent"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2022/01/10/ios-dev/swift/swift-async-concurrent/&is_video=false&description=Swift Async and Concurrent"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Swift Async and Concurrent&body=Check out this article: https://csl.cool/2022/01/10/ios-dev/swift/swift-async-concurrent/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2022/01/10/ios-dev/swift/swift-async-concurrent/&title=Swift Async and Concurrent"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2022/01/10/ios-dev/swift/swift-async-concurrent/&title=Swift Async and Concurrent"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2022/01/10/ios-dev/swift/swift-async-concurrent/&title=Swift Async and Concurrent"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2022/01/10/ios-dev/swift/swift-async-concurrent/&title=Swift Async and Concurrent"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2022/01/10/ios-dev/swift/swift-async-concurrent/&name=Swift Async and Concurrent&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2022/01/10/ios-dev/swift/swift-async-concurrent/&t=Swift Async and Concurrent"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#swift-concurrency-usage-guide"><span class="toc-number">1.</span> <span class="toc-text"> Swift Concurrency Usage Guide</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#whats-the-concurrent"><span class="toc-number">2.</span> <span class="toc-text"> What’s the concurrent?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#whatre-the-difficulties-of-implementing-concurrent"><span class="toc-number">3.</span> <span class="toc-text"> What’re the difficulties of implementing concurrent?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#whats-the-async-method"><span class="toc-number">4.</span> <span class="toc-text"> What’s the Async method?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#whats-the-task"><span class="toc-number">5.</span> <span class="toc-text"> What’s the Task?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#executing-a-task-waiting-until-multiple-tasks-finish"><span class="toc-number">6.</span> <span class="toc-text"> Executing a task waiting until multiple tasks finish.</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#whats-the-actor"><span class="toc-number">7.</span> <span class="toc-text"> What’s the Actor?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#whats-the-structured-concurrency"><span class="toc-number">8.</span> <span class="toc-text"> What’s the structured concurrency?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#how-to-understand-the-executing-steps-of-a-concurrency-task"><span class="toc-number">9.</span> <span class="toc-text"> How to understand the executing steps of a concurrency task?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#how-does-the-swift-concurrency-work"><span class="toc-number">10.</span> <span class="toc-text"> How does the Swift concurrency work?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#caveats"><span class="toc-number">11.</span> <span class="toc-text"> Caveats</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+      
+      <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Swift Async and Concurrent
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">SSBun</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-01-10T03:29:29.000Z" itemprop="datePublished">2022-01-10</time>
+        
+        (Updated: <time datetime="2022-01-10T03:29:29.000Z" itemprop="dateModified">2022-01-10</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Async-Await/" rel="tag">Async/Await</a>, <a class="tag-link-link" href="/tags/Concurrency/" rel="tag">Concurrency</a>, <a class="tag-link-link" href="/tags/Swift/" rel="tag">Swift</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p>Reading notes of the book <em>Swift 异步和并发</em></p>
+</blockquote>
+<h2 id="swift-concurrency-usage-guide"><a class="markdownIt-Anchor" href="#swift-concurrency-usage-guide"></a> Swift Concurrency Usage Guide</h2>
+<ul>
+<li><code>Task</code>
+<ul>
+<li>Begins an async task from a sync method.</li>
+</ul>
+  <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">reloadView</span>(<span class="params">with</span> <span class="params">data</span>: <span class="type">Data</span>?) &#123; <span class="operator">...</span> &#125;</span><br><span class="line"><span class="keyword">func</span> <span class="title function_">requestData</span>() <span class="keyword">async</span> <span class="keyword">throws</span> -&gt; <span class="type">Data</span>? &#123; <span class="operator">...</span> &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">func</span> <span class="title function_">reloadData</span>() &#123;</span><br><span class="line">    <span class="type">Task</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> data <span class="operator">=</span> <span class="keyword">try</span> <span class="keyword">await</span> requestData()</span><br><span class="line">        reloadView(with: data)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>Continuation Methods
+<ul>
+<li>Used to convert the async patterns of callback or delegate to async/await format in Swift environment.</li>
+</ul>
+ <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">withUnsafeContinuation</span>&lt;<span class="type">T</span>&gt;(</span><br><span class="line">    <span class="keyword">_</span> <span class="params">fn</span>: (<span class="type">UnsafeContinuation</span>&lt;<span class="type">T</span>, <span class="type">Never</span>&gt;) -&gt; <span class="type">Void</span></span><br><span class="line">) <span class="keyword">async</span> -&gt;<span class="string">&quot; T</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">func withUnsafeThrowingContinuation&lt;T&gt;(</span></span><br><span class="line"><span class="string">    _ fn: (UnsafeContinuation&lt;T, Error&gt;) -&gt; Void</span></span><br><span class="line"><span class="string">) async throws -&gt; T</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">func withCheckedContinuation&lt;T&gt;(</span></span><br><span class="line"><span class="string">    function: String = #function,</span></span><br><span class="line"><span class="string">    _ body: (CheckedContinuation&lt;T, Never&gt;) -&gt; Void</span></span><br><span class="line"><span class="string">) async -&gt; T</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">func withCheckedThrowingContinuation&lt;T&gt;( </span></span><br><span class="line"><span class="string">    function: String = #function,</span></span><br><span class="line"><span class="string">    _ body: (CheckedContinuation&lt;T, Error&gt;) -&gt; Void</span></span><br><span class="line"><span class="string">) async throws -&gt; T</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>Having the <code>Throwing</code> word means the methods can throws an error.</li>
+<li>Having the <code>Checked</code> word means Swift will assist in checking these situations that the <code>continuation</code> doesn’t be invoked or be invoked multiple times at runtime. (The first may leak memory and the second will trigger a crash.)</li>
+</ul>
+</li>
+<li><code>Task.detached</code>
+<ul>
+<li>Used to convert async/await methods to the async patterns of block or delegate for Objective-C.</li>
+</ul>
+  <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@objc</span> <span class="keyword">func</span> <span class="title function_">calculate</span>(</span><br><span class="line">    <span class="params">input</span>: <span class="type">Int</span>,</span><br><span class="line">    <span class="params">completionHandler</span>: <span class="keyword">@escaping</span> (<span class="type">Int</span>) <span class="operator">!</span><span class="string">&quot; Void)</span></span><br><span class="line"><span class="string">&#123;</span></span><br><span class="line"><span class="string">    Task.detached &#123;</span></span><br><span class="line"><span class="string">        let value = await calculate(input: input)</span></span><br><span class="line"><span class="string">        completionHandler(value)</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>In Objective-C, have nothing available <code>Task</code> contexts, so we need use <code>Task.detached</code> to create an completely isolated async environment.</li>
+</ul>
+</li>
+<li><code>withTaskGroup</code> or <code>async let</code>
+<ul>
+<li>Used to execute multiple async tasks simultaneously.</li>
+</ul>
+  <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="keyword">let</span> loadHeaderInfo <span class="operator">=</span> requestHeaderInfo()</span><br><span class="line"><span class="keyword">async</span> <span class="keyword">let</span> loadContentInfo <span class="operator">=</span> requestContentInfo()</span><br><span class="line"><span class="comment">// The two async tasks above have started executing.</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> headerInfo <span class="operator">=</span> <span class="keyword">try</span> <span class="keyword">await</span> loadHeaderInfo</span><br><span class="line"><span class="keyword">let</span> contentInfo <span class="operator">=</span> <span class="keyword">try</span> <span class="keyword">await</span> loadContentInfo</span><br></pre></td></tr></table></figure>
+  <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">await</span> withThrowingTaskGroup(of: <span class="type">Void</span>.<span class="keyword">self</span>) &#123;  group <span class="keyword">in</span></span><br><span class="line">    group.addTask &#123;</span><br><span class="line">        <span class="keyword">try</span> <span class="keyword">await</span> requestHeaderInfo()</span><br><span class="line">    &#125;</span><br><span class="line">    group.addTask &#123;</span><br><span class="line">        <span class="keyword">try</span> <span class="keyword">await</span> requestBodyInfo()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><code>AsyncSequence</code> and <code>AsyncIterator</code>
+<ul>
+<li>Similar to <code>LazySequence</code>, you can use <code>for try await element in asyncSequence</code> to async iterate a sequence.</li>
+</ul>
+  <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">TimerSequence</span> &#123; <span class="operator">...</span> &#125; <span class="comment">// Return the current time once a second.</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> <span class="keyword">await</span> currentTime <span class="keyword">in</span> <span class="type">TimerSequence</span>() &#123;</span><br><span class="line">    <span class="built_in">print</span>(currentTime) <span class="comment">// Will print the current time once a second forever.</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><code>AsyncStream</code>
+<ul>
+<li>Used to convert the callback or delegate that may be invoked multiple times(like progress callback) to async/await format.</li>
+</ul>
+</li>
+<li><code>withTaskCancellationHandler</code>
+<ul>
+<li>Getting an immediate cancellation message when the task is canceled. Don’t need to check <code>Task.isCanceled</code> at next event coming.</li>
+</ul>
+</li>
+<li><code>try Task.checkCancellation()</code>
+<ul>
+<li>Used to check the cancellation state of the current task. If the task is already canceled, throw an cancellation exception.</li>
+</ul>
+</li>
+<li><code>nonisolated</code>
+<ul>
+<li>Used to mark a method or property of an actor excluded the isolated scope.</li>
+<li>If an actor type needs to conform to a normal protocol that contains some getter properties or sync methods, you can mark these properties or methods with <code>nonisolated</code> to satisfy the protocol’s requirements.</li>
+</ul>
+</li>
+<li><code>isolated</code>
+<ul>
+<li>Sometimes we want to invoke methods of normal classes or global functions in a special isolated scope.</li>
+<li>If these methods have an parameter of actor types, you can mark the parameter with <code>isolated</code> , and then the function will execute in the parameter’s isolated scope.</li>
+<li>Of course, maybe some of these methods have several parameters of actor types marked with <code>isolated</code>. These methods will be confused to execute in which isolated cope of these actor parameters. So do not mark several <code>isolated</code> parameters in one method, that would violate the thread-safety of actors.</li>
+</ul>
+</li>
+<li><code>@MainActor</code>
+<ul>
+<li>Like a property wrapper, you can use it to modify a property, method or class statement. All marked properties and methods will be guaranteed running in an global actor(Main thread).</li>
+<li>Many classes of UIKit were implicitly marked with <code>@MainActor</code> by Swift.</li>
+</ul>
+  <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MainViewController</span>: <span class="title class_ inherited__">UIViewController</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> titleLabel <span class="operator">=</span> <span class="type">UILabel</span>()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">updateTitle</span>() &#123;</span><br><span class="line">        <span class="comment">/* Task.init will run the block code in the isolated scope of the current actor that creates it.*/</span></span><br><span class="line">        <span class="type">Task</span> &#123; </span><br><span class="line">            <span class="keyword">let</span> title <span class="operator">=</span> <span class="keyword">await</span> requestTitle()</span><br><span class="line">            titleLabel.text <span class="operator">=</span> title</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><code>@globalActor</code>
+<ul>
+<li>A modifier that can used to custom you own global actors just like @MainActor.</li>
+</ul>
+  <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@globalActor</span> <span class="keyword">actor</span> <span class="title class_">MyActor</span> &#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">let</span> shared <span class="operator">=</span> <span class="type">MyActor</span>()</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">init</span>() &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>A global actor needs having a singleton <code>shared</code>. Mind you, an instance of the MyActor is a isolated actor that doesn’t equal to the shared actor.</li>
+</ul>
+</li>
+<li><code>@Sendable</code> &amp; protocol <code>Sendable</code>
+<ul>
+<li>When we execute an async method in a task, we might need to pass a value out of the isolated scope as the async method’s parameter.</li>
+<li>The value might be accessed simultaneously by other tasks, they would read/write the same memory at the same time. That will make a crash.</li>
+<li>So Swift requires that all value passed to isolated scopes must be <code>Sendable</code>. <code>Sendable</code> is a marker protocol that doesn’t require any properties or methods, only used to be a compiler mark. A Sendable value must ensure its value can be safely accessed by multiple threads at the same time.</li>
+<li>As Swift agreed:
+<ul>
+<li>All basic value types are implicitly Sendable.</li>
+<li>Structures, enums, or other container types(Dictionary, Array) are implicitly inferred to be <code>Sendable</code> type when their all properties or elements are also of <code>Sendable</code> type.</li>
+<li>A class that marked with <code>final</code>, conforming to <code>Sendable</code> protocol, and all properties are marked with <code>let</code> and of Sendable type can be as a Sendable value.</li>
+<li>A class that uses other technologies(like lock or serial queue) to ensure thread safety without conforming to the requirements above can be announced to conform to <code>@unchecked Sendable</code> to become a <code>Sendable</code> type.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>@unchecked Sendable</code></li>
+<li><code>@_unsafeSendable</code>
+<ul>
+<li>Used to mark a method or block to be sendable and do not check wether the passed parameters or captured variables are <code>Sendable</code>.</li>
+</ul>
+</li>
+<li><code>@TaskLocal</code>
+<ul>
+<li>Used to passthrough values from super tasks to child tasks, likes <code>Task.isCancelled</code>.</li>
+<li>Must be a <strong>static variable</strong> property.</li>
+</ul>
+  <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">Log</span> &#123;</span><br><span class="line">    <span class="meta">@TaskLocal</span> <span class="keyword">static</span> <span class="keyword">var</span> id: <span class="type">String</span> <span class="operator">=</span> <span class="string">&quot;&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="type">Log</span>.<span class="variable">$id</span>.withValue(<span class="string">&quot;room&quot;</span>) &#123;</span><br><span class="line">    <span class="type">Task</span> &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Log id: <span class="subst">\(Log.id)</span>&quot;</span>) <span class="comment">/* room */</span></span><br><span class="line">        <span class="keyword">await</span> <span class="type">Log</span>.<span class="variable">$id</span>.withValue(<span class="string">&quot;inner&quot;</span>) &#123;</span><br><span class="line">            <span class="type">Task</span> &#123;</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;Log id: <span class="subst">\(Log.id)</span>&quot;</span>) <span class="comment">/* inner */</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Log id: <span class="subst">\(Log.id)</span>&quot;</span>) <span class="comment">/* room */</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="whats-the-concurrent"><a class="markdownIt-Anchor" href="#whats-the-concurrent"></a> What’s the concurrent?</h2>
+<p>Before learning the concurrent, we should first understand the two concepts below.</p>
+<ul>
+<li>
+<p><code>Synchronous</code><br />
+In one thread, the second method must wait for the first return or is thrown to execute. The first method needing a long time to perform, the thread would be blocked. If the thread is main, users would feel stumble.</p>
+</li>
+<li>
+<p><code>Asynchronous</code><br />
+Being asynchronous, the content of the first method would be executed in another thread, itself will return speedily. In Swift or Objective-C, we usually use GCD to execute an asynchronous method in background threads and use a callback block to fetch the result of the method.</p>
+</li>
+</ul>
+<p>The other two important concepts are <code>serial</code> and <code>parallel</code>. it goes without saying that the serial means executing tasks one by one and the parallel means executing multiple tasks at the same time.</p>
+<blockquote>
+<p>Not only the synchronous tasks can execute in serial, but the asynchronous tasks can do also if the next task is always invoked in the last task’s callback.</p>
+</blockquote>
+<p>From the traditional view, the <code>concurrent</code> is emulating several threads in single-core CPUs and the <code>parallel</code> is creating threads in multiple-core CPUs.</p>
+<h2 id="whatre-the-difficulties-of-implementing-concurrent"><a class="markdownIt-Anchor" href="#whatre-the-difficulties-of-implementing-concurrent"></a> What’re the difficulties of implementing concurrent?</h2>
+<ol>
+<li>Keep interactions and communications between different operations <strong>in right order</strong>.</li>
+<li>Make sure calculation resources can be <strong>safely shared, accessed and transported</strong> in different operations.</li>
+</ol>
+<p>Swift uses structured concurrent to fit the first rule and the <code>Actor</code> to implement the second.</p>
+<h2 id="whats-the-async-method"><a class="markdownIt-Anchor" href="#whats-the-async-method"></a> What’s the Async method?</h2>
+<p>Swift provides two new keywords <code>async</code> and <code>await</code>. Using them can sharply simplify our async code and make async logics more readable.</p>
+<p>Let’s see a simple example:</p>
+<p>Usually, we write a data requesting method likes blew.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">requestRoomInfo</span>(<span class="params">with</span> <span class="params">roomId</span>: <span class="type">String</span>, <span class="params">completionHandler</span>: <span class="keyword">@escaping</span> (<span class="type">Data</span>?, <span class="type">Error</span>?) -&gt; <span class="type">Void</span>) &#123;&#125;</span><br><span class="line">    </span><br><span class="line"><span class="keyword">func</span> <span class="title function_">loadData</span>() &#123;</span><br><span class="line">    requestRoomInfo(with: <span class="string">&quot;1&quot;</span>) &#123; data, error <span class="keyword">in</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">let</span> roomInfo <span class="operator">=</span> data &#123;</span><br><span class="line">            <span class="comment">// Setup UI with roomInfo.</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>If we refactor it with the async keyword, the code is more clear.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">requestRoomInfo</span>(<span class="params">with</span> <span class="params">roomId</span>: <span class="type">String</span>) <span class="keyword">async</span> <span class="keyword">throws</span> -&gt; <span class="type">Data</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="type">Data</span>()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">func</span> <span class="title function_">loadData</span>() <span class="keyword">async</span> <span class="keyword">throws</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> roomInfo <span class="operator">=</span> <span class="keyword">try</span> <span class="keyword">await</span> requestRoomInfo(with: <span class="string">&quot;1&quot;</span>)</span><br><span class="line">    <span class="comment">// Setup UI with roomInfo</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>If we want to execute a serial async operations, the classic block invoking would nest multilayer. Using concurrent pattern, we can process these async tasks like they are sync.</p>
+<h2 id="whats-the-task"><a class="markdownIt-Anchor" href="#whats-the-task"></a> What’s the Task?</h2>
+<p>As you see we must invoke an async method in another async one. Following the invoking link to end, how do we invoke the last async method?</p>
+<p>Swift provides the Task to help us to build a async context. The Task constructor receives a async block to write async methods.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Task</span>&lt;<span class="type">Success</span>, <span class="type">Failure</span>&gt; <span class="keyword">where</span> <span class="type">Failure</span> : <span class="type">Error</span> &#123;</span><br><span class="line">    <span class="keyword">init</span>(</span><br><span class="line">        <span class="params">priority</span>: <span class="type">TaskPriority</span>? <span class="operator">=</span> <span class="literal">nil</span>,</span><br><span class="line">        <span class="params">operation</span>: <span class="keyword">@escaping</span> <span class="keyword">@Sendable</span> () <span class="keyword">async</span> <span class="keyword">throws</span> -&gt; <span class="type">Success</span></span><br><span class="line">    )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Features:</p>
+<ul>
+<li>A task has itself priority and cancel flag, it can have several child tasks to execute async methods.</li>
+<li>When a parent task was canceled, the cancel flag of it would be set and transmitted to all the child tasks.</li>
+<li>Whether throwing errors or completing successfully, the child tasks would report results to their parent task. The parent task would finish after all child tasks did.</li>
+</ul>
+<h2 id="executing-a-task-waiting-until-multiple-tasks-finish"><a class="markdownIt-Anchor" href="#executing-a-task-waiting-until-multiple-tasks-finish"></a> Executing a task waiting until multiple tasks finish.</h2>
+<p>Formerly, we usually use <code>GCD semaphore wait</code> to implement it. In Swift concurrent pattern, we can use <code>async let</code> to declare a variable being bound to a result from a async task. Use <code>await variable</code> to get its value.</p>
+<blockquote>
+<p>The async tasks will execute immediately when declared.</p>
+</blockquote>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">loadData</span>() <span class="keyword">async</span> <span class="keyword">throws</span> &#123;</span><br><span class="line">    <span class="keyword">async</span> <span class="keyword">let</span> roomInfo <span class="operator">=</span> requestRoomInfo(with: <span class="string">&quot;1&quot;</span>)</span><br><span class="line">    <span class="keyword">async</span> <span class="keyword">let</span> roomInfo2 <span class="operator">=</span> requestRoomInfo(with: <span class="string">&quot;2&quot;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">let</span> data <span class="operator">=</span> (<span class="keyword">try</span> <span class="keyword">await</span> roomInfo, <span class="keyword">try</span> <span class="keyword">await</span> roomInfo2)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// Setup UI with data</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>You can write the keyword <code>try</code> before the method requestRoomInfo, but there is useless, you still must write the <code>try</code> before the <code>await</code> when reading the value.</p>
+<h2 id="whats-the-actor"><a class="markdownIt-Anchor" href="#whats-the-actor"></a> What’s the Actor?</h2>
+<p>If a value in the memory is modified and read by multiple threads at the same time, it might cause a memory error crashing applications. Normally, we can use serial queues or locks to work out this problem, but using these needs developers to have a thorough knowledge of thread scheduling and the data model base on memory-sharing.</p>
+<p>Now, we can use the Actor to declare a data structure like a class. The instance of the type can safely be accessed by multiple threads simultaneously.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> name: <span class="type">String</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Room</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> users: [<span class="type">String</span>: <span class="type">Person</span>] <span class="operator">=</span> [:]</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">enter</span>(<span class="keyword">_</span> <span class="params">person</span>: <span class="type">Person</span>) &#123;</span><br><span class="line">        users[person.name] <span class="operator">=</span> person</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">func</span> <span class="title function_">viewDidLoad</span>() &#123;</span><br><span class="line">    <span class="type">Task</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> (<span class="number">0</span><span class="operator">...</span><span class="number">9999</span>) &#123;</span><br><span class="line">            <span class="type">Task</span> &#123;</span><br><span class="line">                <span class="keyword">self</span>.room.enter(.<span class="keyword">init</span>(name: <span class="string">&quot;<span class="subst">\(i)</span>&quot;</span>))</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>In the example above, we opened a lot of threads to modify the array user at the same time. With a high probability, you would get an error <code>EXC_BAD_ACCESS</code> meaning you access memory addresses via a wrong way.</p>
+<p>If we use the <code>actor</code> to declare the Room type, the accesses to the instance of the Room would be protected just like they are running in a queue.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">actor</span> <span class="title class_">Room</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> users: [<span class="type">String</span>: <span class="type">Person</span>] <span class="operator">=</span> [:]</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">enter</span>(<span class="keyword">_</span> <span class="params">person</span>: <span class="type">Person</span>) &#123;</span><br><span class="line">        users[person.name] <span class="operator">=</span> person</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">func</span> <span class="title function_">viewDidLoad</span>() &#123;</span><br><span class="line">    <span class="type">Task</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> (<span class="number">0</span><span class="operator">...</span><span class="number">9999</span>) &#123;</span><br><span class="line">            <span class="type">Task</span> &#123;</span><br><span class="line">                <span class="keyword">await</span> <span class="keyword">self</span>.room.enter(.<span class="keyword">init</span>(name: <span class="string">&quot;<span class="subst">\(i)</span>&quot;</span>))</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="whats-the-structured-concurrency"><a class="markdownIt-Anchor" href="#whats-the-structured-concurrency"></a> What’s the structured concurrency?</h2>
+<p>Before learning the structured concurrency, we firstly should make out the structured programming. In unstructured programming, we use the <code>goto</code> syntax to control the execution logic of our programs. If we invoke a method that includes <code>goto</code> statements, that means the method might jump to any executing addresses and never back to our invoking context.</p>
+<p>Now, nearly all programing languages are structured. In sync code, we invoke a method can certainly get an result before exiting the invoking scope. Unlike the unstructured programing, we can now determine the ins and outs of invocations, so we can write more clear and maintainable code.</p>
+<p>But in async code, like invoke a method with a callback block, the async code would still be running after exiting current invoking scope. That is similar to the unstructured programming that we cannot forecast behaviors of the async code(may invoke other methods),<br />
+The async code will run in another invocation stack that is different compared to the current invocation stack, so the async code can’t not directly throws an error and pass up it. This limits the flexibility of which we write code.</p>
+<p>The structured concurrency resolves these questions. In structured concurrency, an async method will wait until all async tasks finish before returning. You can create several child tasks in a root task and the root task will never be complete before all its child tasks finish.</p>
+<h2 id="how-to-understand-the-executing-steps-of-a-concurrency-task"><a class="markdownIt-Anchor" href="#how-to-understand-the-executing-steps-of-a-concurrency-task"></a> How to understand the executing steps of a concurrency task?</h2>
+<ol>
+<li>In iOS, we always create a new root task in a sync context. Like <code>viewDidLoad</code> of UIViewController.</li>
+<li>The created task will run in the current actor’s isolated scope. In most part of UIKit, the actor is the main actor that runs in the main thread(UI thread).</li>
+<li>When we invoke an async method, like requesting data, at the await position, the main actor’s isolated scope will be released so other code can continuously execute.</li>
+<li>Every <code>await</code> point means that the current actor’s isolated scope(thread) will be released.</li>
+<li>When the async method is finished executing, the remained code will try to recapture the thread to continuously execute.</li>
+</ol>
+<h2 id="how-does-the-swift-concurrency-work"><a class="markdownIt-Anchor" href="#how-does-the-swift-concurrency-work"></a> How does the Swift concurrency work?</h2>
+<ul>
+<li>All async methods are run in a task.</li>
+<li>The block of a task will be dispatched by a <code>cooperative thread pool</code> that uses <code>a serial queue</code> to schedule these tasks.</li>
+<li>These tasks will be divided into several <code>continuations</code>.</li>
+<li>A global concurrency queue can create multiple threads at most of the count of cpu cores to execute these <code>continuations</code>.</li>
+<li>Do not execute synchronous time-consuming tasks, they would block the dispatching threads and slow the performance of the whole Swift concurrency.</li>
+</ul>
+<h2 id="caveats"><a class="markdownIt-Anchor" href="#caveats"></a> Caveats</h2>
+<ul>
+<li>
+<p><code>Task.init</code> or <code>Task.detached</code> will capture the <code>self</code> of the context until the async task finishes. So we should carefully use it when processing an infinite <code>AsyncSequence</code> or <code>AsyncStream</code> like Notification. One resolution is that saving the task to a property and then cancel it when the view or object are deinited.</p>
+</li>
+<li>
+<p>SwiftUI provides a <code>task</code> extension method for View, the task’s async block will be invoked when the view appears.</p>
+<ul>
+<li>The biggest difference with <code>onAppear</code> is that the async tasks in the <code>task</code> method will be automatically canceled when the view is removed from the screen.</li>
+</ul>
+</li>
+<li>
+<p>In Swift concurrency, the <code>defer</code> will be invoked after all tasks finish.</p>
+<ul>
+<li>Even in <code>async let</code>, these async tasks are implicitly canceled when not using. The defer will still wait for these tasks to finish.</li>
+</ul>
+</li>
+<li>
+<p>If a task invoke the cancel method, the point of throwing cancellation errors is later than the task was canceled. But you can use the <code>withTaskCancellationHandler</code> method to wrap your async tasks and get an immediate cancellation message through the callback.</p>
+</li>
+<li>
+<p>You can synchronously access <code>let</code> properties of an actor instance, because constant properties cannot be modified so have natural thread-safety.</p>
+</li>
+<li>
+<p><code>await Task.yield()</code> can temporarily give up the current thread and pack the rest of the task to the dispatching queue for waiting next dispatching.</p>
+</li>
+</ul>
+
+  </div>
+</article>
+
+
+
+      
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#swift-concurrency-usage-guide"><span class="toc-number">1.</span> <span class="toc-text"> Swift Concurrency Usage Guide</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#whats-the-concurrent"><span class="toc-number">2.</span> <span class="toc-text"> What’s the concurrent?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#whatre-the-difficulties-of-implementing-concurrent"><span class="toc-number">3.</span> <span class="toc-text"> What’re the difficulties of implementing concurrent?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#whats-the-async-method"><span class="toc-number">4.</span> <span class="toc-text"> What’s the Async method?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#whats-the-task"><span class="toc-number">5.</span> <span class="toc-text"> What’s the Task?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#executing-a-task-waiting-until-multiple-tasks-finish"><span class="toc-number">6.</span> <span class="toc-text"> Executing a task waiting until multiple tasks finish.</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#whats-the-actor"><span class="toc-number">7.</span> <span class="toc-text"> What’s the Actor?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#whats-the-structured-concurrency"><span class="toc-number">8.</span> <span class="toc-text"> What’s the structured concurrency?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#how-to-understand-the-executing-steps-of-a-concurrency-task"><span class="toc-number">9.</span> <span class="toc-text"> How to understand the executing steps of a concurrency task?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#how-does-the-swift-concurrency-work"><span class="toc-number">10.</span> <span class="toc-text"> How does the Swift concurrency work?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#caveats"><span class="toc-number">11.</span> <span class="toc-text"> Caveats</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2022/01/10/ios-dev/swift/swift-async-concurrent/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2022/01/10/ios-dev/swift/swift-async-concurrent/&text=Swift Async and Concurrent"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2022/01/10/ios-dev/swift/swift-async-concurrent/&title=Swift Async and Concurrent"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2022/01/10/ios-dev/swift/swift-async-concurrent/&is_video=false&description=Swift Async and Concurrent"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Swift Async and Concurrent&body=Check out this article: https://csl.cool/2022/01/10/ios-dev/swift/swift-async-concurrent/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2022/01/10/ios-dev/swift/swift-async-concurrent/&title=Swift Async and Concurrent"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2022/01/10/ios-dev/swift/swift-async-concurrent/&title=Swift Async and Concurrent"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2022/01/10/ios-dev/swift/swift-async-concurrent/&title=Swift Async and Concurrent"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2022/01/10/ios-dev/swift/swift-async-concurrent/&title=Swift Async and Concurrent"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2022/01/10/ios-dev/swift/swift-async-concurrent/&name=Swift Async and Concurrent&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2022/01/10/ios-dev/swift/swift-async-concurrent/&t=Swift Async and Concurrent"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+      <div id="end">
+    <img src="/images/post-end.png" alt="">
+</div> 
+      
+      <div id='valine'>
+    <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+            el: '#vcomments',
+            notify: true,
+            verify: true,
+            appId: '7zw6tQBddCfPvbaVtBGxUy0G-gzGzoHsz',
+            appKey: 'voPGHhBz7MozpUm0Fq2AMFmv',
+            placeholder: '想说点啥...',
+            avatar: 'monsterid',           
+        })
+    </script>
+</div>
+      
+      
+      <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 SSBun
+    <a target="_blank" rel="noopener" href="http://www.beian.miit.gov.cn/">京ICP备20001935号-1</a>
+    <div id="friend-link-container">
+      
+      
+    </div>
+  </div>
+  
+    <div class="footer-right">
+      <nav>
+        <ul>
+          
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/search/">Search</a></li>
+      
+      <li><a href="/categories/">Categories</a></li>
+      
+      <li><a href="/notes/">Notes</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+      </ul>
+      </nav>
+    </div>
+  
+</footer>
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?c2fdf3bebd0db8e40c37a4f37d76d33b";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Umami Analytics -->
+<!--  -->
+  <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="d39cc16d-90eb-47b6-8bf0-8e4cd43c704d"></script>
+<!--  -->
+<!-- Disqus Comments -->
+
+
+
+    
+    <script src="/lib/blackcat/l2dwidget.min.js"></script>
+    <script type="text/javascript">
+      var config = {
+        model: {
+          jsonPath: '/lib/blackcat/hijiki.model.json',
+        },
+        display: {
+          superSample: 1,
+          width: 245,
+          height: 245,
+          position: 'left',
+          hOffset: 0,
+          vOffset: 0,
+        },
+        mobile: {
+          show: false,
+          scale: 1,
+          motion: false,
+        },
+        react: {
+          opacityDefault: 1,
+          opacityOnHover: 0.75
+        }
+      };
+      L2Dwidget.init(config);
+    </script>
+    
+  </body>
+
+  </html>

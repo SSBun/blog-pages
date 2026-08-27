@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang=en>
+  <head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="这是一个有意思的问题，当时我是在处理函数的柯里化，突然发现了 Swift 的柯里化函数库 Curry 中的函数参数与我平时写的时候有些许不一样，然后我就分析了一下它们的区别，以及为什么要这样做，其中还有一些问题，我只是猜测了 Swift 中的行为，但是其背后的具体原因我暂时还不知道，或许以后会了解，不过如果有哪位朋友知道的话，可以留言给我，在此谢过。 虽然是在处理函数的柯里化是发现的问题，但是这个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Swift4 中参数类型为元组的单参数函数与多参数函数的类型问题">
+<meta property="og:url" content="https://csl.cool/2018/01/19/ios-dev/swift/swift-issue-tupe-type-params-in-single-params-functoin-and-multiple-params-function/index.html">
+<meta property="og:site_name" content="CSL MEMO">
+<meta property="og:description" content="这是一个有意思的问题，当时我是在处理函数的柯里化，突然发现了 Swift 的柯里化函数库 Curry 中的函数参数与我平时写的时候有些许不一样，然后我就分析了一下它们的区别，以及为什么要这样做，其中还有一些问题，我只是猜测了 Swift 中的行为，但是其背后的具体原因我暂时还不知道，或许以后会了解，不过如果有哪位朋友知道的话，可以留言给我，在此谢过。 虽然是在处理函数的柯里化是发现的问题，但是这个">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-01-19T11:03:54.000Z">
+<meta property="article:modified_time" content="2018-01-19T11:03:54.000Z">
+<meta property="article:author" content="SSBun">
+<meta property="article:tag" content="Swift">
+<meta property="article:tag" content="Generics">
+<meta property="article:tag" content="Tuple">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Swift4 中参数类型为元组的单参数函数与多参数函数的类型问题</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="CSL MEMO" type="application/atom+xml" />
+    
+    <!-- umami web analytics -->
+    <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+  <body class="max-width mx-auto px3 ltr">
+    
+    <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2018/07/25/ios-dev/dumpdecrypted-issue-killed-9-question/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2017/11/16/tool/xcode-lldb-debug-tool/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2018/01/19/ios-dev/swift/swift-issue-tupe-type-params-in-single-params-functoin-and-multiple-params-function/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2018/01/19/ios-dev/swift/swift-issue-tupe-type-params-in-single-params-functoin-and-multiple-params-function/&text=Swift4 中参数类型为元组的单参数函数与多参数函数的类型问题"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2018/01/19/ios-dev/swift/swift-issue-tupe-type-params-in-single-params-functoin-and-multiple-params-function/&title=Swift4 中参数类型为元组的单参数函数与多参数函数的类型问题"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2018/01/19/ios-dev/swift/swift-issue-tupe-type-params-in-single-params-functoin-and-multiple-params-function/&is_video=false&description=Swift4 中参数类型为元组的单参数函数与多参数函数的类型问题"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Swift4 中参数类型为元组的单参数函数与多参数函数的类型问题&body=Check out this article: https://csl.cool/2018/01/19/ios-dev/swift/swift-issue-tupe-type-params-in-single-params-functoin-and-multiple-params-function/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2018/01/19/ios-dev/swift/swift-issue-tupe-type-params-in-single-params-functoin-and-multiple-params-function/&title=Swift4 中参数类型为元组的单参数函数与多参数函数的类型问题"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2018/01/19/ios-dev/swift/swift-issue-tupe-type-params-in-single-params-functoin-and-multiple-params-function/&title=Swift4 中参数类型为元组的单参数函数与多参数函数的类型问题"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2018/01/19/ios-dev/swift/swift-issue-tupe-type-params-in-single-params-functoin-and-multiple-params-function/&title=Swift4 中参数类型为元组的单参数函数与多参数函数的类型问题"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2018/01/19/ios-dev/swift/swift-issue-tupe-type-params-in-single-params-functoin-and-multiple-params-function/&title=Swift4 中参数类型为元组的单参数函数与多参数函数的类型问题"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2018/01/19/ios-dev/swift/swift-issue-tupe-type-params-in-single-params-functoin-and-multiple-params-function/&name=Swift4 中参数类型为元组的单参数函数与多参数函数的类型问题&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2018/01/19/ios-dev/swift/swift-issue-tupe-type-params-in-single-params-functoin-and-multiple-params-function/&t=Swift4 中参数类型为元组的单参数函数与多参数函数的类型问题"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#a-b-c-%E4%B8%8E-a-b-c-%E6%9C%89%E5%8C%BA%E5%88%AB%E5%90%97"><span class="toc-number">1.</span> <span class="toc-text"> (A, B) -&gt; C  与 ((A, B)) -&gt; C 有区别吗</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%9B%E5%9E%8B%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">2.</span> <span class="toc-text"> 泛型遇到的问题</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+      
+      <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Swift4 中参数类型为元组的单参数函数与多参数函数的类型问题
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">SSBun</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2018-01-19T11:03:54.000Z" itemprop="datePublished">2018-01-19</time>
+        
+        (Updated: <time datetime="2018-01-19T11:03:54.000Z" itemprop="dateModified">2018-01-19</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/iOS/">iOS</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Generics/" rel="tag">Generics</a>, <a class="tag-link-link" href="/tags/Swift/" rel="tag">Swift</a>, <a class="tag-link-link" href="/tags/Tuple/" rel="tag">Tuple</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>这是一个有意思的问题，当时我是在处理函数的柯里化，突然发现了 Swift 的柯里化函数库 <code>Curry</code> 中的函数参数与我平时写的时候有些许不一样，然后我就分析了一下它们的区别，以及为什么要这样做，其中还有一些问题，我只是猜测了 Swift 中的行为，但是其背后的具体原因我暂时还不知道，或许以后会了解，不过如果有哪位朋友知道的话，可以留言给我，在此谢过。</p>
+<p>虽然是在处理函数的柯里化是发现的问题，但是这个问题和函数柯里化并没有什么太大的关系，所以在此就不多说函数柯里化的问题了，如果有朋友有兴趣的话可以去看看函数式编程。</p>
+<p>今天的问题主要和泛型有关，我在此认为大家对 Swift 及 Swif 的泛型都有了一定的了解，也不再赘述相关的知识，接下来我们看一下我遇到的问题</p>
+<h3 id="a-b-c-与-a-b-c-有区别吗"><a class="markdownIt-Anchor" href="#a-b-c-与-a-b-c-有区别吗"></a> (A, B) -&gt; C  与 ((A, B)) -&gt; C 有区别吗</h3>
+<p>首先，我们肯定，它们一定是有区别的，比如</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">add</span>(<span class="keyword">_</span> <span class="params">l</span>: <span class="type">Int</span>, <span class="keyword">_</span> <span class="params">r</span>: <span class="type">Int</span>) -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> l <span class="operator">+</span> r</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// (A, B) -&gt; C</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">func</span> <span class="title function_">add</span>(<span class="keyword">_</span> <span class="params">value</span>: (<span class="type">Int</span>, <span class="type">Int</span>)) -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> value.<span class="number">0</span> <span class="operator">-</span> value.<span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// ((A, B)) -&gt; C</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">func</span> <span class="title function_">addS</span>(<span class="keyword">_</span> <span class="params">value</span>: (<span class="type">Int</span>, <span class="type">Int</span>)) -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> value.<span class="number">0</span> <span class="operator">-</span> value.<span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// ((A, B)) -&gt; C</span></span><br></pre></td></tr></table></figure>
+<p>我们可以看出第一个是有两个参数的函数，第二个和第三个是只有一个参数的函数，实际上第二个 <code>add</code> 和 <code>addS</code> 是一模一样的，我之所以写了两个 <code>add</code> 是为了让大家知道，Swfit 的类型系统也是认为第一个  <code>add</code> 和第二个 <code>add</code> 是不同的，负责它也不会允许我重载 <code>add</code> 函数。而 <code>addS</code> 只是为了一会我进行处理的时候，能通过名字分出到底是哪个函数。</p>
+<p>到现在为止我想大家都没有疑问，接下就是见证问题的时刻了，我写了一个柯里化函数，它接受一个<code>多参数函数</code>类型的参数并返回一个<code>单参数函数</code>类型的结果。不用想那么多，你一看就知道了</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">curry</span>&lt;<span class="type">A</span>, <span class="type">B</span>, <span class="type">C</span>&gt;(<span class="keyword">_</span> <span class="params">function</span>: <span class="keyword">@escaping</span> (<span class="type">A</span>, <span class="type">B</span>) -&gt; <span class="type">C</span>) -&gt; (<span class="type">A</span>) -&gt; (<span class="type">B</span>) -&gt; <span class="type">C</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123; (a: <span class="type">A</span>) -&gt; (<span class="type">B</span>) -&gt; <span class="type">C</span> <span class="keyword">in</span> &#123; (b: <span class="type">B</span>) -&gt; <span class="type">C</span> <span class="keyword">in</span> function(a, b)&#125;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们只关注 <code>curry</code> 的方法定义，我们很容易就看出这个函数的参数是 <code>function</code>，而这个 <code>function</code> 的类型就是 <code>(A, B) -&gt; C</code>，那我们就知道这个 <code>curry</code> 函数接受一个函数作为参数，而这个函数接受两个参数并返回一个结果，显然我的思路应该没有问题。</p>
+<p>但是，为什么 <code>Curry</code>的作者并没有这样写，他为了修复一个bug而做了一点点修改，文末我们会做分析，我们看一下作者是如何写的</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">curry</span>&lt;<span class="type">A</span>, <span class="type">B</span>, <span class="type">C</span>&gt;(<span class="keyword">_</span> <span class="params">function</span>: <span class="keyword">@escaping</span> ((<span class="type">A</span>, <span class="type">B</span>)) -&gt; <span class="type">C</span>) -&gt; (<span class="type">A</span>) -&gt; (<span class="type">B</span>) -&gt; <span class="type">C</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123; (a: <span class="type">A</span>) -&gt; (<span class="type">B</span>) -&gt; <span class="type">C</span> <span class="keyword">in</span> &#123; (b: <span class="type">B</span>) -&gt; <span class="type">C</span> <span class="keyword">in</span> function((a, b))&#125;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>看出来区别没有，<code>curry</code> 的参数 <code>function</code> 的类型由 <code>(A, B) -&gt; C</code> 变为了 <code>((A, B)) -&gt; C</code>, 他们有什么区别，我认为第一个函数是接受两个参数的，而第二个函数是只有一个参数的，而这个参数的类型是元组。 那问题就来了，如果你只是接受单参数的函数，又如何去柯里化一个多参数函数呢，类型都对不上。我就果断尝试了一下</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">add</span>(<span class="keyword">_</span> <span class="params">l</span>: <span class="type">Int</span>, <span class="keyword">_</span> <span class="params">r</span>: <span class="type">Int</span>) -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> l <span class="operator">+</span> r</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// (A, B) -&gt; C</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">func</span> <span class="title function_">addS</span>(<span class="keyword">_</span> <span class="params">value</span>: (<span class="type">Int</span>, <span class="type">Int</span>)) -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> value.<span class="number">0</span> <span class="operator">-</span> value.<span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// ((A, B)) -&gt; C</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">func</span> <span class="title function_">curry</span>&lt;<span class="type">A</span>, <span class="type">B</span>, <span class="type">C</span>&gt;(<span class="keyword">_</span> <span class="params">function</span>: <span class="keyword">@escaping</span> ((<span class="type">A</span>, <span class="type">B</span>)) -&gt; <span class="type">C</span>) -&gt; (<span class="type">A</span>) -&gt; (<span class="type">B</span>) -&gt; <span class="type">C</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123; (a: <span class="type">A</span>) -&gt; (<span class="type">B</span>) -&gt; <span class="type">C</span> <span class="keyword">in</span> &#123; (b: <span class="type">B</span>) -&gt; <span class="type">C</span> <span class="keyword">in</span> function((a, b))&#125;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">curry(addS)</span><br><span class="line">curry(add)</span><br></pre></td></tr></table></figure>
+<p>这里，如果看 <code>curry(addS)</code> 获取还说的过去是吧, 毕竟类型是对上的。可是往下看，你就会发现 <code>curry(add)</code> 怎么能对的上呢，一个类型是 <code>(A, B) -&gt; C</code>， 而另一个要的是 <code>((A, B)) -&gt; C</code> 啊，可是编译器还就是不警告，不报错，一切完美的很。仿佛 <code>(A, B) -&gt; C</code> 与 <code>((A, B)) -&gt; C</code> 完美的契合了。</p>
+<p>当时我的猜想就是在 Swift 当中 <code>add</code> 和 <code>addS</code> 的类型是相同的， 可是我们明明看的见 <code>add</code> 和 <code>addS</code> 他们之间巨大的差异啊，连参数个数都不一样的函数，他们的类型怎么会是相同的呢，但我们看见，我们分析的是如此，那 Swift 的编译器是怎么看的呢？我们打印一下不就知道了吗？</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="built_in">type</span>(of: add))        </span><br><span class="line"><span class="comment">//(Int, Int) -&gt; Int</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">type</span>(of: addS))     </span><br><span class="line"><span class="comment">//(Int, Int) -&gt; Int</span></span><br></pre></td></tr></table></figure>
+<p>我凸(艹皿艹 )， 为何是这样？ 为何 <code>addS</code>的类型是 <code>(Int, Int) -&gt; Int</code>, 如果光看这个类型的话，你怎么想也是说这个函数有两个 <code>Int</code> 型的参数而不会想这个函数是只有一个 <code>(Int, Int)</code> 元组型的参数吧。<br />
+难道个案，既然如此我们就再试一个</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">addThree</span>(<span class="keyword">_</span> <span class="params">a</span>: <span class="type">Int</span>, <span class="keyword">_</span> <span class="params">b</span>: <span class="type">Int</span>, <span class="keyword">_</span> <span class="params">c</span>: <span class="type">Int</span>) -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">func</span> <span class="title function_">addThreeS</span>(<span class="keyword">_</span> <span class="params">a</span>: (<span class="type">Int</span>, <span class="type">Int</span>, <span class="type">Int</span>)) -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">type</span>(of: addThree))   <span class="comment">//(Int, Int, Int) -&gt; Int</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">type</span>(of: addThreeS))  <span class="comment">//(Int, Int, Int) -&gt; Int</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>瞎了我的眼了，看来 Swift 编译器是认定了他们是一个类型了<br />
+可是。。。这也不对啊<br />
+从上文的 <code>curry(add)</code> 可以看出，你显然是把 <code>add</code> 看作了 <code>((A,B)) -&gt; C</code>, 而这里倒好，把所有的都看成了 <code>(A, B) -&gt; C</code>, 这里我们就大胆的假设一下，在函数的类型表达里 <code>(A, B) -&gt; C</code> 和 <code>((A, B)) -&gt; C</code> 是等价的，甚至可以扩展到任意多参数的 <code>(A, B, ... G) -&gt; Z</code> 至 <code>((A, B, ... G)) -&gt; Z</code>当中去，那事实是什么样的嘞？</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="built_in">type</span>(of: addThree) <span class="operator">==</span> (((<span class="type">Int</span>, <span class="type">Int</span>, <span class="type">Int</span>)) -&gt; <span class="type">Int</span>).<span class="keyword">self</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;good&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//  good</span></span><br><span class="line"><span class="keyword">if</span> <span class="built_in">type</span>(of: addThree) <span class="operator">==</span> ((<span class="type">Int</span>, <span class="type">Int</span>, <span class="type">Int</span>) -&gt; <span class="type">Int</span>).<span class="keyword">self</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;good&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (((<span class="type">Int</span>, <span class="type">Int</span>, <span class="type">Int</span>)) -&gt; <span class="type">Int</span>).<span class="keyword">self</span> <span class="operator">==</span> ((<span class="type">Int</span>, <span class="type">Int</span>, <span class="type">Int</span>) -&gt; <span class="type">Int</span>).<span class="keyword">self</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;good&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>果然，他们之间是没有区别的，至少在类型上是这个样子。<br />
+可是不管怎么说，这看起来都不是很科学，我们再来看看 <code>curry</code> 的例子。<br />
+现在我们认为 <code>(A, B) -&gt; C</code> 和 <code>((A, B)) -&gt; C</code>是一样的, 而这里的 <code>curry</code> 函数式我自己写的，他要的类型是 <code>(A, B) -&gt; C</code></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">add</span>(<span class="keyword">_</span> <span class="params">l</span>: <span class="type">Int</span>, <span class="keyword">_</span> <span class="params">r</span>: <span class="type">Int</span>) -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> l <span class="operator">+</span> r</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// (A, B) -&gt; C</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">func</span> <span class="title function_">addS</span>(<span class="keyword">_</span> <span class="params">value</span>: (<span class="type">Int</span>, <span class="type">Int</span>)) -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> value.<span class="number">0</span> <span class="operator">-</span> value.<span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// ((A, B)) -&gt; C</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 注意他的类型是 (A, B) -&gt; C</span></span><br><span class="line"><span class="keyword">func</span> <span class="title function_">curry</span>&lt;<span class="type">A</span>, <span class="type">B</span>, <span class="type">C</span>&gt;(<span class="keyword">_</span> <span class="params">function</span>: <span class="keyword">@escaping</span> (<span class="type">A</span>, <span class="type">B</span>) -&gt; <span class="type">C</span>) -&gt; (<span class="type">A</span>) -&gt; (<span class="type">B</span>) -&gt; <span class="type">C</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123; (a: <span class="type">A</span>) -&gt; (<span class="type">B</span>) -&gt; <span class="type">C</span> <span class="keyword">in</span> &#123; (b: <span class="type">B</span>) -&gt; <span class="type">C</span> <span class="keyword">in</span> function(a, b)&#125;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 注意他的类型是 ((A, B)) -&gt; C</span></span><br><span class="line"><span class="keyword">func</span> <span class="title function_">curryS</span>&lt;<span class="type">A</span>, <span class="type">B</span>, <span class="type">C</span>&gt;(<span class="keyword">_</span> <span class="params">function</span>: <span class="keyword">@escaping</span> ((<span class="type">A</span>, <span class="type">B</span>)) -&gt; <span class="type">C</span>) -&gt; (<span class="type">A</span>) -&gt; (<span class="type">B</span>) -&gt; <span class="type">C</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123; (a: <span class="type">A</span>) -&gt; (<span class="type">B</span>) -&gt; <span class="type">C</span> <span class="keyword">in</span> &#123; (b: <span class="type">B</span>) -&gt; <span class="type">C</span> <span class="keyword">in</span> function((a, b))&#125;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">curry(add) <span class="comment">// OK</span></span><br><span class="line">curry(addS) <span class="comment">// Error !!!!</span></span><br><span class="line"></span><br><span class="line">curryS(add) <span class="comment">// OK</span></span><br><span class="line">curryS(addS) <span class="comment">// OK</span></span><br></pre></td></tr></table></figure>
+<p>我去你大爷的，讲不讲道理，你一个 <code>curryS</code> 是 <code>((A, B)) -&gt; C</code>类型的，但既可以接受 <code>((A, B)) -&gt; C</code> 也可以接受 <code>(A, B) -&gt; C</code> 的，这都不重要了，经过我们的验证，我们知道了 <code>(A, B) -&gt; C</code> 似乎和 <code>((A, B)) -&gt; C</code>很一样。</p>
+<p>但是为什么我的 <code>curry</code> 参数类型为 <code>(A, B) -&gt; C</code>的函数， 就不能处理你那个 <code>addS</code> 呢，虽然这样看起来很有道理， 但是毕竟是 <code>curryS</code> 先不讲道理的。</p>
+<p><strong>我们的分析结果就是 <code>((A, B)) -&gt; C</code> 既可以对接 <code>((A, B)) -&gt; C</code> 也可以对接 <code>(A, B) -&gt; C</code>。<br />
+而我们可怜的 <code>(A, B) -&gt; C</code> 却只能对接与之相对应的 <code>(A, B) -&gt; C</code>。</strong></p>
+<p><strong>这简直没有天理啊！</strong></p>
+<h3 id="泛型遇到的问题"><a class="markdownIt-Anchor" href="#泛型遇到的问题"></a> 泛型遇到的问题</h3>
+<p>虽然我们的结论得出来了，但是我们却不理解为何是这样的，我很惆怅啊！<br />
+但是回到我最初想要解决的问题，我是要写一个柯里化函数的啊！</p>
+<p>那我最开始写的那个参数类型为 <code>(A, B) -&gt; C</code> 的 <code>curry</code> 函数并没有问题啊，它是可以处理两个参数的函数的，虽然说你这个 <code>curryS</code> 比较牛逼，人家总共就一个参数，无非就是参数为元组而已，你竟然也能把别人给柯里化了, 但是我不追求那么牛逼行吧，我用 <code>curry</code> 应该也能实现正常的功能。<br />
+但是这里又要引入另一个函数了，我们不想还要看一眼这个函数是不是只有一个参数，如果只有一个参数就不能柯里化了，我们加入一个函数，这个函数会处理只有一个参数的函数，并把它原样返回。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">curry</span>&lt;<span class="type">A</span>, <span class="type">B</span>&gt;(<span class="keyword">_</span> <span class="params">function</span>: <span class="keyword">@escaping</span> (<span class="type">A</span>) -&gt; <span class="type">B</span>) -&gt; (<span class="type">A</span>) -&gt; <span class="type">B</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123; (a: <span class="type">A</span>) -&gt; <span class="type">B</span> <span class="keyword">in</span> function(a) &#125;</span><br><span class="line">    <span class="comment">// return function</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面写的看起来复杂了一点，也只是为了和后面更多的 <code>curry</code> 函数保持一致而已，你完全可以直接返回 <code>function</code>。</p>
+<p>可是一旦加上这个函数，问题就来了，你尝试使用我们写的接受两个参数的 <code>curry</code> 函数去处理 <code>add</code> 函数的时候，发生了错误，报错为： <code>Ambiguous use of 'curry'</code>。<br />
+经历了以上的过程以后，我感觉 Swift 编译器挺牛B的啊，怎么到了这就分不出来用哪个了呢？<br />
+它肯定是不知道该用一个参数版的 <code>curry</code> 还是两个参数版的 <code>curry</code>，你说它是不是脑残，我明明传入的是一个两个参数的函数，你当然要用两个参数版本的 <code>curry</code> 来处理喽！！！</p>
+<p>可是别忘了，Swift可是能把 <code>(A, B) -&gt; C</code> 看成 <code>((A, B)) -&gt; C</code>的哦，那这里它就纠结了，我是该把函数看成 <code>(A, B) -&gt; C</code> 来当做一个2个参数的函数来处理呢，还是把它看成 <code>((A, B)) -&gt; C</code> 来当做只有一个参数的函数呢？</p>
+<p>既然如此，那我们就妥协吧，使用 <code>curryS</code> 版本的 <code>curry</code> 函数。 从这里开始我们所说的 <code>curry</code> 就是那个参数类型为 <code>((A, B)) -&gt; C</code> 的版本。</p>
+<p>使用新的 <code>curry</code> 处理 <code>add</code> 函数时，发现一点问题都没有了，简直6的不能行啊。我们看一下 Swift 是怎么个想法。</p>
+<p>在这里如果 Swfit 把 <code>add</code> 看做了 <code>(A, B) -&gt; C</code> 那就没有问题喽，函数有两个参数，那就交给参数类型为 <code>((A, B)) -&gt; C</code> 的 <code>curry</code> 处理就好了，我们知道它是能做的到的（无奈🤷‍♀️）。</p>
+<p>而如果 Swift 把 <code>add</code> 看做为 <code>((A, B)) -&gt; C</code> 类型的函数，虽然第一个 <code>curry</code> 和第二个 <code>curry</code> 都是接受一个参数，但是根据泛型的处理逻辑，显然类型为 <code>((A, B)) -&gt; C</code> 的 <code>curry</code> 比类型为 <code>(A) -&gt; B</code> 的 <code>curry</code> 所描述的范围更严格，那只能还是使用第二个 <code>curry</code> 喽。</p>
+<p><strong>好了，到此为止，所有的问题都解决了。留下的最后的问题就是上面提到过的，Swift 为什么要这么干，为何呢？</strong></p>
+
+  </div>
+</article>
+
+
+
+      
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#a-b-c-%E4%B8%8E-a-b-c-%E6%9C%89%E5%8C%BA%E5%88%AB%E5%90%97"><span class="toc-number">1.</span> <span class="toc-text"> (A, B) -&gt; C  与 ((A, B)) -&gt; C 有区别吗</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%9B%E5%9E%8B%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">2.</span> <span class="toc-text"> 泛型遇到的问题</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2018/01/19/ios-dev/swift/swift-issue-tupe-type-params-in-single-params-functoin-and-multiple-params-function/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2018/01/19/ios-dev/swift/swift-issue-tupe-type-params-in-single-params-functoin-and-multiple-params-function/&text=Swift4 中参数类型为元组的单参数函数与多参数函数的类型问题"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2018/01/19/ios-dev/swift/swift-issue-tupe-type-params-in-single-params-functoin-and-multiple-params-function/&title=Swift4 中参数类型为元组的单参数函数与多参数函数的类型问题"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2018/01/19/ios-dev/swift/swift-issue-tupe-type-params-in-single-params-functoin-and-multiple-params-function/&is_video=false&description=Swift4 中参数类型为元组的单参数函数与多参数函数的类型问题"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Swift4 中参数类型为元组的单参数函数与多参数函数的类型问题&body=Check out this article: https://csl.cool/2018/01/19/ios-dev/swift/swift-issue-tupe-type-params-in-single-params-functoin-and-multiple-params-function/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2018/01/19/ios-dev/swift/swift-issue-tupe-type-params-in-single-params-functoin-and-multiple-params-function/&title=Swift4 中参数类型为元组的单参数函数与多参数函数的类型问题"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2018/01/19/ios-dev/swift/swift-issue-tupe-type-params-in-single-params-functoin-and-multiple-params-function/&title=Swift4 中参数类型为元组的单参数函数与多参数函数的类型问题"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2018/01/19/ios-dev/swift/swift-issue-tupe-type-params-in-single-params-functoin-and-multiple-params-function/&title=Swift4 中参数类型为元组的单参数函数与多参数函数的类型问题"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2018/01/19/ios-dev/swift/swift-issue-tupe-type-params-in-single-params-functoin-and-multiple-params-function/&title=Swift4 中参数类型为元组的单参数函数与多参数函数的类型问题"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2018/01/19/ios-dev/swift/swift-issue-tupe-type-params-in-single-params-functoin-and-multiple-params-function/&name=Swift4 中参数类型为元组的单参数函数与多参数函数的类型问题&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2018/01/19/ios-dev/swift/swift-issue-tupe-type-params-in-single-params-functoin-and-multiple-params-function/&t=Swift4 中参数类型为元组的单参数函数与多参数函数的类型问题"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+      <div id="end">
+    <img src="/images/post-end.png" alt="">
+</div> 
+      
+      <div id='valine'>
+    <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+            el: '#vcomments',
+            notify: true,
+            verify: true,
+            appId: '7zw6tQBddCfPvbaVtBGxUy0G-gzGzoHsz',
+            appKey: 'voPGHhBz7MozpUm0Fq2AMFmv',
+            placeholder: '想说点啥...',
+            avatar: 'monsterid',           
+        })
+    </script>
+</div>
+      
+      
+      <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 SSBun
+    <a target="_blank" rel="noopener" href="http://www.beian.miit.gov.cn/">京ICP备20001935号-1</a>
+    <div id="friend-link-container">
+      
+      
+    </div>
+  </div>
+  
+    <div class="footer-right">
+      <nav>
+        <ul>
+          
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/search/">Search</a></li>
+      
+      <li><a href="/categories/">Categories</a></li>
+      
+      <li><a href="/notes/">Notes</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+      </ul>
+      </nav>
+    </div>
+  
+</footer>
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?c2fdf3bebd0db8e40c37a4f37d76d33b";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Umami Analytics -->
+<!--  -->
+  <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="d39cc16d-90eb-47b6-8bf0-8e4cd43c704d"></script>
+<!--  -->
+<!-- Disqus Comments -->
+
+
+
+    
+    <script src="/lib/blackcat/l2dwidget.min.js"></script>
+    <script type="text/javascript">
+      var config = {
+        model: {
+          jsonPath: '/lib/blackcat/hijiki.model.json',
+        },
+        display: {
+          superSample: 1,
+          width: 245,
+          height: 245,
+          position: 'left',
+          hOffset: 0,
+          vOffset: 0,
+        },
+        mobile: {
+          show: false,
+          scale: 1,
+          motion: false,
+        },
+        react: {
+          opacityDefault: 1,
+          opacityOnHover: 0.75
+        }
+      };
+      L2Dwidget.init(config);
+    </script>
+    
+  </body>
+
+  </html>

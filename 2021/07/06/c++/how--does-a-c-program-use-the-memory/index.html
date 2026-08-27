@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang=en>
+  <head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Usually, we never care how a computer executes a program, but in many program languages, we always are noticed that you need carefully allocate and release the memory. If you don’t, you may get a memo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How does a C program use the memory?">
+<meta property="og:url" content="https://csl.cool/2021/07/06/c++/how--does-a-c-program-use-the-memory/index.html">
+<meta property="og:site_name" content="CSL MEMO">
+<meta property="og:description" content="Usually, we never care how a computer executes a program, but in many program languages, we always are noticed that you need carefully allocate and release the memory. If you don’t, you may get a memo">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20210706145750.png">
+<meta property="og:image" content="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20210708165509.png">
+<meta property="og:image" content="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20210712163943.png">
+<meta property="article:published_time" content="2021-07-06T03:39:06.000Z">
+<meta property="article:modified_time" content="2021-07-06T03:39:06.000Z">
+<meta property="article:author" content="SSBun">
+<meta property="article:tag" content="C">
+<meta property="article:tag" content="Memory">
+<meta property="article:tag" content="Architecture">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20210706145750.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>How does a C program use the memory?</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="CSL MEMO" type="application/atom+xml" />
+    
+    <!-- umami web analytics -->
+    <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+  <body class="max-width mx-auto px3 ltr">
+    
+    <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2021/08/25/flutter/flutter-beginner/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2021/07/05/c++/c--pointer/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2021/07/06/c++/how--does-a-c-program-use-the-memory/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2021/07/06/c++/how--does-a-c-program-use-the-memory/&text=How does a C program use the memory?"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2021/07/06/c++/how--does-a-c-program-use-the-memory/&title=How does a C program use the memory?"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2021/07/06/c++/how--does-a-c-program-use-the-memory/&is_video=false&description=How does a C program use the memory?"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=How does a C program use the memory?&body=Check out this article: https://csl.cool/2021/07/06/c++/how--does-a-c-program-use-the-memory/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2021/07/06/c++/how--does-a-c-program-use-the-memory/&title=How does a C program use the memory?"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2021/07/06/c++/how--does-a-c-program-use-the-memory/&title=How does a C program use the memory?"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2021/07/06/c++/how--does-a-c-program-use-the-memory/&title=How does a C program use the memory?"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2021/07/06/c++/how--does-a-c-program-use-the-memory/&title=How does a C program use the memory?"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2021/07/06/c++/how--does-a-c-program-use-the-memory/&name=How does a C program use the memory?&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2021/07/06/c++/how--does-a-c-program-use-the-memory/&t=How does a C program use the memory?"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#the-memory-of-a-computer"><span class="toc-number">1.</span> <span class="toc-text"> The memory of a computer</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#virtual-memory-size"><span class="toc-number">1.1.</span> <span class="toc-text"> Virtual memory size</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#memory-alignment"><span class="toc-number">1.2.</span> <span class="toc-text"> Memory alignment</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#memory-paging"><span class="toc-number">2.</span> <span class="toc-text"> Memory paging</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#c-program-memory-distribution-map"><span class="toc-number">3.</span> <span class="toc-text"> C program memory distribution map</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+      
+      <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        How does a C program use the memory?
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">SSBun</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-07-06T03:39:06.000Z" itemprop="datePublished">2021-07-06</time>
+        
+        (Updated: <time datetime="2021-07-06T03:39:06.000Z" itemprop="dateModified">2021-07-06</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Architecture/" rel="tag">Architecture</a>, <a class="tag-link-link" href="/tags/C/" rel="tag">C</a>, <a class="tag-link-link" href="/tags/Memory/" rel="tag">Memory</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>Usually, we never care how a computer executes a program, but in many program languages, we always are noticed that you need carefully allocate and release the memory. If you don’t, you may get a memory leak, which may cause the computer system to kill your progress.</p>
+<p>Of course, we don’t do this by ourselves now. In modern advanced program languages, they usually provide automatic memory management. You can freely allocate a block of memory and don’t care when to release it, and the compiler will observe it and release it at the appropriate time.</p>
+<p>But in some high-performance scenarios(game, basic frameworks) or memory limited, we need to control the memory usage manually and do our best to optimize the usage rate. This time understanding the basis of computer memory management is the basis to write fine code.</p>
+<p>Next, let’s look at the composition of a computer storage system:</p>
+<p><img src="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20210706145750.png" alt="" /></p>
+<p><strong><code>Disk</code></strong>: Disks usually have a large capacity. We use them to store large files. Disks are also used to store data persistently because they can keep data without electricity, but their data exchange speed is very slow.</p>
+<p><strong><code>Memory</code></strong>: When running a program, the computer system must copy it from the disk to the memory. The data exchange speed of the memory is much fast than the disk.</p>
+<p><strong><code>Register</code></strong>: Registers are the very small and the high access speed electric elements in CPUs. The capacity of a register is tiny, and every register can only store 64 bits of data in a 64-bits computer system. A CPU usually has dozens or even hundreds of registers for performing complex tasks.</p>
+<p>Registers are significant for a computer to perform tasks. The CPU uses them to perform mathematic calculations, control the number of loops or mark its running status. The further information about registers we will talk about it later below.</p>
+<p><strong><code>Cache</code></strong> : Why does the computer system need to add a cache for the CPU? Although the memory is high-speed but not enough compared with the execution speed of the CPU. If using the CPU directly exchanges data with the memory, the memory will depress the performance efficiency seriously, so we need a cache to store the data used frequently to optimize this problem. Of course, we can’t cache all data we need, and engineers designed a complex algorithm to pick what data we should cache.</p>
+<p>Finally, we should know that the CPU cannot execute the program code directly. We need to translate the code to CPU instructions. We can only use CPU instructions to order the CPU to perform various calculations. Every kind of CPU has its own instruction set, but they don’t have a big gap.</p>
+<h2 id="the-memory-of-a-computer"><a class="markdownIt-Anchor" href="#the-memory-of-a-computer"></a> The memory of a computer</h2>
+<p>The memory we usually say is the computer hardware. My computer has two 8GB memory banks. Maybe your computer has 32GB memory banks, but the memory today we say is virtual memory. What’s virtual memory? Why do we need it?</p>
+<p>When a program is compiled to an executable file, the program code, global variables, and strings will be converted to memory addresses. Then the CPU can find the data in memory through its address. Once an executable file is created, we cannot modify it, so the memory addresses the program used also are fixed. A problem occurred here, <strong>if two programs use the same memory addresses, one program modifies its data would influence another program, even a crash.</strong></p>
+<p><strong>Another problem is that a program can easily access all the data of the whole memory. If you are running a rouge program, it might steal your data or crash your system</strong>. Too dangerous!</p>
+<p>The computer system introduces a middle layer used to map virtual memory addresses and real memory addresses for system safety and isolating programs.<br />
+<img src="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20210708165509.png" alt="" /><br />
+Every address a program uses is virtual. Two same virtual addresses in different programs will be mapped to a different address in real memory. It provides the system the ability to manage the whole memory, making controlling memory permission possible. We can set the memory used to save data that doesn’t have execution permission, the memory used to store code cannot be modified. The memory occupied by the system cannot be accessed.</p>
+<h3 id="virtual-memory-size"><a class="markdownIt-Anchor" href="#virtual-memory-size"></a> Virtual memory size</h3>
+<p>The virtual memory size depends on the data bus width and the address bus width. Usually, the data bus width is equal to the bits of the CPU. In 64 Bits CPU, once addressing can access 64 bits data, 8 bytes. The address bus width represents that how many addresses you can access. The product of the two is the accessible virtual memory size of the CPU.</p>
+<p><strong>32 Bits CPU</strong><br />
+CPUs such as Intel 80386 and Intel Pentium 4 have 32 Bits address bus and data bus, theirs addressing space is <code>2^32</code>, the data size of once addressing is 4 Bytes so that we can calculate the virtual address space of them is <code>2^32 * 4</code> Bytes (2^8 * 2^8 * 2^8 * 4 Bytes = 4GB).</p>
+<p><strong>64 Bits CPU</strong><br />
+Now personal computers usually use 64 Bits system and CPU, and the latest software is also developed with 64 Bits. As we calculated above, A 64 Bits CPU has an 8 Bytes data bus but doesn’t have the same wide address bus because its virtual memory space is too big that the hardware we recently created hardly supports this.<br />
+Intel CPUs, i3, i5, and i7 usually have a 40~50 Bits address bus. Both Windows and Linux have a length limit to virtual addresses. In 64 Bits systems, they can only use the low 48 Bits.  Even so, the virtual memory space we calculated is <code>8 Bytes * 2^48 = 256TB</code>. We don’t need so much memory space in the foreseeable future.</p>
+<h3 id="memory-alignment"><a class="markdownIt-Anchor" href="#memory-alignment"></a> Memory alignment</h3>
+<p>In the computer system, the memory use Byte as the storage unit. We can theoretically access any byte in the memory, but the CPU uses the address bus to access data. In the 32 Bits system, once addressing can access 4 Bytes data. The 64 Bits system, once addressing can access 8 Bytes of data. A 32 Bits CPU once can process 4 Bytes of data. To be more efficient, it would access 4 Bytes once addressing.<br />
+Taking the 32 Bits CPU as an example, the actual addressing step is 4 Bytes. The CPU would only access the memory address of a multiple of 4 (e.g., 0, 4, 8, 12) and cannot directly access these addresses 1, 3, 11, etc… In this addressing pattern, we don’t need to address an address repeatedly and ignore any address.</p>
+<p>As a developer, we better define a variable in an addressing step range to get its value through once addressing. If we store a variable over one addressing step, we must access the memory twice and splice the values.</p>
+<p><strong>Try to store a variable in an addressing step range. Avoid storing variables over a step range, and this is the memory alignment.</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> &#123;</span><br><span class="line">    <span class="type">int</span> a;</span><br><span class="line">    <span class="type">char</span> b;</span><br><span class="line">    <span class="type">int</span> c;</span><br><span class="line">&#125; Person;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;    </span><br><span class="line">    Person me = &#123;<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>&#125;;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%lu\n&quot;</span>, <span class="built_in">sizeof</span>(me));    </span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;&amp;a: %X\n&amp;b: %X\n&amp;c: %X\n&quot;</span>, &amp;me.a, &amp;me.b, &amp;me.c);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// Output:</span></span><br><span class="line"><span class="comment">// 12</span></span><br><span class="line"><span class="comment">// &amp;a: EFBFF450</span></span><br><span class="line"><span class="comment">// &amp;b: EFBFF454</span></span><br><span class="line"><span class="comment">// &amp;c: EFBFF458</span></span><br></pre></td></tr></table></figure>
+<p>In the above example, we define a struct having two int properties and one char property. In 64 Bits system, the int type occupies 4 Bytes memory, and the char type needs one Byte. Normally, the struct Person’s size is <code>4 + 4 + 1 = 9</code> Bytes, but actually, the executing result is 12. Look up the addresses of the <code>me.b</code> and the <code>me.c</code> you can find the address of the <code>me.c</code> doesn’t follow the <code>me.b</code>, it aligned its address to the next addressing step. The memory alignment sacrifices memory utilization for access efficiency.</p>
+<h2 id="memory-paging"><a class="markdownIt-Anchor" href="#memory-paging"></a> Memory paging</h2>
+<p><strong>We need the memory paging?</strong><br />
+In the chapters above, we have understood some basic knowledge about virtual memory. But whether you think that if the physical memory is not enough, what should the system do?  The max memory space of a 32 Bits system is 4GB, so every application has a 4Gb virtual memory space. If our computer only has 2GB physical memory and an application needs more than 2GB of memory, how does the system load the application into the memory?</p>
+<p><strong>What’s the memory paging?</strong><br />
+An application doesn’t use all its memory at the same time. We can copy partial unused data from the physical memory to the disk thanks to virtual memory mapping. When we copy the memory data to the disk, we don’t copy byte by byte or copy in addressing steps. The system will copy a block of memory at a time. We term it as the <code>memory page.</code></p>
+<p>Modern computer systems all use <code>paging</code> to map and divide virtual and physical memory. The concept of paging is dividing the memory into multiple parts, and we can only copy the necessary data from disk to memory when running the application. If the physical memory is not enough,  we can copy partial former data to disk for releasing memory space.</p>
+<p><strong>The paging size</strong><br />
+The paging size depends on the hardware design. Some CPUs might provide several paging sizes, the computer system can freely select, but the system can only use one paging size simultaneously. Almost all PC systems select 4KB as their paging size. If our computer is 32 Bits, the virtual memory space is 4GB, and one page occupies 4 Bytes, total having 2<sup>32</sup>/2<sup>12</sup> = 2^20 pages. The physical memory also uses the same way to divide.</p>
+<p><img src="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20210712163943.png" alt="" /></p>
+<p>The image above, application A, application B, and the physical memory all have eight memory pages. Most of the two applications’ virtual memory was mapped to the physical memory, but they use up all physical memory, so like the virtual pages, <code>VP6</code>(App A) and <code>VP5</code>(App B) were copied to the disk pages.</p>
+<p>When application A wants to access the data in <code>VP6</code>, the system will copy it from disk to physical memory and then map the physical memory to the virtual memory. Maybe you have already noticed that the VP3 of application A and the VP7 of application B used the same physical page. Through mapping multiple virtual pages to the same physical page, we can implement <code>memory sharing.</code></p>
+<h2 id="c-program-memory-distribution-map"><a class="markdownIt-Anchor" href="#c-program-memory-distribution-map"></a> C program memory distribution map</h2>
+<p>A program needs to be copied to memory before executing it, but what’s the distribution of the program binary data in memory? Where does the computer store dynamic data generated while running?</p>
+<p>The memory distribution in different computer systems is not the same. Linux is an open-source computer system, and it’s trendy in the server area. The design of the memory distribution of Linux is much clear and tidy than Windows, so we use Linux to learn the memory distribution today. If you’re interested in Windows, understanding Linux is helpful to you to learn Windows.</p>
+
+  </div>
+</article>
+
+
+
+      
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#the-memory-of-a-computer"><span class="toc-number">1.</span> <span class="toc-text"> The memory of a computer</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#virtual-memory-size"><span class="toc-number">1.1.</span> <span class="toc-text"> Virtual memory size</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#memory-alignment"><span class="toc-number">1.2.</span> <span class="toc-text"> Memory alignment</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#memory-paging"><span class="toc-number">2.</span> <span class="toc-text"> Memory paging</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#c-program-memory-distribution-map"><span class="toc-number">3.</span> <span class="toc-text"> C program memory distribution map</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2021/07/06/c++/how--does-a-c-program-use-the-memory/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2021/07/06/c++/how--does-a-c-program-use-the-memory/&text=How does a C program use the memory?"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2021/07/06/c++/how--does-a-c-program-use-the-memory/&title=How does a C program use the memory?"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2021/07/06/c++/how--does-a-c-program-use-the-memory/&is_video=false&description=How does a C program use the memory?"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=How does a C program use the memory?&body=Check out this article: https://csl.cool/2021/07/06/c++/how--does-a-c-program-use-the-memory/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2021/07/06/c++/how--does-a-c-program-use-the-memory/&title=How does a C program use the memory?"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2021/07/06/c++/how--does-a-c-program-use-the-memory/&title=How does a C program use the memory?"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2021/07/06/c++/how--does-a-c-program-use-the-memory/&title=How does a C program use the memory?"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2021/07/06/c++/how--does-a-c-program-use-the-memory/&title=How does a C program use the memory?"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2021/07/06/c++/how--does-a-c-program-use-the-memory/&name=How does a C program use the memory?&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2021/07/06/c++/how--does-a-c-program-use-the-memory/&t=How does a C program use the memory?"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+      <div id="end">
+    <img src="/images/post-end.png" alt="">
+</div> 
+      
+      <div id='valine'>
+    <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+            el: '#vcomments',
+            notify: true,
+            verify: true,
+            appId: '7zw6tQBddCfPvbaVtBGxUy0G-gzGzoHsz',
+            appKey: 'voPGHhBz7MozpUm0Fq2AMFmv',
+            placeholder: '想说点啥...',
+            avatar: 'monsterid',           
+        })
+    </script>
+</div>
+      
+      
+      <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 SSBun
+    <a target="_blank" rel="noopener" href="http://www.beian.miit.gov.cn/">京ICP备20001935号-1</a>
+    <div id="friend-link-container">
+      
+      
+    </div>
+  </div>
+  
+    <div class="footer-right">
+      <nav>
+        <ul>
+          
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/search/">Search</a></li>
+      
+      <li><a href="/categories/">Categories</a></li>
+      
+      <li><a href="/notes/">Notes</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+      </ul>
+      </nav>
+    </div>
+  
+</footer>
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?c2fdf3bebd0db8e40c37a4f37d76d33b";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Umami Analytics -->
+<!--  -->
+  <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="d39cc16d-90eb-47b6-8bf0-8e4cd43c704d"></script>
+<!--  -->
+<!-- Disqus Comments -->
+
+
+
+    
+    <script src="/lib/blackcat/l2dwidget.min.js"></script>
+    <script type="text/javascript">
+      var config = {
+        model: {
+          jsonPath: '/lib/blackcat/hijiki.model.json',
+        },
+        display: {
+          superSample: 1,
+          width: 245,
+          height: 245,
+          position: 'left',
+          hOffset: 0,
+          vOffset: 0,
+        },
+        mobile: {
+          show: false,
+          scale: 1,
+          motion: false,
+        },
+        react: {
+          opacityDefault: 1,
+          opacityOnHover: 0.75
+        }
+      };
+      L2Dwidget.init(config);
+    </script>
+    
+  </body>
+
+  </html>

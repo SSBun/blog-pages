@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang=en>
+  <head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="最近在写一个新的自定义 Alert 的动画时，感觉这样的简单动画代码在写 App 的时候很容易用到。有时候有一些简单的连续动画，可能也就2，3 个动作，但是直接使用 UIKit 的 CoreAnimation 动画的话，就需要不停的在 Completion Block中连续调用，这样的代码看起来太丑了，但是为了小小的动画再引入一个三方的动画框架，无论是代价还是灵活性都不如自己去实现。接下来就是代码">
+<meta property="og:type" content="article">
+<meta property="og:title" content="实现一个简单的动画链式调用">
+<meta property="og:url" content="https://csl.cool/2020/03/30/ios-dev/implements-a-simple-animation-chained-invoking/index.html">
+<meta property="og:site_name" content="CSL MEMO">
+<meta property="og:description" content="最近在写一个新的自定义 Alert 的动画时，感觉这样的简单动画代码在写 App 的时候很容易用到。有时候有一些简单的连续动画，可能也就2，3 个动作，但是直接使用 UIKit 的 CoreAnimation 动画的话，就需要不停的在 Completion Block中连续调用，这样的代码看起来太丑了，但是为了小小的动画再引入一个三方的动画框架，无论是代价还是灵活性都不如自己去实现。接下来就是代码">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-03-30T04:37:40.000Z">
+<meta property="article:modified_time" content="2020-03-30T04:37:40.000Z">
+<meta property="article:author" content="SSBun">
+<meta property="article:tag" content="Swift">
+<meta property="article:tag" content="Animation">
+<meta property="article:tag" content="Chaining">
+<meta property="article:tag" content="Promise">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>实现一个简单的动画链式调用</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="CSL MEMO" type="application/atom+xml" />
+    
+    <!-- umami web analytics -->
+    <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+  <body class="max-width mx-auto px3 ltr">
+    
+    <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/04/13/reading/book-http-diagram-conslusion/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/03/27/ios-dev/swift/annotation-marks-in-swift/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2020/03/30/ios-dev/implements-a-simple-animation-chained-invoking/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2020/03/30/ios-dev/implements-a-simple-animation-chained-invoking/&text=实现一个简单的动画链式调用"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2020/03/30/ios-dev/implements-a-simple-animation-chained-invoking/&title=实现一个简单的动画链式调用"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2020/03/30/ios-dev/implements-a-simple-animation-chained-invoking/&is_video=false&description=实现一个简单的动画链式调用"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=实现一个简单的动画链式调用&body=Check out this article: https://csl.cool/2020/03/30/ios-dev/implements-a-simple-animation-chained-invoking/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2020/03/30/ios-dev/implements-a-simple-animation-chained-invoking/&title=实现一个简单的动画链式调用"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2020/03/30/ios-dev/implements-a-simple-animation-chained-invoking/&title=实现一个简单的动画链式调用"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2020/03/30/ios-dev/implements-a-simple-animation-chained-invoking/&title=实现一个简单的动画链式调用"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2020/03/30/ios-dev/implements-a-simple-animation-chained-invoking/&title=实现一个简单的动画链式调用"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2020/03/30/ios-dev/implements-a-simple-animation-chained-invoking/&name=实现一个简单的动画链式调用&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2020/03/30/ios-dev/implements-a-simple-animation-chained-invoking/&t=实现一个简单的动画链式调用"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+      
+      <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        实现一个简单的动画链式调用
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">SSBun</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-03-30T04:37:40.000Z" itemprop="datePublished">2020-03-30</time>
+        
+        (Updated: <time datetime="2020-03-30T04:37:40.000Z" itemprop="dateModified">2020-03-30</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Animation/" rel="tag">Animation</a>, <a class="tag-link-link" href="/tags/Chaining/" rel="tag">Chaining</a>, <a class="tag-link-link" href="/tags/Promise/" rel="tag">Promise</a>, <a class="tag-link-link" href="/tags/Swift/" rel="tag">Swift</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>最近在写一个新的自定义 Alert 的动画时，感觉这样的简单动画代码在写 App 的时候很容易用到。有时候有一些简单的连续动画，可能也就2，3 个动作，但是直接使用 UIKit 的 CoreAnimation 动画的话，就需要不停的在 <code>Completion Block</code>中连续调用，这样的代码看起来太丑了，但是为了小小的动画再引入一个三方的动画框架，无论是代价还是灵活性都不如自己去实现。接下来就是代码的实现。</p>
+<p>我们实现的思路就是封装 UIView 的 Animation 方法，一个动画的动作需要两个参数，一个是动画类型，一个是用来修改属性的 Block。然后我们还需要一个参数来保存动画执行完毕后需要执行的下一个动画。</p>
+<p>我们创建一个类型 <code>PromiseAnimation</code>, <code>type</code>表示当前动画的类型；handle 是动画执行的 block，在 <code>normal</code>类型动画当中，这个 handle 是修改属性的 block，而在 <code>once</code> 当中这是一个简单的回调，通常用来执行一个动画完成后需要执行的操作。<code>thenAnimation</code> 就是表示下一个需要执行的动画（不一定是动画，可能只是一个操作）</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">PromiseAnimation</span> &#123;</span><br><span class="line">    <span class="keyword">typealias</span> <span class="type">Handle</span> <span class="operator">=</span> () -&gt; <span class="type">Void</span></span><br><span class="line">    <span class="keyword">enum</span> <span class="title class_">AnimationType</span> &#123;</span><br><span class="line">        <span class="keyword">case</span> normal(duration: <span class="type">TimeInterval</span> <span class="operator">=</span> <span class="number">0.2</span>, delay: <span class="type">TimeInterval</span> <span class="operator">=</span> <span class="number">0</span>, options: <span class="type">UIView</span>.<span class="type">AnimationOptions</span> <span class="operator">=</span> [])</span><br><span class="line">        <span class="keyword">case</span> once</span><br><span class="line">        <span class="keyword">case</span> delay(<span class="keyword">_</span> duratoin: <span class="type">DispatchTimeInterval</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">let</span> type: <span class="type">AnimationType</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">let</span> handle: <span class="type">Handle</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> thenAnimation: <span class="type">PromiseAnimation</span>?</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">@discardableResult</span> <span class="keyword">init</span>(<span class="keyword">_</span> <span class="params">type</span>: <span class="type">AnimationType</span> <span class="operator">=</span> .once, <span class="params">handle</span>: <span class="keyword">@escaping</span> <span class="type">Handle</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.type <span class="operator">=</span> type</span><br><span class="line">        <span class="keyword">self</span>.handle <span class="operator">=</span> handle</span><br><span class="line">        run()</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">init</span>(<span class="keyword">_</span> <span class="params">type</span>: <span class="type">AnimationType</span>, <span class="keyword">_</span> <span class="params">handle</span>: <span class="keyword">@escaping</span> <span class="type">Handle</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.type <span class="operator">=</span> type</span><br><span class="line">        <span class="keyword">self</span>.handle <span class="operator">=</span> handle</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">func</span> <span class="title function_">run</span>() &#123;</span><br><span class="line">        <span class="keyword">switch</span> type &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="keyword">let</span> .normal(duration: duration, delay: delay, options: options):</span><br><span class="line">            <span class="type">UIView</span>.animate(withDuration: duration, delay: delay, options: options, animations: handle, completion: runNext(<span class="keyword">_</span>:))</span><br><span class="line">        <span class="keyword">case</span> .once:</span><br><span class="line">            handle()</span><br><span class="line">            runNext(<span class="literal">true</span>)</span><br><span class="line">        <span class="keyword">case</span> <span class="keyword">let</span> .delay(duratoin: duration):</span><br><span class="line">            <span class="type">DispatchQueue</span>.main.asyncAfter(deadline: .now() <span class="operator">+</span> duration, execute: &#123; <span class="keyword">self</span>.runNext(<span class="literal">true</span>) &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">func</span> <span class="title function_">runNext</span>(<span class="keyword">_</span> <span class="params">success</span>: <span class="type">Bool</span>) &#123;</span><br><span class="line">        thenAnimation<span class="operator">?</span>.run()</span><br><span class="line">        thenAnimation <span class="operator">=</span> <span class="literal">nil</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里有两个不一样的 <code>init</code> 方法，是因为第一个动画需要自动执行，而后续的 Animation 则需要手动调用。公开初始化一个 <code>PromiseAnimation</code>时会直接调用 <code>run()</code> 来执行动画，而在 <code>then</code> 方法中生成的 <code>Animation</code> 则需要通过 <code>runNext()</code> 来择机调用，接下来就是链式调用的实现，这里模仿 <code>PromiseKit</code> 使用一个 <code>then</code> 来连接下一个动作。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extension</span> <span class="title class_">PromiseAnimation</span> &#123;</span><br><span class="line">    <span class="comment">/// Perform this anmation when last animation finished.</span></span><br><span class="line">    <span class="keyword">@discardableResult</span> <span class="keyword">public</span> <span class="keyword">func</span> <span class="title function_">then</span>(<span class="keyword">_</span> <span class="params">type</span>: <span class="type">AnimationType</span> <span class="operator">=</span> .normal(), <span class="params">handle</span>: <span class="keyword">@escaping</span> <span class="type">Handle</span>) -&gt; <span class="type">PromiseAnimation</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> animation <span class="operator">=</span> <span class="type">PromiseAnimation</span>(type, handle)</span><br><span class="line">        thenAnimation <span class="operator">=</span> animation</span><br><span class="line">        <span class="keyword">return</span> animation</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// Immediately perform.</span></span><br><span class="line">    <span class="keyword">@discardableResult</span> <span class="keyword">public</span> <span class="keyword">func</span> <span class="title function_">once</span>(<span class="params">handle</span>: <span class="keyword">@escaping</span> <span class="type">Handle</span>) -&gt; <span class="type">PromiseAnimation</span> &#123;</span><br><span class="line">        then(.once, handle: handle)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// Delay</span></span><br><span class="line">    <span class="keyword">@discardableResult</span> <span class="keyword">public</span> <span class="keyword">func</span> <span class="title function_">delay</span>(<span class="keyword">_</span> <span class="params">duration</span>: <span class="type">DispatchTimeInterval</span>) -&gt; <span class="type">PromiseAnimation</span> &#123;</span><br><span class="line">        then(.delay(duration), handle: &#123;&#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里可以看出我们在 <code>then</code> 中需要传入下一个动画所需要的所有参数，然后生成一个新的 Animation 并返回，在其中需要把新生成的 Animation 赋值给当前的 <code>thenAnimation</code> 用来在当前的动画调用完毕以后去激活 <code>thenAnimation</code>，这是我们可以实现链式调用的核心，至此整个实现就已经完成了，我们来看一下实际的用法:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">show</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> box <span class="operator">=</span> <span class="type">UIView</span>()</span><br><span class="line"></span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line">    <span class="type">PromiseAnimation</span>(.normal(duration: <span class="number">0.2</span>)) &#123;</span><br><span class="line">        box.backgroundColor <span class="operator">=</span> .red</span><br><span class="line">        box.center <span class="operator">=</span> .<span class="keyword">init</span>(x: <span class="number">100</span>, y: <span class="number">100</span>)</span><br><span class="line">    &#125;.then(.normal(duration: <span class="number">1</span>)) &#123;</span><br><span class="line">        box.alpha <span class="operator">=</span> <span class="number">0.2</span></span><br><span class="line">        box.center <span class="operator">=</span> .<span class="keyword">init</span>(x: <span class="number">200</span>, y: <span class="number">200</span>)</span><br><span class="line">    &#125;.delay(.seconds(<span class="number">2</span>))</span><br><span class="line">    .once &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Animation end.&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>简洁的链式调用让我们可以快速的理解动画的行为，也能减少调用深度，让代码看起来更整洁。</p>
+
+  </div>
+</article>
+
+
+
+      
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2020/03/30/ios-dev/implements-a-simple-animation-chained-invoking/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2020/03/30/ios-dev/implements-a-simple-animation-chained-invoking/&text=实现一个简单的动画链式调用"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2020/03/30/ios-dev/implements-a-simple-animation-chained-invoking/&title=实现一个简单的动画链式调用"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2020/03/30/ios-dev/implements-a-simple-animation-chained-invoking/&is_video=false&description=实现一个简单的动画链式调用"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=实现一个简单的动画链式调用&body=Check out this article: https://csl.cool/2020/03/30/ios-dev/implements-a-simple-animation-chained-invoking/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2020/03/30/ios-dev/implements-a-simple-animation-chained-invoking/&title=实现一个简单的动画链式调用"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2020/03/30/ios-dev/implements-a-simple-animation-chained-invoking/&title=实现一个简单的动画链式调用"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2020/03/30/ios-dev/implements-a-simple-animation-chained-invoking/&title=实现一个简单的动画链式调用"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2020/03/30/ios-dev/implements-a-simple-animation-chained-invoking/&title=实现一个简单的动画链式调用"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2020/03/30/ios-dev/implements-a-simple-animation-chained-invoking/&name=实现一个简单的动画链式调用&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2020/03/30/ios-dev/implements-a-simple-animation-chained-invoking/&t=实现一个简单的动画链式调用"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+      <div id="end">
+    <img src="/images/post-end.png" alt="">
+</div> 
+      
+      <div id='valine'>
+    <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+            el: '#vcomments',
+            notify: true,
+            verify: true,
+            appId: '7zw6tQBddCfPvbaVtBGxUy0G-gzGzoHsz',
+            appKey: 'voPGHhBz7MozpUm0Fq2AMFmv',
+            placeholder: '想说点啥...',
+            avatar: 'monsterid',           
+        })
+    </script>
+</div>
+      
+      
+      <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 SSBun
+    <a target="_blank" rel="noopener" href="http://www.beian.miit.gov.cn/">京ICP备20001935号-1</a>
+    <div id="friend-link-container">
+      
+      
+    </div>
+  </div>
+  
+    <div class="footer-right">
+      <nav>
+        <ul>
+          
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/search/">Search</a></li>
+      
+      <li><a href="/categories/">Categories</a></li>
+      
+      <li><a href="/notes/">Notes</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+      </ul>
+      </nav>
+    </div>
+  
+</footer>
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?c2fdf3bebd0db8e40c37a4f37d76d33b";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Umami Analytics -->
+<!--  -->
+  <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="d39cc16d-90eb-47b6-8bf0-8e4cd43c704d"></script>
+<!--  -->
+<!-- Disqus Comments -->
+
+
+
+    
+    <script src="/lib/blackcat/l2dwidget.min.js"></script>
+    <script type="text/javascript">
+      var config = {
+        model: {
+          jsonPath: '/lib/blackcat/hijiki.model.json',
+        },
+        display: {
+          superSample: 1,
+          width: 245,
+          height: 245,
+          position: 'left',
+          hOffset: 0,
+          vOffset: 0,
+        },
+        mobile: {
+          show: false,
+          scale: 1,
+          motion: false,
+        },
+        react: {
+          opacityDefault: 1,
+          opacityOnHover: 0.75
+        }
+      };
+      L2Dwidget.init(config);
+    </script>
+    
+  </body>
+
+  </html>

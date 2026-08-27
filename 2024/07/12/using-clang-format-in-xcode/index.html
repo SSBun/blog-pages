@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang=en>
+  <head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="In Xcode, we can using control+I to format the code. Usually, it performs well for Swift. But sometimes, we will get a terrible result for Objective-C or C++ code. Unlike other IDEs, Visual Studio Cod">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Using Clang-format in Xcode">
+<meta property="og:url" content="https://csl.cool/2024/07/12/using-clang-format-in-xcode/index.html">
+<meta property="og:site_name" content="CSL MEMO">
+<meta property="og:description" content="In Xcode, we can using control+I to format the code. Usually, it performs well for Swift. But sometimes, we will get a terrible result for Objective-C or C++ code. Unlike other IDEs, Visual Studio Cod">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20240715150630.png">
+<meta property="og:image" content="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20240715150751.png">
+<meta property="og:image" content="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20240715151335.png">
+<meta property="og:image" content="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20240715151811.png">
+<meta property="article:published_time" content="2024-07-12T06:49:25.000Z">
+<meta property="article:modified_time" content="2024-07-12T06:49:25.000Z">
+<meta property="article:author" content="SSBun">
+<meta property="article:tag" content="Xcode">
+<meta property="article:tag" content="Clang-format">
+<meta property="article:tag" content="Tools">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20240715150630.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Using Clang-format in Xcode</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="CSL MEMO" type="application/atom+xml" />
+    
+    <!-- umami web analytics -->
+    <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+  <body class="max-width mx-auto px3 ltr">
+    
+    <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2026/01/12/clash-verge-advanced-configuration/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2024/02/26/disable-multiple-windows-in-macos/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2024/07/12/using-clang-format-in-xcode/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2024/07/12/using-clang-format-in-xcode/&text=Using Clang-format in Xcode"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2024/07/12/using-clang-format-in-xcode/&title=Using Clang-format in Xcode"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2024/07/12/using-clang-format-in-xcode/&is_video=false&description=Using Clang-format in Xcode"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Using Clang-format in Xcode&body=Check out this article: https://csl.cool/2024/07/12/using-clang-format-in-xcode/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2024/07/12/using-clang-format-in-xcode/&title=Using Clang-format in Xcode"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2024/07/12/using-clang-format-in-xcode/&title=Using Clang-format in Xcode"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2024/07/12/using-clang-format-in-xcode/&title=Using Clang-format in Xcode"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2024/07/12/using-clang-format-in-xcode/&title=Using Clang-format in Xcode"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2024/07/12/using-clang-format-in-xcode/&name=Using Clang-format in Xcode&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2024/07/12/using-clang-format-in-xcode/&t=Using Clang-format in Xcode"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#install-clang-format"><span class="toc-number">1.</span> <span class="toc-text"> Install clang-format</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#config-clang-format"><span class="toc-number">2.</span> <span class="toc-text"> Config clang-format</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#migrate-to-xcode"><span class="toc-number">3.</span> <span class="toc-text"> Migrate to Xcode</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#clang-format-tools"><span class="toc-number">4.</span> <span class="toc-text"> Clang-format Tools</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+      
+      <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Using Clang-format in Xcode
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">SSBun</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-07-12T06:49:25.000Z" itemprop="datePublished">2024-07-12</time>
+        
+        (Updated: <time datetime="2024-07-12T06:49:25.000Z" itemprop="dateModified">2024-07-12</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Clang-format/" rel="tag">Clang-format</a>, <a class="tag-link-link" href="/tags/Tools/" rel="tag">Tools</a>, <a class="tag-link-link" href="/tags/Xcode/" rel="tag">Xcode</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>In Xcode, we can using <code>control+I</code> to format the code. Usually, it performs well for Swift. But sometimes, we will get a terrible result for Objective-C or C++ code.<br />
+Unlike other IDEs, Visual Studio Code or Android Studio, Xcode provides less configuration for code formatting and doesn’t support any code formatting plugins.</p>
+<p>In this case, we can use <code>clang-format</code> to format the code. <code>clang-format</code> is a tool to format C/C++/Obj-C code. It cannot be directly used in Xcode, but we can use Mac Automator to create a service to format the code.</p>
+<h2 id="install-clang-format"><a class="markdownIt-Anchor" href="#install-clang-format"></a> Install clang-format</h2>
+<p>In MacOS, we can install it via Homebrew.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install clang-format</span><br></pre></td></tr></table></figure>
+<p>And then, you can check the version of <code>clang-format</code> by running:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">clang-format --version</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">=&gt; clang-format version 18.1.8</span></span><br></pre></td></tr></table></figure>
+<h2 id="config-clang-format"><a class="markdownIt-Anchor" href="#config-clang-format"></a> Config clang-format</h2>
+<p>Aa a wildly used tool, <code>clang-format</code> provides a lot of configuration options. You can create a <code>.clang-format</code> file in your project root directory to configure the code formatting rules or use the default style.</p>
+<p>I usually create a <code>.clang-format</code> file in my local user directory <code>vi ~/.clang-format</code> as a global configuration file.</p>
+<p>The detailed configuration options you can query in <a target="_blank" rel="noopener" href="https://clang.llvm.org/docs/ClangFormatStyleOptions.html">official documents</a>. You can base on a popular default style like <code>LLVM</code>, <code>Google</code>, or <code>Chromium</code> and override some rules to your liking.</p>
+<p>You can create a example C/C++ file containing common code snippets and run <code>clang-format --style=file:/Users/silas/.clang-format -i example.cpp</code> to check the result.</p>
+<h2 id="migrate-to-xcode"><a class="markdownIt-Anchor" href="#migrate-to-xcode"></a> Migrate to Xcode</h2>
+<p>Xcode doesn’t provide a backdoor for us to use <code>clang-format</code> directly. But we can use Mac Automator to create a service to format the code.</p>
+<ol>
+<li>Open Automator, create a new <code>Quick Action</code></li>
+</ol>
+<p><img src="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20240715150630.png" alt="" /></p>
+<ol start="2">
+<li>Write a shell script with following content, sure select the <code>Output replace text</code> checkbox.</li>
+</ol>
+<p><img src="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20240715150751.png" alt="" /></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> PATH=<span class="string">&quot;/opt/homebrew/bin:<span class="variable">$PATH</span>&quot;</span></span><br><span class="line">clang-format --style=file:/Users/silas/.clang-format</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>Bind shortcuts.</li>
+</ol>
+<p>After creating the service, you can now select some code in your Xcode, and click the <code>Menu Xcode</code> -&gt; <code>Services</code> -&gt; <code>clang-format</code> to format the selected code.</p>
+<p><img src="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20240715151335.png" alt="" /></p>
+<p>Every formatting-code does above operations is a little bit tedious. So we can bind a shortcut for it.<br />
+Setting up a shortcut for it in <code>System Preferences</code> -&gt; <code>Keyboard</code> -&gt; <code>Keyboard Shortcuts</code> -&gt; <code>App Shortcuts</code>.</p>
+<p><img src="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20240715151811.png" alt="" /></p>
+<p>Then come back to Xcode, select some code, and press the shortcut <code>command-control-I</code> you just set, you will see the code is formatted.</p>
+<h2 id="clang-format-tools"><a class="markdownIt-Anchor" href="#clang-format-tools"></a> Clang-format Tools</h2>
+<p><a target="_blank" rel="noopener" href="https://clang-format-configurator.site/">clang-format-configurator</a></p>
+
+  </div>
+</article>
+
+
+
+      
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#install-clang-format"><span class="toc-number">1.</span> <span class="toc-text"> Install clang-format</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#config-clang-format"><span class="toc-number">2.</span> <span class="toc-text"> Config clang-format</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#migrate-to-xcode"><span class="toc-number">3.</span> <span class="toc-text"> Migrate to Xcode</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#clang-format-tools"><span class="toc-number">4.</span> <span class="toc-text"> Clang-format Tools</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2024/07/12/using-clang-format-in-xcode/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2024/07/12/using-clang-format-in-xcode/&text=Using Clang-format in Xcode"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2024/07/12/using-clang-format-in-xcode/&title=Using Clang-format in Xcode"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2024/07/12/using-clang-format-in-xcode/&is_video=false&description=Using Clang-format in Xcode"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Using Clang-format in Xcode&body=Check out this article: https://csl.cool/2024/07/12/using-clang-format-in-xcode/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2024/07/12/using-clang-format-in-xcode/&title=Using Clang-format in Xcode"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2024/07/12/using-clang-format-in-xcode/&title=Using Clang-format in Xcode"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2024/07/12/using-clang-format-in-xcode/&title=Using Clang-format in Xcode"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2024/07/12/using-clang-format-in-xcode/&title=Using Clang-format in Xcode"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2024/07/12/using-clang-format-in-xcode/&name=Using Clang-format in Xcode&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2024/07/12/using-clang-format-in-xcode/&t=Using Clang-format in Xcode"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+      <div id="end">
+    <img src="/images/post-end.png" alt="">
+</div> 
+      
+      <div id='valine'>
+    <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+            el: '#vcomments',
+            notify: true,
+            verify: true,
+            appId: '7zw6tQBddCfPvbaVtBGxUy0G-gzGzoHsz',
+            appKey: 'voPGHhBz7MozpUm0Fq2AMFmv',
+            placeholder: '想说点啥...',
+            avatar: 'monsterid',           
+        })
+    </script>
+</div>
+      
+      
+      <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 SSBun
+    <a target="_blank" rel="noopener" href="http://www.beian.miit.gov.cn/">京ICP备20001935号-1</a>
+    <div id="friend-link-container">
+      
+      
+    </div>
+  </div>
+  
+    <div class="footer-right">
+      <nav>
+        <ul>
+          
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/search/">Search</a></li>
+      
+      <li><a href="/categories/">Categories</a></li>
+      
+      <li><a href="/notes/">Notes</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+      </ul>
+      </nav>
+    </div>
+  
+</footer>
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?c2fdf3bebd0db8e40c37a4f37d76d33b";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Umami Analytics -->
+<!--  -->
+  <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="d39cc16d-90eb-47b6-8bf0-8e4cd43c704d"></script>
+<!--  -->
+<!-- Disqus Comments -->
+
+
+
+    
+    <script src="/lib/blackcat/l2dwidget.min.js"></script>
+    <script type="text/javascript">
+      var config = {
+        model: {
+          jsonPath: '/lib/blackcat/hijiki.model.json',
+        },
+        display: {
+          superSample: 1,
+          width: 245,
+          height: 245,
+          position: 'left',
+          hOffset: 0,
+          vOffset: 0,
+        },
+        mobile: {
+          show: false,
+          scale: 1,
+          motion: false,
+        },
+        react: {
+          opacityDefault: 1,
+          opacityOnHover: 0.75
+        }
+      };
+      L2Dwidget.init(config);
+    </script>
+    
+  </body>
+
+  </html>

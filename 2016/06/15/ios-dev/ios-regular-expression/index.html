@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang=en>
+  <head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="有时候我们会有需求从一个字符串中截取其他的字符串,根据情况的不同,我们来分析几种方法   固定长度字符串中截取固定位置长度的字符串 123456789&#x2F;&#x2F; 这是比较简单的一种情况:比如截取手机号的后4位 let phoneNum &#x3D; &quot;18515383061&quot; var suffixNum:String? &#x2F;&#x2F; 从倒数第四位开始截取,截取到最后 suffixNum &#x3D; phon">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS截取特定的字符串(正则匹配)">
+<meta property="og:url" content="https://csl.cool/2016/06/15/ios-dev/ios-regular-expression/index.html">
+<meta property="og:site_name" content="CSL MEMO">
+<meta property="og:description" content="有时候我们会有需求从一个字符串中截取其他的字符串,根据情况的不同,我们来分析几种方法   固定长度字符串中截取固定位置长度的字符串 123456789&#x2F;&#x2F; 这是比较简单的一种情况:比如截取手机号的后4位 let phoneNum &#x3D; &quot;18515383061&quot; var suffixNum:String? &#x2F;&#x2F; 从倒数第四位开始截取,截取到最后 suffixNum &#x3D; phon">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2016-06-15T03:21:54.000Z">
+<meta property="article:modified_time" content="2016-06-15T03:21:54.000Z">
+<meta property="article:author" content="SSBun">
+<meta property="article:tag" content="Swift">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="Regex">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>iOS截取特定的字符串(正则匹配)</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="CSL MEMO" type="application/atom+xml" />
+    
+    <!-- umami web analytics -->
+    <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+  <body class="max-width mx-auto px3 ltr">
+    
+    <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2016/06/16/ios-dev/ca-layer-ca-gradient-layer/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2016/06/13/ios-dev/ca-layer-paper-list/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2016/06/15/ios-dev/ios-regular-expression/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2016/06/15/ios-dev/ios-regular-expression/&text=iOS截取特定的字符串(正则匹配)"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2016/06/15/ios-dev/ios-regular-expression/&title=iOS截取特定的字符串(正则匹配)"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2016/06/15/ios-dev/ios-regular-expression/&is_video=false&description=iOS截取特定的字符串(正则匹配)"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=iOS截取特定的字符串(正则匹配)&body=Check out this article: https://csl.cool/2016/06/15/ios-dev/ios-regular-expression/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2016/06/15/ios-dev/ios-regular-expression/&title=iOS截取特定的字符串(正则匹配)"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2016/06/15/ios-dev/ios-regular-expression/&title=iOS截取特定的字符串(正则匹配)"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2016/06/15/ios-dev/ios-regular-expression/&title=iOS截取特定的字符串(正则匹配)"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2016/06/15/ios-dev/ios-regular-expression/&title=iOS截取特定的字符串(正则匹配)"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2016/06/15/ios-dev/ios-regular-expression/&name=iOS截取特定的字符串(正则匹配)&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2016/06/15/ios-dev/ios-regular-expression/&t=iOS截取特定的字符串(正则匹配)"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BA%E5%AE%9A%E9%95%BF%E5%BA%A6%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%AD%E6%88%AA%E5%8F%96%E5%9B%BA%E5%AE%9A%E4%BD%8D%E7%BD%AE%E9%95%BF%E5%BA%A6%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="toc-number">1.</span> <span class="toc-text"> 固定长度字符串中截取固定位置长度的字符串</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8D%E5%9B%BA%E5%AE%9A%E9%95%BF%E5%BA%A6%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%BD%86%E6%98%AF%E6%9C%89%E5%88%86%E9%9A%94%E7%AC%A6"><span class="toc-number">2.</span> <span class="toc-text"> 不固定长度的字符串,但是有分隔符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8D%E5%9B%BA%E5%AE%9A%E9%95%BF%E5%BA%A6%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8F%96%E7%89%B9%E6%AE%8A%E8%A7%84%E5%88%99%E4%B8%8B%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="toc-number">3.</span> <span class="toc-text"> 不固定长度的字符串,取特殊规则下的字符串</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+      
+      <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        iOS截取特定的字符串(正则匹配)
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">SSBun</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2016-06-15T03:21:54.000Z" itemprop="datePublished">2016-06-15</time>
+        
+        (Updated: <time datetime="2016-06-15T03:21:54.000Z" itemprop="dateModified">2016-06-15</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/iOS/">iOS</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Regex/" rel="tag">Regex</a>, <a class="tag-link-link" href="/tags/Swift/" rel="tag">Swift</a>, <a class="tag-link-link" href="/tags/iOS/" rel="tag">iOS</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p>有时候我们会有需求从一个字符串中截取其他的字符串,根据情况的不同,我们来分析几种方法</p>
+</blockquote>
+<h2 id="固定长度字符串中截取固定位置长度的字符串"><a class="markdownIt-Anchor" href="#固定长度字符串中截取固定位置长度的字符串"></a> 固定长度字符串中截取固定位置长度的字符串</h2>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这是比较简单的一种情况:比如截取手机号的后4位</span></span><br><span class="line"> <span class="keyword">let</span> phoneNum <span class="operator">=</span> <span class="string">&quot;18515383061&quot;</span></span><br><span class="line"> <span class="keyword">var</span> suffixNum:<span class="type">String</span>?</span><br><span class="line"> <span class="comment">// 从倒数第四位开始截取,截取到最后</span></span><br><span class="line"> suffixNum <span class="operator">=</span> phoneNum.substringFromIndex(phoneNum.endIndex.advancedBy(<span class="operator">-</span><span class="number">4</span>))</span><br><span class="line"> <span class="comment">// 从开头截取到第三位,获取手机号前3位</span></span><br><span class="line"> <span class="keyword">let</span> prefixNum <span class="operator">=</span> phoneNum.substringToIndex(phoneNum.startIndex.advancedBy(<span class="number">3</span>))</span><br><span class="line"> <span class="comment">// 截取区间内字符串</span></span><br><span class="line"> suffixNum <span class="operator">=</span> phoneNum.substringWithRange(phoneNum.endIndex.advancedBy(<span class="operator">-</span><span class="number">4</span>)<span class="operator">..&lt;</span>phoneNum.endIndex)</span><br></pre></td></tr></table></figure>
+<h2 id="不固定长度的字符串但是有分隔符"><a class="markdownIt-Anchor" href="#不固定长度的字符串但是有分隔符"></a> 不固定长度的字符串,但是有分隔符</h2>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//例如获取日期中的年,月,日</span></span><br><span class="line"><span class="comment">// 分割符可以是任意的字符,一般为&#x27;/&#x27;,&#x27;_&#x27;,&#x27;空格&#x27;,或者是特殊的字符.</span></span><br><span class="line"> <span class="keyword">let</span> timeStr <span class="operator">=</span> <span class="string">&quot;2013/10/26&quot;</span></span><br><span class="line"> <span class="keyword">let</span> timeArr <span class="operator">=</span> timeStr.componentsSeparatedByString(<span class="string">&quot;/&quot;</span>)</span><br><span class="line"> <span class="built_in">print</span>(timeArr)</span><br></pre></td></tr></table></figure>
+<h2 id="不固定长度的字符串取特殊规则下的字符串"><a class="markdownIt-Anchor" href="#不固定长度的字符串取特殊规则下的字符串"></a> 不固定长度的字符串,取特殊规则下的字符串</h2>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 如下所示,我们想要截取第一个中括号里面的字符串</span></span><br><span class="line"><span class="comment">// 假设这个字符串是服务器返回的,长度不定,中括号的位置也不定,先后通过简单的截取就比较困难了</span></span><br><span class="line"><span class="comment">// 这个时候就要用到**正则表达式**,相信大家知道,但如何在Swift中利用正则表达式来筛选值呢,我们来分析一下</span></span><br><span class="line"><span class="comment">// rangOfString本来是用来收索文中的字符串的,但是可以选择模式.这里选择(.RegularExpressionSearch)也就是正则的搜索</span></span><br><span class="line"><span class="comment">// 但是OC和Swift中都只有这一种收索方法,只有Search,没有其他的,相比其他的语言(Python,PHP)弱太多了</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 单纯匹配中括号里的字正则想必大家都会写 &quot;\\[.*\\]&quot;,但是有一个问题就是收索的内容是&#x27;[thing] jflsdfs [do]&#x27;,这显然不是我们想要的</span></span><br><span class="line"><span class="comment">// 这就要收到正则的贪婪模式了,默认它尽可能多的匹配符合要求的字符串,而我们想让他满足最精巧的那个,就需要加上一个?号,就是这个样子&quot;\\[.*?\\]&quot;,这样搜索到的就是&#x27;[thing]&#x27;</span></span><br><span class="line"><span class="comment">// 你发现这还不是我们想要的,为什么要带上&#x27;[&#x27;和&#x27;]&#x27;呢,但是没办法,这是你的检索条件啊</span></span><br><span class="line"><span class="comment">// 但是什么也难不倒正则,正则当中有 零宽断言,&lt;零宽度正预测先行断言(?=exp)&gt; 断言自身出现的位置的后面能匹配表达式exp, </span></span><br><span class="line"><span class="comment">// &lt;零宽度正回顾后发断言(?&lt;=exp)&gt;，它断言自身出现的位置的前面能匹配表达式exp,最终我们的表达式是&quot;(?&lt;=\\[).*?(?=\\])&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> string <span class="operator">=</span> <span class="string">&quot;I Want to Do some [thing] jflsdfs [do]&quot;</span></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">let</span> result <span class="operator">=</span> string.rangeOfString(<span class="string">&quot;(?&lt;=<span class="subst">\\</span>[).*?(?=<span class="subst">\\</span>])&quot;</span>, options: .<span class="type">RegularExpressionSearch</span>, range:string.startIndex<span class="operator">..&lt;</span>string.endIndex, locale: <span class="literal">nil</span>)  &#123;</span><br><span class="line">         <span class="built_in">print</span>(string.substringWithRange(result))</span><br><span class="line">     &#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>学习正则这里来<a target="_blank" rel="noopener" href="http://deerchao.net/tutorials/regex/regex.htm">正则表达式30分钟入门教程</a></p>
+</blockquote>
+
+  </div>
+</article>
+
+
+
+      
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BA%E5%AE%9A%E9%95%BF%E5%BA%A6%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%AD%E6%88%AA%E5%8F%96%E5%9B%BA%E5%AE%9A%E4%BD%8D%E7%BD%AE%E9%95%BF%E5%BA%A6%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="toc-number">1.</span> <span class="toc-text"> 固定长度字符串中截取固定位置长度的字符串</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8D%E5%9B%BA%E5%AE%9A%E9%95%BF%E5%BA%A6%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%BD%86%E6%98%AF%E6%9C%89%E5%88%86%E9%9A%94%E7%AC%A6"><span class="toc-number">2.</span> <span class="toc-text"> 不固定长度的字符串,但是有分隔符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8D%E5%9B%BA%E5%AE%9A%E9%95%BF%E5%BA%A6%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8F%96%E7%89%B9%E6%AE%8A%E8%A7%84%E5%88%99%E4%B8%8B%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="toc-number">3.</span> <span class="toc-text"> 不固定长度的字符串,取特殊规则下的字符串</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2016/06/15/ios-dev/ios-regular-expression/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2016/06/15/ios-dev/ios-regular-expression/&text=iOS截取特定的字符串(正则匹配)"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2016/06/15/ios-dev/ios-regular-expression/&title=iOS截取特定的字符串(正则匹配)"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2016/06/15/ios-dev/ios-regular-expression/&is_video=false&description=iOS截取特定的字符串(正则匹配)"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=iOS截取特定的字符串(正则匹配)&body=Check out this article: https://csl.cool/2016/06/15/ios-dev/ios-regular-expression/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2016/06/15/ios-dev/ios-regular-expression/&title=iOS截取特定的字符串(正则匹配)"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2016/06/15/ios-dev/ios-regular-expression/&title=iOS截取特定的字符串(正则匹配)"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2016/06/15/ios-dev/ios-regular-expression/&title=iOS截取特定的字符串(正则匹配)"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2016/06/15/ios-dev/ios-regular-expression/&title=iOS截取特定的字符串(正则匹配)"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2016/06/15/ios-dev/ios-regular-expression/&name=iOS截取特定的字符串(正则匹配)&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2016/06/15/ios-dev/ios-regular-expression/&t=iOS截取特定的字符串(正则匹配)"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+      <div id="end">
+    <img src="/images/post-end.png" alt="">
+</div> 
+      
+      <div id='valine'>
+    <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+            el: '#vcomments',
+            notify: true,
+            verify: true,
+            appId: '7zw6tQBddCfPvbaVtBGxUy0G-gzGzoHsz',
+            appKey: 'voPGHhBz7MozpUm0Fq2AMFmv',
+            placeholder: '想说点啥...',
+            avatar: 'monsterid',           
+        })
+    </script>
+</div>
+      
+      
+      <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 SSBun
+    <a target="_blank" rel="noopener" href="http://www.beian.miit.gov.cn/">京ICP备20001935号-1</a>
+    <div id="friend-link-container">
+      
+      
+    </div>
+  </div>
+  
+    <div class="footer-right">
+      <nav>
+        <ul>
+          
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/search/">Search</a></li>
+      
+      <li><a href="/categories/">Categories</a></li>
+      
+      <li><a href="/notes/">Notes</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+      </ul>
+      </nav>
+    </div>
+  
+</footer>
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?c2fdf3bebd0db8e40c37a4f37d76d33b";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Umami Analytics -->
+<!--  -->
+  <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="d39cc16d-90eb-47b6-8bf0-8e4cd43c704d"></script>
+<!--  -->
+<!-- Disqus Comments -->
+
+
+
+    
+    <script src="/lib/blackcat/l2dwidget.min.js"></script>
+    <script type="text/javascript">
+      var config = {
+        model: {
+          jsonPath: '/lib/blackcat/hijiki.model.json',
+        },
+        display: {
+          superSample: 1,
+          width: 245,
+          height: 245,
+          position: 'left',
+          hOffset: 0,
+          vOffset: 0,
+        },
+        mobile: {
+          show: false,
+          scale: 1,
+          motion: false,
+        },
+        react: {
+          opacityDefault: 1,
+          opacityOnHover: 0.75
+        }
+      };
+      L2Dwidget.init(config);
+    </script>
+    
+  </body>
+
+  </html>

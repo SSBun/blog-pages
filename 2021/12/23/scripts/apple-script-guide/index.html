@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang=en>
+  <head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Basic  Identifier A normal identifier must begins with a underline _ or letter and then involves letters, numbers or underlines. 12set age to 100set _name to &quot;CSL&quot; Of course, Apple provides">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AppleScript Handbook">
+<meta property="og:url" content="https://csl.cool/2021/12/23/scripts/apple-script-guide/index.html">
+<meta property="og:site_name" content="CSL MEMO">
+<meta property="og:description" content="Basic  Identifier A normal identifier must begins with a underline _ or letter and then involves letters, numbers or underlines. 12set age to 100set _name to &quot;CSL&quot; Of course, Apple provides">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-12-23T09:53:46.000Z">
+<meta property="article:modified_time" content="2021-12-23T09:53:46.000Z">
+<meta property="article:author" content="SSBun">
+<meta property="article:tag" content="AppleScript">
+<meta property="article:tag" content="Guide">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>AppleScript Handbook</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="CSL MEMO" type="application/atom+xml" />
+    
+    <!-- umami web analytics -->
+    <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+  <body class="max-width mx-auto px3 ltr">
+    
+    <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2022/01/10/ios-dev/swift/swift-async-concurrent/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2021/12/11/plugins/making-your-vscode-like-xcode/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2021/12/23/scripts/apple-script-guide/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2021/12/23/scripts/apple-script-guide/&text=AppleScript Handbook"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2021/12/23/scripts/apple-script-guide/&title=AppleScript Handbook"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2021/12/23/scripts/apple-script-guide/&is_video=false&description=AppleScript Handbook"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=AppleScript Handbook&body=Check out this article: https://csl.cool/2021/12/23/scripts/apple-script-guide/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2021/12/23/scripts/apple-script-guide/&title=AppleScript Handbook"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2021/12/23/scripts/apple-script-guide/&title=AppleScript Handbook"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2021/12/23/scripts/apple-script-guide/&title=AppleScript Handbook"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2021/12/23/scripts/apple-script-guide/&title=AppleScript Handbook"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2021/12/23/scripts/apple-script-guide/&name=AppleScript Handbook&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2021/12/23/scripts/apple-script-guide/&t=AppleScript Handbook"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#basic"><span class="toc-number">1.</span> <span class="toc-text"> Basic</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#identifier"><span class="toc-number">1.1.</span> <span class="toc-text"> Identifier</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#comments"><span class="toc-number">1.2.</span> <span class="toc-text"> Comments</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#basic-types"><span class="toc-number">2.</span> <span class="toc-text"> Basic Types</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#boolean"><span class="toc-number">2.1.</span> <span class="toc-text"> boolean</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#number"><span class="toc-number">2.2.</span> <span class="toc-text"> number</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#textstring"><span class="toc-number">2.3.</span> <span class="toc-text"> text&#x2F;string</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#constant"><span class="toc-number">2.4.</span> <span class="toc-text"> constant</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#list"><span class="toc-number">2.5.</span> <span class="toc-text"> list</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#record"><span class="toc-number">2.6.</span> <span class="toc-text"> record</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#reference"><span class="toc-number">2.7.</span> <span class="toc-text"> reference</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#date"><span class="toc-number">2.8.</span> <span class="toc-text"> date</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#alias"><span class="toc-number">2.9.</span> <span class="toc-text"> alias</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#file"><span class="toc-number">2.10.</span> <span class="toc-text"> file</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#posix-file"><span class="toc-number">2.11.</span> <span class="toc-text"> POSIX file</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#rgb-color"><span class="toc-number">2.12.</span> <span class="toc-text"> RGB color</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#operators"><span class="toc-number">3.</span> <span class="toc-text"> Operators</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#coercion-type-convert"><span class="toc-number">3.1.</span> <span class="toc-text"> Coercion Type Convert</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#common-operators"><span class="toc-number">3.2.</span> <span class="toc-text"> Common Operators</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#logic-operators"><span class="toc-number">3.3.</span> <span class="toc-text"> Logic Operators</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#operator"><span class="toc-number">3.4.</span> <span class="toc-text"> Operator &amp;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#get-elements-from-an-object"><span class="toc-number">3.5.</span> <span class="toc-text"> Get Elements From an Object</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#variables-and-properties"><span class="toc-number">4.</span> <span class="toc-text"> Variables and Properties</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#variables"><span class="toc-number">4.1.</span> <span class="toc-text"> Variables</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#properties"><span class="toc-number">4.2.</span> <span class="toc-text"> Properties</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#control"><span class="toc-number">5.</span> <span class="toc-text"> Control</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#switch"><span class="toc-number">5.1.</span> <span class="toc-text"> Switch</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#loop"><span class="toc-number">5.2.</span> <span class="toc-text"> Loop</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#consideringignoring-syntax"><span class="toc-number">5.3.</span> <span class="toc-text"> Considering&#x2F;Ignoring Syntax</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#exception-handling"><span class="toc-number">6.</span> <span class="toc-text"> Exception handling</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#try"><span class="toc-number">6.1.</span> <span class="toc-text"> Try</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#custom-errors"><span class="toc-number">6.2.</span> <span class="toc-text"> Custom Errors</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#timeout"><span class="toc-number">6.3.</span> <span class="toc-text"> Timeout</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#handler"><span class="toc-number">7.</span> <span class="toc-text"> Handler</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#simple-handler"><span class="toc-number">7.1.</span> <span class="toc-text"> Simple handler</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#handler-with-positional-parameters"><span class="toc-number">7.2.</span> <span class="toc-text"> Handler with positional parameters</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#handler-with-labeled-parameters"><span class="toc-number">7.3.</span> <span class="toc-text"> Handler with labeled parameters</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#return"><span class="toc-number">7.4.</span> <span class="toc-text"> Return</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#system-default-handlers"><span class="toc-number">8.</span> <span class="toc-text"> System Default Handlers</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#run"><span class="toc-number">8.1.</span> <span class="toc-text"> run</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#open"><span class="toc-number">8.2.</span> <span class="toc-text"> open</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#idle"><span class="toc-number">8.3.</span> <span class="toc-text"> idle</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#quit"><span class="toc-number">8.4.</span> <span class="toc-text"> quit</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#script"><span class="toc-number">9.</span> <span class="toc-text"> Script</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#keyword-me"><span class="toc-number">9.1.</span> <span class="toc-text"> Keyword me</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#declares-a-script"><span class="toc-number">9.2.</span> <span class="toc-text"> Declares a Script</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#invoke-outer-scripts"><span class="toc-number">9.3.</span> <span class="toc-text"> Invoke Outer Scripts</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#modify-outer-scripts-properties-in-the-current-script"><span class="toc-number">9.4.</span> <span class="toc-text"> Modify Outer Scripts Properties in the Current Script</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#references"><span class="toc-number">10.</span> <span class="toc-text"> References</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+      
+      <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        AppleScript Handbook
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">SSBun</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-12-23T09:53:46.000Z" itemprop="datePublished">2021-12-23</time>
+        
+        (Updated: <time datetime="2021-12-23T09:53:46.000Z" itemprop="dateModified">2021-12-23</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/AppleScript/" rel="tag">AppleScript</a>, <a class="tag-link-link" href="/tags/Guide/" rel="tag">Guide</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="basic"><a class="markdownIt-Anchor" href="#basic"></a> Basic</h2>
+<h3 id="identifier"><a class="markdownIt-Anchor" href="#identifier"></a> Identifier</h3>
+<p>A normal identifier must begins with a underline <code>_</code> or letter and then involves letters, numbers or underlines.</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> age <span class="keyword">to</span> <span class="number">100</span></span><br><span class="line"><span class="keyword">set</span> _name <span class="keyword">to</span> <span class="string">&quot;CSL&quot;</span></span><br></pre></td></tr></table></figure>
+<p>Of course, Apple provides a special way that can declare any  <code>Unicode</code> chars between two <code>|</code> as a identifier, expect the char <code>|</code> itself.</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> |名字| <span class="keyword">to</span> <span class="string">&quot;CSL&quot;</span></span><br><span class="line"><span class="keyword">set</span> |年龄| <span class="keyword">to</span> <span class="number">100</span></span><br></pre></td></tr></table></figure>
+<h3 id="comments"><a class="markdownIt-Anchor" href="#comments"></a> Comments</h3>
+<p>Uses <code>--</code> to declare a single line comment.<br />
+Uses <code>(*</code> and <code>*)</code> to declare a multiple-line comment.</p>
+<h2 id="basic-types"><a class="markdownIt-Anchor" href="#basic-types"></a> Basic Types</h2>
+<h3 id="boolean"><a class="markdownIt-Anchor" href="#boolean"></a> boolean</h3>
+<p>The boolean only contains two values: <code>true</code> and <code>false</code>, it isn’t case-sensitive, but I suggest you use the lowercase.</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- Good</span></span><br><span class="line"><span class="keyword">set</span> a <span class="keyword">to</span> <span class="literal">true</span></span><br><span class="line"><span class="keyword">set</span> b <span class="keyword">to</span> <span class="literal">false</span></span><br><span class="line"><span class="comment">-- Bad</span></span><br><span class="line"><span class="keyword">set</span> c <span class="keyword">to</span> True</span><br><span class="line"><span class="keyword">set</span> d <span class="keyword">to</span> False</span><br></pre></td></tr></table></figure>
+<h3 id="number"><a class="markdownIt-Anchor" href="#number"></a> number</h3>
+<p>The <code>number</code> is an abstract class that can presents an <code>integer</code> or a <code>real</code>. There is no one object whose class is <code>number</code>. The actual class of a <em>number</em> object is always one of the <code>integer</code> or <code>real</code>.</p>
+<ul>
+<li><strong><code>integer</code></strong><br />
+An <code>integer</code> number doesn’t have a fraction part.</li>
+</ul>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> age <span class="keyword">to</span> <span class="number">18</span></span><br><span class="line"><span class="built_in">log</span> <span class="built_in">class</span> <span class="keyword">of</span> age</span><br><span class="line"><span class="comment">--integer</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong><code>real</code></strong><br />
+A <code>real</code> number actually is a float number.</li>
+</ul>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> weight <span class="keyword">to</span> <span class="number">180.5</span></span><br><span class="line"><span class="built_in">log</span> <span class="built_in">class</span> <span class="keyword">of</span> weight</span><br><span class="line"><span class="comment">--real</span></span><br></pre></td></tr></table></figure>
+<p><strong>Operators:</strong> <code>+</code>,<code>-</code>,<code>*</code>,<code>÷</code> (or <code>/</code>), <code>div</code>, <code>mod</code>, <code>^</code>, <code>=</code>, <code>≠</code>, <code>&gt;</code>, <code>≥</code>, <code>&lt;</code>, and <code>≤</code>.</p>
+<h3 id="textstring"><a class="markdownIt-Anchor" href="#textstring"></a> text/string</h3>
+<p>The <code>text</code> and <code>string</code> are the same type in AppleScript. A <code>text</code> object represents a ordered serial of Unicode characters.</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> myName <span class="keyword">to</span> <span class="string">&quot;SSBun&quot;</span></span><br><span class="line"><span class="built_in">log</span> <span class="built_in">class</span> <span class="keyword">of</span> myName</span><br><span class="line"><span class="comment">--text</span></span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>property</th>
+<th>type</th>
+<th>explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>class</code></td>
+<td>class</td>
+<td>The text object’s type, always be <code>text</code>.</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td>integer or [integer]</td>
+<td>The Unicode number of every characters in the text.</td>
+</tr>
+<tr>
+<td><code>length</code></td>
+<td>integer</td>
+<td>The number of characters in the text.</td>
+</tr>
+<tr>
+<td><code>quoted form</code></td>
+<td>text</td>
+<td>The quoted form of <code>abc</code> is <code>'abc'</code>.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="constant"><a class="markdownIt-Anchor" href="#constant"></a> constant</h3>
+<p>A word with a predefined value. You can’t define constants in scripts. constants can be defined only by applications and by AppleScript. eg: <code>pi</code>, the pi is a mathematic value representing <code>3.1416926</code>.</p>
+<p><strong>Operators:</strong> <code>&amp;</code>, <code>=</code>, <code>!=</code>and<code>as</code>.</p>
+<h3 id="list"><a class="markdownIt-Anchor" href="#list"></a> list</h3>
+<p>An ordered collection of any values. <code>&#123;1, 2, 3&#125;</code>, <code>&#123;&#125;</code></p>
+<table>
+<thead>
+<tr>
+<th>property</th>
+<th>type</th>
+<th>explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>class</code></td>
+<td>class</td>
+<td>The value is <code>list</code>.</td>
+</tr>
+<tr>
+<td><code>length</code></td>
+<td>integer</td>
+<td>The number of items in the list.</td>
+</tr>
+<tr>
+<td><code>rest</code></td>
+<td>list</td>
+<td>A list containing all items in the list expect the first item.</td>
+</tr>
+<tr>
+<td><code>reverse</code></td>
+<td>list</td>
+<td>A list containing all items in the list, but in the opposite order.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="record"><a class="markdownIt-Anchor" href="#record"></a> record</h3>
+<p>A hash map, dictionary. <code>&#123;name: &quot;csl&quot;, age: 100&#125;</code></p>
+<table>
+<thead>
+<tr>
+<th>property</th>
+<th>type</th>
+<th>explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>class</code></td>
+<td>class</td>
+<td>The value is <code>record</code></td>
+</tr>
+<tr>
+<td><code>length</code></td>
+<td>integer</td>
+<td>The number of properties in the record.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="reference"><a class="markdownIt-Anchor" href="#reference"></a> reference</h3>
+<p>A <code>reference</code> is a pointer that points to a value. When you modify the reference’s value, the pointed value also will change. In AppleScript, <code>set x to y</code>, the x is just a copy of the y.</p>
+<h3 id="date"><a class="markdownIt-Anchor" href="#date"></a> date</h3>
+<p>Specifies the date of the week, the date (month, day of month, and year), and the time (hours, minutes, and seconds).</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> now <span class="keyword">to</span> <span class="built_in">current date</span></span><br><span class="line"><span class="comment">--date Friday, December 24, 2021 at 10:57:12 AM</span></span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>property</th>
+<th>type</th>
+<th>explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>class</code></td>
+<td>class</td>
+<td>The value is <code>date</code></td>
+</tr>
+<tr>
+<td><code>day</code></td>
+<td>integer</td>
+<td>The day of the month.</td>
+</tr>
+<tr>
+<td><code>weekday</code></td>
+<td>integer</td>
+<td>The day of the week.</td>
+</tr>
+<tr>
+<td><code>month</code></td>
+<td>integer</td>
+<td>The month of the year.</td>
+</tr>
+<tr>
+<td><code>year</code></td>
+<td>integer</td>
+<td>The year of the date.</td>
+</tr>
+<tr>
+<td><code>time</code></td>
+<td>integer</td>
+<td>The number of seconds since midnight of a date.</td>
+</tr>
+<tr>
+<td><code>date string</code></td>
+<td>text</td>
+<td>A string that specifies the date portion of a date.</td>
+</tr>
+<tr>
+<td><code>time string</code></td>
+<td>text</td>
+<td>A string that specifies the time portion of a date.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Operators:</strong> <code>&amp;</code>, <code>+</code>, <code>–</code>, <code>=</code>, <code>≠</code>, <code>&gt;</code>, <code>≥</code>, <code>&lt;</code>, <code>≤</code>, <code>comes before</code>, <code>comes after</code>, and <code>as</code>.</p>
+<h3 id="alias"><a class="markdownIt-Anchor" href="#alias"></a> alias</h3>
+<p>A persistent reference to an exist file, folder or volume in the file system.</p>
+<table>
+<thead>
+<tr>
+<th>property</th>
+<th>type</th>
+<th>explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>class</code></td>
+<td>class</td>
+<td>The value is <code>alias</code></td>
+</tr>
+<tr>
+<td><code>POSIX path</code></td>
+<td>text</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> my_file <span class="keyword">to</span> <span class="built_in">choose file</span></span><br><span class="line"><span class="comment">--alias Macintosh HD:Users:csl:Documents:test.txt</span></span><br></pre></td></tr></table></figure>
+<h3 id="file"><a class="markdownIt-Anchor" href="#file"></a> file</h3>
+<p>A <code>file</code> object has exactly the same attributes as a <code>alias</code> object, with a addition that it can refer to a path that doesn’t exist.</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> my_file <span class="keyword">to</span> <span class="built_in">choose file</span> <span class="built_in">name</span></span><br><span class="line"><span class="comment">--file Macintosh HD:Users:csl:Documents:untitled</span></span><br></pre></td></tr></table></figure>
+<h3 id="posix-file"><a class="markdownIt-Anchor" href="#posix-file"></a> POSIX file</h3>
+<p>A pseudo-class equivalent to the <code>file</code> class.</p>
+<p>The only difference between <code>file</code> and <code>POSIX file</code> is that a <code>POSIX file</code> object interprets “name” as a POSIX, while a <code>file</code> object interprets “name” as a HFS path.</p>
+<h3 id="rgb-color"><a class="markdownIt-Anchor" href="#rgb-color"></a> RGB color</h3>
+<p>A type definition for a three-item list of integer values, form 0 to 65535, that specify the red, green and blue components of a color.</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> whiteColor <span class="keyword">to</span> &#123;<span class="number">65535</span>, <span class="number">65535</span>, <span class="number">65535</span>&#125; <span class="comment">--white</span></span><br><span class="line"><span class="keyword">set</span> userColor <span class="keyword">to</span> <span class="built_in">choose color</span> default color whiteColor</span><br></pre></td></tr></table></figure>
+<h2 id="operators"><a class="markdownIt-Anchor" href="#operators"></a> Operators</h2>
+<h3 id="coercion-type-convert"><a class="markdownIt-Anchor" href="#coercion-type-convert"></a> Coercion Type Convert</h3>
+<p>The operator <code>as</code> can convert a object to another type.</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> a <span class="keyword">to</span> <span class="string">&quot;100&quot;</span></span><br><span class="line">a <span class="keyword">as</span> <span class="built_in">number</span> <span class="comment">--100</span></span><br><span class="line"></span><br><span class="line"><span class="string">&quot;1.99&quot;</span> <span class="keyword">as</span> <span class="built_in">real</span> <span class="comment">--1.99</span></span><br><span class="line"><span class="string">&quot;1.99&quot;</span> <span class="keyword">as</span> <span class="built_in">integer</span> <span class="comment">--2</span></span><br><span class="line"><span class="string">&quot;1&quot;</span> <span class="keyword">as</span> <span class="built_in">real</span> <span class="comment">--1.0</span></span><br><span class="line"><span class="string">&quot;text&quot;</span> <span class="keyword">as</span> <span class="built_in">list</span> <span class="comment">--&#123;&quot;text&quot;&#125;</span></span><br><span class="line"><span class="number">1.99</span> <span class="keyword">as</span> <span class="built_in">list</span> <span class="comment">--&#123;1.99&#125;</span></span><br><span class="line">&#123;a:<span class="number">1</span>, b:<span class="number">2</span>&#125; <span class="keyword">as</span> <span class="built_in">list</span> <span class="comment">--&#123;1, 2&#125;</span></span><br></pre></td></tr></table></figure>
+<h3 id="common-operators"><a class="markdownIt-Anchor" href="#common-operators"></a> Common Operators</h3>
+<table>
+<thead>
+<tr>
+<th>operator</th>
+<th>explanation</th>
+<th>example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>+</code></td>
+<td>addition</td>
+<td><code>1 + 1</code> = 2</td>
+</tr>
+<tr>
+<td><code>-</code></td>
+<td>subtraction</td>
+<td><code>1 - 1</code> = 0</td>
+</tr>
+<tr>
+<td><code>*</code></td>
+<td>multiplication</td>
+<td><code>2 * 3</code> = 6</td>
+</tr>
+<tr>
+<td><code>÷</code> or <code>/</code></td>
+<td>division</td>
+<td><code>3 / 2</code> = 1.5</td>
+</tr>
+<tr>
+<td><code>^</code></td>
+<td>exponent</td>
+<td><code>3^2</code> = 9</td>
+</tr>
+<tr>
+<td><code>div</code></td>
+<td>aliquot</td>
+<td><code>3 div 2</code> = 1</td>
+</tr>
+<tr>
+<td><code>mod</code></td>
+<td>mod</td>
+<td><code>5 mod 3</code> = 2</td>
+</tr>
+<tr>
+<td>----</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>=</code><br><code>equals</code><br><code>is equal</code><br><code>[is] equal to</code></td>
+<td>compares whether two objects are equal.</td>
+<td><code>1 is equal to 2</code> = false</td>
+</tr>
+<tr>
+<td>----</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>!=</code><br><code>is not</code><br><code>isn't</code><br><code>isn't equal [to]</code><br><code>is not equal [to]</code><br><code>doesn't equal</code><br><code>does not equal</code></td>
+<td>compares whether two objects aren’t equal.</td>
+<td><code>1 is not 2</code> = true</td>
+</tr>
+<tr>
+<td>----</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>&gt;</code><br><code>[is] greater than</code><br><code>comes after</code><br><code>is not less than or equal [to]</code><br><code>isn't less than or equal [to]</code></td>
+<td></td>
+<td><code>2 is greater than 2</code> = false</td>
+</tr>
+<tr>
+<td>----</td>
+<td>support types: integer, real, date, text</td>
+<td></td>
+</tr>
+<tr>
+<td><code>&gt;=</code><br><code>[is] greater than or equal</code><br><code>is not less than</code><br><code>isn't lesson than</code><br><code>does not come before</code><br><code>doesn't come before</code></td>
+<td></td>
+<td><code>2 is greater than or equal to 2</code> == true</td>
+</tr>
+<tr>
+<td>----</td>
+<td>support types: integer, real, date, text</td>
+<td></td>
+</tr>
+<tr>
+<td><code>&lt;</code><br><code>[is] less than</code><br><code>comes before</code><br><code>is not greater than or equal [to]</code><br><code>isn't greater than or equal [to]</code></td>
+<td></td>
+<td><code>2 is less than 2</code> = false</td>
+</tr>
+<tr>
+<td>----</td>
+<td>support types: integer, real, date, text</td>
+<td></td>
+</tr>
+<tr>
+<td><code>&lt;=</code><br><code>[is] less than or equal</code><br><code>is not greater than</code><br><code>isn't greater than</code><br><code>does not come after</code><br><code>doesn't come after</code></td>
+<td></td>
+<td><code>2 is less than or equal to 2</code> == true</td>
+</tr>
+<tr>
+<td>----</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>start[s] with</code><br><code>begin[s] with</code></td>
+<td>supports text and list</td>
+<td><code>a stars with &quot;abc&quot;</code> = true</td>
+</tr>
+<tr>
+<td>----</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>end[s] with</code></td>
+<td>supports text and list</td>
+<td><code>a ends with &quot;abc&quot;</code> = false</td>
+</tr>
+<tr>
+<td>----</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>contain[s]</code></td>
+<td>supports text, record and list</td>
+<td><code>&#123;10, 20&#125; contains 20</code> = true</td>
+</tr>
+<tr>
+<td>----</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>doesn't contain</code><br><code>does not contain</code></td>
+<td>supports text, record and list</td>
+<td><code>&#123;1, 2, 3&#125; doesn't contain 4</code> = true</td>
+</tr>
+<tr>
+<td>----</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>is in</code><br><code>is contained by</code></td>
+<td>supports text, record and list</td>
+<td><code>1 is in &#123;1, 2, 3&#125;</code> = true</td>
+</tr>
+<tr>
+<td>----</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>is not in</code><br><code>is not contained by</code><br><code>isn't contained by</code></td>
+<td>supports text, record and list</td>
+<td><code>1 is not in &#123;1, 2, 3&#125;</code> = false</td>
+</tr>
+</tbody>
+</table>
+<h3 id="logic-operators"><a class="markdownIt-Anchor" href="#logic-operators"></a> Logic Operators</h3>
+<p><code>and</code>,<code>or</code> and <code>not</code></p>
+<h3 id="operator"><a class="markdownIt-Anchor" href="#operator"></a> Operator <code>&amp;</code></h3>
+<p>The operator <code>&amp;</code> is used to combine two object to one.</p>
+<p>The operator <code>&amp;</code> has three combine rules.</p>
+<ul>
+<li>The left operand is <code>text</code>, the result is <code>text</code>, maybe occur errors.</li>
+<li>The left operand is <code>record</code>, the result is <code>record</code>, maybe occur errors.</li>
+<li>The left operand is other type, the result is <code>list</code>, maybe occur errors.</li>
+</ul>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;text&quot;</span> &amp; <span class="number">1</span> <span class="comment">--&quot;text1&quot;</span></span><br><span class="line"><span class="number">1</span> &amp; <span class="string">&quot;text&quot;</span> <span class="comment">--&#123;1, &quot;text&quot;&#125;</span></span><br><span class="line">&#123;age: <span class="number">100</span>&#125; &amp; <span class="string">&quot;weight&quot;</span> <span class="comment">--&#123;age:100, «class ktxt»:weight&#125;</span></span><br><span class="line"><span class="string">&quot;weight&quot;</span> &amp; &#123;age: <span class="number">100</span>&#125; <span class="comment">--&#123;&quot;weight&quot;: 100&#125;</span></span><br><span class="line">&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125; &amp; &#123;<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>&#125; <span class="comment">--&#123;1, 2, 3, 4, 5, 6&#125;</span></span><br><span class="line">&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125; &amp; <span class="number">4</span> &amp; <span class="number">5</span> &amp; <span class="number">6</span> <span class="comment">--&#123;1, 2, 3, 4, 5, 6&#125;</span></span><br><span class="line">&#123;a: <span class="number">10</span>, b: <span class="number">20</span>&#125; &amp; &#123;c: <span class="number">30</span>&#125; <span class="comment">--&#123;a: 10, b: 20, c: 30&#125;</span></span><br></pre></td></tr></table></figure>
+<h3 id="get-elements-from-an-object"><a class="markdownIt-Anchor" href="#get-elements-from-an-object"></a> Get Elements From an Object</h3>
+<p><strong>Extracts words or characters from a text</strong></p>
+<ul>
+<li><code>every character of &quot;abc&quot;</code> returns <code>&#123;a, b, c&#125;</code></li>
+<li><code>characters of &quot;abc&quot;</code> returns <code>&#123;a, b, c&#125;</code></li>
+<li><code>words of &quot;hello world&quot;</code> returns <code>&#123;hello, world&#125;</code></li>
+<li><code>eery word of &quot;hello world&quot;</code> returns <code>&#123;hello, world&#125;</code></li>
+<li><code>character 1 of &quot;abc&quot;</code> returns <code>a</code></li>
+<li><code>word 2 of &quot;hello world&quot;</code> returns <code>world</code></li>
+<li><code>characters 3 through 5 of &quot;American&quot;</code> returns <code>eri</code></li>
+<li><code>words 2 through 3 of &quot;What's your name?&quot;</code> returns <code>&#123;your, name&#125;</code></li>
+</ul>
+<blockquote>
+<p>The first index is 1, not zero. You can abbreviate the keyword <code>through</code> to <code>thru</code>.</p>
+</blockquote>
+<p><strong>Get all files form a folder</strong></p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">tell</span> <span class="built_in">application</span> <span class="string">&quot;Finder&quot;</span></span><br><span class="line">  <span class="keyword">every</span> <span class="built_in">file</span> <span class="keyword">of</span> desktop <span class="comment">-- Gets all files on the desktop.</span></span><br><span class="line">  files <span class="keyword">of</span> desktop</span><br><span class="line"></span><br><span class="line">  <span class="keyword">every</span> folder <span class="keyword">of</span> desktop <span class="comment">-- Gets all folders on the desktop.</span></span><br><span class="line">  folders <span class="keyword">of</span> desktop</span><br><span class="line"></span><br><span class="line">  <span class="built_in">name</span> <span class="keyword">of</span> <span class="keyword">every</span> files <span class="keyword">of</span> desktop <span class="comment">--Lists all file names on the desktop.</span></span><br><span class="line"><span class="keyword">end</span> <span class="keyword">tell</span></span><br></pre></td></tr></table></figure>
+<p>Uses <code>whose</code> or <code>where its</code> to filter result.</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">tell</span> <span class="built_in">application</span> <span class="string">&quot;Finder&quot;</span></span><br><span class="line">  <span class="keyword">every</span> <span class="built_in">file</span> <span class="keyword">of</span> desktop <span class="keyword">whose</span> <span class="built_in">name</span> <span class="keyword">ends with</span> <span class="string">&quot;png&quot;</span></span><br><span class="line">  <span class="keyword">every</span> <span class="built_in">file</span> <span class="keyword">of</span> desktop <span class="keyword">where</span> <span class="keyword">its</span> <span class="built_in">name</span> <span class="keyword">ends with</span> <span class="string">&quot;png&quot;</span></span><br><span class="line"><span class="keyword">end</span> <span class="keyword">tell</span></span><br></pre></td></tr></table></figure>
+<h2 id="variables-and-properties"><a class="markdownIt-Anchor" href="#variables-and-properties"></a> Variables and Properties</h2>
+<h3 id="variables"><a class="markdownIt-Anchor" href="#variables"></a> Variables</h3>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> myWeight <span class="keyword">to</span> <span class="number">80</span> <span class="keyword">as</span> <span class="built_in">real</span></span><br></pre></td></tr></table></figure>
+<p>Uses <code>as real</code> to convert the value 80 from default integer type to real type, you can ignore it.</p>
+<p>In AppleScript, all variables are local at default. The variables defined in script files that you can not access in in a handler(method) or script(object) internal. We will write more detail about handlers and scripts in next chapter. This time you can think of the handler is the method and the script is the object.</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> message <span class="keyword">to</span> <span class="string">&quot;hello world&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">on</span> logMessage()</span><br><span class="line">  <span class="built_in">log</span> message</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">logMessage()</span><br></pre></td></tr></table></figure>
+<p>The code above will throw an error when executing it. The error message is <code>execution error: the variable message is not defined</code>. If you want to access the variable message, you can add the code <code>global message</code> above the assignment code.</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">global</span> message</span><br><span class="line"><span class="keyword">set</span> message <span class="keyword">to</span> <span class="string">&quot;hello world&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">on</span> logMessage()</span><br><span class="line">  <span class="built_in">log</span> message</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">logMessage()</span><br><span class="line"></span><br><span class="line"><span class="comment">--hello world</span></span><br></pre></td></tr></table></figure>
+<p>In other word, if we want to define a local variable in a handler, but the variable has already been defined in outer, you can use <code>local message</code> to covert the global variable message to local variable.</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">global</span> message</span><br><span class="line"><span class="keyword">set</span> message <span class="keyword">to</span> <span class="string">&quot;hello world&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">on</span> logMessage()</span><br><span class="line">  <span class="keyword">local</span> message</span><br><span class="line">  <span class="keyword">set</span> message <span class="keyword">to</span> <span class="string">&quot;good&quot;</span></span><br><span class="line">  <span class="built_in">log</span> message</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">logMessage() <span class="comment">--good</span></span><br><span class="line"><span class="built_in">log</span> message <span class="comment">--hello world</span></span><br></pre></td></tr></table></figure>
+<h3 id="properties"><a class="markdownIt-Anchor" href="#properties"></a> Properties</h3>
+<p>All variables we told above are saved in the memory, that means all values would be emptied once the script is done. If we want to keep some data we can access in the next running, we can declare a variable as a <code>property</code>.</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">property</span> runTimes: <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span> runTimes <span class="keyword">to</span> runTimes + <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>Executing the code above, you would find the runTimes value increases one every running. Do not rebuild the code, the property runTimes will be reset. Actually, the property’s value is saved to the script file.</p>
+<h2 id="control"><a class="markdownIt-Anchor" href="#control"></a> Control</h2>
+<h3 id="switch"><a class="markdownIt-Anchor" href="#switch"></a> Switch</h3>
+<p><strong>Simple format:</strong> <code>if</code> <mark>boolean</mark> <code>then</code> <mark>statement</mark><br />
+<strong>Complex format:</strong></p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> boolean1 <span class="keyword">then</span></span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span> boolean2 <span class="keyword">then</span></span><br><span class="line">  statement</span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span> boolean3 <span class="keyword">then</span></span><br><span class="line">  statement</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">  statement</span><br><span class="line"><span class="keyword">end</span> <span class="keyword">if</span></span><br></pre></td></tr></table></figure>
+<h3 id="loop"><a class="markdownIt-Anchor" href="#loop"></a> Loop</h3>
+<p>AppleScript provides least six ways to loop values.</p>
+<ol>
+<li><strong>Infinite loop</strong></li>
+</ol>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">repeat</span></span><br><span class="line">  statement</span><br><span class="line"><span class="keyword">end</span> <span class="keyword">repeat</span></span><br></pre></td></tr></table></figure>
+<p>The loop will never stop, you must use <code>exit</code> or <code>return</code> to break it.</p>
+<ol start="2">
+<li><strong>Limited loop</strong></li>
+</ol>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">repeat</span> <span class="number">10</span> <span class="keyword">times</span></span><br><span class="line">  statement</span><br><span class="line"><span class="keyword">end</span> <span class="keyword">repeat</span></span><br></pre></td></tr></table></figure>
+<p>The loop body will execute ten time.</p>
+<ol start="3">
+<li><strong>Until loop</strong></li>
+</ol>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">repeat</span> <span class="keyword">until</span> <span class="built_in">boolean</span></span><br><span class="line">  statement</span><br><span class="line"><span class="keyword">end</span> <span class="keyword">repeat</span></span><br></pre></td></tr></table></figure>
+<p>The loop body would repeatedly execute until the boolean become true.</p>
+<ol start="4">
+<li><strong>While loop</strong></li>
+</ol>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">repeat</span> <span class="keyword">while</span> <span class="built_in">boolean</span></span><br><span class="line">  statement</span><br><span class="line"><span class="keyword">end</span> <span class="keyword">repeat</span></span><br></pre></td></tr></table></figure>
+<p>Opposites to the <code>until</code> loop, the loop body would execute repeatedly until the boolean become false.</p>
+<ol start="5">
+<li><strong>Range loop</strong></li>
+</ol>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">repeat</span> <span class="keyword">with</span> loopVariable <span class="keyword">from</span> startValue <span class="keyword">to</span> stopValue <span class="keyword">by</span> stepValue</span><br><span class="line">  statement</span><br><span class="line"><span class="keyword">end</span> <span class="keyword">repeat</span></span><br></pre></td></tr></table></figure>
+<p>You can ignore the <code>by stepValue</code>, the default value is 1.</p>
+<ol start="6">
+<li><strong>List loop</strong><br />
+AppleScript provides a convenience approach to enumerate a list object quickly.</li>
+</ol>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> people <span class="keyword">to</span> &#123;<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>, <span class="string">&quot;d&quot;</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">repeat</span> <span class="keyword">with</span> person <span class="keyword">in</span> people</span><br><span class="line">  <span class="built_in">log</span> person</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Modifying the person’s value, the original people list will keep old value. If you want to modify the list, you need to use <code>contents of person</code> to get real item of the list and modify its value.</p>
+</blockquote>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> people <span class="keyword">to</span> &#123;<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>, <span class="string">&quot;d&quot;</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">repeat</span> <span class="keyword">with</span> person <span class="keyword">in</span> people</span><br><span class="line">  <span class="built_in">contents</span> <span class="keyword">of</span> person = <span class="string">&quot;*&quot;</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="comment">--*, *, *, *</span></span><br></pre></td></tr></table></figure>
+<h3 id="consideringignoring-syntax"><a class="markdownIt-Anchor" href="#consideringignoring-syntax"></a> Considering/Ignoring Syntax</h3>
+<p>When we compare two text object, the AppleScript think of the text “abc” is equal to “ABC”, because the AppleScript is case-ignore. If you don’t want ignoring the case, you can use <code>considering</code> to add comparing rules.</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">considering</span> attribute1 <span class="keyword">but</span> <span class="keyword">ignoring</span> attribute2</span><br><span class="line">  <span class="comment">--compare texts</span></span><br><span class="line"><span class="keyword">end</span> <span class="keyword">considering</span></span><br></pre></td></tr></table></figure>
+<p>The AppleScript supports multiple comparing attributes:</p>
+<ul>
+<li><code>case</code> capital or small letters</li>
+<li><code>diacriticals</code></li>
+<li><code>hyphens</code>: the hyphen <code>-</code></li>
+<li><code>numeric strings</code>:  used to compare two version string. <code>&quot;1.10.1&quot; &gt; &quot;1.9.4&quot;</code></li>
+<li><code>punctuation</code></li>
+<li><code>white space</code></li>
+</ul>
+<h2 id="exception-handling"><a class="markdownIt-Anchor" href="#exception-handling"></a> Exception handling</h2>
+<p>Every programing languages provide the exception handling, the AppleScript is no exception.<br />
+All errors occurring in <code>try</code> scope will be caught.</p>
+<h3 id="try"><a class="markdownIt-Anchor" href="#try"></a> Try</h3>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span></span><br><span class="line">  <span class="number">100</span> / <span class="number">0</span> <span class="comment">-- 100 cannot be divided by 0.</span></span><br><span class="line"><span class="keyword">end</span> <span class="keyword">try</span></span><br></pre></td></tr></table></figure>
+<p>Catches the specific error message and error code.</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span></span><br><span class="line">  <span class="number">100</span> / <span class="number">0</span></span><br><span class="line"><span class="keyword">on</span> <span class="keyword">error</span> errText <span class="built_in">number</span> errNum</span><br><span class="line">  <span class="built_in">log</span> errText</span><br><span class="line">  <span class="built_in">log</span> errNum</span><br><span class="line"><span class="keyword">end</span> <span class="keyword">try</span></span><br></pre></td></tr></table></figure>
+<p>You can ignore <code>number errNum</code> if you don’t want to get the error number.</p>
+<h3 id="custom-errors"><a class="markdownIt-Anchor" href="#custom-errors"></a> Custom Errors</h3>
+<p>Throws a custom error represents that your code get an exception situation.</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">error</span> <span class="string">&quot;error message&quot;</span> <span class="built_in">number</span> <span class="number">404</span></span><br></pre></td></tr></table></figure>
+<h3 id="timeout"><a class="markdownIt-Anchor" href="#timeout"></a> Timeout</h3>
+<p>The AppleScript usually needs interact with users or other programs, if the script cannot receive a response after waiting a period of time, it will throw a timeout error.(The system default timeout duration is 120 seconds)</p>
+<p>The AppleScript provides a way that we can customize the timeout duration for our specific situations.</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> <span class="keyword">timeout</span> <span class="keyword">of</span> x seconds <span class="comment">-- x must be integer</span></span><br><span class="line">  <span class="comment">--do something</span></span><br><span class="line"><span class="keyword">end</span> <span class="keyword">timeout</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> <span class="keyword">timeout</span> <span class="keyword">of</span> <span class="number">5</span> seconds</span><br><span class="line">  <span class="built_in">display dialog</span> <span class="string">&quot;Click the button in 5 seconds&quot;</span></span><br><span class="line"><span class="keyword">end</span> <span class="keyword">timeout</span></span><br></pre></td></tr></table></figure>
+<p>Executing this code will display a dialog, the script will throw an error if you don’t click the sure button in 5 seconds.</p>
+<h2 id="handler"><a class="markdownIt-Anchor" href="#handler"></a> Handler</h2>
+<p>Handlers in AppleScript are same as methods or functions in other programing languages.</p>
+<h3 id="simple-handler"><a class="markdownIt-Anchor" href="#simple-handler"></a> Simple handler</h3>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">on</span> sayHelloWorld()</span><br><span class="line">  <span class="built_in">display dialog</span> <span class="string">&quot;Hello, world&quot;</span></span><br><span class="line"><span class="keyword">end</span> sayHelloWorld</span><br><span class="line"></span><br><span class="line">sayHelloWorld()</span><br></pre></td></tr></table></figure>
+<h3 id="handler-with-positional-parameters"><a class="markdownIt-Anchor" href="#handler-with-positional-parameters"></a> Handler with positional parameters</h3>
+<p>We can pass parameters into a handler.</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">on</span> sayMsg(msg, n)</span><br><span class="line">  <span class="keyword">repeat</span> n <span class="keyword">times</span></span><br><span class="line">    <span class="built_in">display dialog</span> msg</span><br><span class="line">  <span class="keyword">end</span> <span class="keyword">repeat</span></span><br><span class="line"><span class="keyword">end</span> sayMsg</span><br><span class="line"></span><br><span class="line">sayMsg(<span class="string">&quot;Hello, world&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="handler-with-labeled-parameters"><a class="markdownIt-Anchor" href="#handler-with-labeled-parameters"></a> Handler with labeled parameters</h3>
+<p>The labeled parameters can make the handler invoking like saying English sentences and it don’t have order so can be written at whatever position you want.</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">on</span> warn <span class="keyword">to</span> somebody <span class="keyword">about</span> something</span><br><span class="line">  <span class="built_in">display dialog</span> <span class="string">&quot;Warning: &quot;</span> &amp; somebody &amp; <span class="string">&quot;[&quot;</span> &amp; something &amp; <span class="string">&quot;]&quot;</span></span><br><span class="line"><span class="keyword">end</span> warn</span><br><span class="line"></span><br><span class="line">warn <span class="keyword">to</span> <span class="string">&quot;csl&quot;</span> <span class="keyword">about</span> <span class="string">&quot;It&#x27;s too late.&quot;</span></span><br></pre></td></tr></table></figure>
+<h3 id="return"><a class="markdownIt-Anchor" href="#return"></a> Return</h3>
+<p>Of course, a method could return a result. Like other languages, We can use <code>return</code> to return a value.</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">on</span> createUser(userName)</span><br><span class="line"><span class="built_in">  return</span> &#123;<span class="built_in">name</span>: userName&#125;</span><br><span class="line"><span class="keyword">end</span> createUser</span><br></pre></td></tr></table></figure>
+<h2 id="system-default-handlers"><a class="markdownIt-Anchor" href="#system-default-handlers"></a> System Default Handlers</h2>
+<h3 id="run"><a class="markdownIt-Anchor" href="#run"></a> run</h3>
+<p><code>run</code> is the default event handler in AppleScript, it is the entrance of a script, like the main method in C.</p>
+<h3 id="open"><a class="markdownIt-Anchor" href="#open"></a> open</h3>
+<p><code>open</code> is a powerful handler that you can use it to implement the <strong>Drag &amp; Drop</strong> app. Write a script, save it as an application, select the <code>keep open</code> mark and then run the application, drag a file to the application’s icon. The <code>open</code> handler will be invoked with the dragged files as its parameters.</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">on</span> open selectedFiles</span><br><span class="line">  <span class="keyword">set</span> nameStr <span class="keyword">to</span> <span class="string">&quot;&quot;</span></span><br><span class="line">  <span class="keyword">repeat</span> <span class="keyword">with</span> i <span class="keyword">in</span> selectedFiles</span><br><span class="line">    <span class="keyword">set</span> nameStr <span class="keyword">to</span> nameStr &amp; <span class="string">&quot;/&quot;</span> &amp; (i <span class="keyword">as</span> <span class="built_in">text</span>)</span><br><span class="line">  <span class="keyword">end</span> <span class="keyword">repeat</span></span><br><span class="line">  <span class="built_in">display dialog</span> nameStr</span><br><span class="line"><span class="keyword">end</span> open</span><br></pre></td></tr></table></figure>
+<h3 id="idle"><a class="markdownIt-Anchor" href="#idle"></a> idle</h3>
+<p>When the script keeps running and doesn’t perform any events, the <code>idle</code> handler will be invoked regularly, the default duration is 30 seconds but we can return an integer value to modify the duration.</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">on</span> idle</span><br><span class="line">  <span class="built_in">display dialog</span> <span class="string">&quot;The program is running.&quot;</span> giving up <span class="keyword">after</span> <span class="number">1</span></span><br><span class="line"><span class="built_in">  return</span> <span class="number">10</span></span><br><span class="line"><span class="keyword">end</span> idle</span><br></pre></td></tr></table></figure>
+<h3 id="quit"><a class="markdownIt-Anchor" href="#quit"></a> quit</h3>
+<p>If user want to exit applications manually, the <code>quit</code> handler will be invoked, then you can invoke <code>continue quit</code> to quit the application. Remember to invoke the <code>continue quit</code>, otherwise the application will not exit.</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">on</span> quit</span><br><span class="line">  <span class="built_in">display dialog</span> <span class="string">&quot;Are you want to exit?&quot;</span> buttons &#123;<span class="string">&quot;sure&quot;</span>, <span class="string">&quot;cancel&quot;</span>&#125;</span><br><span class="line">  <span class="keyword">if</span> button returned <span class="keyword">of</span> <span class="literal">result</span> = <span class="string">&quot;sure&quot;</span> <span class="keyword">then</span></span><br><span class="line">    <span class="keyword">continue</span> quit</span><br><span class="line">  <span class="keyword">end</span> <span class="keyword">if</span></span><br><span class="line"><span class="keyword">end</span> quit</span><br></pre></td></tr></table></figure>
+<h2 id="script"><a class="markdownIt-Anchor" href="#script"></a> Script</h2>
+<p>The AppleScript is an OOP(Object-oriented programming) language. The <code>script</code> is the object, you can think of it as classes in other languages.</p>
+<h3 id="keyword-me"><a class="markdownIt-Anchor" href="#keyword-me"></a> Keyword <code>me</code></h3>
+<p>The keyword <code>me</code> in AppleScript is like the <code>self</code> in Ruby or the <code>this</code> in JavaScript.</p>
+<p><code>path to me</code> returns the script’s path.</p>
+<h3 id="declares-a-script"><a class="markdownIt-Anchor" href="#declares-a-script"></a> Declares a Script</h3>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">property</span> description: <span class="string">&quot;I&#x27;m a person&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">script</span> Person</span><br><span class="line">  <span class="built_in">display dialog</span> description</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">on</span> eat(food)</span><br><span class="line">    <span class="built_in">display dialog</span> <span class="string">&quot;I&#x27;m eating &quot;</span> &amp; food giving up <span class="keyword">after</span> <span class="number">2</span></span><br><span class="line">  <span class="keyword">end</span> eat</span><br><span class="line"><span class="keyword">end</span> <span class="keyword">script</span></span><br></pre></td></tr></table></figure>
+<p><code>run Person</code> will execute the script’s body, displaying a dialog with content “I’m a person”, but the <code>eat</code> method won’t be invoked.</p>
+<p>Executing <code>eat(&quot;apple&quot;) of Person</code> will invoke the <code>eat</code> handler, there have a more recommend approach to invoke handlers in scripts.</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">tell</span> Person</span><br><span class="line">  <span class="built_in">run</span></span><br><span class="line">  eat(<span class="string">&quot;apple&quot;</span>)</span><br><span class="line"><span class="keyword">end</span> Person</span><br></pre></td></tr></table></figure>
+<h3 id="invoke-outer-scripts"><a class="markdownIt-Anchor" href="#invoke-outer-scripts"></a> Invoke Outer Scripts</h3>
+<p>We might separate our script into several different files if its too complex. So the AppleScript provides a way to load outer file’s scripts.</p>
+<p>Assuming that we save the <code>Person</code> script we written above to the person.scpt file at desktop.</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> personPath <span class="keyword">to</span> ((<span class="built_in">path to</span> desktop) <span class="keyword">as</span> <span class="built_in">text</span>) &amp; <span class="string">&quot;person.scpt&quot;</span></span><br><span class="line"><span class="keyword">set</span> personScript <span class="keyword">to</span> <span class="built_in">load script</span> <span class="built_in">file</span> personPath</span><br><span class="line"></span><br><span class="line"><span class="built_in">run</span> Person <span class="keyword">of</span> personScript</span><br><span class="line"></span><br><span class="line">eat(<span class="string">&quot;apple&quot;</span>) <span class="keyword">of</span> Person <span class="keyword">of</span> personScript</span><br></pre></td></tr></table></figure>
+<h3 id="modify-outer-scripts-properties-in-the-current-script"><a class="markdownIt-Anchor" href="#modify-outer-scripts-properties-in-the-current-script"></a> Modify Outer Scripts Properties in the Current Script</h3>
+<p>We can not only load outer script files but can also modify their properties.</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> personPath <span class="keyword">to</span> ((<span class="built_in">path to</span> desktop) <span class="keyword">as</span> <span class="built_in">text</span>) &amp; <span class="string">&quot;person.scpt&quot;</span></span><br><span class="line"><span class="keyword">set</span> personScript <span class="keyword">to</span> <span class="built_in">load script</span> <span class="built_in">file</span> personPath</span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span> message <span class="keyword">of</span> personScript <span class="keyword">to</span> <span class="string">&quot;I&#x27;m a dog&quot;</span> <span class="comment">--Modifies the property message.</span></span><br><span class="line"><span class="built_in">run</span> Person <span class="keyword">of</span> personScript <span class="comment">--The dialog&#x27;s content will be replaced with &quot;I&#x27;m a dog&quot;</span></span><br><span class="line"></span><br><span class="line">eat(<span class="string">&quot;apple&quot;</span>) <span class="keyword">of</span> Person <span class="keyword">of</span> personScript</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>When loading outer scripts, the AppleScript just copy them into the current script file, so modifying the properties value just influences the memory data. If we execute the <code>person.scpt</code> file again, the property’s value is still old.</p>
+</blockquote>
+<p>The AppleScript provides a command <code>store script</code> to save the changes really.</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">store script</span> personScript <span class="keyword">in</span> <span class="built_in">file</span> personPath <span class="keyword">with</span> replacing</span><br></pre></td></tr></table></figure>
+<p>If you ignore the <code>with replacing</code>, the AppleScript will ask you whether replacing the old script file. So the <code>with replacing</code> is actually a force and dangerous command, be careful when using it.</p>
+<h2 id="references"><a class="markdownIt-Anchor" href="#references"></a> References</h2>
+<p><a target="_blank" rel="noopener" href="https://kapeli.com/dash">Dash for Mac</a><br />
+The Dash provides many detail documents about the AppleScript, it lists all of the classes and commands that you can read through the document to dive into more detail.</p>
+
+  </div>
+</article>
+
+
+
+      
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#basic"><span class="toc-number">1.</span> <span class="toc-text"> Basic</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#identifier"><span class="toc-number">1.1.</span> <span class="toc-text"> Identifier</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#comments"><span class="toc-number">1.2.</span> <span class="toc-text"> Comments</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#basic-types"><span class="toc-number">2.</span> <span class="toc-text"> Basic Types</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#boolean"><span class="toc-number">2.1.</span> <span class="toc-text"> boolean</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#number"><span class="toc-number">2.2.</span> <span class="toc-text"> number</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#textstring"><span class="toc-number">2.3.</span> <span class="toc-text"> text&#x2F;string</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#constant"><span class="toc-number">2.4.</span> <span class="toc-text"> constant</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#list"><span class="toc-number">2.5.</span> <span class="toc-text"> list</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#record"><span class="toc-number">2.6.</span> <span class="toc-text"> record</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#reference"><span class="toc-number">2.7.</span> <span class="toc-text"> reference</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#date"><span class="toc-number">2.8.</span> <span class="toc-text"> date</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#alias"><span class="toc-number">2.9.</span> <span class="toc-text"> alias</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#file"><span class="toc-number">2.10.</span> <span class="toc-text"> file</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#posix-file"><span class="toc-number">2.11.</span> <span class="toc-text"> POSIX file</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#rgb-color"><span class="toc-number">2.12.</span> <span class="toc-text"> RGB color</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#operators"><span class="toc-number">3.</span> <span class="toc-text"> Operators</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#coercion-type-convert"><span class="toc-number">3.1.</span> <span class="toc-text"> Coercion Type Convert</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#common-operators"><span class="toc-number">3.2.</span> <span class="toc-text"> Common Operators</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#logic-operators"><span class="toc-number">3.3.</span> <span class="toc-text"> Logic Operators</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#operator"><span class="toc-number">3.4.</span> <span class="toc-text"> Operator &amp;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#get-elements-from-an-object"><span class="toc-number">3.5.</span> <span class="toc-text"> Get Elements From an Object</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#variables-and-properties"><span class="toc-number">4.</span> <span class="toc-text"> Variables and Properties</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#variables"><span class="toc-number">4.1.</span> <span class="toc-text"> Variables</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#properties"><span class="toc-number">4.2.</span> <span class="toc-text"> Properties</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#control"><span class="toc-number">5.</span> <span class="toc-text"> Control</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#switch"><span class="toc-number">5.1.</span> <span class="toc-text"> Switch</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#loop"><span class="toc-number">5.2.</span> <span class="toc-text"> Loop</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#consideringignoring-syntax"><span class="toc-number">5.3.</span> <span class="toc-text"> Considering&#x2F;Ignoring Syntax</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#exception-handling"><span class="toc-number">6.</span> <span class="toc-text"> Exception handling</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#try"><span class="toc-number">6.1.</span> <span class="toc-text"> Try</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#custom-errors"><span class="toc-number">6.2.</span> <span class="toc-text"> Custom Errors</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#timeout"><span class="toc-number">6.3.</span> <span class="toc-text"> Timeout</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#handler"><span class="toc-number">7.</span> <span class="toc-text"> Handler</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#simple-handler"><span class="toc-number">7.1.</span> <span class="toc-text"> Simple handler</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#handler-with-positional-parameters"><span class="toc-number">7.2.</span> <span class="toc-text"> Handler with positional parameters</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#handler-with-labeled-parameters"><span class="toc-number">7.3.</span> <span class="toc-text"> Handler with labeled parameters</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#return"><span class="toc-number">7.4.</span> <span class="toc-text"> Return</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#system-default-handlers"><span class="toc-number">8.</span> <span class="toc-text"> System Default Handlers</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#run"><span class="toc-number">8.1.</span> <span class="toc-text"> run</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#open"><span class="toc-number">8.2.</span> <span class="toc-text"> open</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#idle"><span class="toc-number">8.3.</span> <span class="toc-text"> idle</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#quit"><span class="toc-number">8.4.</span> <span class="toc-text"> quit</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#script"><span class="toc-number">9.</span> <span class="toc-text"> Script</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#keyword-me"><span class="toc-number">9.1.</span> <span class="toc-text"> Keyword me</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#declares-a-script"><span class="toc-number">9.2.</span> <span class="toc-text"> Declares a Script</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#invoke-outer-scripts"><span class="toc-number">9.3.</span> <span class="toc-text"> Invoke Outer Scripts</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#modify-outer-scripts-properties-in-the-current-script"><span class="toc-number">9.4.</span> <span class="toc-text"> Modify Outer Scripts Properties in the Current Script</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#references"><span class="toc-number">10.</span> <span class="toc-text"> References</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2021/12/23/scripts/apple-script-guide/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2021/12/23/scripts/apple-script-guide/&text=AppleScript Handbook"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2021/12/23/scripts/apple-script-guide/&title=AppleScript Handbook"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2021/12/23/scripts/apple-script-guide/&is_video=false&description=AppleScript Handbook"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=AppleScript Handbook&body=Check out this article: https://csl.cool/2021/12/23/scripts/apple-script-guide/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2021/12/23/scripts/apple-script-guide/&title=AppleScript Handbook"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2021/12/23/scripts/apple-script-guide/&title=AppleScript Handbook"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2021/12/23/scripts/apple-script-guide/&title=AppleScript Handbook"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2021/12/23/scripts/apple-script-guide/&title=AppleScript Handbook"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2021/12/23/scripts/apple-script-guide/&name=AppleScript Handbook&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2021/12/23/scripts/apple-script-guide/&t=AppleScript Handbook"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+      <div id="end">
+    <img src="/images/post-end.png" alt="">
+</div> 
+      
+      <div id='valine'>
+    <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+            el: '#vcomments',
+            notify: true,
+            verify: true,
+            appId: '7zw6tQBddCfPvbaVtBGxUy0G-gzGzoHsz',
+            appKey: 'voPGHhBz7MozpUm0Fq2AMFmv',
+            placeholder: '想说点啥...',
+            avatar: 'monsterid',           
+        })
+    </script>
+</div>
+      
+      
+      <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 SSBun
+    <a target="_blank" rel="noopener" href="http://www.beian.miit.gov.cn/">京ICP备20001935号-1</a>
+    <div id="friend-link-container">
+      
+      
+    </div>
+  </div>
+  
+    <div class="footer-right">
+      <nav>
+        <ul>
+          
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/search/">Search</a></li>
+      
+      <li><a href="/categories/">Categories</a></li>
+      
+      <li><a href="/notes/">Notes</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+      </ul>
+      </nav>
+    </div>
+  
+</footer>
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?c2fdf3bebd0db8e40c37a4f37d76d33b";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Umami Analytics -->
+<!--  -->
+  <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="d39cc16d-90eb-47b6-8bf0-8e4cd43c704d"></script>
+<!--  -->
+<!-- Disqus Comments -->
+
+
+
+    
+    <script src="/lib/blackcat/l2dwidget.min.js"></script>
+    <script type="text/javascript">
+      var config = {
+        model: {
+          jsonPath: '/lib/blackcat/hijiki.model.json',
+        },
+        display: {
+          superSample: 1,
+          width: 245,
+          height: 245,
+          position: 'left',
+          hOffset: 0,
+          vOffset: 0,
+        },
+        mobile: {
+          show: false,
+          scale: 1,
+          motion: false,
+        },
+        react: {
+          opacityDefault: 1,
+          opacityOnHover: 0.75
+        }
+      };
+      L2Dwidget.init(config);
+    </script>
+    
+  </body>
+
+  </html>

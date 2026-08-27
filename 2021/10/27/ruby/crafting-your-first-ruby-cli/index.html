@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang=en>
+  <head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Using gem or Bundler? A CLI application is gem package. We have multiple ways to craft a gem package, directly using gem or creating by Bundler. The majority of people select using the Bundler to bui">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Crafting Your First Ruby CLI">
+<meta property="og:url" content="https://csl.cool/2021/10/27/ruby/crafting-your-first-ruby-cli/index.html">
+<meta property="og:site_name" content="CSL MEMO">
+<meta property="og:description" content="Using gem or Bundler? A CLI application is gem package. We have multiple ways to craft a gem package, directly using gem or creating by Bundler. The majority of people select using the Bundler to bui">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-10-27T06:45:29.000Z">
+<meta property="article:modified_time" content="2021-10-27T06:45:29.000Z">
+<meta property="article:author" content="SSBun">
+<meta property="article:tag" content="CLI">
+<meta property="article:tag" content="Ruby">
+<meta property="article:tag" content="Gem">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Crafting Your First Ruby CLI</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="CSL MEMO" type="application/atom+xml" />
+    
+    <!-- umami web analytics -->
+    <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+  <body class="max-width mx-auto px3 ltr">
+    
+    <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2021/11/08/ruby/metaprogramming-ruby/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2021/10/26/ruby/set-up-your-ruby-development-environment/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2021/10/27/ruby/crafting-your-first-ruby-cli/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2021/10/27/ruby/crafting-your-first-ruby-cli/&text=Crafting Your First Ruby CLI"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2021/10/27/ruby/crafting-your-first-ruby-cli/&title=Crafting Your First Ruby CLI"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2021/10/27/ruby/crafting-your-first-ruby-cli/&is_video=false&description=Crafting Your First Ruby CLI"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Crafting Your First Ruby CLI&body=Check out this article: https://csl.cool/2021/10/27/ruby/crafting-your-first-ruby-cli/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2021/10/27/ruby/crafting-your-first-ruby-cli/&title=Crafting Your First Ruby CLI"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2021/10/27/ruby/crafting-your-first-ruby-cli/&title=Crafting Your First Ruby CLI"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2021/10/27/ruby/crafting-your-first-ruby-cli/&title=Crafting Your First Ruby CLI"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2021/10/27/ruby/crafting-your-first-ruby-cli/&title=Crafting Your First Ruby CLI"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2021/10/27/ruby/crafting-your-first-ruby-cli/&name=Crafting Your First Ruby CLI&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2021/10/27/ruby/crafting-your-first-ruby-cli/&t=Crafting Your First Ruby CLI"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#using-gem-or-bundler"><span class="toc-number">1.</span> <span class="toc-text"> Using gem or Bundler?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#creating-a-gem-project-by-bundler"><span class="toc-number">2.</span> <span class="toc-text"> Creating a gem project by Bundler</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-installing-bundler"><span class="toc-number">2.1.</span> <span class="toc-text"> 1. Installing Bundler</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-generating-a-gem-project"><span class="toc-number">2.2.</span> <span class="toc-text"> 2. Generating a gem project</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-writing-unit-tests-optional"><span class="toc-number">2.3.</span> <span class="toc-text"> 3. Writing unit tests [optional]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-crafting-a-cli"><span class="toc-number">2.4.</span> <span class="toc-text"> 4. Crafting a CLI</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-testing-a-cli"><span class="toc-number">2.5.</span> <span class="toc-text"> 5. Testing a CLI</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-releasing-our-cli"><span class="toc-number">2.6.</span> <span class="toc-text"> 6. Releasing our CLI</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+      
+      <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Crafting Your First Ruby CLI
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">SSBun</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-10-27T06:45:29.000Z" itemprop="datePublished">2021-10-27</time>
+        
+        (Updated: <time datetime="2021-10-27T06:45:29.000Z" itemprop="dateModified">2021-10-27</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Ruby/">Ruby</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/CLI/" rel="tag">CLI</a>, <a class="tag-link-link" href="/tags/Gem/" rel="tag">Gem</a>, <a class="tag-link-link" href="/tags/Ruby/" rel="tag">Ruby</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="using-gem-or-bundler"><a class="markdownIt-Anchor" href="#using-gem-or-bundler"></a> Using gem or Bundler?</h2>
+<p>A CLI application is gem package. We have multiple ways to craft a gem package, directly using gem or creating by Bundler.<br />
+The majority of people select using the Bundler to build a gem package because it can easily manage dependencies and has a scaffold to create the gemspec, license, test, tec. files for our automatically.</p>
+<h2 id="creating-a-gem-project-by-bundler"><a class="markdownIt-Anchor" href="#creating-a-gem-project-by-bundler"></a> Creating a gem project by Bundler</h2>
+<h3 id="1-installing-bundler"><a class="markdownIt-Anchor" href="#1-installing-bundler"></a> 1. Installing Bundler</h3>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gem install bundler</span><br><span class="line">bundle -v # check version</span><br></pre></td></tr></table></figure>
+<p>If necessary, you can update to the latest version of Bundler.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gem update bundler</span><br></pre></td></tr></table></figure>
+<h3 id="2-generating-a-gem-project"><a class="markdownIt-Anchor" href="#2-generating-a-gem-project"></a> 2. Generating a gem project</h3>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bundle gem wand # app name</span><br></pre></td></tr></table></figure>
+<h3 id="3-writing-unit-tests-optional"><a class="markdownIt-Anchor" href="#3-writing-unit-tests-optional"></a> 3. Writing unit tests [optional]</h3>
+<ul>
+<li>Installing <code>rspec</code><br />
+We use <a target="_blank" rel="noopener" href="https://rubygems.org/gems/rspec">rspec</a> to test our project. It’s a development dependency, so we add this line inside the <code>Gem::Specification</code> in the file <code>wand.gemspec</code>.</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.add_development_dependency <span class="string">&quot;rspec&quot;</span>, <span class="string">&quot;~&gt; 3.2&quot;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>Creating the test directory<br />
+Running <code>bundle install</code> to install all gem dependencies.<br />
+Creating a <code>spec</code> folder in the project directory as our test directory.<br />
+Writing a <code>wand_spec.rb</code> file in the <code>spec</code> directory.<br />
+Look up the <a target="_blank" rel="noopener" href="https://rubydoc.info/gems/rspec-core/frames">documentation of <strong>spec</strong></a> to write unit tests.</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">describe <span class="title class_">Wand</span><span class="symbol">:</span><span class="symbol">:Echo</span> <span class="keyword">do</span></span><br><span class="line">  it <span class="string">&quot;echo messages&quot;</span> <span class="keyword">do</span></span><br><span class="line">    expect(<span class="title class_">Wand</span><span class="symbol">:</span><span class="symbol">:Echo</span>.echo(<span class="string">&quot;Hello&quot;</span>)).to eql(<span class="string">&quot;Hello&quot;</span>)</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>Creating a Ruby class<br />
+Defining a class in <code>lib/wand/echo</code> like this:</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span> <span class="title class_">Wand</span></span><br><span class="line">  <span class="keyword">class</span> <span class="title class_">Echo</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">self</span>.echo(msg)</span><br><span class="line">      puts msg</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>To load this file, we’ll need to add a require line to <code>lib/wand.rb</code> for it:</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">require</span> <span class="string">&#x27;wand/echo&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>We will also need to require the <code>lib/wand.rb</code> at the top of <code>spec/wand_spec.rb</code>:</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">require</span> <span class="string">`wand`</span></span><br></pre></td></tr></table></figure>
+<p>Then, we run <code>bundle exec rspec spec</code> to test our codes.</p>
+<h3 id="4-crafting-a-cli"><a class="markdownIt-Anchor" href="#4-crafting-a-cli"></a> 4. Crafting a CLI</h3>
+<p>There are many gems can help us to craft a CLI. We select the <a target="_blank" rel="noopener" href="http://whatisthor.com/">Thor</a> to cover this.</p>
+<ul>
+<li>Install Thor<br />
+Adding the dependency to our gemspec file.</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.add_dependency <span class="string">&quot;thor&quot;</span></span><br></pre></td></tr></table></figure>
+<p>Running <code>bundle install</code> to install the dependencies.</p>
+<ul>
+<li>Writing our first CLI<br />
+First, we need to create a cli file in <code>lib/wand/cli.rb</code>.<br />
+Creating a <code>CLI</code> class into the file like this:</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">require</span> <span class="string">`thor`</span></span><br><span class="line"><span class="keyword">require</span> <span class="string">`wand`</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">module</span> <span class="title class_">Wand</span></span><br><span class="line">  <span class="keyword">class</span> <span class="variable constant_">CLI</span> &lt; <span class="title class_">Thor</span></span><br><span class="line">    desc <span class="string">&quot;echo message&quot;</span>, <span class="string">&quot;prints whatever you inputted&quot;</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">echo</span>(<span class="params">msg</span>)</span><br><span class="line">      <span class="title class_">Wand</span><span class="symbol">:</span><span class="symbol">:Echo</span>.echo(msg)</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>Test our CLI code<br />
+The easiest approach to test our code directly is to create a <code>cli.rb</code> file in our project directory and run <code>ruby ./cli.rb</code> to test it.<br />
+The content of the <code>cli.rb</code> file:</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">require</span> <span class="string">`wand/cli`</span></span><br><span class="line"></span><br><span class="line"><span class="title class_">Wand</span><span class="symbol">:</span><span class="symbol">:CLI</span>.start</span><br></pre></td></tr></table></figure>
+<p>If you run <code>bundle exec ruby cli.rb echo Hello</code>, the terminal will output the text <code>Hello</code> equaling to your input.</p>
+<h3 id="5-testing-a-cli"><a class="markdownIt-Anchor" href="#5-testing-a-cli"></a> 5. Testing a CLI</h3>
+<p>The test way above is just for our development convenience, not unit tests. We need a tool to execute unit tests for our CLI. The prevalent tools for CLI unit test are <a target="_blank" rel="noopener" href="https://rubygems.org/gems/cucumber">cucumber</a> and <a target="_blank" rel="noopener" href="https://rubygems.org/gems/aruba">aruba</a>.</p>
+<ul>
+<li>Adding dependencies</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">spec.add_development_dependency <span class="string">&quot;cucumber&quot;</span></span><br><span class="line">spec.add_development_dependency <span class="string">&quot;aruba&quot;</span></span><br></pre></td></tr></table></figure>
+<p>Running <code>bundle install</code> to install them.</p>
+<ul>
+<li>Creating a <code>features</code> folder and a file <code>features/wand.feature</code> in it<br />
+Filling the file with this code:</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Feature</span>: <span class="title class_">Wand</span></span><br><span class="line">  <span class="title class_">Doing</span> something</span><br><span class="line">  </span><br><span class="line">  <span class="title class_">Scenario</span>: <span class="title class_">Echo</span> message</span><br><span class="line">    <span class="title class_">When</span> I run <span class="string">`wand echo hello`</span></span><br><span class="line">    <span class="title class_">Then</span> the output should contain <span class="string">&quot;hello&quot;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>Setting up the cucumber<br />
+You need to create a setup file <code>features/support/setup.rb</code> and fill it with this code:</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">require</span> <span class="string">`aruba/cucumber`</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>Creating the executable file for unit tests.<br />
+Creating a file <code>exe/wand</code> without any file extension.<br />
+Running <code>chmod +x exe/wand</code> to give the file executable permission.<br />
+Copying our <code>cli.rb</code> file’s code to the executable file. The file’s content:</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">require</span> <span class="string">`wand/cli`</span></span><br><span class="line"></span><br><span class="line"><span class="title class_">Wand</span><span class="symbol">:</span><span class="symbol">:CLI</span>.start</span><br></pre></td></tr></table></figure>
+<p>Executing <code>bundle exec cucumber features</code> to run CLI unit tests.</p>
+<h3 id="6-releasing-our-cli"><a class="markdownIt-Anchor" href="#6-releasing-our-cli"></a> 6. Releasing our CLI</h3>
+<ol>
+<li>Committing our code<br />
+First, we need to commit our code because the <code>wand.gemspec</code> file uses <code>git ls-files</code> to detect which files should be added to the gem when we release it.</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m &#x27;Initializing wand&#x27;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>Building gem files<br />
+Before releasing our gem, we need to compile our code to a gem file.</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rake build</span><br></pre></td></tr></table></figure>
+<p>The command finished and then you will find a <code>wand-0.1.0.gem</code> file was generated in the <code>pkg</code> folder.<br />
+We can run <code>gem install pkg/wand-0.1.0.gem</code> to install the gem directly. Then you can run <code>wand echo hello</code> in the terminal to use your first CLI.</p>
+<ol start="3">
+<li>Releasing to gems<br />
+If you want to share you CLI to others, you need to publish it to the <code>http://rubygems.org</code>. Next time you want to use your CLI in other devices, you can use <code>gem install wand</code> install it directly.<br />
+Using rake to release a gem is easy.</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rake release</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>Simplifying your releasing process<br />
+Every time you want to update your CLI, you need to update the <code>VERSION</code> in the file <code>version.rb</code>, commit the modification and then run <code>rake release</code> again.<br />
+There is a tool <code>gem-release</code> can easily your work.</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gem install gem-release</span><br></pre></td></tr></table></figure>
+<p>The common usages of the <code>gem-release</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">gem bump --version minor <span class="comment"># bumps to the next minor version</span></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">gem bump --version major <span class="comment"># bumps to the next major version</span></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">gem bump --version 1.1.1 <span class="comment"># bumps to the specified version</span></span></span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>Installing a gem from github directly<br />
+Sometimes we don’t want releasing a public gem. Maybe the gem contains some personal privacy or the company’s code we cannot leak.<br />
+The <code>gem</code> provides an approach to install a gem from our private git repository.</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gem &#x27;wand&#x27;, git: &#x27;https://github.com/ssbun/wand.git&#x27;, branch: &#x27;master&#x27;, glob: &#x27;tool/ruby/*.gemspec&#x27;</span><br></pre></td></tr></table></figure>
+<p>We can specify the branch or use the default branch. If your repository’s root directory doesn’t have the <code>.gemspec</code> file, you need to specify the file’s path via the <code>glob</code> argument.</p>
+<blockquote>
+<p>Reference document<br />
+<a target="_blank" rel="noopener" href="https://guides.rubygems.org/make-your-own-gem/">https://guides.rubygems.org/make-your-own-gem/</a><br />
+<a target="_blank" rel="noopener" href="https://bundler.io/v2.0/guides/creating_gem.html">https://bundler.io/v2.0/guides/creating_gem.html</a></p>
+</blockquote>
+
+  </div>
+</article>
+
+
+
+      
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#using-gem-or-bundler"><span class="toc-number">1.</span> <span class="toc-text"> Using gem or Bundler?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#creating-a-gem-project-by-bundler"><span class="toc-number">2.</span> <span class="toc-text"> Creating a gem project by Bundler</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-installing-bundler"><span class="toc-number">2.1.</span> <span class="toc-text"> 1. Installing Bundler</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-generating-a-gem-project"><span class="toc-number">2.2.</span> <span class="toc-text"> 2. Generating a gem project</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-writing-unit-tests-optional"><span class="toc-number">2.3.</span> <span class="toc-text"> 3. Writing unit tests [optional]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-crafting-a-cli"><span class="toc-number">2.4.</span> <span class="toc-text"> 4. Crafting a CLI</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-testing-a-cli"><span class="toc-number">2.5.</span> <span class="toc-text"> 5. Testing a CLI</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-releasing-our-cli"><span class="toc-number">2.6.</span> <span class="toc-text"> 6. Releasing our CLI</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2021/10/27/ruby/crafting-your-first-ruby-cli/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2021/10/27/ruby/crafting-your-first-ruby-cli/&text=Crafting Your First Ruby CLI"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2021/10/27/ruby/crafting-your-first-ruby-cli/&title=Crafting Your First Ruby CLI"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2021/10/27/ruby/crafting-your-first-ruby-cli/&is_video=false&description=Crafting Your First Ruby CLI"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Crafting Your First Ruby CLI&body=Check out this article: https://csl.cool/2021/10/27/ruby/crafting-your-first-ruby-cli/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2021/10/27/ruby/crafting-your-first-ruby-cli/&title=Crafting Your First Ruby CLI"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2021/10/27/ruby/crafting-your-first-ruby-cli/&title=Crafting Your First Ruby CLI"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2021/10/27/ruby/crafting-your-first-ruby-cli/&title=Crafting Your First Ruby CLI"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2021/10/27/ruby/crafting-your-first-ruby-cli/&title=Crafting Your First Ruby CLI"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2021/10/27/ruby/crafting-your-first-ruby-cli/&name=Crafting Your First Ruby CLI&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2021/10/27/ruby/crafting-your-first-ruby-cli/&t=Crafting Your First Ruby CLI"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+      <div id="end">
+    <img src="/images/post-end.png" alt="">
+</div> 
+      
+      <div id='valine'>
+    <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+            el: '#vcomments',
+            notify: true,
+            verify: true,
+            appId: '7zw6tQBddCfPvbaVtBGxUy0G-gzGzoHsz',
+            appKey: 'voPGHhBz7MozpUm0Fq2AMFmv',
+            placeholder: '想说点啥...',
+            avatar: 'monsterid',           
+        })
+    </script>
+</div>
+      
+      
+      <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 SSBun
+    <a target="_blank" rel="noopener" href="http://www.beian.miit.gov.cn/">京ICP备20001935号-1</a>
+    <div id="friend-link-container">
+      
+      
+    </div>
+  </div>
+  
+    <div class="footer-right">
+      <nav>
+        <ul>
+          
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/search/">Search</a></li>
+      
+      <li><a href="/categories/">Categories</a></li>
+      
+      <li><a href="/notes/">Notes</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+      </ul>
+      </nav>
+    </div>
+  
+</footer>
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?c2fdf3bebd0db8e40c37a4f37d76d33b";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Umami Analytics -->
+<!--  -->
+  <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="d39cc16d-90eb-47b6-8bf0-8e4cd43c704d"></script>
+<!--  -->
+<!-- Disqus Comments -->
+
+
+
+    
+    <script src="/lib/blackcat/l2dwidget.min.js"></script>
+    <script type="text/javascript">
+      var config = {
+        model: {
+          jsonPath: '/lib/blackcat/hijiki.model.json',
+        },
+        display: {
+          superSample: 1,
+          width: 245,
+          height: 245,
+          position: 'left',
+          hOffset: 0,
+          vOffset: 0,
+        },
+        mobile: {
+          show: false,
+          scale: 1,
+          motion: false,
+        },
+        react: {
+          opacityDefault: 1,
+          opacityOnHover: 0.75
+        }
+      };
+      L2Dwidget.init(config);
+    </script>
+    
+  </body>
+
+  </html>

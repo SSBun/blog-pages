@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang=en>
+  <head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Layered Architecture  diagram   Event-Driven Architecture The Event-Driven architecture pattern consist of two main topologies, the mediator and the broker.  Mediator    Broker   Microkernel Architec">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Learning Architecture Pattern Again">
+<meta property="og:url" content="https://csl.cool/2022/08/09/trash/learning-architecture-pattern-again/index.html">
+<meta property="og:site_name" content="CSL MEMO">
+<meta property="og:description" content="Layered Architecture  diagram   Event-Driven Architecture The Event-Driven architecture pattern consist of two main topologies, the mediator and the broker.  Mediator    Broker   Microkernel Architec">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://book.csl.cool/img/20220814122937.png">
+<meta property="og:image" content="http://book.csl.cool/img/20220814123152.png">
+<meta property="article:published_time" content="2022-08-09T04:32:37.000Z">
+<meta property="article:modified_time" content="2022-08-09T04:32:37.000Z">
+<meta property="article:author" content="SSBun">
+<meta property="article:tag" content="Architecture">
+<meta property="article:tag" content="Patterns">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://book.csl.cool/img/20220814122937.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Learning Architecture Pattern Again</title><meta name="robots" content="noindex">
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="CSL MEMO" type="application/atom+xml" />
+    
+    <!-- umami web analytics -->
+    <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+  <body class="max-width mx-auto px3 ltr">
+    
+    <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2022/08/09/trash/learning-architecture-pattern-again/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2022/08/09/trash/learning-architecture-pattern-again/&text=Learning Architecture Pattern Again"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2022/08/09/trash/learning-architecture-pattern-again/&title=Learning Architecture Pattern Again"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2022/08/09/trash/learning-architecture-pattern-again/&is_video=false&description=Learning Architecture Pattern Again"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Learning Architecture Pattern Again&body=Check out this article: https://csl.cool/2022/08/09/trash/learning-architecture-pattern-again/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2022/08/09/trash/learning-architecture-pattern-again/&title=Learning Architecture Pattern Again"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2022/08/09/trash/learning-architecture-pattern-again/&title=Learning Architecture Pattern Again"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2022/08/09/trash/learning-architecture-pattern-again/&title=Learning Architecture Pattern Again"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2022/08/09/trash/learning-architecture-pattern-again/&title=Learning Architecture Pattern Again"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2022/08/09/trash/learning-architecture-pattern-again/&name=Learning Architecture Pattern Again&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2022/08/09/trash/learning-architecture-pattern-again/&t=Learning Architecture Pattern Again"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#layered-architecture"><span class="toc-number">1.</span> <span class="toc-text"> Layered Architecture</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#diagram"><span class="toc-number">1.1.</span> <span class="toc-text"> diagram</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#event-driven-architecture"><span class="toc-number">2.</span> <span class="toc-text"> Event-Driven Architecture</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#mediator"><span class="toc-number">2.1.</span> <span class="toc-text"> Mediator</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#broker"><span class="toc-number">2.2.</span> <span class="toc-text"> Broker</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#microkernel-architecture-pattern"><span class="toc-number">3.</span> <span class="toc-text"> Microkernel Architecture Pattern</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#microservice-architecture-pattern"><span class="toc-number">4.</span> <span class="toc-text"> Microservice Architecture Pattern</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#space-based-architecture-pattern"><span class="toc-number">5.</span> <span class="toc-text"> Space-based Architecture Pattern</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#references"><span class="toc-number">6.</span> <span class="toc-text"> References</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+      
+      <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Learning Architecture Pattern Again
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">SSBun</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-08-09T04:32:37.000Z" itemprop="datePublished">2022-08-09</time>
+        
+        (Updated: <time datetime="2022-08-09T04:32:37.000Z" itemprop="dateModified">2022-08-09</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Architecture/" rel="tag">Architecture</a>, <a class="tag-link-link" href="/tags/Patterns/" rel="tag">Patterns</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="layered-architecture"><a class="markdownIt-Anchor" href="#layered-architecture"></a> Layered Architecture</h2>
+<h3 id="diagram"><a class="markdownIt-Anchor" href="#diagram"></a> diagram</h3>
+<img src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2ZXJzaW9uPSIxLjEiIGRhdGEtZGlhZ3JhbS10eXBlPSJERVNDUklQVElPTiIgc3R5bGU9IndpZHRoOjI0MHB4O2hlaWdodDo1MTlweDtiYWNrZ3JvdW5kOiNGRkZGRkY7IiB3aWR0aD0iMjQwcHgiIGhlaWdodD0iNTE5cHgiIHZpZXdCb3g9IjAgMCAyNDAgNTE5IiB6b29tQW5kUGFuPSJtYWduaWZ5IiBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIiBjb250ZW50U3R5bGVUeXBlPSJ0ZXh0L2NzcyI+PD9wbGFudHVtbCAxLjIwMjYuOGJldGExPz48ZGVmcy8+PGcgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGxlbmd0aEFkanVzdD0ic3BhY2luZyI+PGcgY2xhc3M9InRpdGxlIiBkYXRhLXNvdXJjZS1saW5lPSIxIj48dGV4dCB4PSIzMy4xODQiIHk9IjIyLjk5NSIgZmlsbD0iIzAwMCIgZm9udC1zaXplPSIxNCIgdGV4dExlbmd0aD0iMTY2LjYzMyIgZm9udC13ZWlnaHQ9IjcwMCI+TGF5ZXJlZCBBcmNoaXRlY3R1cmU8L3RleHQ+PC9nPjwhLS1jbHVzdGVyIEwxLS0+PGcgY2xhc3M9ImNsdXN0ZXIiIGRhdGEtcXVhbGlmaWVkLW5hbWU9IkwxIiBpZD0iZW50MDAwMSIgZGF0YS1zb3VyY2UtbGluZT0iNCI+PHJlY3QgeD0iNDAiIHk9IjQ0LjI5NyIgd2lkdGg9IjE4NiIgaGVpZ2h0PSI5Ny4zIiBmaWxsPSJub25lIiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjE7IiByeD0iMi41IiByeT0iMi41Ii8+PHRleHQgeD0iNDcuNzYzIiB5PSI1OS4yOTIiIGZpbGw9IiMwMDAiIGZvbnQtc2l6ZT0iMTQiIHRleHRMZW5ndGg9IjE3MC40NzUiIGZvbnQtd2VpZ2h0PSI3MDAiPlJlcHJlc2VudGF0aW9uIExheWVyPC90ZXh0PjwvZz48IS0tY2x1c3RlciBMMi0tPjxnIGNsYXNzPSJjbHVzdGVyIiBkYXRhLXF1YWxpZmllZC1uYW1lPSJMMiIgaWQ9ImVudDAwMDMiIGRhdGEtc291cmNlLWxpbmU9IjciPjxyZWN0IHg9IjciIHk9IjE2NS41OTciIHdpZHRoPSIxOTYiIGhlaWdodD0iOTcuMyIgZmlsbD0ibm9uZSIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxOyIgcng9IjIuNSIgcnk9IjIuNSIvPjx0ZXh0IHg9IjQ1LjY2NyIgeT0iMTgwLjU5MiIgZmlsbD0iIzAwMCIgZm9udC1zaXplPSIxNCIgdGV4dExlbmd0aD0iMTE4LjY2NSIgZm9udC13ZWlnaHQ9IjcwMCI+QnVzaW5lc3MgTGF5ZXI8L3RleHQ+PC9nPjwhLS1jbHVzdGVyIEwzLS0+PGcgY2xhc3M9ImNsdXN0ZXIiIGRhdGEtcXVhbGlmaWVkLW5hbWU9IkwzIiBpZD0iZW50MDAwNSIgZGF0YS1zb3VyY2UtbGluZT0iMTAiPjxyZWN0IHg9IjMyIiB5PSIyODYuODk3IiB3aWR0aD0iMTQ2IiBoZWlnaHQ9Ijk3LjI5IiBmaWxsPSJub25lIiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjE7IiByeD0iMi41IiByeT0iMi41Ii8+PHRleHQgeD0iNDAuMTMiIHk9IjMwMS44OTIiIGZpbGw9IiMwMDAiIGZvbnQtc2l6ZT0iMTQiIHRleHRMZW5ndGg9IjEyOS43MzkiIGZvbnQtd2VpZ2h0PSI3MDAiPlBlcnNpc3RlbnQgTGF5ZXI8L3RleHQ+PC9nPjwhLS1jbHVzdGVyIEw0LS0+PGcgY2xhc3M9ImNsdXN0ZXIiIGRhdGEtcXVhbGlmaWVkLW5hbWU9Ikw0IiBpZD0iZW50MDAwNyIgZGF0YS1zb3VyY2UtbGluZT0iMTMiPjxyZWN0IHg9IjIxIiB5PSI0MDguMTg3IiB3aWR0aD0iMTY4IiBoZWlnaHQ9Ijk3LjMiIGZpbGw9Im5vbmUiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MTsiIHJ4PSIyLjUiIHJ5PSIyLjUiLz48dGV4dCB4PSI2Mi4wMTIiIHk9IjQyMy4xODIiIGZpbGw9IiMwMDAiIGZvbnQtc2l6ZT0iMTQiIHRleHRMZW5ndGg9Ijg1Ljk3NiIgZm9udC13ZWlnaHQ9IjcwMCI+RGF0YSBMYXllcjwvdGV4dD48L2c+PCEtLWVudGl0eSBVSS0tPjxnIGNsYXNzPSJlbnRpdHkiIGRhdGEtcXVhbGlmaWVkLW5hbWU9IkwxLlVJIiBpZD0iZW50MDAwMiIgZGF0YS1zb3VyY2UtbGluZT0iNSI+PHJlY3QgeD0iNzcuODEiIHk9Ijc5LjI5NyIgd2lkdGg9IjU0LjM3NiIgaGVpZ2h0PSI0Ni4yOTciIGZpbGw9IiNGMUYxRjEiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MC41OyIgcng9IjIuNSIgcnk9IjIuNSIvPjxyZWN0IHg9IjExMi4xODYiIHk9Ijg0LjI5NyIgd2lkdGg9IjE1IiBoZWlnaHQ9IjEwIiBmaWxsPSIjRjFGMUYxIiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjAuNTsiLz48cmVjdCB4PSIxMTAuMTg2IiB5PSI4Ni4yOTciIHdpZHRoPSI0IiBoZWlnaHQ9IjIiIGZpbGw9IiNGMUYxRjEiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MC41OyIvPjxyZWN0IHg9IjExMC4xODYiIHk9IjkwLjI5NyIgd2lkdGg9IjQiIGhlaWdodD0iMiIgZmlsbD0iI0YxRjFGMSIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDowLjU7Ii8+PHRleHQgeD0iOTIuODEiIHk9IjExMi4yOTIiIGZpbGw9IiMwMDAiIGZvbnQtc2l6ZT0iMTQiIHRleHRMZW5ndGg9IjE0LjM3NiI+VUk8L3RleHQ+PC9nPjwhLS1lbnRpdHkgQnVzaW5lc3NNYW5hZ2VyLS0+PGcgY2xhc3M9ImVudGl0eSIgZGF0YS1xdWFsaWZpZWQtbmFtZT0iTDIuQnVzaW5lc3NNYW5hZ2VyIiBpZD0iZW50MDAwNCIgZGF0YS1zb3VyY2UtbGluZT0iOCI+PHJlY3QgeD0iMjMuNDUiIHk9IjIwMC41OTciIHdpZHRoPSIxNjMuMTAyIiBoZWlnaHQ9IjQ2LjI5NyIgZmlsbD0iI0YxRjFGMSIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDowLjU7IiByeD0iMi41IiByeT0iMi41Ii8+PHJlY3QgeD0iMTY2LjU1MiIgeT0iMjA1LjU5NyIgd2lkdGg9IjE1IiBoZWlnaHQ9IjEwIiBmaWxsPSIjRjFGMUYxIiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjAuNTsiLz48cmVjdCB4PSIxNjQuNTUyIiB5PSIyMDcuNTk3IiB3aWR0aD0iNCIgaGVpZ2h0PSIyIiBmaWxsPSIjRjFGMUYxIiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjAuNTsiLz48cmVjdCB4PSIxNjQuNTUyIiB5PSIyMTEuNTk3IiB3aWR0aD0iNCIgaGVpZ2h0PSIyIiBmaWxsPSIjRjFGMUYxIiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjAuNTsiLz48dGV4dCB4PSIzOC40NSIgeT0iMjMzLjU5MiIgZmlsbD0iIzAwMCIgZm9udC1zaXplPSIxNCIgdGV4dExlbmd0aD0iMTIzLjEwMiI+QnVzaW5lc3NNYW5hZ2VyPC90ZXh0PjwvZz48IS0tZW50aXR5IEFwaVNlcnZpY2UtLT48ZyBjbGFzcz0iZW50aXR5IiBkYXRhLXF1YWxpZmllZC1uYW1lPSJMMy5BcGlTZXJ2aWNlIiBpZD0iZW50MDAwNiIgZGF0YS1zb3VyY2UtbGluZT0iMTEiPjxyZWN0IHg9IjQ3Ljk1IiB5PSIzMjEuODk3IiB3aWR0aD0iMTE0LjA5NSIgaGVpZ2h0PSI0Ni4yOTciIGZpbGw9IiNGMUYxRjEiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MC41OyIgcng9IjIuNSIgcnk9IjIuNSIvPjxyZWN0IHg9IjE0Mi4wNDUiIHk9IjMyNi44OTciIHdpZHRoPSIxNSIgaGVpZ2h0PSIxMCIgZmlsbD0iI0YxRjFGMSIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDowLjU7Ii8+PHJlY3QgeD0iMTQwLjA0NSIgeT0iMzI4Ljg5NyIgd2lkdGg9IjQiIGhlaWdodD0iMiIgZmlsbD0iI0YxRjFGMSIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDowLjU7Ii8+PHJlY3QgeD0iMTQwLjA0NSIgeT0iMzMyLjg5NyIgd2lkdGg9IjQiIGhlaWdodD0iMiIgZmlsbD0iI0YxRjFGMSIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDowLjU7Ii8+PHRleHQgeD0iNjIuOTUiIHk9IjM1NC44OTIiIGZpbGw9IiMwMDAiIGZvbnQtc2l6ZT0iMTQiIHRleHRMZW5ndGg9Ijc0LjA5NSI+QXBpU2VydmljZTwvdGV4dD48L2c+PCEtLWVudGl0eSBTUUxEYXRhQmFzZS0tPjxnIGNsYXNzPSJlbnRpdHkiIGRhdGEtcXVhbGlmaWVkLW5hbWU9Ikw0LlNRTERhdGFCYXNlIiBpZD0iZW50MDAwOCIgZGF0YS1zb3VyY2UtbGluZT0iMTQiPjxyZWN0IHg9IjM3LjM5IiB5PSI0NDMuMTg3IiB3aWR0aD0iMTM1LjIyNSIgaGVpZ2h0PSI0Ni4yOTciIGZpbGw9IiNGMUYxRjEiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MC41OyIgcng9IjIuNSIgcnk9IjIuNSIvPjxyZWN0IHg9IjE1Mi42MTUiIHk9IjQ0OC4xODciIHdpZHRoPSIxNSIgaGVpZ2h0PSIxMCIgZmlsbD0iI0YxRjFGMSIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDowLjU7Ii8+PHJlY3QgeD0iMTUwLjYxNSIgeT0iNDUwLjE4NyIgd2lkdGg9IjQiIGhlaWdodD0iMiIgZmlsbD0iI0YxRjFGMSIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDowLjU7Ii8+PHJlY3QgeD0iMTUwLjYxNSIgeT0iNDU0LjE4NyIgd2lkdGg9IjQiIGhlaWdodD0iMiIgZmlsbD0iI0YxRjFGMSIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDowLjU7Ii8+PHRleHQgeD0iNTIuMzkiIHk9IjQ3Ni4xODIiIGZpbGw9IiMwMDAiIGZvbnQtc2l6ZT0iMTQiIHRleHRMZW5ndGg9Ijk1LjIyNSI+U1FMRGF0YUJhc2U8L3RleHQ+PC9nPjwhLS1saW5rIFVJIHRvIEJ1c2luZXNzTWFuYWdlci0tPjxnIGNsYXNzPSJsaW5rIiBkYXRhLWVudGl0eS0xPSJlbnQwMDAyIiBkYXRhLWVudGl0eS0yPSJlbnQwMDA0IiBpZD0ibG5rOSIgZGF0YS1zb3VyY2UtbGluZT0iMTciIGRhdGEtbGluay10eXBlPSJkZXBlbmRlbmN5Ij48cGF0aCBkPSJNMTA1LDEzMC44ODcgQzEwNSwxNTIuMjE3IDEwNSwxNzQuMTA3IDEwNSwxOTUuNDA3IiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjE7IiBmaWxsPSJub25lIiBpZD0iVUktQnVzaW5lc3NNYW5hZ2VyIi8+PHBvbHlnb24gcG9pbnRzPSIxMDUsMTI1Ljg4NywxMDEsMTM0Ljg4NywxMDUsMTMwLjg4NywxMDksMTM0Ljg4NywxMDUsMTI1Ljg4NyIgZmlsbD0iIzE4MTgxOCIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxO3N0cm9rZS1saW5lam9pbjptaXRlcjtzdHJva2UtbWl0ZXJsaW1pdDoxMDsiLz48cG9seWdvbiBwb2ludHM9IjEwNSwyMDAuNDA3LDEwOSwxOTEuNDA3LDEwNSwxOTUuNDA3LDEwMSwxOTEuNDA3LDEwNSwyMDAuNDA3IiBmaWxsPSIjMTgxODE4IiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjE7c3Ryb2tlLWxpbmVqb2luOm1pdGVyO3N0cm9rZS1taXRlcmxpbWl0OjEwOyIvPjwvZz48IS0tbGluayBCdXNpbmVzc01hbmFnZXIgdG8gQXBpU2VydmljZS0tPjxnIGNsYXNzPSJsaW5rIiBkYXRhLWVudGl0eS0xPSJlbnQwMDA0IiBkYXRhLWVudGl0eS0yPSJlbnQwMDA2IiBpZD0ibG5rMTAiIGRhdGEtc291cmNlLWxpbmU9IjE4IiBkYXRhLWxpbmstdHlwZT0iZGVwZW5kZW5jeSI+PHBhdGggZD0iTTEwNSwyNTIuMTg3IEMxMDUsMjczLjUxNyAxMDUsMjk1LjQwNyAxMDUsMzE2LjcwNyIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxOyIgZmlsbD0ibm9uZSIgaWQ9IkJ1c2luZXNzTWFuYWdlci1BcGlTZXJ2aWNlIi8+PHBvbHlnb24gcG9pbnRzPSIxMDUsMjQ3LjE4NywxMDEsMjU2LjE4NywxMDUsMjUyLjE4NywxMDksMjU2LjE4NywxMDUsMjQ3LjE4NyIgZmlsbD0iIzE4MTgxOCIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxO3N0cm9rZS1saW5lam9pbjptaXRlcjtzdHJva2UtbWl0ZXJsaW1pdDoxMDsiLz48cG9seWdvbiBwb2ludHM9IjEwNSwzMjEuNzA3LDEwOSwzMTIuNzA3LDEwNSwzMTYuNzA3LDEwMSwzMTIuNzA3LDEwNSwzMjEuNzA3IiBmaWxsPSIjMTgxODE4IiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjE7c3Ryb2tlLWxpbmVqb2luOm1pdGVyO3N0cm9rZS1taXRlcmxpbWl0OjEwOyIvPjwvZz48IS0tbGluayBBcGlTZXJ2aWNlIHRvIFNRTERhdGFCYXNlLS0+PGcgY2xhc3M9ImxpbmsiIGRhdGEtZW50aXR5LTE9ImVudDAwMDYiIGRhdGEtZW50aXR5LTI9ImVudDAwMDgiIGlkPSJsbmsxMSIgZGF0YS1zb3VyY2UtbGluZT0iMTkiIGRhdGEtbGluay10eXBlPSJkZXBlbmRlbmN5Ij48cGF0aCBkPSJNMTA1LDM3My40NzcgQzEwNSwzOTQuODA3IDEwNSw0MTYuNzA3IDEwNSw0MzcuOTk3IiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjE7IiBmaWxsPSJub25lIiBpZD0iQXBpU2VydmljZS1TUUxEYXRhQmFzZSIvPjxwb2x5Z29uIHBvaW50cz0iMTA1LDM2OC40NzcsMTAxLDM3Ny40NzcsMTA1LDM3My40NzcsMTA5LDM3Ny40NzcsMTA1LDM2OC40NzciIGZpbGw9IiMxODE4MTgiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MTtzdHJva2UtbGluZWpvaW46bWl0ZXI7c3Ryb2tlLW1pdGVybGltaXQ6MTA7Ii8+PHBvbHlnb24gcG9pbnRzPSIxMDUsNDQyLjk5NywxMDksNDMzLjk5NywxMDUsNDM3Ljk5NywxMDEsNDMzLjk5NywxMDUsNDQyLjk5NyIgZmlsbD0iIzE4MTgxOCIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxO3N0cm9rZS1saW5lam9pbjptaXRlcjtzdHJva2UtbWl0ZXJsaW1pdDoxMDsiLz48L2c+PD9wbGFudHVtbC1zcmMgUE94QjJlQ200NE50LU9oMWxPaS1iZ01XVDJET1Eyai1tM0dFNmdXbjk2RDFJbC16NEljRHdNdzZVeS1QT1NLRldYOGRpakgwUGNNZGMySUZiYUlkNldCZzNLX0dLdHlkd3VJbUZhRlRVWUl2YVI3YUkzRW82bElZSTAwVGIxanUyRzB2ejZSR0ZlVXc0RS1HcDRVZEQzYU5Dams4LU5SRWdCNGJrblBTXzJfQXlUbUI1Qmo4YUhiTGFOcWdJTWx3WDhtWGp1LXV3YmhFYkhwVDM4Z3dXNEVRN2x5LVlsUWI1RHB5WktpS1EzeTA/PjwvZz48L3N2Zz4='>
+<h2 id="event-driven-architecture"><a class="markdownIt-Anchor" href="#event-driven-architecture"></a> Event-Driven Architecture</h2>
+<p>The Event-Driven architecture pattern consist of two main topologies, the mediator and the broker.</p>
+<h3 id="mediator"><a class="markdownIt-Anchor" href="#mediator"></a> <code>Mediator</code></h3>
+<img src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2ZXJzaW9uPSIxLjEiIGRhdGEtZGlhZ3JhbS10eXBlPSJDTEFTUyIgc3R5bGU9IndpZHRoOjUzOHB4O2hlaWdodDo1MDdweDtiYWNrZ3JvdW5kOiNGRkZGRkY7IiB3aWR0aD0iNTM4cHgiIGhlaWdodD0iNTA3cHgiIHZpZXdCb3g9IjAgMCA1MzggNTA3IiB6b29tQW5kUGFuPSJtYWduaWZ5IiBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIiBjb250ZW50U3R5bGVUeXBlPSJ0ZXh0L2NzcyI+PD9wbGFudHVtbCAxLjIwMjYuOGJldGExPz48ZGVmcy8+PGcgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGxlbmd0aEFkanVzdD0ic3BhY2luZyI+PGcgY2xhc3M9InRpdGxlIiBkYXRhLXNvdXJjZS1saW5lPSIxIj48dGV4dCB4PSIyMzAuMDY4IiB5PSIyMi45OTUiIGZpbGw9IiMwMDAiIGZvbnQtc2l6ZT0iMTQiIHRleHRMZW5ndGg9IjcwLjkwOSIgZm9udC13ZWlnaHQ9IjcwMCI+TWVkaWF0b3I8L3RleHQ+PC9nPjwhLS1jbGFzcyBPcmlnaW5hbEV2ZW50LS0+PGcgY2xhc3M9ImVudGl0eSIgZGF0YS1xdWFsaWZpZWQtbmFtZT0iT3JpZ2luYWxFdmVudCIgaWQ9ImVudDAwMDEiIGRhdGEtc291cmNlLWxpbmU9IjQiPjxyZWN0IHg9IjE2Ny4yNiIgeT0iNDQuMjk3IiB3aWR0aD0iMTI2Ljg5IiBoZWlnaHQ9IjMyIiBmaWxsPSIjRjFGMUYxIiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjAuNTsiIHJ4PSIyLjUiIHJ5PSIyLjUiLz48ZWxsaXBzZSBjeD0iMTgyLjI2IiBjeT0iNjAuMjk3IiByeD0iMTEiIHJ5PSIxMSIgZmlsbD0iI0I0QTdFNSIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxOyIvPjxwYXRoIGQ9Ik0xNzguMTgyLDU2LjA2MyBMMTc4LjE4Miw1My45MDYgTDE4NS41NzMsNTMuOTA2IEwxODUuNTczLDU2LjA2MyBMMTgzLjEwNCw1Ni4wNjMgTDE4My4xMDQsNjQuMTQxIEwxODUuNTczLDY0LjE0MSBMMTg1LjU3Myw2Ni4yOTcgTDE3OC4xODIsNjYuMjk3IEwxNzguMTgyLDY0LjE0MSBMMTgwLjY1MSw2NC4xNDEgTDE4MC42NTEsNTYuMDYzIEwxNzguMTgyLDU2LjA2MyBaICIgZmlsbD0iIzAwMCIvPjx0ZXh0IHg9IjE5Ni4yNiIgeT0iNjUuMTQ0IiBmaWxsPSIjMDAwIiBmb250LXNpemU9IjE0IiB0ZXh0TGVuZ3RoPSI5NC44OSIgZm9udC1zdHlsZT0iaXRhbGljIj5PcmlnaW5hbEV2ZW50PC90ZXh0PjwvZz48IS0tY2xhc3MgUHJvY2Vzc2luZ0V2ZW50LS0+PGcgY2xhc3M9ImVudGl0eSIgZGF0YS1xdWFsaWZpZWQtbmFtZT0iUHJvY2Vzc2luZ0V2ZW50IiBpZD0iZW50MDAwMiIgZGF0YS1zb3VyY2UtbGluZT0iNSI+PHJlY3QgeD0iNyIgeT0iMzE1LjAzNyIgd2lkdGg9IjE0Ny40MTgiIGhlaWdodD0iMzIiIGZpbGw9IiNGMUYxRjEiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MC41OyIgcng9IjIuNSIgcnk9IjIuNSIvPjxlbGxpcHNlIGN4PSIyMiIgY3k9IjMzMS4wMzciIHJ4PSIxMSIgcnk9IjExIiBmaWxsPSIjQjRBN0U1IiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjE7Ii8+PHBhdGggZD0iTTE3LjkyMiwzMjYuODAzIEwxNy45MjIsMzI0LjY0NiBMMjUuMzEzLDMyNC42NDYgTDI1LjMxMywzMjYuODAzIEwyMi44NDQsMzI2LjgwMyBMMjIuODQ0LDMzNC44ODEgTDI1LjMxMywzMzQuODgxIEwyNS4zMTMsMzM3LjAzNyBMMTcuOTIyLDMzNy4wMzcgTDE3LjkyMiwzMzQuODgxIEwyMC4zOTEsMzM0Ljg4MSBMMjAuMzkxLDMyNi44MDMgTDE3LjkyMiwzMjYuODAzIFogIiBmaWxsPSIjMDAwIi8+PHRleHQgeD0iMzYiIHk9IjMzNS44ODQiIGZpbGw9IiMwMDAiIGZvbnQtc2l6ZT0iMTQiIHRleHRMZW5ndGg9IjExNS40MTgiIGZvbnQtc3R5bGU9Iml0YWxpYyI+UHJvY2Vzc2luZ0V2ZW50PC90ZXh0PjwvZz48IS0tY2xhc3MgTWVkaWF0b3ItLT48ZyBjbGFzcz0iZW50aXR5IiBkYXRhLXF1YWxpZmllZC1uYW1lPSJNZWRpYXRvciIgaWQ9ImVudDAwMDMiIGRhdGEtc291cmNlLWxpbmU9IjciPjxyZWN0IHg9IjExNy4yOSIgeT0iMTUzLjI5NyIgd2lkdGg9IjIyNi44NDciIGhlaWdodD0iNzIuNTk0IiBmaWxsPSIjRjFGMUYxIiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjAuNTsiIHJ4PSIyLjUiIHJ5PSIyLjUiLz48ZWxsaXBzZSBjeD0iMTk1LjUzNCIgY3k9IjE2OS4yOTciIHJ4PSIxMSIgcnk9IjExIiBmaWxsPSIjQUREMUIyIiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjE7Ii8+PHBhdGggZD0iTTE5OC41MDMsMTc0LjkzOCBRMTk3LjkyNSwxNzUuMjM0IDE5Ny4yODQsMTc1LjM3NSBRMTk2LjY0NCwxNzUuNTMxIDE5NS45NCwxNzUuNTMxIFExOTMuNDQsMTc1LjUzMSAxOTIuMTEyLDE3My44OTEgUTE5MC44LDE3Mi4yMzQgMTkwLjgsMTY5LjEwOSBRMTkwLjgsMTY1Ljk4NCAxOTIuMTEyLDE2NC4zMjggUTE5My40NCwxNjIuNjcyIDE5NS45NCwxNjIuNjcyIFExOTYuNjQ0LDE2Mi42NzIgMTk3LjI4NCwxNjIuODI4IFExOTcuOTQsMTYyLjk4NCAxOTguNTAzLDE2My4yODEgTDE5OC41MDMsMTY2IFExOTcuODc4LDE2NS40MjIgMTk3LjI4NCwxNjUuMTU2IFExOTYuNjksMTY0Ljg3NSAxOTYuMDY1LDE2NC44NzUgUTE5NC43MjIsMTY0Ljg3NSAxOTQuMDM0LDE2NS45NTMgUTE5My4zNDcsMTY3LjAxNiAxOTMuMzQ3LDE2OS4xMDkgUTE5My4zNDcsMTcxLjIwMyAxOTQuMDM0LDE3Mi4yODEgUTE5NC43MjIsMTczLjM0NCAxOTYuMDY1LDE3My4zNDQgUTE5Ni42OSwxNzMuMzQ0IDE5Ny4yODQsMTczLjA3OCBRMTk3Ljg3OCwxNzIuNzk3IDE5OC41MDMsMTcyLjIxOSBMMTk4LjUwMywxNzQuOTM4IFogIiBmaWxsPSIjMDAwIi8+PHRleHQgeD0iMjE2LjAzNCIgeT0iMTc0LjE0NCIgZmlsbD0iIzAwMCIgZm9udC1zaXplPSIxNCIgdGV4dExlbmd0aD0iNjEuODU4Ij5NZWRpYXRvcjwvdGV4dD48bGluZSB4MT0iMTE4LjI5IiB5MT0iMTg1LjI5NyIgeDI9IjM0My4xMzciIHkyPSIxODUuMjk3IiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjAuNTsiLz48ZyBkYXRhLXZpc2liaWxpdHktbW9kaWZpZXI9IlBVQkxJQ19GSUVMRCI+PGVsbGlwc2UgY3g9IjEyOC4yOSIgY3k9IjE5OC45NDUiIHJ4PSIzIiByeT0iMyIgZmlsbD0ibm9uZSIgc3R5bGU9InN0cm9rZTojMDM4MDQ4O3N0cm9rZS13aWR0aDoxOyIvPjwvZz48dGV4dCB4PSIxMzcuMjkiIHk9IjIwMi4yOTIiIGZpbGw9IiMwMDAiIGZvbnQtc2l6ZT0iMTQiIHRleHRMZW5ndGg9IjIwMC44NDciPmV2ZW50UXVldWU6IFtPcmlnaW5hbEV2ZW50XTwvdGV4dD48ZyBkYXRhLXZpc2liaWxpdHktbW9kaWZpZXI9IlBVQkxJQ19GSUVMRCI+PGVsbGlwc2UgY3g9IjEyOC4yOSIgY3k9IjIxNS4yNDIiIHJ4PSIzIiByeT0iMyIgZmlsbD0ibm9uZSIgc3R5bGU9InN0cm9rZTojMDM4MDQ4O3N0cm9rZS13aWR0aDoxOyIvPjwvZz48dGV4dCB4PSIxMzcuMjkiIHk9IjIxOC41ODkiIGZpbGw9IiMwMDAiIGZvbnQtc2l6ZT0iMTQiIHRleHRMZW5ndGg9IjE4MC4zNjYiPmNoYW5uZWxzOiBbRXZlbnRDaGFubmVsXTwvdGV4dD48L2c+PCEtLWNsYXNzIEV2ZW50Q2hhbm5lbC0tPjxnIGNsYXNzPSJlbnRpdHkiIGRhdGEtcXVhbGlmaWVkLW5hbWU9IkV2ZW50Q2hhbm5lbCIgaWQ9ImVudDAwMDQiIGRhdGEtc291cmNlLWxpbmU9IjEyIj48cmVjdCB4PSIyMzguMzgiIHk9IjMwMi44OTciIHdpZHRoPSIyODQuNjY1IiBoZWlnaHQ9IjU2LjI5NyIgZmlsbD0iI0YxRjFGMSIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDowLjU7IiByeD0iMi41IiByeT0iMi41Ii8+PGVsbGlwc2UgY3g9IjMyNy42NzEiIGN5PSIzMTguODk3IiByeD0iMTEiIHJ5PSIxMSIgZmlsbD0iI0FERDFCMiIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxOyIvPjxwYXRoIGQ9Ik0zMzAuNjQsMzI0LjUzNyBRMzMwLjA2MiwzMjQuODM0IDMyOS40MjEsMzI0Ljk3NSBRMzI4Ljc4LDMyNS4xMzEgMzI4LjA3NywzMjUuMTMxIFEzMjUuNTc3LDMyNS4xMzEgMzI0LjI0OSwzMjMuNDkxIFEzMjIuOTM3LDMyMS44MzQgMzIyLjkzNywzMTguNzA5IFEzMjIuOTM3LDMxNS41ODQgMzI0LjI0OSwzMTMuOTI4IFEzMjUuNTc3LDMxMi4yNzIgMzI4LjA3NywzMTIuMjcyIFEzMjguNzgsMzEyLjI3MiAzMjkuNDIxLDMxMi40MjggUTMzMC4wNzcsMzEyLjU4NCAzMzAuNjQsMzEyLjg4MSBMMzMwLjY0LDMxNS42IFEzMzAuMDE1LDMxNS4wMjIgMzI5LjQyMSwzMTQuNzU2IFEzMjguODI3LDMxNC40NzUgMzI4LjIwMiwzMTQuNDc1IFEzMjYuODU5LDMxNC40NzUgMzI2LjE3MSwzMTUuNTUzIFEzMjUuNDg0LDMxNi42MTYgMzI1LjQ4NCwzMTguNzA5IFEzMjUuNDg0LDMyMC44MDMgMzI2LjE3MSwzMjEuODgxIFEzMjYuODU5LDMyMi45NDQgMzI4LjIwMiwzMjIuOTQ0IFEzMjguODI3LDMyMi45NDQgMzI5LjQyMSwzMjIuNjc4IFEzMzAuMDE1LDMyMi4zOTcgMzMwLjY0LDMyMS44MTkgTDMzMC42NCwzMjQuNTM3IFogIiBmaWxsPSIjMDAwIi8+PHRleHQgeD0iMzQ4LjE3MSIgeT0iMzIzLjc0NCIgZmlsbD0iIzAwMCIgZm9udC1zaXplPSIxNCIgdGV4dExlbmd0aD0iOTcuNTgzIj5FdmVudENoYW5uZWw8L3RleHQ+PGxpbmUgeDE9IjIzOS4zOCIgeTE9IjMzNC44OTciIHgyPSI1MjIuMDQ1IiB5Mj0iMzM0Ljg5NyIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDowLjU7Ii8+PGcgZGF0YS12aXNpYmlsaXR5LW1vZGlmaWVyPSJQVUJMSUNfRklFTEQiPjxlbGxpcHNlIGN4PSIyNDkuMzgiIGN5PSIzNDguNTQ1IiByeD0iMyIgcnk9IjMiIGZpbGw9Im5vbmUiIHN0eWxlPSJzdHJva2U6IzAzODA0ODtzdHJva2Utd2lkdGg6MTsiLz48L2c+PHRleHQgeD0iMjU4LjM4IiB5PSIzNTEuODkyIiBmaWxsPSIjMDAwIiBmb250LXNpemU9IjE0IiB0ZXh0TGVuZ3RoPSIyNTguNjY1Ij5wcm9jZXNzaW5nRXZlbnRzOiBbUHJvY2Vzc2luZ0V2ZW50XTwvdGV4dD48L2c+PCEtLWNsYXNzIEV2ZW50UHJvY2Vzc29yLS0+PGcgY2xhc3M9ImVudGl0eSIgZGF0YS1xdWFsaWZpZWQtbmFtZT0iRXZlbnRQcm9jZXNzb3IiIGlkPSJlbnQwMDA1IiBkYXRhLXNvdXJjZS1saW5lPSIxNiI+PHJlY3QgeD0iMTA5Ljg1IiB5PSI0MzYuMTg3IiB3aWR0aD0iMjQxLjcxNSIgaGVpZ2h0PSI1Ni4yOTciIGZpbGw9IiNGMUYxRjEiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MC41OyIgcng9IjIuNSIgcnk9IjIuNSIvPjxlbGxpcHNlIGN4PSIxNzIuNDEzIiBjeT0iNDUyLjE4NyIgcng9IjExIiByeT0iMTEiIGZpbGw9IiNBREQxQjIiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MTsiLz48cGF0aCBkPSJNMTc1LjM4MSw0NTcuODI4IFExNzQuODAzLDQ1OC4xMjQgMTc0LjE2Myw0NTguMjY1IFExNzMuNTIyLDQ1OC40MjEgMTcyLjgxOSw0NTguNDIxIFExNzAuMzE5LDQ1OC40MjEgMTY4Ljk5MSw0NTYuNzgxIFExNjcuNjc4LDQ1NS4xMjQgMTY3LjY3OCw0NTEuOTk5IFExNjcuNjc4LDQ0OC44NzQgMTY4Ljk5MSw0NDcuMjE4IFExNzAuMzE5LDQ0NS41NjIgMTcyLjgxOSw0NDUuNTYyIFExNzMuNTIyLDQ0NS41NjIgMTc0LjE2Myw0NDUuNzE4IFExNzQuODE5LDQ0NS44NzQgMTc1LjM4MSw0NDYuMTcxIEwxNzUuMzgxLDQ0OC44OSBRMTc0Ljc1Niw0NDguMzEyIDE3NC4xNjMsNDQ4LjA0NiBRMTczLjU2OSw0NDcuNzY1IDE3Mi45NDQsNDQ3Ljc2NSBRMTcxLjYsNDQ3Ljc2NSAxNzAuOTEzLDQ0OC44NDMgUTE3MC4yMjUsNDQ5LjkwNiAxNzAuMjI1LDQ1MS45OTkgUTE3MC4yMjUsNDU0LjA5MyAxNzAuOTEzLDQ1NS4xNzEgUTE3MS42LDQ1Ni4yMzQgMTcyLjk0NCw0NTYuMjM0IFExNzMuNTY5LDQ1Ni4yMzQgMTc0LjE2Myw0NTUuOTY4IFExNzQuNzU2LDQ1NS42ODcgMTc1LjM4MSw0NTUuMTA5IEwxNzUuMzgxLDQ1Ny44MjggWiAiIGZpbGw9IiMwMDAiLz48dGV4dCB4PSIxOTIuOTEzIiB5PSI0NTcuMDM0IiBmaWxsPSIjMDAwIiBmb250LXNpemU9IjE0IiB0ZXh0TGVuZ3RoPSIxMDguMDkiPkV2ZW50UHJvY2Vzc29yPC90ZXh0PjxsaW5lIHgxPSIxMTAuODUiIHkxPSI0NjguMTg3IiB4Mj0iMzUwLjU2NSIgeTI9IjQ2OC4xODciIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MC41OyIvPjxnIGRhdGEtdmlzaWJpbGl0eS1tb2RpZmllcj0iUFVCTElDX01FVEhPRCI+PGVsbGlwc2UgY3g9IjEyMC44NSIgY3k9IjQ4MS44MzUiIHJ4PSIzIiByeT0iMyIgZmlsbD0iIzg0QkU4NCIgc3R5bGU9InN0cm9rZTojMDM4MDQ4O3N0cm9rZS13aWR0aDoxOyIvPjwvZz48dGV4dCB4PSIxMjkuODUiIHk9IjQ4NS4xODIiIGZpbGw9IiMwMDAiIGZvbnQtc2l6ZT0iMTQiIHRleHRMZW5ndGg9IjIxNS43MTUiPmZ1bmMgcHJvY2Vzcyhwcm9jZXNzaW5nRXZlbnQpPC90ZXh0PjwvZz48IS0tbGluayBPcmlnaW5hbEV2ZW50IHRvIE1lZGlhdG9yLS0+PGcgY2xhc3M9ImxpbmsiIGRhdGEtZW50aXR5LTE9ImVudDAwMDEiIGRhdGEtZW50aXR5LTI9ImVudDAwMDMiIGlkPSJsbms3IiBkYXRhLXNvdXJjZS1saW5lPSIyMCIgZGF0YS1saW5rLXR5cGU9ImFnZ3JlZ2F0aW9uIj48cGF0aCBkPSJNMjMwLjcxLDgxLjM5NyBDMjMwLjcxLDEwMC4xNjcgMjMwLjcxLDExNS44MDcgMjMwLjcxLDE0MS4wNTciIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MTsiIGZpbGw9Im5vbmUiIGlkPSJPcmlnaW5hbEV2ZW50LU1lZGlhdG9yIiBjb2RlTGluZT0iMjAiLz48cG9seWdvbiBwb2ludHM9IjIzMC43MSw3Ni4zOTcsMjI2LjcxLDg1LjM5NywyMzAuNzEsODEuMzk3LDIzNC43MSw4NS4zOTcsMjMwLjcxLDc2LjM5NyIgZmlsbD0iIzE4MTgxOCIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxO3N0cm9rZS1saW5lam9pbjptaXRlcjtzdHJva2UtbWl0ZXJsaW1pdDoxMDsiLz48cG9seWdvbiBwb2ludHM9IjIzMC43MSwxNTMuMDU3LDIzNC43MSwxNDcuMDU3LDIzMC43MSwxNDEuMDU3LDIyNi43MSwxNDcuMDU3LDIzMC43MSwxNTMuMDU3IiBmaWxsPSJub25lIiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjE7c3Ryb2tlLWxpbmVqb2luOm1pdGVyO3N0cm9rZS1taXRlcmxpbWl0OjEwOyIvPjx0ZXh0IHg9IjIzMS43MSIgeT0iMTE5LjM2NCIgZmlsbD0iIzAwMCIgZm9udC1zaXplPSIxMyIgdGV4dExlbmd0aD0iNDcuNzkyIj5yZWNlaXZlPC90ZXh0PjwvZz48IS0tbGluayBNZWRpYXRvciB0byBFdmVudENoYW5uZWwtLT48ZyBjbGFzcz0ibGluayIgZGF0YS1lbnRpdHktMT0iZW50MDAwMyIgZGF0YS1lbnRpdHktMj0iZW50MDAwNCIgaWQ9ImxuazgiIGRhdGEtc291cmNlLWxpbmU9IjIxIiBkYXRhLWxpbmstdHlwZT0iYWdncmVnYXRpb24iPjxwYXRoIGQ9Ik0yNzcuNzQsMjM0LjMxNyBDMzAzLjI2LDI1OC4wMzcgMzIzLjg2OCwyNzcuMjAzIDM0Ny4zOTgsMjk5LjA3MyIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxOyIgZmlsbD0ibm9uZSIgaWQ9Ik1lZGlhdG9yLUV2ZW50Q2hhbm5lbCIgY29kZUxpbmU9IjIxIi8+PHBvbHlnb24gcG9pbnRzPSIyNjguOTUsMjI2LjE0NywyNzAuNjIyLDIzMy4xNjIsMjc3Ljc0LDIzNC4zMTcsMjc2LjA2OCwyMjcuMzAyLDI2OC45NSwyMjYuMTQ3IiBmaWxsPSJub25lIiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjE7c3Ryb2tlLWxpbmVqb2luOm1pdGVyO3N0cm9rZS1taXRlcmxpbWl0OjEwOyIvPjxwb2x5Z29uIHBvaW50cz0iMzUxLjA2LDMwMi40NzcsMzQ3LjE5MSwyOTMuNDIsMzQ3LjM5OCwyOTkuMDczLDM0MS43NDUsMjk5LjI4LDM1MS4wNiwzMDIuNDc3IiBmaWxsPSIjMTgxODE4IiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjE7c3Ryb2tlLWxpbmVqb2luOm1pdGVyO3N0cm9rZS1taXRlcmxpbWl0OjEwOyIvPjx0ZXh0IHg9IjMyMC43MSIgeT0iMjY4Ljk2NCIgZmlsbD0iIzAwMCIgZm9udC1zaXplPSIxMyIgdGV4dExlbmd0aD0iNTMuMDg1Ij5tYW5hZ2U8L3RleHQ+PC9nPjwhLS1saW5rIFByb2Nlc3NpbmdFdmVudCB0byBFdmVudENoYW5uZWwtLT48ZyBjbGFzcz0ibGluayIgZGF0YS1lbnRpdHktMT0iZW50MDAwMiIgZGF0YS1lbnRpdHktMj0iZW50MDAwNCIgaWQ9ImxuazEwIiBkYXRhLXNvdXJjZS1saW5lPSIyMiIgZGF0YS1saW5rLXR5cGU9ImFnZ3JlZ2F0aW9uIj48cGF0aCBkPSJNMTU5Ljg3LDMzMS4wMzcgQzE4NS4xMSwzMzEuMDM3IDE5Ny4yNSwzMzEuMDM3IDIyNi4wMiwzMzEuMDM3IiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjE7IiBmaWxsPSJub25lIiBpZD0iUHJvY2Vzc2luZ0V2ZW50LUV2ZW50Q2hhbm5lbCIgY29kZUxpbmU9IjIyIi8+PHBvbHlnb24gcG9pbnRzPSIxNTQuODcsMzMxLjAzNywxNjMuODcsMzM1LjAzNywxNTkuODcsMzMxLjAzNywxNjMuODcsMzI3LjAzNywxNTQuODcsMzMxLjAzNyIgZmlsbD0iIzE4MTgxOCIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxO3N0cm9rZS1saW5lam9pbjptaXRlcjtzdHJva2UtbWl0ZXJsaW1pdDoxMDsiLz48cG9seWdvbiBwb2ludHM9IjIzOC4wMiwzMzEuMDM3LDIzMi4wMiwzMjcuMDM3LDIyNi4wMiwzMzEuMDM3LDIzMi4wMiwzMzUuMDM3LDIzOC4wMiwzMzEuMDM3IiBmaWxsPSJub25lIiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjE7c3Ryb2tlLWxpbmVqb2luOm1pdGVyO3N0cm9rZS1taXRlcmxpbWl0OjEwOyIvPjx0ZXh0IHg9IjE3Mi45IiB5PSIzMjQuMTA0IiBmaWxsPSIjMDAwIiBmb250LXNpemU9IjEzIiB0ZXh0TGVuZ3RoPSI0Ny43OTIiPnJlY2VpdmU8L3RleHQ+PC9nPjwhLS1saW5rIEV2ZW50Q2hhbm5lbCB0byBFdmVudFByb2Nlc3Nvci0tPjxnIGNsYXNzPSJsaW5rIiBkYXRhLWVudGl0eS0xPSJlbnQwMDA0IiBkYXRhLWVudGl0eS0yPSJlbnQwMDA1IiBpZD0ibG5rMTEiIGRhdGEtc291cmNlLWxpbmU9IjIzIiBkYXRhLWxpbmstdHlwZT0iZGVwZW5kZW5jeSI+PHBhdGggZD0iTTM0OS4yNiwzNTkuNTY3IEMzMjMuNjYsMzgxLjk3NyAyOTEuNDYyLDQxMC4xNTQgMjY1Ljg3Miw0MzIuNTU0IiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjE7IiBmaWxsPSJub25lIiBpZD0iRXZlbnRDaGFubmVsLXRvLUV2ZW50UHJvY2Vzc29yIiBjb2RlTGluZT0iMjMiLz48cG9seWdvbiBwb2ludHM9IjI2Mi4xMSw0MzUuODQ3LDI3MS41MTcsNDMyLjkyOSwyNjUuODcyLDQzMi41NTQsMjY2LjI0Nyw0MjYuOTA5LDI2Mi4xMSw0MzUuODQ3IiBmaWxsPSIjMTgxODE4IiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjE7c3Ryb2tlLWxpbmVqb2luOm1pdGVyO3N0cm9rZS1taXRlcmxpbWl0OjEwOyIvPjx0ZXh0IHg9IjMxNS43MSIgeT0iNDAyLjI1NCIgZmlsbD0iIzAwMCIgZm9udC1zaXplPSIxMyIgdGV4dExlbmd0aD0iMjMuMDEiPnVzZTwvdGV4dD48L2c+PCEtLWxpbmsgTWVkaWF0b3IgdG8gUHJvY2Vzc2luZ0V2ZW50LS0+PGcgY2xhc3M9ImxpbmsiIGRhdGEtZW50aXR5LTE9ImVudDAwMDMiIGRhdGEtZW50aXR5LTI9ImVudDAwMDIiIGlkPSJsbmsxMiIgZGF0YS1zb3VyY2UtbGluZT0iMjQiIGRhdGEtbGluay10eXBlPSJkZXBlbmRlbmN5Ij48cGF0aCBkPSJNMTkyLjQ3LDIyNi4xNDcgQzE2MS43NCwyNTQuNzA3IDEyMy43NDIsMjkwLjAzMiAxMDAuOTUyLDMxMS4yMjIiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MTtzdHJva2UtZGFzaGFycmF5OjcsNzsiIGZpbGw9Im5vbmUiIGlkPSJNZWRpYXRvci10by1Qcm9jZXNzaW5nRXZlbnQiIGNvZGVMaW5lPSIyNCIvPjxwb2x5Z29uIHBvaW50cz0iOTcuMjksMzE0LjYyNywxMDYuNjA1LDMxMS40MjgsMTAwLjk1MiwzMTEuMjIyLDEwMS4xNTcsMzA1LjU2OSw5Ny4yOSwzMTQuNjI3IiBmaWxsPSIjMTgxODE4IiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjE7c3Ryb2tlLWxpbmVqb2luOm1pdGVyO3N0cm9rZS1taXRlcmxpbWl0OjEwOyIvPjx0ZXh0IHg9IjE2MS43MSIgeT0iMjY4Ljk2NCIgZmlsbD0iIzAwMCIgZm9udC1zaXplPSIxMyIgdGV4dExlbmd0aD0iNTguODk0Ij5nZW5lcmF0ZTwvdGV4dD48L2c+PCEtLWxpbmsgRXZlbnRQcm9jZXNzb3IgdG8gUHJvY2Vzc2luZ0V2ZW50LS0+PGcgY2xhc3M9ImxpbmsiIGRhdGEtZW50aXR5LTE9ImVudDAwMDUiIGRhdGEtZW50aXR5LTI9ImVudDAwMDIiIGlkPSJsbmsxMyIgZGF0YS1zb3VyY2UtbGluZT0iMjUiIGRhdGEtbGluay10eXBlPSJkZXBlbmRlbmN5Ij48cGF0aCBkPSJNMTk5LjIyLDQzNS43NzcgQzE2OC41MSw0MDguODk3IDEyNi43MDIsMzcyLjMgMTAxLjk3MiwzNTAuNjUiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MTtzdHJva2UtZGFzaGFycmF5OjcsNzsiIGZpbGw9Im5vbmUiIGlkPSJFdmVudFByb2Nlc3Nvci10by1Qcm9jZXNzaW5nRXZlbnQiIGNvZGVMaW5lPSIyNSIvPjxwb2x5Z29uIHBvaW50cz0iOTguMjEsMzQ3LjM1NywxMDIuMzQ3LDM1Ni4yOTUsMTAxLjk3MiwzNTAuNjUsMTA3LjYxNiwzNTAuMjc2LDk4LjIxLDM0Ny4zNTciIGZpbGw9IiMxODE4MTgiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MTtzdHJva2UtbGluZWpvaW46bWl0ZXI7c3Ryb2tlLW1pdGVybGltaXQ6MTA7Ii8+PHRleHQgeD0iMTY1LjcxIiB5PSI0MDIuMjU0IiBmaWxsPSIjMDAwIiBmb250LXNpemU9IjEzIiB0ZXh0TGVuZ3RoPSI0NC4zMDciPmhhbmRsZTwvdGV4dD48L2c+PD9wbGFudHVtbC1zcmMgUlAwdjNpOG00NEx4ZHM5QTQwZTdJNDYzQTE1RzhtaFpfMEhCcFdIdkdLQThrdkVHMUprWXA1X1VWQ1RoUnExeDU1aHduZWdSQmEyZXhfdjlEVWVoaDFEMml1U2pmRzhUaEF1cUl4RHhXN3NhN3NzWnU5cGNnZFU0Q2pBdllLZWxHUkgyUHZxMjBkOHc5d0hCUHdrUlA4UG5oVmFMal90dEhSbjdOMnB0bzdqd2otbEVmaXBoV3Bya0FXQ2g2WVlCNk10UExRU2RENWQ4RGthRmU5bWk1RkczU1FuRDlLRHBnWU5CMlk5SGN5b3FtVGRPMjlZNDktUGxWS3gxSE1WTnd0LW0yV21oX0szeGJWLWRzc0U1bUdTMD8+PC9nPjwvc3ZnPg=='>
+<p><img src="http://book.csl.cool/img/20220814122937.png" alt="" /></p>
+<h3 id="broker"><a class="markdownIt-Anchor" href="#broker"></a> <code>Broker</code></h3>
+<p><img src="http://book.csl.cool/img/20220814123152.png" alt="" /></p>
+<h2 id="microkernel-architecture-pattern"><a class="markdownIt-Anchor" href="#microkernel-architecture-pattern"></a> Microkernel Architecture Pattern</h2>
+<p>Sometimes termed as <code>Plug-in Architecture Pattern</code></p>
+<h2 id="microservice-architecture-pattern"><a class="markdownIt-Anchor" href="#microservice-architecture-pattern"></a> Microservice Architecture Pattern</h2>
+<img src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2ZXJzaW9uPSIxLjEiIHN0eWxlPSJ3aWR0aDo0OTFweDtoZWlnaHQ6MTE5cHg7YmFja2dyb3VuZDojMDAwMDAwOyIgd2lkdGg9IjQ5MXB4IiBoZWlnaHQ9IjExOXB4IiB2aWV3Qm94PSIwIDAgNDkxIDExOSIgem9vbUFuZFBhbj0ibWFnbmlmeSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSIgY29udGVudFN0eWxlVHlwZT0idGV4dC9jc3MiPjw/cGxhbnR1bWwgMS4yMDI2LjhiZXRhMT8+PGRlZnMvPjxnIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciPjx0ZXh0IHg9IjUiIHk9IjE3IiBmaWxsPSIjMzNGRjAyIiBmb250LXNpemU9IjEyIiB0ZXh0TGVuZ3RoPSI0NzguMjI1IiBmb250LXdlaWdodD0iNzAwIiBmb250LXN0eWxlPSJpdGFsaWMiPlBsYW50VU1MIHZlcnNpb24gMS4yMDI2LjhiZXRhMSAvIGFlNDAwZTcgWzIwMjYtMDgtMjUgMTY6NDk6NTkgVVRDXTwvdGV4dD48cmVjdCB4PSI1IiB5PSIyNi45NjkiIHdpZHRoPSIxNzMuMjgxIiBoZWlnaHQ9IjIxLjI5NyIgZmlsbD0iIzMzRkYwMiIgc3R5bGU9InN0cm9rZTojMzNGRjAyO3N0cm9rZS13aWR0aDoxOyIvPjx0ZXh0IHg9IjYiIHk9IjQxLjk2OSIgZmlsbD0iIzAwMCIgZm9udC1zaXplPSIxNCIgdGV4dExlbmd0aD0iMTcxLjI4MSIgZm9udC13ZWlnaHQ9IjcwMCI+W0Zyb20gc3RyaW5nIChsaW5lIDIpIF08L3RleHQ+PHRleHQgeD0iNSIgeT0iNjIuMjY2IiBmaWxsPSIjMzNGRjAyIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iNzAwIj7CoDwvdGV4dD48dGV4dCB4PSI1IiB5PSI3OC41NjMiIGZpbGw9IiMzM0ZGMDIiIGZvbnQtc2l6ZT0iMTQiIHRleHRMZW5ndGg9IjgxLjQyMyIgZm9udC13ZWlnaHQ9IjcwMCI+QHN0YXJ0dW1sPC90ZXh0Pjx0ZXh0IHg9IjUiIHk9Ijk0Ljg1OSIgZmlsbD0iIzMzRkYwMiIgZm9udC1zaXplPSIxNCIgdGV4dExlbmd0aD0iMTg3LjM2NiIgZm9udC13ZWlnaHQ9IjcwMCIgdGV4dC1kZWNvcmF0aW9uPSJ3YXZ5IHVuZGVybGluZSI+aGlkZGVuIGVtcHR5IG1lbWJlcnM8L3RleHQ+PHRleHQgeD0iOS44NzQiIHk9IjExMS4xNTYiIGZpbGw9IiNGMDAiIGZvbnQtc2l6ZT0iMTQiIHRleHRMZW5ndGg9IjM5Mi4zMzUiIGZvbnQtd2VpZ2h0PSI3MDAiPlN5bnRheCBFcnJvcj8gKEFzc3VtZWQgZGlhZ3JhbSB0eXBlOiBzZXF1ZW5jZSk8L3RleHQ+PD9wbGFudHVtbC1zcmMgWFAxMTJpOG00MDNsLXVlekFmOEY1MTVpLW0zMWV0WWV3Uk82aWNiOUtnNjhWcFVPTFluNFVqbEMzQ2tJa3dmaENhWlMtbjZQLTRSTTBLWFRFT1Q1UC1heUVhLUNKcTBLWnlmWWh1VE02UFZYdlZJUGhhN2ljaTU4akRJZ3FEZkRKM0FDbVZPUjNFUGx5VzgwUE85ZkFhYUpkUS04aG9DZ3haS242Si1aWFN6TlZCN1lvdUk3ZG1fTzJwNVZhaVB2NlhUZk4yd01UcThTOWw0Nj8+PC9nPjwvc3ZnPg=='>
+<h2 id="space-based-architecture-pattern"><a class="markdownIt-Anchor" href="#space-based-architecture-pattern"></a> Space-based Architecture Pattern</h2>
+<h2 id="references"><a class="markdownIt-Anchor" href="#references"></a> References</h2>
+<p>(O’REILLY)Software Architecture Patterns - Mark Richards</p>
+<!-- flag of hidden posts -->
+  </div>
+</article>
+
+
+
+      
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#layered-architecture"><span class="toc-number">1.</span> <span class="toc-text"> Layered Architecture</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#diagram"><span class="toc-number">1.1.</span> <span class="toc-text"> diagram</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#event-driven-architecture"><span class="toc-number">2.</span> <span class="toc-text"> Event-Driven Architecture</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#mediator"><span class="toc-number">2.1.</span> <span class="toc-text"> Mediator</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#broker"><span class="toc-number">2.2.</span> <span class="toc-text"> Broker</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#microkernel-architecture-pattern"><span class="toc-number">3.</span> <span class="toc-text"> Microkernel Architecture Pattern</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#microservice-architecture-pattern"><span class="toc-number">4.</span> <span class="toc-text"> Microservice Architecture Pattern</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#space-based-architecture-pattern"><span class="toc-number">5.</span> <span class="toc-text"> Space-based Architecture Pattern</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#references"><span class="toc-number">6.</span> <span class="toc-text"> References</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2022/08/09/trash/learning-architecture-pattern-again/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2022/08/09/trash/learning-architecture-pattern-again/&text=Learning Architecture Pattern Again"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2022/08/09/trash/learning-architecture-pattern-again/&title=Learning Architecture Pattern Again"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2022/08/09/trash/learning-architecture-pattern-again/&is_video=false&description=Learning Architecture Pattern Again"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Learning Architecture Pattern Again&body=Check out this article: https://csl.cool/2022/08/09/trash/learning-architecture-pattern-again/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2022/08/09/trash/learning-architecture-pattern-again/&title=Learning Architecture Pattern Again"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2022/08/09/trash/learning-architecture-pattern-again/&title=Learning Architecture Pattern Again"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2022/08/09/trash/learning-architecture-pattern-again/&title=Learning Architecture Pattern Again"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2022/08/09/trash/learning-architecture-pattern-again/&title=Learning Architecture Pattern Again"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2022/08/09/trash/learning-architecture-pattern-again/&name=Learning Architecture Pattern Again&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2022/08/09/trash/learning-architecture-pattern-again/&t=Learning Architecture Pattern Again"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+      <div id="end">
+    <img src="/images/post-end.png" alt="">
+</div> 
+      
+      <div id='valine'>
+    <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+            el: '#vcomments',
+            notify: true,
+            verify: true,
+            appId: '7zw6tQBddCfPvbaVtBGxUy0G-gzGzoHsz',
+            appKey: 'voPGHhBz7MozpUm0Fq2AMFmv',
+            placeholder: '想说点啥...',
+            avatar: 'monsterid',           
+        })
+    </script>
+</div>
+      
+      
+      <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 SSBun
+    <a target="_blank" rel="noopener" href="http://www.beian.miit.gov.cn/">京ICP备20001935号-1</a>
+    <div id="friend-link-container">
+      
+      
+    </div>
+  </div>
+  
+    <div class="footer-right">
+      <nav>
+        <ul>
+          
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/search/">Search</a></li>
+      
+      <li><a href="/categories/">Categories</a></li>
+      
+      <li><a href="/notes/">Notes</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+      </ul>
+      </nav>
+    </div>
+  
+</footer>
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?c2fdf3bebd0db8e40c37a4f37d76d33b";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Umami Analytics -->
+<!--  -->
+  <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="d39cc16d-90eb-47b6-8bf0-8e4cd43c704d"></script>
+<!--  -->
+<!-- Disqus Comments -->
+
+
+
+    
+    <script src="/lib/blackcat/l2dwidget.min.js"></script>
+    <script type="text/javascript">
+      var config = {
+        model: {
+          jsonPath: '/lib/blackcat/hijiki.model.json',
+        },
+        display: {
+          superSample: 1,
+          width: 245,
+          height: 245,
+          position: 'left',
+          hOffset: 0,
+          vOffset: 0,
+        },
+        mobile: {
+          show: false,
+          scale: 1,
+          motion: false,
+        },
+        react: {
+          opacityDefault: 1,
+          opacityOnHover: 0.75
+        }
+      };
+      L2Dwidget.init(config);
+    </script>
+    
+  </body>
+
+  </html>

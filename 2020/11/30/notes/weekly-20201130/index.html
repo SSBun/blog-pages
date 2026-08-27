@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang=en>
+  <head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="复习 Docker 又详细的复习了一遍 Docker 的使用过程，感觉 Docker 还是好用啊，有几个原来没有注意的点：   Dcoker 中的镜像更新不要使用 Commit 的方法来做，会导致镜像中堆积过多的垃圾文件导致体积变大 镜像的构建时分多层的，每次在 Container 中进行的修改，删除的文件并不会真正的被删除，而是在新的一层中被标记为删除而已   在使用 Dockerfile 构">
+<meta property="og:type" content="article">
+<meta property="og:title" content="复习 Docker、阿里云 iOT 接入ESP8266、SolidWorks 安装">
+<meta property="og:url" content="https://csl.cool/2020/11/30/notes/weekly-20201130/index.html">
+<meta property="og:site_name" content="CSL MEMO">
+<meta property="og:description" content="复习 Docker 又详细的复习了一遍 Docker 的使用过程，感觉 Docker 还是好用啊，有几个原来没有注意的点：   Dcoker 中的镜像更新不要使用 Commit 的方法来做，会导致镜像中堆积过多的垃圾文件导致体积变大 镜像的构建时分多层的，每次在 Container 中进行的修改，删除的文件并不会真正的被删除，而是在新的一层中被标记为删除而已   在使用 Dockerfile 构">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-11-30T06:16:29.000Z">
+<meta property="article:modified_time" content="2020-11-30T06:16:29.000Z">
+<meta property="article:author" content="SSBun">
+<meta property="article:tag" content="Docker">
+<meta property="article:tag" content="Weekly">
+<meta property="article:tag" content="3D Printer">
+<meta property="article:tag" content="SolidWorks">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>复习 Docker、阿里云 iOT 接入ESP8266、SolidWorks 安装</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="CSL MEMO" type="application/atom+xml" />
+    
+    <!-- umami web analytics -->
+    <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+  <body class="max-width mx-auto px3 ltr">
+    
+    <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/12/06/notes/weekly-20201206/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/11/12/frontend/flutter-controls-screen-orientation/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2020/11/30/notes/weekly-20201130/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2020/11/30/notes/weekly-20201130/&text=复习 Docker、阿里云 iOT 接入ESP8266、SolidWorks 安装"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2020/11/30/notes/weekly-20201130/&title=复习 Docker、阿里云 iOT 接入ESP8266、SolidWorks 安装"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2020/11/30/notes/weekly-20201130/&is_video=false&description=复习 Docker、阿里云 iOT 接入ESP8266、SolidWorks 安装"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=复习 Docker、阿里云 iOT 接入ESP8266、SolidWorks 安装&body=Check out this article: https://csl.cool/2020/11/30/notes/weekly-20201130/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2020/11/30/notes/weekly-20201130/&title=复习 Docker、阿里云 iOT 接入ESP8266、SolidWorks 安装"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2020/11/30/notes/weekly-20201130/&title=复习 Docker、阿里云 iOT 接入ESP8266、SolidWorks 安装"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2020/11/30/notes/weekly-20201130/&title=复习 Docker、阿里云 iOT 接入ESP8266、SolidWorks 安装"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2020/11/30/notes/weekly-20201130/&title=复习 Docker、阿里云 iOT 接入ESP8266、SolidWorks 安装"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2020/11/30/notes/weekly-20201130/&name=复习 Docker、阿里云 iOT 接入ESP8266、SolidWorks 安装&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2020/11/30/notes/weekly-20201130/&t=复习 Docker、阿里云 iOT 接入ESP8266、SolidWorks 安装"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%8D%E4%B9%A0-docker"><span class="toc-number">1.</span> <span class="toc-text"> 复习 Docker</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%83%B3%E4%B9%B0%E4%B8%AA-3d-%E6%89%93%E5%8D%B0%E6%9C%BA"><span class="toc-number">2.</span> <span class="toc-text"> 想买个 3D 打印机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-solidworks"><span class="toc-number">3.</span> <span class="toc-text"> 安装 Solidworks</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+      
+      <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        复习 Docker、阿里云 iOT 接入ESP8266、SolidWorks 安装
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">SSBun</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-11-30T06:16:29.000Z" itemprop="datePublished">2020-11-30</time>
+        
+        (Updated: <time datetime="2020-11-30T06:16:29.000Z" itemprop="dateModified">2020-11-30</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/3D-Printer/" rel="tag">3D Printer</a>, <a class="tag-link-link" href="/tags/Docker/" rel="tag">Docker</a>, <a class="tag-link-link" href="/tags/SolidWorks/" rel="tag">SolidWorks</a>, <a class="tag-link-link" href="/tags/Weekly/" rel="tag">Weekly</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="复习-docker"><a class="markdownIt-Anchor" href="#复习-docker"></a> 复习 Docker</h2>
+<p>又详细的复习了一遍 Docker 的使用过程，感觉 Docker 还是好用啊，有几个原来没有注意的点：</p>
+<ol>
+<li>
+<p>Dcoker 中的镜像更新不要使用 Commit 的方法来做，会导致镜像中堆积过多的垃圾文件导致体积变大<br />
+镜像的构建时分多层的，每次在 Container 中进行的修改，删除的文件并不会真正的被删除，而是在新的一层中被标记为删除而已</p>
+</li>
+<li>
+<p>在使用 Dockerfile 构建 Image 的时候，构建命令所指定的目录会被打包上传到 DcokerEngine 中，作为构建命令的上下文，<br />
+所以构建的时候尽量使用一个新的空文件夹，构建过程中需要使用的文件就 copy 进去。</p>
+</li>
+</ol>
+<h2 id="想买个-3d-打印机"><a class="markdownIt-Anchor" href="#想买个-3d-打印机"></a> 想买个 3D 打印机</h2>
+<p>之前玩 Arudino、ESP8266 做的东西，没有外壳实在是太丑了，有很多结构也没有办法做出来。现在的 3D 打印机是真便宜啊，1000 就能买个热销的，这里了解了一下基本的结构和行情：</p>
+<p>3D 打印机现阶段主要是 热熔堆积（FDM）、光固化（SLA）和高端的激光烧结等几种类型。前两个耗材都是塑料，后面一个可以是金属不过价额昂贵，体积较大不会搞来家用。</p>
+<ul>
+<li>
+<p><strong>FDM 打印机</strong></p>
+<ul>
+<li>耗材： ABS 常见的合成塑料； PLA(聚乳酸) 熔点低 175 度左右，环保安全，好像能用玉米做！！，价格大概 50-100 / kg</li>
+<li>有几种构型： i3 的最便宜也多，但是热床会动，打印精度不太好； 三角洲的速度比较快，但是比较高，然后不太好调平； corexy 好像是目前比较好的，复杂一些比较贵； 还有 MB 结构等, 这里<a target="_blank" rel="noopener" href="http://www.3dsishu.com/article-34-1.html">有篇文章</a>看看。</li>
+<li>打印层高先阶段都是 0.05mm - 0.3mm 左右</li>
+<li>滚轴丝杆比较好</li>
+</ul>
+</li>
+<li>
+<p><strong>SLA 打印机</strong></p>
+<ul>
+<li>耗材是树脂，有毒性，气味很大，精度会高很多，打印速度也比较慢</li>
+</ul>
+</li>
+</ul>
+<h2 id="安装-solidworks"><a class="markdownIt-Anchor" href="#安装-solidworks"></a> 安装 Solidworks</h2>
+<p>想要搞 3D 模型的话，因为我做的都是一些 DIY 组件，可能需要一些装配的设计，之前搞装修的时候学了 SketchUp，确实好用，不过机械装配还是不行的。网上看了一圈 Solidworks 还是推荐的很多。</p>
+<p>Solidworks 是不支持 Mac 系统的也不支持 BootCampAssistant，但是可以使用虚拟机。正版价格昂贵，还是淘宝来一波。下周找时间学学，双 12 搞个 3D 打印机？</p>
+<blockquote>
+<p>今周一，北京天真冷，4 点半了都</p>
+</blockquote>
+
+  </div>
+</article>
+
+
+
+      
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%8D%E4%B9%A0-docker"><span class="toc-number">1.</span> <span class="toc-text"> 复习 Docker</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%83%B3%E4%B9%B0%E4%B8%AA-3d-%E6%89%93%E5%8D%B0%E6%9C%BA"><span class="toc-number">2.</span> <span class="toc-text"> 想买个 3D 打印机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-solidworks"><span class="toc-number">3.</span> <span class="toc-text"> 安装 Solidworks</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2020/11/30/notes/weekly-20201130/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2020/11/30/notes/weekly-20201130/&text=复习 Docker、阿里云 iOT 接入ESP8266、SolidWorks 安装"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2020/11/30/notes/weekly-20201130/&title=复习 Docker、阿里云 iOT 接入ESP8266、SolidWorks 安装"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2020/11/30/notes/weekly-20201130/&is_video=false&description=复习 Docker、阿里云 iOT 接入ESP8266、SolidWorks 安装"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=复习 Docker、阿里云 iOT 接入ESP8266、SolidWorks 安装&body=Check out this article: https://csl.cool/2020/11/30/notes/weekly-20201130/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2020/11/30/notes/weekly-20201130/&title=复习 Docker、阿里云 iOT 接入ESP8266、SolidWorks 安装"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2020/11/30/notes/weekly-20201130/&title=复习 Docker、阿里云 iOT 接入ESP8266、SolidWorks 安装"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2020/11/30/notes/weekly-20201130/&title=复习 Docker、阿里云 iOT 接入ESP8266、SolidWorks 安装"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2020/11/30/notes/weekly-20201130/&title=复习 Docker、阿里云 iOT 接入ESP8266、SolidWorks 安装"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2020/11/30/notes/weekly-20201130/&name=复习 Docker、阿里云 iOT 接入ESP8266、SolidWorks 安装&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2020/11/30/notes/weekly-20201130/&t=复习 Docker、阿里云 iOT 接入ESP8266、SolidWorks 安装"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+      <div id="end">
+    <img src="/images/post-end.png" alt="">
+</div> 
+      
+      <div id='valine'>
+    <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+            el: '#vcomments',
+            notify: true,
+            verify: true,
+            appId: '7zw6tQBddCfPvbaVtBGxUy0G-gzGzoHsz',
+            appKey: 'voPGHhBz7MozpUm0Fq2AMFmv',
+            placeholder: '想说点啥...',
+            avatar: 'monsterid',           
+        })
+    </script>
+</div>
+      
+      
+      <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 SSBun
+    <a target="_blank" rel="noopener" href="http://www.beian.miit.gov.cn/">京ICP备20001935号-1</a>
+    <div id="friend-link-container">
+      
+      
+    </div>
+  </div>
+  
+    <div class="footer-right">
+      <nav>
+        <ul>
+          
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/search/">Search</a></li>
+      
+      <li><a href="/categories/">Categories</a></li>
+      
+      <li><a href="/notes/">Notes</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+      </ul>
+      </nav>
+    </div>
+  
+</footer>
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?c2fdf3bebd0db8e40c37a4f37d76d33b";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Umami Analytics -->
+<!--  -->
+  <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="d39cc16d-90eb-47b6-8bf0-8e4cd43c704d"></script>
+<!--  -->
+<!-- Disqus Comments -->
+
+
+
+    
+    <script src="/lib/blackcat/l2dwidget.min.js"></script>
+    <script type="text/javascript">
+      var config = {
+        model: {
+          jsonPath: '/lib/blackcat/hijiki.model.json',
+        },
+        display: {
+          superSample: 1,
+          width: 245,
+          height: 245,
+          position: 'left',
+          hOffset: 0,
+          vOffset: 0,
+        },
+        mobile: {
+          show: false,
+          scale: 1,
+          motion: false,
+        },
+        react: {
+          opacityDefault: 1,
+          opacityOnHover: 0.75
+        }
+      };
+      L2Dwidget.init(config);
+    </script>
+    
+  </body>
+
+  </html>

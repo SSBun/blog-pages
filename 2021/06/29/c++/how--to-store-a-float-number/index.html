@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang=en>
+  <head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="In C language, the decimal numbers have two lengths, float and double. Their lengths are constraint compared with integers. The float occupies 4 bytes, and the double needs 8 bytes. We know the decima">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to store a float number in the memory?">
+<meta property="og:url" content="https://csl.cool/2021/06/29/c++/how--to-store-a-float-number/index.html">
+<meta property="og:site_name" content="CSL MEMO">
+<meta property="og:description" content="In C language, the decimal numbers have two lengths, float and double. Their lengths are constraint compared with integers. The float occupies 4 bytes, and the double needs 8 bytes. We know the decima">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20210630155710.png">
+<meta property="og:image" content="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20210701123807.png">
+<meta property="article:published_time" content="2021-06-29T02:28:24.000Z">
+<meta property="article:modified_time" content="2021-06-29T02:28:24.000Z">
+<meta property="article:author" content="SSBun">
+<meta property="article:tag" content="C">
+<meta property="article:tag" content="Memory">
+<meta property="article:tag" content="Float">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20210630155710.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>How to store a float number in the memory?</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="CSL MEMO" type="application/atom+xml" />
+    
+    <!-- umami web analytics -->
+    <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+  <body class="max-width mx-auto px3 ltr">
+    
+    <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2021/07/05/c++/c--pointer/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2021/06/21/c++/c--store-a-number/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2021/06/29/c++/how--to-store-a-float-number/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2021/06/29/c++/how--to-store-a-float-number/&text=How to store a float number in the memory?"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2021/06/29/c++/how--to-store-a-float-number/&title=How to store a float number in the memory?"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2021/06/29/c++/how--to-store-a-float-number/&is_video=false&description=How to store a float number in the memory?"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=How to store a float number in the memory?&body=Check out this article: https://csl.cool/2021/06/29/c++/how--to-store-a-float-number/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2021/06/29/c++/how--to-store-a-float-number/&title=How to store a float number in the memory?"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2021/06/29/c++/how--to-store-a-float-number/&title=How to store a float number in the memory?"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2021/06/29/c++/how--to-store-a-float-number/&title=How to store a float number in the memory?"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2021/06/29/c++/how--to-store-a-float-number/&title=How to store a float number in the memory?"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2021/06/29/c++/how--to-store-a-float-number/&name=How to store a float number in the memory?&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2021/06/29/c++/how--to-store-a-float-number/&t=How to store a float number in the memory?"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#what-are-the-floating-point-number-and-fixed-point-numbers"><span class="toc-number">1.</span> <span class="toc-text"> What are the floating-point number and fixed-point numbers?</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#fixed-point-number"><span class="toc-number">1.1.</span> <span class="toc-text"> Fixed-point number</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#floating-point-number"><span class="toc-number">1.2.</span> <span class="toc-text"> Floating point number</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#storing-a-binary-floating-point-number"><span class="toc-number">2.</span> <span class="toc-text"> Storing a binary floating-point number</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#the-storing-accuracy"><span class="toc-number">3.</span> <span class="toc-text"> The storing accuracy</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ieee-754-standard"><span class="toc-number">4.</span> <span class="toc-text"> IEEE 754 standard</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#specific-values"><span class="toc-number">4.1.</span> <span class="toc-text"> Specific values</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#denormal-number"><span class="toc-number">5.</span> <span class="toc-text"> Denormal number</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#rounding-rules"><span class="toc-number">6.</span> <span class="toc-text"> Rounding rules</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#roundings-to-nearest"><span class="toc-number">6.1.</span> <span class="toc-text"> Roundings to nearest</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#directed-roundings"><span class="toc-number">6.2.</span> <span class="toc-text"> Directed roundings</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#example-of-rounding-to-integers-using-the-ieee-754-rules"><span class="toc-number">6.3.</span> <span class="toc-text"> Example of rounding to integers using the IEEE 754 rules</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+      
+      <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        How to store a float number in the memory?
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">SSBun</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-06-29T02:28:24.000Z" itemprop="datePublished">2021-06-29</time>
+        
+        (Updated: <time datetime="2021-06-29T02:28:24.000Z" itemprop="dateModified">2021-06-29</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/C/" rel="tag">C</a>, <a class="tag-link-link" href="/tags/Float/" rel="tag">Float</a>, <a class="tag-link-link" href="/tags/Memory/" rel="tag">Memory</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>In C language, the decimal numbers have two lengths, <code>float</code> and <code>double</code>. Their lengths are constraint compared with integers. The <code>float</code> occupies <strong>4 bytes</strong>, and the <code>double</code> needs <strong>8 bytes</strong>.</p>
+<p>We know the decimal numbers have two parts, the integer part and the decimal part. How do we store a decimal number? The easiest way we can figure out is to store the two parts separately.  A decimal number saved by the way above is the <code>fixed point number</code>. Of course, we also have the <code>floating point number</code>.</p>
+<p>We always say the decimal number as the floating-point number, but actually, they are not equal. The decimal numbers and the integers are the same groups, the floating-point number is not a number type but a number storing format corresponding to the fixed-point number. You can save an integer using the floating-point number format.</p>
+<h2 id="what-are-the-floating-point-number-and-fixed-point-numbers"><a class="markdownIt-Anchor" href="#what-are-the-floating-point-number-and-fixed-point-numbers"></a> What are the floating-point number and fixed-point numbers?</h2>
+<h3 id="fixed-point-number"><a class="markdownIt-Anchor" href="#fixed-point-number"></a> Fixed-point number</h3>
+<p>The “Fixed point” means the decimal point is fixed. It can’t move forward or back. If we use 4 bytes to save an unsigned fixed-point number and specify the first 16 bits and the end 16 bits to store the integer part and the decimal part separately, the max value is <code>2^16 - 2^-16</code> very close to <code>2^16</code> when all the bits are 1, the min value is 0.</p>
+<p>The last decimal bit might be a precise figure or an approximate figure, but all other bits are exact, so the fixed-point number has <strong>31-32 precise bits</strong>.</p>
+<blockquote>
+<p>Using a fixed-point number can get higher precision, but its value range is too small and cannot store a large number.</p>
+</blockquote>
+<p>If we want to store a large number <code>1.2*10^30</code>, using the fixed point number format will need dozens of bits. The large number will cost a large memory space. Like the number above, I didn’t write it as <code>12000000...00000</code> but used an exponential format (<code>scientific notation</code>). This format is shorter and clearer.</p>
+<h3 id="floating-point-number"><a class="markdownIt-Anchor" href="#floating-point-number"></a> Floating point number</h3>
+<p>We should first understand the scientific notation before understanding the floating-point number.</p>
+<blockquote>
+<p>flt = (-1)<sup>sign</sup> × mantissa × base<sup>exponent</sup></p>
+</blockquote>
+<ul>
+<li>The <code>flt</code> means float point number</li>
+<li>The <code>sign</code> used to say the number is positive or negative</li>
+<li>The <code>base</code> is the base number, and its value is greater, or than 2, 2 means it’s binary, 10 means it’s decimal, and 16 means it’s hexadecimal. Usually, we use the decimal number in mathematics. eg: <strong>2000 = 2.0 * 10<sup>3</sup></strong></li>
+<li>The <code>mantissa</code> has to be in the range from <mark>1</mark> to <mark>base</mark>, which means there is only one digit before the decimal point.</li>
+<li>The <code>exponent</code> is a decimal integer, can be negative or positive.</li>
+</ul>
+<p>Let’s take an example of how to transform a decimal number <mark>19.625</mark> to floating-point format.<br />
+When the base is 10, we can easily get the result <strong>1.9625 * 10<sup>1</sup></strong>.</p>
+<p>If we set the base to 2, there is not easy to get the result directly. We need some calculations.</p>
+<ol>
+<li>First, we transform the integer part to binary format.<br />
+<strong>19 = 1×2<sup>4</sup>+0×2<sup>3</sup>+0×2<sup>2</sup>+1×2<sup>1</sup>+1×2<sup>0</sup> = 10011</strong></li>
+<li>Then, we transform the decimal part to binary format.<br />
+<strong>0.625 = 1×2<sup>-1</sup>+0×2<sup>-2</sup>+1×2<sup>-3</sup> = .101</strong></li>
+<li>Combine the integer part and the decimal part<br />
+<strong>19.625 = 10011.101</strong></li>
+<li>Finally, convert the binary decimal number to floating point format<br />
+<strong>10011.101 = 1.0011101×2^4</strong></li>
+</ol>
+<p>In the example above, we see that the <code>exponent</code> is the decimal point’s offset.</p>
+<ul>
+<li>The exponent is negative. We can left shift the decimal point to get the original value.</li>
+<li>The exponent is positive. We can right shift the decimal point to get the original value.</li>
+</ul>
+<blockquote>
+<p>In other words, the position of the decimal point was changed after converting to floating-point format. The offset depends on the exponent, so we call this decimal number displaying format floating-point.</p>
+</blockquote>
+<h2 id="storing-a-binary-floating-point-number"><a class="markdownIt-Anchor" href="#storing-a-binary-floating-point-number"></a> Storing a binary floating-point number</h2>
+<p>First, we should know what parts of a point number we should save. In the expression above, we can find four variables.</p>
+<p><strong>flt = (-1)<sup>sign</sup> × mantissa × base<sup>exponent</sup></strong></p>
+<ul>
+<li>sign</li>
+<li>mantissa</li>
+<li>base</li>
+<li>exponent</li>
+</ul>
+<p>The <code>sign </code> can only be <ins>0</ins> or <ins>1</ins>, so it needs <mark>1 bit</mark> to save.<br />
+The <code>base</code> must be <ins>2</ins> in binary floating-point numbers, so we don’t need to save it.<br />
+The <code>mantissa</code> and the <code>exponent</code> occupy different spaces in the <code>float</code> and the <code>double</code>. I made a char below to display the memory layout.<br />
+<img src="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20210630155710.png" alt="" /></p>
+<p>When storing the mantissa part, we haven’t to record all parts of the floating-point number because its integer part must be <mark>1</mark>, so we need to store its decimal part.</p>
+<p>The <code>exponent</code> is an integer, so its value might be negative. In normal, we can save it as saving a fixed point integer, the highest bit is a sign bit, but the floating-point number doesn’t use this. When saving an <code>exponent</code>, we firstly add a median to it. In float, the exponent occupies 8 bits of memory, its max value is 255, and the median is 127. And when calculating the number, we set the value minus 127 to get the correct exponent.</p>
+<p>It’s better to do than to talk. Let me demonstrate it.<br />
+We use the example <code>19.625</code> again, we know <strong>19.625 = 1.0011101*2^4</strong>, contrast it with the floating point format expression, we can get these values:</p>
+<ul>
+<li><code>sign</code> = <code>1</code></li>
+<li><code>mantissa</code> = <code>1.0011101</code></li>
+<li><code>exponent</code> = <code>4</code></li>
+</ul>
+<p>We only save the decimal part of the mantissa, then filling the vacant bits with 0, its binary is <code>001 1101 0000 0000 0000 0000</code>(23 Bits). The exponent is 4, <code>4 + 127 = 131</code>, the binary of 131 is <code>1000 0011</code>. Finally putting them together:</p>
+<blockquote>
+<p>0 - 1000 0011 - 001 1101 0000 0000 0000 0000</p>
+</blockquote>
+<h2 id="the-storing-accuracy"><a class="markdownIt-Anchor" href="#the-storing-accuracy"></a> The storing accuracy</h2>
+<p>For decimal fractions, we use the Euclidean algorithm<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup> to convert its integer part to binary format. A length-limited integer surely can be converted to a length-limited binary number. But the decimal part has some differences. When converting the decimal part to binary, we continuously divided it by two<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup> until the remainder equals zero, but not every decimal can be multiplied to the end. Only the tail is 5 can do this, so a length-limited decimal might not be converted to a length-limited binary.</p>
+<p>The mantissa of the float and the double is length-limited. When the decimal part of a floating-point number is too long, the over part would be ignored. In other words, <strong>the floating-point number might not store an exact number but an approximate value</strong></p>
+<h2 id="ieee-754-standard"><a class="markdownIt-Anchor" href="#ieee-754-standard"></a> IEEE 754 standard</h2>
+<p>The IEEE 754 standard is the most popular floating-point number standard, and you can get the detailed info on <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/IEEE_754">Wiki</a>, it’s a genius-like idea. In IEEE 754, the scientist designed two specific values.</p>
+<h3 id="specific-values"><a class="markdownIt-Anchor" href="#specific-values"></a> Specific values</h3>
+<p>When all exponent bits are 1, we don’t think it’s a normal floating-point number but a specific value.</p>
+<ul>
+<li>If all bits of the mantissa is zero, it means infinity.
+<ul>
+<li>The sign is 1 means negative infinity.</li>
+<li>The sing is 0 means positive infinity.</li>
+</ul>
+</li>
+<li>If having any bit of the mantissa is not zero, we think this value is invalid or has not been initialized yet.</li>
+</ul>
+<h2 id="denormal-number"><a class="markdownIt-Anchor" href="#denormal-number"></a> Denormal number</h2>
+<p>When all bits of the exponent are zero, we will make this value a subnormal number.<br />
+For normal floating-point numbers, the hidden integer part of the mantissa is 1, and the exponent value in the memory needs to subtract the median(In float, is 127) to get the correct value.</p>
+<p>But in denormal numbers, the rule changed. The hidden integer part of the mantissa becomes 0, not 1, and we need to use 1 minus the median to get the exponent. For float, the exponent is <code>1 - 127 = -126</code>. For double, the exponent is <code>1 - 1023 = -1022</code>.</p>
+<p>For denormal numbers, its value equals zero when all bits of the mantissa are zero. If the sign bit is 1, its value is negative zero <code>(-0)</code>, otherwise it is positive zero <code>(+0)</code>.</p>
+<p>I found a list from Wiki that displayed all boundary values of the single-precision floating-point number <strong>(Float)</strong>.</p>
+<p><img src="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20210701123807.png" alt="" /></p>
+<p>The reason why import the denormal numbers is the minimum value of the normal values is still too large for scientific calculations. Take <code>Float</code> as an example. The minimum value of its normal values is <strong>2<sup>-126</sup></strong>. When all mantissa bits are zero, the minimum value of the denormal values is <strong>2<sup>-149</sup></strong>, which is much smaller.</p>
+<p>If you look carefully, you can find the following number of the minimum value of the normal values is the maximum value of the denormal values. They are closely linked. Let me show you the memory layout.</p>
+<ul>
+<li><strong>Max denormal value</strong><br />
+<code>0 - 0000 0000 - 111 1111 1111 1111 1111 1111</code> = 1.11…111 * 2<sup>-167</sup></li>
+<li><strong>Min normal value</strong><br />
+<code>0 - 0000 0001 - 000 0000 0000 0000 0000 0000</code> = 1.0 * 2<sup>-126</sup></li>
+</ul>
+<p>The Min normal value minutes 1 is the Max denormal value. Wonderful!</p>
+<h2 id="rounding-rules"><a class="markdownIt-Anchor" href="#rounding-rules"></a> Rounding rules</h2>
+<p>The standard defines five rounding rules. The first two rules round to the nearest value; the others are called directed roundings:</p>
+<h3 id="roundings-to-nearest"><a class="markdownIt-Anchor" href="#roundings-to-nearest"></a> Roundings to nearest</h3>
+<ul>
+<li><strong>Round to nearest, ties to even</strong> – rounds to the nearest value; if the number falls midway, it is rounded to the nearest value with an even least significant digit; this is the default for binary floating-point and the recommended default for decimal.</li>
+<li><strong>Round to nearest, ties away from zero</strong> – rounds to the nearest value; if the number falls midway, it is rounded to the nearest value above (for positive numbers) or below (for negative numbers); this is intended as an option for decimal floating-point.</li>
+</ul>
+<h3 id="directed-roundings"><a class="markdownIt-Anchor" href="#directed-roundings"></a> Directed roundings</h3>
+<ul>
+<li><strong>Round toward 0</strong> – directed rounding towards zero (also known as truncation).</li>
+<li><strong>Round toward</strong> +∞ – directed rounding towards positive infinity (also known as rounding up or ceiling).</li>
+<li><strong>Round toward</strong> −∞ – directed rounding towards negative infinity (also known as rounding down or floor).</li>
+</ul>
+<h3 id="example-of-rounding-to-integers-using-the-ieee-754-rules"><a class="markdownIt-Anchor" href="#example-of-rounding-to-integers-using-the-ieee-754-rules"></a> Example of rounding to integers using the IEEE 754 rules</h3>
+<table>
+<thead>
+<tr>
+<th>Mode</th>
+<th>+11.5</th>
+<th>+12.5</th>
+<th>−11.5</th>
+<th>−12.5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>to nearest, ties to even</td>
+<td>+12.0</td>
+<td>+12.0</td>
+<td>−12.0</td>
+<td>−12.0</td>
+</tr>
+<tr>
+<td>to nearest, ties away from zero</td>
+<td>+12.0</td>
+<td>+13.0</td>
+<td>−12.0</td>
+<td>−13.0</td>
+</tr>
+<tr>
+<td>toward 0</td>
+<td>+11.0</td>
+<td>+12.0</td>
+<td>−11.0</td>
+<td>−12.0</td>
+</tr>
+<tr>
+<td>toward +∞</td>
+<td>+12.0</td>
+<td>+13.0</td>
+<td>−11.0</td>
+<td>−12.0</td>
+</tr>
+<tr>
+<td>toward −∞</td>
+<td>+11.0</td>
+<td>+12.0</td>
+<td>−12.0</td>
+<td>−13.0</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Compared with the fixed-point number, the floating-point number sacrifices accuracy for a more extensive range of values.</p>
+</blockquote>
+<hr class="footnotes-sep" />
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Euclidean_algorithm">Euclidean algorithm</a>, continuously divide by 2 until the remainder equals zero. <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn2" class="footnote-item"><p>Continuously multiply by two until the remainder equals zero</p>
+<ol>
+<li>Divide the number by 2.</li>
+<li>Get the integer quotient for the next iteration.</li>
+<li>Get the remainder for the binary digit.</li>
+<li>Repeat the steps until the quotient is equal to 0.</li>
+</ol>
+ <a href="#fnref2" class="footnote-backref">↩︎</a></li>
+</ol>
+</section>
+
+  </div>
+</article>
+
+
+
+      
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#what-are-the-floating-point-number-and-fixed-point-numbers"><span class="toc-number">1.</span> <span class="toc-text"> What are the floating-point number and fixed-point numbers?</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#fixed-point-number"><span class="toc-number">1.1.</span> <span class="toc-text"> Fixed-point number</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#floating-point-number"><span class="toc-number">1.2.</span> <span class="toc-text"> Floating point number</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#storing-a-binary-floating-point-number"><span class="toc-number">2.</span> <span class="toc-text"> Storing a binary floating-point number</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#the-storing-accuracy"><span class="toc-number">3.</span> <span class="toc-text"> The storing accuracy</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ieee-754-standard"><span class="toc-number">4.</span> <span class="toc-text"> IEEE 754 standard</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#specific-values"><span class="toc-number">4.1.</span> <span class="toc-text"> Specific values</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#denormal-number"><span class="toc-number">5.</span> <span class="toc-text"> Denormal number</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#rounding-rules"><span class="toc-number">6.</span> <span class="toc-text"> Rounding rules</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#roundings-to-nearest"><span class="toc-number">6.1.</span> <span class="toc-text"> Roundings to nearest</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#directed-roundings"><span class="toc-number">6.2.</span> <span class="toc-text"> Directed roundings</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#example-of-rounding-to-integers-using-the-ieee-754-rules"><span class="toc-number">6.3.</span> <span class="toc-text"> Example of rounding to integers using the IEEE 754 rules</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2021/06/29/c++/how--to-store-a-float-number/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2021/06/29/c++/how--to-store-a-float-number/&text=How to store a float number in the memory?"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2021/06/29/c++/how--to-store-a-float-number/&title=How to store a float number in the memory?"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2021/06/29/c++/how--to-store-a-float-number/&is_video=false&description=How to store a float number in the memory?"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=How to store a float number in the memory?&body=Check out this article: https://csl.cool/2021/06/29/c++/how--to-store-a-float-number/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2021/06/29/c++/how--to-store-a-float-number/&title=How to store a float number in the memory?"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2021/06/29/c++/how--to-store-a-float-number/&title=How to store a float number in the memory?"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2021/06/29/c++/how--to-store-a-float-number/&title=How to store a float number in the memory?"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2021/06/29/c++/how--to-store-a-float-number/&title=How to store a float number in the memory?"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2021/06/29/c++/how--to-store-a-float-number/&name=How to store a float number in the memory?&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2021/06/29/c++/how--to-store-a-float-number/&t=How to store a float number in the memory?"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+      <div id="end">
+    <img src="/images/post-end.png" alt="">
+</div> 
+      
+      <div id='valine'>
+    <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+            el: '#vcomments',
+            notify: true,
+            verify: true,
+            appId: '7zw6tQBddCfPvbaVtBGxUy0G-gzGzoHsz',
+            appKey: 'voPGHhBz7MozpUm0Fq2AMFmv',
+            placeholder: '想说点啥...',
+            avatar: 'monsterid',           
+        })
+    </script>
+</div>
+      
+      
+      <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 SSBun
+    <a target="_blank" rel="noopener" href="http://www.beian.miit.gov.cn/">京ICP备20001935号-1</a>
+    <div id="friend-link-container">
+      
+      
+    </div>
+  </div>
+  
+    <div class="footer-right">
+      <nav>
+        <ul>
+          
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/search/">Search</a></li>
+      
+      <li><a href="/categories/">Categories</a></li>
+      
+      <li><a href="/notes/">Notes</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+      </ul>
+      </nav>
+    </div>
+  
+</footer>
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?c2fdf3bebd0db8e40c37a4f37d76d33b";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Umami Analytics -->
+<!--  -->
+  <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="d39cc16d-90eb-47b6-8bf0-8e4cd43c704d"></script>
+<!--  -->
+<!-- Disqus Comments -->
+
+
+
+    
+    <script src="/lib/blackcat/l2dwidget.min.js"></script>
+    <script type="text/javascript">
+      var config = {
+        model: {
+          jsonPath: '/lib/blackcat/hijiki.model.json',
+        },
+        display: {
+          superSample: 1,
+          width: 245,
+          height: 245,
+          position: 'left',
+          hOffset: 0,
+          vOffset: 0,
+        },
+        mobile: {
+          show: false,
+          scale: 1,
+          motion: false,
+        },
+        react: {
+          opacityDefault: 1,
+          opacityOnHover: 0.75
+        }
+      };
+      L2Dwidget.init(config);
+    </script>
+    
+  </body>
+
+  </html>

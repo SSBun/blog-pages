@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang=en>
+  <head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="SafeArea Since iOS 11, Apple introduced a new feature named Safe Area for UIView. In our UI designs, some UI elements are fulfill the whole screen, but some need always to display above the navigatio">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS Layout Adaptation">
+<meta property="og:url" content="https://csl.cool/2023/09/15/ios-dev/ios-layout-adaptation/index.html">
+<meta property="og:site_name" content="CSL MEMO">
+<meta property="og:description" content="SafeArea Since iOS 11, Apple introduced a new feature named Safe Area for UIView. In our UI designs, some UI elements are fulfill the whole screen, but some need always to display above the navigatio">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://book.csl.cool/img/20230918095823.png">
+<meta property="og:image" content="http://book.csl.cool/img/20230918095656.png">
+<meta property="og:image" content="http://book.csl.cool/img/20230918103435.png">
+<meta property="og:image" content="http://book.csl.cool/img/20230918103529.png">
+<meta property="og:image" content="http://book.csl.cool/img/20230918110744.png">
+<meta property="article:published_time" content="2023-09-15T08:32:07.000Z">
+<meta property="article:modified_time" content="2023-09-15T08:32:07.000Z">
+<meta property="article:author" content="SSBun">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="Auto Layout">
+<meta property="article:tag" content="Safe Area">
+<meta property="article:tag" content="iPhone X">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://book.csl.cool/img/20230918095823.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>iOS Layout Adaptation</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="CSL MEMO" type="application/atom+xml" />
+    
+    <!-- umami web analytics -->
+    <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+  <body class="max-width mx-auto px3 ltr">
+    
+    <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2023/10/20/notes/i-made-a-stupid-mistake-this-week/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2023/08/08/ios-dev/swift/swift-init-accessors/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2023/09/15/ios-dev/ios-layout-adaptation/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2023/09/15/ios-dev/ios-layout-adaptation/&text=iOS Layout Adaptation"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2023/09/15/ios-dev/ios-layout-adaptation/&title=iOS Layout Adaptation"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2023/09/15/ios-dev/ios-layout-adaptation/&is_video=false&description=iOS Layout Adaptation"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=iOS Layout Adaptation&body=Check out this article: https://csl.cool/2023/09/15/ios-dev/ios-layout-adaptation/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2023/09/15/ios-dev/ios-layout-adaptation/&title=iOS Layout Adaptation"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2023/09/15/ios-dev/ios-layout-adaptation/&title=iOS Layout Adaptation"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2023/09/15/ios-dev/ios-layout-adaptation/&title=iOS Layout Adaptation"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2023/09/15/ios-dev/ios-layout-adaptation/&title=iOS Layout Adaptation"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2023/09/15/ios-dev/ios-layout-adaptation/&name=iOS Layout Adaptation&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2023/09/15/ios-dev/ios-layout-adaptation/&t=iOS Layout Adaptation"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#safearea"><span class="toc-number">1.</span> <span class="toc-text"> SafeArea</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#layoutmargins"><span class="toc-number">2.</span> <span class="toc-text"> LayoutMargins</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#conclusion"><span class="toc-number">3.</span> <span class="toc-text"> Conclusion</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+      
+      <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        iOS Layout Adaptation
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">SSBun</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-09-15T08:32:07.000Z" itemprop="datePublished">2023-09-15</time>
+        
+        (Updated: <time datetime="2023-09-15T08:32:07.000Z" itemprop="dateModified">2023-09-15</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Auto-Layout/" rel="tag">Auto Layout</a>, <a class="tag-link-link" href="/tags/Safe-Area/" rel="tag">Safe Area</a>, <a class="tag-link-link" href="/tags/iOS/" rel="tag">iOS</a>, <a class="tag-link-link" href="/tags/iPhone-X/" rel="tag">iPhone X</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="safearea"><a class="markdownIt-Anchor" href="#safearea"></a> SafeArea</h2>
+<p>Since iOS 11, Apple introduced a new feature named <code>Safe Area</code> for UIView. In our UI designs, some UI elements are fulfill the whole screen, but some need always to display above the navigation bar, the status bar or the bottom indicator. We can easily calculate the top margin is 20px, the status bar’s height, when there aren’t any full-screen iPhones. The safe area concept is for easily adapting screen layouts for iOS developers.</p>
+<p>There are two properties <code>safeAreaInsets</code> and <code>safeAreaLayoutGuide</code> we can used for adapting our UI elements.</p>
+<p>We can get the <code>safeAreaInsets</code>’ value after the view loaded.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">override</span> <span class="keyword">func</span> <span class="title function_">viewDidLayoutSubviews</span>() &#123;</span><br><span class="line">    <span class="built_in">print</span>(view.safeAreaInsets)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/// UIEdgeInsets(top: 59.0, left: 0.0, bottom: 34.0, right: 0.0)</span></span><br></pre></td></tr></table></figure>
+<img src="http://book.csl.cool/img/20230918095823.png" alt="image" width="25%" height="auto">
+<p>As you can see, the red view is the safe area. It excludes the top status bar and the bottom indicator area.<br />
+If we rotates the screen from portrait to landscape, the safe area will also change.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">override</span> <span class="keyword">func</span> <span class="title function_">viewDidLayoutSubviews</span>() &#123;</span><br><span class="line">    <span class="built_in">print</span>(view.safeAreaInsets)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/// UIEdgeInsets(top: 0.0, left: 59.0, bottom: 21.0, right: 59.0)</span></span><br></pre></td></tr></table></figure>
+<img src="http://book.csl.cool/img/20230918095656.png" alt="image" width="50%" height="auto">
+<p>The safe area we talked above is about the view controller’s view. What sizes are safe ares in normal views?</p>
+<p>We create a blue sub view in the root view controller’s root view. We just make the blue view’s edges equal to the super view.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">innerContainer.backgroundColor <span class="operator">=</span> .blue</span><br><span class="line">view.addSubview(innerContainer)</span><br><span class="line">innerContainer.snp.makeConstraints &#123;</span><br><span class="line">    <span class="variable">$0</span>.top.equalTo(<span class="number">0</span>)</span><br><span class="line">    <span class="variable">$0</span>.leading.equalTo(<span class="number">0</span>)</span><br><span class="line">    <span class="variable">$0</span>.trailing.equalTo(<span class="number">0</span>)</span><br><span class="line">    <span class="variable">$0</span>.bottom.equalTo(<span class="number">0</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line"><span class="built_in">print</span>(innerContainer.safeAreaInsets)</span><br><span class="line"></span><br><span class="line"><span class="comment">// UIEdgeInsets(top: 59.0, left: 0.0, bottom: 34.0, right: 0.0)</span></span><br></pre></td></tr></table></figure>
+<p>The output indicates that the blue view has the same safe area compared to its super view.<br />
+And then we reset the <code>top constraint</code> to be 20. The new output is:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// UIEdgeInsets(top: 39.0, left: 0.0, bottom: 34.0, right: 0.0)</span></span><br></pre></td></tr></table></figure>
+<p>The top size of the screen area is 59, that equals to the subview’s top safe size adds the top constraint’s size. We know that views’ safe areas are always contrasted with the device screen.</p>
+<p>Apple provided a property <code>additionalSafeAreaInsets</code> to UIViewController for developers to adjust safe areas of their views arbitrarily.</p>
+<p>The <code>additionalSafeAreaInsets</code> we set will be accumulated to the original safe area size.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">additionalSafeAreaInsets <span class="operator">=</span> .<span class="keyword">init</span>(top: <span class="number">20</span>, left: <span class="number">10</span>, bottom: <span class="number">0</span>, right: <span class="operator">-</span><span class="number">10</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// Portrait  UIEdgeInsets(top: 79.0, left: 10.0, bottom: 34.0, right: -10.0)</span></span><br><span class="line"><span class="comment">// Landscape UIEdgeInsets(top: 20.0, left: 69.0, bottom: 21.0, right: 49.0)</span></span><br></pre></td></tr></table></figure>
+<img src="http://book.csl.cool/img/20230918103435.png" alt="image" width="25%" height="auto">
+<img src="http://book.csl.cool/img/20230918103529.png" alt="image" width="50%" height="auto">
+<div class="admonition warning"><p>Safe areas of sub-views will also be affected by the value of the property <code>additionalSafeAreaInsets</code> of their view controller.</p>
+</div>
+<h2 id="layoutmargins"><a class="markdownIt-Anchor" href="#layoutmargins"></a> LayoutMargins</h2>
+<p>In addition to SafeArea, there are another two properties <code>layoutMargins</code> and <code>layoutMarginsGuide</code> of views Apple provided for optimizing our UI layouts.</p>
+<p>The main role of properties above is providing a standard edge margin guide when we set up edge constraints of views with their parent views.</p>
+<p>We set constraints that constraint the edge layout of the red container to be equal to the <code>layoutMarginsGuide</code> of its super view.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">container.snp.makeConstraints &#123;</span><br><span class="line">    <span class="variable">$0</span>.edges.equalTo(view.layoutMarginsGuide)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// ..</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;<span class="subst">\(view.safeAreaInsets)</span>&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;<span class="subst">\(view.layoutMargins)</span>&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;<span class="subst">\(container.layoutMargins)</span>&quot;</span>)</span><br><span class="line"><span class="comment">// UIEdgeInsets(top: 59.0, left: 0.0, bottom: 34.0, right: 0.0)</span></span><br><span class="line"><span class="comment">// UIEdgeInsets(top: 59.0, left: 20.0, bottom: 34.0, right: 20.0)</span></span><br><span class="line"><span class="comment">// UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)</span></span><br></pre></td></tr></table></figure>
+<img src="http://book.csl.cool/img/20230918110744.png" alt="image" width="25%" height="auto">
+<p>We can see that the red container has horizontal margins of 20 points to its super view. The 20 is the recommend horizontal margin of view controllers in the iPhone 14 Prox Max. Different devices with various screen sizes have distinct layout margins.</p>
+<p>There are some values like top and bottom are same as the safe area insets. In practice, the layout margin calculation is related to the view’s safe area insets, but they aren’t easily accumulated.</p>
+<p>The layout margins of root views of view controllers have only horizontal values. Maybe 18 or 20 with difference screen sizes.<br />
+A normal view’s layout margin is <code>UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)</code>.</p>
+<p>The final values of layout margins of views is adding the margin with the <code>max(safeAreaInset, 0)</code>.</p>
+<div class="admonition note"><p class="admonition-title">LayoutMargins calculation
+</p><p><code>final_top_margin = view_top_margin + max(0, view_safe_area_top_inset)</code></p>
+</div>
+<p>Similar as the <code>additionalSafeAreaInsets</code>, UIView has a property <code>directionalLayoutMargins</code> for overriding the system’s default value.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">container.directionalLayoutMargins <span class="operator">=</span> .<span class="keyword">init</span>(top: <span class="number">100</span>, leading: <span class="operator">-</span><span class="number">100</span>, bottom: <span class="number">0</span>, trailing: <span class="number">0</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;<span class="subst">\(container.layoutMargins)</span>&quot;</span>)</span><br><span class="line"><span class="comment">// UIEdgeInsets(top: 100.0, left: -100.0, bottom: 0.0, right: 0.0)</span></span><br></pre></td></tr></table></figure>
+<p>The container’s layout margins are modified directly by the property <code>directionalLayoutMargins</code>. Please note that the <code>directionalLayoutMargins</code> aren’t the view’s final margins, and we should pass it with safe area insets into our expression written above to get the final result.</p>
+<h2 id="conclusion"><a class="markdownIt-Anchor" href="#conclusion"></a> Conclusion</h2>
+<p>Controls UIs should use the safe area to constraint themselves into an appropriate area. With more and more screen sizes coming, the safe area is the best way for developer to ensure that their apps can always display correct UI layouts in any devices.</p>
+<p>The layout margin is a good tool to unify the consistency of UI views. But most applications have their own design styles and rarely can be adapted by the system of layout margins. We prefer to use constant margin configurations to resolve these margin constrains.</p>
+
+  </div>
+</article>
+
+
+
+      
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#safearea"><span class="toc-number">1.</span> <span class="toc-text"> SafeArea</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#layoutmargins"><span class="toc-number">2.</span> <span class="toc-text"> LayoutMargins</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#conclusion"><span class="toc-number">3.</span> <span class="toc-text"> Conclusion</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2023/09/15/ios-dev/ios-layout-adaptation/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2023/09/15/ios-dev/ios-layout-adaptation/&text=iOS Layout Adaptation"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2023/09/15/ios-dev/ios-layout-adaptation/&title=iOS Layout Adaptation"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2023/09/15/ios-dev/ios-layout-adaptation/&is_video=false&description=iOS Layout Adaptation"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=iOS Layout Adaptation&body=Check out this article: https://csl.cool/2023/09/15/ios-dev/ios-layout-adaptation/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2023/09/15/ios-dev/ios-layout-adaptation/&title=iOS Layout Adaptation"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2023/09/15/ios-dev/ios-layout-adaptation/&title=iOS Layout Adaptation"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2023/09/15/ios-dev/ios-layout-adaptation/&title=iOS Layout Adaptation"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2023/09/15/ios-dev/ios-layout-adaptation/&title=iOS Layout Adaptation"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2023/09/15/ios-dev/ios-layout-adaptation/&name=iOS Layout Adaptation&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2023/09/15/ios-dev/ios-layout-adaptation/&t=iOS Layout Adaptation"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+      <div id="end">
+    <img src="/images/post-end.png" alt="">
+</div> 
+      
+      <div id='valine'>
+    <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+            el: '#vcomments',
+            notify: true,
+            verify: true,
+            appId: '7zw6tQBddCfPvbaVtBGxUy0G-gzGzoHsz',
+            appKey: 'voPGHhBz7MozpUm0Fq2AMFmv',
+            placeholder: '想说点啥...',
+            avatar: 'monsterid',           
+        })
+    </script>
+</div>
+      
+      
+      <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 SSBun
+    <a target="_blank" rel="noopener" href="http://www.beian.miit.gov.cn/">京ICP备20001935号-1</a>
+    <div id="friend-link-container">
+      
+      
+    </div>
+  </div>
+  
+    <div class="footer-right">
+      <nav>
+        <ul>
+          
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/search/">Search</a></li>
+      
+      <li><a href="/categories/">Categories</a></li>
+      
+      <li><a href="/notes/">Notes</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+      </ul>
+      </nav>
+    </div>
+  
+</footer>
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?c2fdf3bebd0db8e40c37a4f37d76d33b";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Umami Analytics -->
+<!--  -->
+  <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="d39cc16d-90eb-47b6-8bf0-8e4cd43c704d"></script>
+<!--  -->
+<!-- Disqus Comments -->
+
+
+
+    
+    <script src="/lib/blackcat/l2dwidget.min.js"></script>
+    <script type="text/javascript">
+      var config = {
+        model: {
+          jsonPath: '/lib/blackcat/hijiki.model.json',
+        },
+        display: {
+          superSample: 1,
+          width: 245,
+          height: 245,
+          position: 'left',
+          hOffset: 0,
+          vOffset: 0,
+        },
+        mobile: {
+          show: false,
+          scale: 1,
+          motion: false,
+        },
+        react: {
+          opacityDefault: 1,
+          opacityOnHover: 0.75
+        }
+      };
+      L2Dwidget.init(config);
+    </script>
+    
+  </body>
+
+  </html>

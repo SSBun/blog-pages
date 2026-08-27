@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang=en>
+  <head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="我们知道在 Python 中对属性方法都可以使用修饰器，修饰器能够监听、处理被修饰的属性或方法。这在处理一些普遍的逻辑时，能够让代码看起来更加的清晰和简洁，例如：获取用户信息前，需要用户先登录，而判断用户登录的逻辑，就无须写入获取用户信息的方法里，直接在外部使用修饰器就能够预先判断，并执行相应的逻辑，而在查看代码时，一眼就能看出这个方法需要让用户先登录。而实现这样的功能，必须依赖编译器的支持，现在">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Swift 中的修饰器 @propertyWrapper">
+<meta property="og:url" content="https://csl.cool/2020/02/18/ios-dev/swift/swift-property-wrapper/index.html">
+<meta property="og:site_name" content="CSL MEMO">
+<meta property="og:description" content="我们知道在 Python 中对属性方法都可以使用修饰器，修饰器能够监听、处理被修饰的属性或方法。这在处理一些普遍的逻辑时，能够让代码看起来更加的清晰和简洁，例如：获取用户信息前，需要用户先登录，而判断用户登录的逻辑，就无须写入获取用户信息的方法里，直接在外部使用修饰器就能够预先判断，并执行相应的逻辑，而在查看代码时，一眼就能看出这个方法需要让用户先登录。而实现这样的功能，必须依赖编译器的支持，现在">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-02-18T04:47:19.000Z">
+<meta property="article:modified_time" content="2020-02-18T04:47:19.000Z">
+<meta property="article:author" content="SSBun">
+<meta property="article:tag" content="Swift">
+<meta property="article:tag" content="Property Wrapper">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Swift 中的修饰器 @propertyWrapper</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="CSL MEMO" type="application/atom+xml" />
+    
+    <!-- umami web analytics -->
+    <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+  <body class="max-width mx-auto px3 ltr">
+    
+    <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/02/20/ios-dev/swift/swift-tips/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/01/15/softwares/add-a-cute-black-cat-for-my-blog-web/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2020/02/18/ios-dev/swift/swift-property-wrapper/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2020/02/18/ios-dev/swift/swift-property-wrapper/&text=Swift 中的修饰器 @propertyWrapper"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2020/02/18/ios-dev/swift/swift-property-wrapper/&title=Swift 中的修饰器 @propertyWrapper"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2020/02/18/ios-dev/swift/swift-property-wrapper/&is_video=false&description=Swift 中的修饰器 @propertyWrapper"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Swift 中的修饰器 @propertyWrapper&body=Check out this article: https://csl.cool/2020/02/18/ios-dev/swift/swift-property-wrapper/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2020/02/18/ios-dev/swift/swift-property-wrapper/&title=Swift 中的修饰器 @propertyWrapper"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2020/02/18/ios-dev/swift/swift-property-wrapper/&title=Swift 中的修饰器 @propertyWrapper"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2020/02/18/ios-dev/swift/swift-property-wrapper/&title=Swift 中的修饰器 @propertyWrapper"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2020/02/18/ios-dev/swift/swift-property-wrapper/&title=Swift 中的修饰器 @propertyWrapper"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2020/02/18/ios-dev/swift/swift-property-wrapper/&name=Swift 中的修饰器 @propertyWrapper&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2020/02/18/ios-dev/swift/swift-property-wrapper/&t=Swift 中的修饰器 @propertyWrapper"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+      
+      <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Swift 中的修饰器 @propertyWrapper
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">SSBun</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-02-18T04:47:19.000Z" itemprop="datePublished">2020-02-18</time>
+        
+        (Updated: <time datetime="2020-02-18T04:47:19.000Z" itemprop="dateModified">2020-02-18</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Property-Wrapper/" rel="tag">Property Wrapper</a>, <a class="tag-link-link" href="/tags/Swift/" rel="tag">Swift</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>我们知道在 Python 中对属性方法都可以使用<code>修饰器</code>，修饰器能够监听、处理被修饰的属性或方法。这在处理一些普遍的逻辑时，能够让代码看起来更加的清晰和简洁，例如：获取用户信息前，需要用户先登录，而判断用户登录的逻辑，就无须写入获取用户信息的方法里，直接在外部使用修饰器就能够预先判断，并执行相应的逻辑，而在查看代码时，一眼就能看出这个方法需要让用户先登录。而实现这样的功能，必须依赖编译器的支持，现在 Swift5.1 提供了 <code>@propertyWrapper</code> 来实现部分修饰器的功能，如它的名字所示，它是一个<strong>对属性的包装</strong>。接下来我们来看一下这个 <code>@propertyWrapper</code>是如何使用的，在某些场景下，它能让我们的代码变的无比的简洁。</p>
+<p><code>@propertyWrapper</code> 可以用来修饰一个 <code>struct</code> 或 <code>class</code>，而被修饰的对象必须要有一个属性 <code>wrappedValue</code> 用来表示被包裹的值。接下来我们看一个例子：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@proeprtyWrapper</span> <span class="keyword">struct</span> <span class="title class_">Capitalized</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> wrappedValue: <span class="type">String</span> &#123;</span><br><span class="line">        <span class="keyword">didSet</span> &#123; wrappedValue <span class="operator">=</span> wrappedValue.capitalized() &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">init</span>(<span class="params">wrappedValue</span>: <span class="type">String</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.wrappedValue <span class="operator">=</span> wrappedValue.capitalized()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以上我们就将 <code>Capitalized</code> 声明成了一个 <code>propertyWrapper</code>，它会被修饰的字符串变成首字母大写的形式。我们看看如何使用：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="meta">@Capitalized</span></span><br><span class="line">    <span class="keyword">var</span> name: <span class="type">String</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> me <span class="operator">=</span> <span class="type">Person</span>(name: <span class="string">&quot;csl&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(me.name) <span class="comment">// Csl</span></span><br></pre></td></tr></table></figure>
+<p>可以看出在 <code>name</code> 被赋值的时候其实是给 <code>Capitalized</code> 内部的 <code>wrappedValue</code> 赋值，然后我们将其首字母大写。这种写法显然比到处在 <code>setter</code> 方法里面写逻辑好了，并且是声明式的写法，在阅读代码时也能一目了然。</p>
+<p>显然 <code>@propertyWrapper</code> 构建的 Wrapper 也可以设置多个参数，来对包含的 <code>wrappedValue</code> 进行更详细的描述。而最容易想的例子当然就是 <code>UserDefaults</code>, 在设置页面，通常会用一些状态属性来控制和存储用户的设置值，通常我们会通过 setter 和 getter 来监听值的变化，然后通过 <code>UserDefaults</code> 进一步持久化数值。接下来我们看看用 <code>@propertyWrapper</code> 该如何实现相应的功能呢:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@propertyWrapper</span> <span class="keyword">struct</span> <span class="title class_">UserDefaultsBacked</span>&lt;<span class="type">Value</span>&gt; &#123;</span><br><span class="line">    <span class="keyword">let</span> key: <span class="type">String</span></span><br><span class="line">    <span class="keyword">var</span> storage: <span class="type">UserDefaults</span> <span class="operator">=</span> .standard</span><br><span class="line">    <span class="keyword">var</span> defaultVaue: <span class="type">Value</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> wrappedValue: <span class="type">Value</span> &#123;</span><br><span class="line">        <span class="keyword">set</span> &#123;</span><br><span class="line">            storage.setValue(newValue, forKey: key)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">get</span> &#123;</span><br><span class="line">            storage.value(forKey: key) <span class="keyword">as?</span> <span class="type">Value</span> <span class="operator">??</span> defaultVaue</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">SettingsViewController</span>  &#123;</span><br><span class="line">    <span class="meta">@UserDefaultsBacked</span>(key: <span class="string">&quot;darkMode&quot;</span>, defaultValue: <span class="literal">false</span>)</span><br><span class="line">    <span class="keyword">var</span> isDarkMode: <span class="type">Bool</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">func</span> <span class="title function_">toggleDarkMode</span>() &#123;</span><br><span class="line">        <span class="comment">// Update UI</span></span><br><span class="line">        <span class="comment">// ......</span></span><br><span class="line"></span><br><span class="line">        isDarkMode.toggle()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以上是我们在设置页面进行状态切换时，<code>darkMode</code> 的值会直接通过 <code>UserDefaults</code> 进行保存。有时候有些值可能就是 nil，我们在设置默认值的时候总是需要设置 nil 太繁琐，所以这里可以为 <code>UserDefaultsBacked</code> 添加一个扩展</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extension</span> <span class="title class_">UserDefaultsBacked</span> <span class="keyword">where</span> <span class="type">Value</span>: <span class="type">ExpressibleByNilLiteral</span> &#123;</span><br><span class="line">    <span class="keyword">init</span>(<span class="params">key</span>: <span class="type">String</span>, <span class="params">storage</span>: <span class="type">UserDefaults</span> <span class="operator">=</span> .standard) &#123;</span><br><span class="line">        <span class="keyword">self</span>.<span class="keyword">init</span>(key: key, storage: storage, defaultVaue: <span class="literal">nil</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样在包装一个 Optinal 值的时候就不用再写 default 值为 nil 了</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">SettingViewController</span> &#123;</span><br><span class="line">    <span class="meta">@UserDefaultsBacked</span>(key: <span class="string">&quot;userName&quot;</span>)</span><br><span class="line">    <span class="keyword">var</span> userName: <span class="type">String</span>?</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但是上述的写法还有一个问题，就是当我们给可选类型的属性赋值 nil 时，<code>storage.setValue(newValue, forKey: key)</code> 会产生一个错误，然后崩溃，我们需要判断 <code>newValue</code> 是否为 nil，然而通过 <code>newValue == nil</code> 是无法判断的，因为泛型 <code>Value</code> 不是一个可选值，虽然 Value 实际值可能是一个可选值并为nil，但编译器在编译期间就会警告它们两个比值一定是 false。所以这里我们在通过一个协议来扩展一个属性 <code>isNil</code> 来判断是否为 nil</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@propertyWrapper</span> <span class="keyword">struct</span> <span class="title class_">UserDefaultsBacked</span>&lt;<span class="type">Value</span>&gt; &#123;</span><br><span class="line">    <span class="keyword">let</span> key: <span class="type">String</span></span><br><span class="line">    <span class="keyword">var</span> storage: <span class="type">UserDefaults</span> <span class="operator">=</span> .standard</span><br><span class="line">    <span class="keyword">var</span> defaultVaue: <span class="type">Value</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> wrappedValue: <span class="type">Value</span> &#123;</span><br><span class="line">        <span class="keyword">set</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">let</span> <span class="keyword">optional</span> <span class="operator">=</span> newValue <span class="keyword">as?</span> <span class="type">AnyOptional</span>, <span class="keyword">optional</span>.isNil &#123;</span><br><span class="line">                storage.removeObject(forKey: key)</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                storage.setValue(newValue, forKey: key)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">get</span> &#123;</span><br><span class="line">            storage.value(forKey: key) <span class="keyword">as?</span> <span class="type">Value</span> <span class="operator">??</span> defaultVaue</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">extension</span> <span class="title class_">UserDefaultsBacked</span> <span class="keyword">where</span> <span class="type">Value</span>: <span class="type">ExpressibleByNilLiteral</span> &#123;</span><br><span class="line">    <span class="keyword">init</span>(<span class="params">key</span>: <span class="type">String</span>, <span class="params">storage</span>: <span class="type">UserDefaults</span> <span class="operator">=</span> .standard) &#123;</span><br><span class="line">        <span class="keyword">self</span>.<span class="keyword">init</span>(key: key, storage: storage, defaultVaue: <span class="literal">nil</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">protocol</span> <span class="title class_">AnyOptional</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> isNil: <span class="type">Bool</span> &#123; <span class="keyword">get</span> &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">extension</span> <span class="title class_">Optional</span>: <span class="title class_ inherited__">AnyOptional</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> isNil: <span class="type">Bool</span> &#123; <span class="keyword">self</span> <span class="operator">==</span> <span class="literal">nil</span> &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>然后我们就可以直接给被标记赋值为 nil 就能从 UserDefaults 删除此值了。</p>
+<p>如果你对 SwiftUI 有一些了解的话，那对 <code>@State</code> 肯定不陌生，这些标记并不是 SwiftUI 专用的，他们其实就是 <code>@proeprtyWrapper</code>, 而使用这些属性的时候，我们有时候会用美元符<code>$</code>来调用，这是什么时候呢，用 <code>$</code> 符调用的时候其实是调用了 <code>propertyWrapper</code>里面的 <code>projectedValue</code> 属性，这里的 <code>$</code> 更像是一个语法糖，不管 SwiftUI 如何使用，但是实际的作用就是,直接调用映射属性是 <code>wrappedValue</code>  使用 <code>$</code> 符号映射属性是 <code>projectedValue</code>.</p>
+
+  </div>
+</article>
+
+
+
+      
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2020/02/18/ios-dev/swift/swift-property-wrapper/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2020/02/18/ios-dev/swift/swift-property-wrapper/&text=Swift 中的修饰器 @propertyWrapper"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2020/02/18/ios-dev/swift/swift-property-wrapper/&title=Swift 中的修饰器 @propertyWrapper"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2020/02/18/ios-dev/swift/swift-property-wrapper/&is_video=false&description=Swift 中的修饰器 @propertyWrapper"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Swift 中的修饰器 @propertyWrapper&body=Check out this article: https://csl.cool/2020/02/18/ios-dev/swift/swift-property-wrapper/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2020/02/18/ios-dev/swift/swift-property-wrapper/&title=Swift 中的修饰器 @propertyWrapper"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2020/02/18/ios-dev/swift/swift-property-wrapper/&title=Swift 中的修饰器 @propertyWrapper"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2020/02/18/ios-dev/swift/swift-property-wrapper/&title=Swift 中的修饰器 @propertyWrapper"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2020/02/18/ios-dev/swift/swift-property-wrapper/&title=Swift 中的修饰器 @propertyWrapper"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2020/02/18/ios-dev/swift/swift-property-wrapper/&name=Swift 中的修饰器 @propertyWrapper&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2020/02/18/ios-dev/swift/swift-property-wrapper/&t=Swift 中的修饰器 @propertyWrapper"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+      <div id="end">
+    <img src="/images/post-end.png" alt="">
+</div> 
+      
+      <div id='valine'>
+    <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+            el: '#vcomments',
+            notify: true,
+            verify: true,
+            appId: '7zw6tQBddCfPvbaVtBGxUy0G-gzGzoHsz',
+            appKey: 'voPGHhBz7MozpUm0Fq2AMFmv',
+            placeholder: '想说点啥...',
+            avatar: 'monsterid',           
+        })
+    </script>
+</div>
+      
+      
+      <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 SSBun
+    <a target="_blank" rel="noopener" href="http://www.beian.miit.gov.cn/">京ICP备20001935号-1</a>
+    <div id="friend-link-container">
+      
+      
+    </div>
+  </div>
+  
+    <div class="footer-right">
+      <nav>
+        <ul>
+          
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/search/">Search</a></li>
+      
+      <li><a href="/categories/">Categories</a></li>
+      
+      <li><a href="/notes/">Notes</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+      </ul>
+      </nav>
+    </div>
+  
+</footer>
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?c2fdf3bebd0db8e40c37a4f37d76d33b";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Umami Analytics -->
+<!--  -->
+  <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="d39cc16d-90eb-47b6-8bf0-8e4cd43c704d"></script>
+<!--  -->
+<!-- Disqus Comments -->
+
+
+
+    
+    <script src="/lib/blackcat/l2dwidget.min.js"></script>
+    <script type="text/javascript">
+      var config = {
+        model: {
+          jsonPath: '/lib/blackcat/hijiki.model.json',
+        },
+        display: {
+          superSample: 1,
+          width: 245,
+          height: 245,
+          position: 'left',
+          hOffset: 0,
+          vOffset: 0,
+        },
+        mobile: {
+          show: false,
+          scale: 1,
+          motion: false,
+        },
+        react: {
+          opacityDefault: 1,
+          opacityOnHover: 0.75
+        }
+      };
+      L2Dwidget.init(config);
+    </script>
+    
+  </body>
+
+  </html>

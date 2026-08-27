@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang=en>
+  <head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Docker 基本操作  docker ps  查看正在执行的容器 docker ps -a 查看所有容器，包括已经结束的 docker images 查看本地安装的镜像 docker run ubuntu:18.04 or docker run ubuntu:latest 运行一个容器，使用指定的镜像和版本，如果这个镜像本地没有，就会在 Docker 的镜像云上根据名字和版本进行搜索下载 do">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Deploy Flask by Docker">
+<meta property="og:url" content="https://csl.cool/2019/11/22/backend/deploy-flask-in-docker/index.html">
+<meta property="og:site_name" content="CSL MEMO">
+<meta property="og:description" content="Docker 基本操作  docker ps  查看正在执行的容器 docker ps -a 查看所有容器，包括已经结束的 docker images 查看本地安装的镜像 docker run ubuntu:18.04 or docker run ubuntu:latest 运行一个容器，使用指定的镜像和版本，如果这个镜像本地没有，就会在 Docker 的镜像云上根据名字和版本进行搜索下载 do">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2019-11-22T09:41:54.000Z">
+<meta property="article:modified_time" content="2019-11-22T09:41:54.000Z">
+<meta property="article:author" content="SSBun">
+<meta property="article:tag" content="Backend">
+<meta property="article:tag" content="Docker">
+<meta property="article:tag" content="Flask">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Deploy Flask by Docker</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="CSL MEMO" type="application/atom+xml" />
+    
+    <!-- umami web analytics -->
+    <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+  <body class="max-width mx-auto px3 ltr">
+    
+    <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/11/24/hardware/arduino-uno-using-esp8266-to-implement-tcp-passthrough/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/11/20/hardware/esp8266-pin-map/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2019/11/22/backend/deploy-flask-in-docker/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2019/11/22/backend/deploy-flask-in-docker/&text=Deploy Flask by Docker"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2019/11/22/backend/deploy-flask-in-docker/&title=Deploy Flask by Docker"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2019/11/22/backend/deploy-flask-in-docker/&is_video=false&description=Deploy Flask by Docker"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Deploy Flask by Docker&body=Check out this article: https://csl.cool/2019/11/22/backend/deploy-flask-in-docker/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2019/11/22/backend/deploy-flask-in-docker/&title=Deploy Flask by Docker"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2019/11/22/backend/deploy-flask-in-docker/&title=Deploy Flask by Docker"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2019/11/22/backend/deploy-flask-in-docker/&title=Deploy Flask by Docker"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2019/11/22/backend/deploy-flask-in-docker/&title=Deploy Flask by Docker"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2019/11/22/backend/deploy-flask-in-docker/&name=Deploy Flask by Docker&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2019/11/22/backend/deploy-flask-in-docker/&t=Deploy Flask by Docker"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#docker-%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C"><span class="toc-number">1.</span> <span class="toc-text"> Docker 基本操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E-nginx-%E5%9C%A8-docker-%E4%B8%AD%E7%9A%84%E8%BF%90%E8%A1%8C"><span class="toc-number">2.</span> <span class="toc-text"> 关于 Nginx 在 Docker 中的运行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E5%8C%96%E6%9E%84%E5%BB%BA%E9%95%9C%E5%83%8F"><span class="toc-number">3.</span> <span class="toc-text"> 自动化构建镜像</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA-flask-%E9%95%9C%E5%83%8F"><span class="toc-number">4.</span> <span class="toc-text"> 创建一个 Flask 镜像</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E9%83%A8%E7%BD%B2%E5%9C%A8%E5%93%AA%E9%87%8C"><span class="toc-number">5.</span> <span class="toc-text"> 代码部署在哪里</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E7%9A%84%E4%BB%A3%E7%A0%81"><span class="toc-number">6.</span> <span class="toc-text"> 其他的代码</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+      
+      <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Deploy Flask by Docker
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">SSBun</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-11-22T09:41:54.000Z" itemprop="datePublished">2019-11-22</time>
+        
+        (Updated: <time datetime="2019-11-22T09:41:54.000Z" itemprop="dateModified">2019-11-22</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Backend/" rel="tag">Backend</a>, <a class="tag-link-link" href="/tags/Docker/" rel="tag">Docker</a>, <a class="tag-link-link" href="/tags/Flask/" rel="tag">Flask</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="docker-基本操作"><a class="markdownIt-Anchor" href="#docker-基本操作"></a> Docker 基本操作</h2>
+<ul>
+<li><code>docker ps</code>  查看正在执行的容器</li>
+<li><code>docker ps -a</code> 查看所有容器，包括已经结束的</li>
+<li><code>docker images</code> 查看本地安装的镜像</li>
+<li><code>docker run ubuntu:18.04</code> or <code>docker run ubuntu:latest</code> 运行一个容器，使用指定的镜像和版本，如果这个镜像本地没有，就会在 Docker 的镜像云上根据名字和版本进行搜索下载</li>
+<li><code>docker inspect xxxxx</code> 用来查看容器的内部数据 <code>xxxxx</code>既可以是容器 ID 也可以是容器名字</li>
+<li><code>docker rm xxxxx</code> 删除容器 <code>docker rm $(docker ps -aq)</code> 可以删除所有容器</li>
+<li><code>docker rmi xxxxx</code> 删除镜像 <code>docker rmi $(docker images -q)</code> 可以删除所有镜像</li>
+<li><code>docker run -it -p 8080:80 -v /tmp/web:/var/www/html ubuntu:latest bash</code> <code>-i</code> 表示要和容器交互 <code>-t</code> 表示创建一个终端 <code>-p 8080:80</code> 表示将本机的8080端口映射到容器的80端口上, <code>-v /tmp/web:/bar/www/html</code> 表示将主机路径/tmp/web 映射到容器的 /bar/www/html路径上 <code>bash</code> 是开启容器后执行的命令</li>
+<li><code>docker start -i xxxxxx</code> 重新启动一个已经退出的容器</li>
+<li><code>docker stop xxxxx</code> 关闭一个在后台运行的容器</li>
+</ul>
+<p>了解了基本操作以后，然后就是了解如何构建我们自己的镜像了。可以发现根据基础的镜像构建完成后，我们可能会在容器里面添加各种各样的工具和环境，我们可以通过 Docker 来提交完善后的容器为一个新的镜像，这样我们下次再使用这个镜像时就不需要进行重复的操作了</p>
+<ul>
+<li>首先通过 <code>docker ps -a</code> 来查看我们刚刚运行过的容器</li>
+<li>你可以通过 <code>docker diff xxxxx</code> 来查看容器文件的修改</li>
+<li>然后通过 <code>docker commit -a &quot;author name&quot; -m &quot;commit message&quot; xxxxxx imageName:0.1.0</code> 来提交修改，这里 <code>xxxxx</code> 是你要提交容器的 ID，而 <code>imageNmae</code> 是镜像名字，当然为了不与别人重名，建议使用 <code>author/name</code> 的形式加上你自己的专属前缀，而后面的 <code>0.1.0</code> 这是你构建的镜像的版本号<br />
+完成了上面的步骤以后，你就能通过 <code>docker images</code> 来查看自己创建的镜像了</li>
+</ul>
+<h2 id="关于-nginx-在-docker-中的运行"><a class="markdownIt-Anchor" href="#关于-nginx-在-docker-中的运行"></a> 关于 Nginx 在 Docker 中的运行</h2>
+<p>开启一个已经安装了 Nginx 的镜像时并自动执行 nginx 时，容器会直接退出，这是由于 nginx 会默认启动两类进程，首先启动的是作为管理调度的master process，它继续生成实际处理HTTP请求的worker process。默认情况下，master process是一个守护进程，它启动之后，就会断掉和自己的父进程之间的关联，于是Docker就跟踪不到了，进而容器也就会退出了。因此，解决的办法，就是让Nginx的master process不要以守护进程的方式启动，而是以普通模式启动就好了。为此，我们得修改下 Nginx 的配置文件。<br />
+开启一个可交互的 nginx 容器，然后输入 <code>echo &quot;daemon off;&quot; &gt;&gt; /etc/nginx/nginx.conf</code> 关掉守护进程模式。最好将此容器重新提交为一个新的镜像，下次使用就可以直接开启了。</p>
+<h2 id="自动化构建镜像"><a class="markdownIt-Anchor" href="#自动化构建镜像"></a> 自动化构建镜像</h2>
+<p>上面都是我们手动打造一个镜像，当我们需要在其他的服务器上部署相同的镜像或是需要分享给别人我们的镜像时，如果能通过一个脚本文件直接分享岂不美哉。而 Docker 正为我们提供了这样的工具，这就是一个 <code>Dockerfile</code> 文件，<code>Dockerfile</code> 并不是唯一的脚本名字，只是 Docker 默认的脚本名字，你可以在运行时指定脚本文件，或者让 Docker 在指定目录下自动寻找 <code>Dockerfile</code> 文件。</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> ubuntu:latest</span><br><span class="line"></span><br><span class="line"><span class="keyword">LABEL</span><span class="language-bash"> maintainer=<span class="string">&quot;SSBun &lt;caishilin@yahoo.com&gt;&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> apt-get update &amp;&amp; apt-get install nginx -y \</span></span><br><span class="line"><span class="language-bash">        &amp;&amp; apt-get clean \</span></span><br><span class="line"><span class="language-bash">        &amp;&amp; <span class="built_in">rm</span> -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \</span></span><br><span class="line"><span class="language-bash">        &amp;&amp; <span class="built_in">echo</span> <span class="string">&quot;daemon off;&quot;</span> &gt;&gt; /etc/nginx/nginx.conf</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">CMD</span><span class="language-bash"> [<span class="string">&quot;nginx&quot;</span>]</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>FROM</code> 是构建此镜像的基础镜像，至少你要先运行一个系统吧</li>
+<li><code>LABEL</code> 可以用来定义一些容器的数据，这里用来说明镜像的作者</li>
+<li><code>RUN</code> 是容器被构建时运行的命令，这里使用 <code>&amp;&amp;</code> 将多个命令写为一个，可以降低镜像的大小，我们尽量少的使用 <code>RUN</code></li>
+<li><code>CMD</code> 则是启动容器后运行的 bash 命令</li>
+</ul>
+<p>我们运行 <code>docker build -t ssbun/nginx:0.1.2 .</code> 就会构建一个镜像，并启动一个容器</p>
+<ul>
+<li>我们可以通过 <code>-f filename</code> 来指定脚本名字，或者让他在当前目录查找 <code>Dcokerfile</code>  文件</li>
+<li><code>-t</code> 用来设置新镜像的名字和版本</li>
+<li>最后的<code>.</code>用于设置构建镜像时的上下文</li>
+</ul>
+<p>接下来我们可以将我们构建的镜像提交到云上，先用 <code>docker images</code> 查看你的镜像 id 然后通过 <code>docker push ssbun/nginx:0.1.2</code> 来上传你的镜像，别忘了先登录你的 docker 账号, 然后再其他的环境上你可以通过<code>docker pull ssbun/nginx:0.1.2</code> 来把镜像再拉取下来</p>
+<p>上传镜像中可能遇见 <code>denied: requested access to the resource is denied</code> 解决此办法首先</p>
+<ul>
+<li>调用 <code>docker login</code> 确定已经登录了</li>
+<li>然后上传的镜像名字必须是 <code>account/xxxx</code>  的样式，必须用你的docker 用户名作为前缀</li>
+<li>你可以使用 <code>docker tag firstimage YOUR_DOCKERHUB_NAME/firstimage</code> 来修改镜像名字</li>
+</ul>
+<h2 id="创建一个-flask-镜像"><a class="markdownIt-Anchor" href="#创建一个-flask-镜像"></a> 创建一个 Flask 镜像</h2>
+<ul>
+<li>先开启一个交互式的纯 ubuntu 容器</li>
+<li>执行 <code>apt update &amp;&amp; apt install software-properties-common</code> 更新安装包列表和安装必要的包</li>
+<li>再执行 <code>sudo add-apt-repository ppa:deadsnakes/ppa &amp; apt install python3.7</code></li>
+<li>最后安装成功后用 <code>python --version</code> 查看版本</li>
+</ul>
+<p>安装 pip</p>
+<ul>
+<li><code>apt install python3-pip</code></li>
+</ul>
+<p>安装 Gunicorn</p>
+<ul>
+<li><code>pip3 install gunicorn</code></li>
+</ul>
+<p>安装 Flask</p>
+<ul>
+<li><code>pip3 install Flask</code></li>
+</ul>
+<p>安装完成后，退出容器然后提交成一个 flask 镜像</p>
+<h2 id="代码部署在哪里"><a class="markdownIt-Anchor" href="#代码部署在哪里"></a> 代码部署在哪里</h2>
+<p>我们通过将项目代码利用 Volumn 挂载在容器上<br />
+<code>docker run --name=myapp -it -p 8080:8000 -v /tmp/server:/server -w /server  ssbun/flask:0.1.0 gunicorn -w 4 -b 0.0.0.0:8000 myapp:app</code></p>
+<p>如果要使用一个 <code>Nginx</code> 作为反向代理的话，不需写 <code>-p 8080:8000</code> 把端口暴露出来，使用 <code>docker run --link=myapp:flask -p 80:80 -it ssbun/nginx:0.1.5</code> 开启一个 nginx 容器，将此容器和 <code>flask</code> 容器连接起来<br />
+-<code>--link=myapp:flask</code> <code>myapp</code> 是 flask 容器的名字，而<code>flask</code>是指 flask 容器连接在 nginx 中的名字</p>
+<h2 id="其他的代码"><a class="markdownIt-Anchor" href="#其他的代码"></a> 其他的代码</h2>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">FROM ubuntu:latest</span><br><span class="line"></span><br><span class="line">LABEL maintainer=&quot;SSBun &lt;caishilin@yahoo.com&gt;&quot;</span><br><span class="line"></span><br><span class="line">RUN apt-get update &amp;&amp; apt-get install nginx -y \</span><br><span class="line">        &amp;&amp; apt-get clean \</span><br><span class="line">        &amp;&amp; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \</span><br><span class="line">        &amp;&amp; echo &quot;daemon off;&quot; &gt;&gt; /etc/nginx/nginx.conf</span><br><span class="line"></span><br><span class="line">ADD default /etc/nginx/sites-available/default</span><br><span class="line"></span><br><span class="line">RUN ln -sf /dev/stdout /var/log/nginx/access.log &amp;&amp; \</span><br><span class="line">    ln -sf /dev/stderr /var/log/nginx/error.log</span><br><span class="line"></span><br><span class="line">CMD [&quot;nginx&quot;]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80 default_server;</span><br><span class="line">    listen [::]:80 default_server;</span><br><span class="line"></span><br><span class="line">    root /var/www/html;</span><br><span class="line"></span><br><span class="line">    index index.html index.htm index.nginx-debian.html;</span><br><span class="line"></span><br><span class="line">    server_name localhost;</span><br><span class="line"></span><br><span class="line">    try_files $uri @proxy;</span><br><span class="line">    location @proxy &#123;</span><br><span class="line">        proxy_pass http://flask:8080;</span><br><span class="line">        proxy_pass_header Server;</span><br><span class="line">        proxy_set_header Host $host;</span><br><span class="line">        proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_connect_timeout 5s;</span><br><span class="line">        proxy_read_timeout 10s;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+  </div>
+</article>
+
+
+
+      
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#docker-%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C"><span class="toc-number">1.</span> <span class="toc-text"> Docker 基本操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E-nginx-%E5%9C%A8-docker-%E4%B8%AD%E7%9A%84%E8%BF%90%E8%A1%8C"><span class="toc-number">2.</span> <span class="toc-text"> 关于 Nginx 在 Docker 中的运行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E5%8C%96%E6%9E%84%E5%BB%BA%E9%95%9C%E5%83%8F"><span class="toc-number">3.</span> <span class="toc-text"> 自动化构建镜像</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA-flask-%E9%95%9C%E5%83%8F"><span class="toc-number">4.</span> <span class="toc-text"> 创建一个 Flask 镜像</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E9%83%A8%E7%BD%B2%E5%9C%A8%E5%93%AA%E9%87%8C"><span class="toc-number">5.</span> <span class="toc-text"> 代码部署在哪里</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E7%9A%84%E4%BB%A3%E7%A0%81"><span class="toc-number">6.</span> <span class="toc-text"> 其他的代码</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2019/11/22/backend/deploy-flask-in-docker/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2019/11/22/backend/deploy-flask-in-docker/&text=Deploy Flask by Docker"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2019/11/22/backend/deploy-flask-in-docker/&title=Deploy Flask by Docker"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2019/11/22/backend/deploy-flask-in-docker/&is_video=false&description=Deploy Flask by Docker"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Deploy Flask by Docker&body=Check out this article: https://csl.cool/2019/11/22/backend/deploy-flask-in-docker/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2019/11/22/backend/deploy-flask-in-docker/&title=Deploy Flask by Docker"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2019/11/22/backend/deploy-flask-in-docker/&title=Deploy Flask by Docker"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2019/11/22/backend/deploy-flask-in-docker/&title=Deploy Flask by Docker"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2019/11/22/backend/deploy-flask-in-docker/&title=Deploy Flask by Docker"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2019/11/22/backend/deploy-flask-in-docker/&name=Deploy Flask by Docker&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2019/11/22/backend/deploy-flask-in-docker/&t=Deploy Flask by Docker"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+      <div id="end">
+    <img src="/images/post-end.png" alt="">
+</div> 
+      
+      <div id='valine'>
+    <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+            el: '#vcomments',
+            notify: true,
+            verify: true,
+            appId: '7zw6tQBddCfPvbaVtBGxUy0G-gzGzoHsz',
+            appKey: 'voPGHhBz7MozpUm0Fq2AMFmv',
+            placeholder: '想说点啥...',
+            avatar: 'monsterid',           
+        })
+    </script>
+</div>
+      
+      
+      <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 SSBun
+    <a target="_blank" rel="noopener" href="http://www.beian.miit.gov.cn/">京ICP备20001935号-1</a>
+    <div id="friend-link-container">
+      
+      
+    </div>
+  </div>
+  
+    <div class="footer-right">
+      <nav>
+        <ul>
+          
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/search/">Search</a></li>
+      
+      <li><a href="/categories/">Categories</a></li>
+      
+      <li><a href="/notes/">Notes</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+      </ul>
+      </nav>
+    </div>
+  
+</footer>
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?c2fdf3bebd0db8e40c37a4f37d76d33b";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Umami Analytics -->
+<!--  -->
+  <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="d39cc16d-90eb-47b6-8bf0-8e4cd43c704d"></script>
+<!--  -->
+<!-- Disqus Comments -->
+
+
+
+    
+    <script src="/lib/blackcat/l2dwidget.min.js"></script>
+    <script type="text/javascript">
+      var config = {
+        model: {
+          jsonPath: '/lib/blackcat/hijiki.model.json',
+        },
+        display: {
+          superSample: 1,
+          width: 245,
+          height: 245,
+          position: 'left',
+          hOffset: 0,
+          vOffset: 0,
+        },
+        mobile: {
+          show: false,
+          scale: 1,
+          motion: false,
+        },
+        react: {
+          opacityDefault: 1,
+          opacityOnHover: 0.75
+        }
+      };
+      L2Dwidget.init(config);
+    </script>
+    
+  </body>
+
+  </html>

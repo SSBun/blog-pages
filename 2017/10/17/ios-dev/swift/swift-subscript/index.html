@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang=en>
+  <head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="下标语法 下标允许你查询一个类型的实例，通过在这个类型的实例名后添加一个方括号，并在括号内写入一个或多个值。这些语法与所有的实例方法以及计算属性的语法类似。你可以通过 subscript 关键字来定义一个下标，然后指定一个或多个参数并提供一个返回值类型，与实例方法相同。不同于实例方法的是，下标可以被设置为读写或是只读。这种行为是通过设置 getter 和 setter 来实现的，和计算属性一样。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Swift - Subscript">
+<meta property="og:url" content="https://csl.cool/2017/10/17/ios-dev/swift/swift-subscript/index.html">
+<meta property="og:site_name" content="CSL MEMO">
+<meta property="og:description" content="下标语法 下标允许你查询一个类型的实例，通过在这个类型的实例名后添加一个方括号，并在括号内写入一个或多个值。这些语法与所有的实例方法以及计算属性的语法类似。你可以通过 subscript 关键字来定义一个下标，然后指定一个或多个参数并提供一个返回值类型，与实例方法相同。不同于实例方法的是，下标可以被设置为读写或是只读。这种行为是通过设置 getter 和 setter 来实现的，和计算属性一样。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20200119155405.png">
+<meta property="og:image" content="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20200119155426.png">
+<meta property="article:published_time" content="2017-10-17T03:29:54.000Z">
+<meta property="article:modified_time" content="2017-10-17T03:29:54.000Z">
+<meta property="article:author" content="SSBun">
+<meta property="article:tag" content="Swift">
+<meta property="article:tag" content="Subscript">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20200119155405.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Swift - Subscript</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="CSL MEMO" type="application/atom+xml" />
+    
+    <!-- umami web analytics -->
+    <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+  <body class="max-width mx-auto px3 ltr">
+    
+    <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2017/11/16/tool/xcode-lldb-debug-tool/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2017/09/04/ios-dev/cancels-a-delay-task-in-gcd/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2017/10/17/ios-dev/swift/swift-subscript/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2017/10/17/ios-dev/swift/swift-subscript/&text=Swift - Subscript"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2017/10/17/ios-dev/swift/swift-subscript/&title=Swift - Subscript"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2017/10/17/ios-dev/swift/swift-subscript/&is_video=false&description=Swift - Subscript"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Swift - Subscript&body=Check out this article: https://csl.cool/2017/10/17/ios-dev/swift/swift-subscript/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2017/10/17/ios-dev/swift/swift-subscript/&title=Swift - Subscript"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2017/10/17/ios-dev/swift/swift-subscript/&title=Swift - Subscript"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2017/10/17/ios-dev/swift/swift-subscript/&title=Swift - Subscript"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2017/10/17/ios-dev/swift/swift-subscript/&title=Swift - Subscript"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2017/10/17/ios-dev/swift/swift-subscript/&name=Swift - Subscript&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2017/10/17/ios-dev/swift/swift-subscript/&t=Swift - Subscript"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8B%E6%A0%87%E8%AF%AD%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text"> 下标语法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8B%E6%A0%87%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">2.</span> <span class="toc-text"> 下标的使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8B%E6%A0%87%E7%9A%84%E9%80%89%E6%8B%A9"><span class="toc-number">3.</span> <span class="toc-text"> 下标的选择</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+      
+      <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Swift - Subscript
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">SSBun</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2017-10-17T03:29:54.000Z" itemprop="datePublished">2017-10-17</time>
+        
+        (Updated: <time datetime="2017-10-17T03:29:54.000Z" itemprop="dateModified">2017-10-17</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/iOS/">iOS</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Subscript/" rel="tag">Subscript</a>, <a class="tag-link-link" href="/tags/Swift/" rel="tag">Swift</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="下标语法"><a class="markdownIt-Anchor" href="#下标语法"></a> 下标语法</h2>
+<p>下标允许你查询一个类型的实例，通过在这个类型的实例名后添加一个方括号，并在括号内写入一个或多个值。这些语法与所有的实例方法以及计算属性的语法类似。你可以通过 subscript 关键字来定义一个下标，然后指定一个或多个参数并提供一个返回值类型，与实例方法相同。不同于实例方法的是，下标可以被设置为读写或是只读。这种行为是通过设置 getter 和 setter 来实现的，和计算属性一样。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">subscript</span>(<span class="params">index</span>: <span class="type">Int</span>) -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">    <span class="keyword">get</span> &#123;</span><br><span class="line">        <span class="comment">// return an appropriate subscript value here</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">set</span>(newValue) &#123;</span><br><span class="line">        <span class="comment">// perform a suitable setting action here</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>setter 方法中的 newValue 和下标的返回值类型相同。类似于计算属性，你不必为 setter 方式指定一个参数名 (newValue)， 如果没有写一个新的参数名的话，系统会提供一个默认的方法名就就叫做 newValue。</p>
+<p>和只读的计算属性一样，你可以丢弃 get 关键字来实现一个只读的下标操作：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">subscript</span>(<span class="params">index</span>: <span class="type">Int</span>) -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">    <span class="comment">// return an appropriate subscript value here</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个有一个只读下标的实现，它定义了一个结构体 TimesTable 来代表一个整数乘法表：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">TimesTable</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> multiplier: <span class="type">Int</span></span><br><span class="line">    <span class="keyword">subscript</span>(<span class="params">index</span>: <span class="type">Int</span>) -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> multiplier <span class="operator">*</span> index</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> threeTimesTable <span class="operator">=</span> <span class="type">TimesTable</span>(multiplier: <span class="number">3</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;six times three is <span class="subst">\(threeTimesTable[<span class="number">6</span>])</span>&quot;</span>)</span><br><span class="line"><span class="comment">// Prints &quot;six times three is 18&quot;</span></span><br></pre></td></tr></table></figure>
+<p>在这个例子中，TimesTalbe 生成了一个新的实例 threeTimesTalbe, 代表这乘数为3的乘法表。它通过结构体的初始化方法传入一个参数3，作为这个乘法表的乘数。</p>
+<p>你可以通过一个下标来查询这个乘法表，就像上面调用 threeTimesTable[6] 的方式一样。传入一个下标3进入这个乘法表，就回得到一个返回值18，也就是 3 * 16。</p>
+<h2 id="下标的使用"><a class="markdownIt-Anchor" href="#下标的使用"></a> 下标的使用</h2>
+<p>下标的确切含义取决于它使用的上下文。下标通常被用作访问一个集合、列表或序列的成员的快捷操作。你可以自由的使用下标，通过合适的方式来实现特定的类或是快捷方法。</p>
+<p>例如，Swift 中的 Dictionary、Array 类型通过实现下标来设置和检索一个字典实例。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> numberOfLegs <span class="operator">=</span> [<span class="string">&quot;spider&quot;</span>: <span class="number">8</span>, <span class="string">&quot;ant&quot;</span>: <span class="number">6</span>, <span class="string">&quot;cat&quot;</span>: <span class="number">4</span>]</span><br><span class="line">numberOfLegs[<span class="string">&quot;bird&quot;</span>] <span class="operator">=</span> <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> tempArr <span class="operator">=</span> [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]</span><br><span class="line">tempArr[<span class="number">0</span>] <span class="operator">=</span> <span class="number">100</span></span><br></pre></td></tr></table></figure>
+<h2 id="下标的选择"><a class="markdownIt-Anchor" href="#下标的选择"></a> 下标的选择</h2>
+<p>下标可以传入任意多个参数，这些参数可以是任意的类型。下标也可以返回任意的类型。 下标参数可以使用变量 (variadic parameters)，但是不能使用 in-out 参数或是提供给下标一个默认值。</p>
+<p>一个类、枚举或结构体可以提供任意多种的下标实现。一个合适的下标可以让我们可以通过下标中的值及值的类型来推测出其意义。这种多重的下标定义被称作 subscript overloading 。</p>
+<p>大多数的下标都是只提供一个参数，当然只要适合于你的类型，你可以定义一个多参数下标。接下来的例子定义了一个结构体 Matrix ， 它代表一个 Double 类型的2维数矩阵。Matrix 的下标就是两个参数。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Matrix</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> rows: <span class="type">Int</span>, columns: <span class="type">Int</span></span><br><span class="line">    <span class="keyword">var</span> grid: [<span class="type">Double</span>]</span><br><span class="line">    <span class="keyword">init</span>(<span class="params">rows</span>: <span class="type">Int</span>, <span class="params">columns</span>: <span class="type">Int</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.rows <span class="operator">=</span> rows</span><br><span class="line">        <span class="keyword">self</span>.columns <span class="operator">=</span> columns</span><br><span class="line">        grid <span class="operator">=</span> <span class="type">Array</span>(repeating: <span class="number">0.0</span>, count: rows <span class="operator">*</span> columns)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">indexIsValid</span>(<span class="params">row</span>: <span class="type">Int</span>, <span class="params">column</span>: <span class="type">Int</span>) -&gt; <span class="type">Bool</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> row <span class="operator">&gt;=</span> <span class="number">0</span> <span class="operator">&amp;&amp;</span> row <span class="operator">&lt;</span> rows <span class="operator">&amp;&amp;</span> column <span class="operator">&gt;=</span> <span class="number">0</span> <span class="operator">&amp;&amp;</span> column <span class="operator">&lt;</span> columns</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">subscript</span>(<span class="params">row</span>: <span class="type">Int</span>, <span class="params">column</span>: <span class="type">Int</span>) -&gt; <span class="type">Double</span> &#123;</span><br><span class="line">        <span class="keyword">get</span> &#123;</span><br><span class="line">            <span class="built_in">assert</span>(indexIsValid(row: row, column: column), <span class="string">&quot;Index out of range&quot;</span>)</span><br><span class="line">            <span class="keyword">return</span> grid[(row <span class="operator">*</span> columns) <span class="operator">+</span> column]</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">set</span> &#123;</span><br><span class="line">            <span class="built_in">assert</span>(indexIsValid(row: row, column: column), <span class="string">&quot;Index out of range&quot;</span>)</span><br><span class="line">            grid[(row <span class="operator">*</span> columns) <span class="operator">+</span> column] <span class="operator">=</span> newValue</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Matrix 提供了一个构造方法，传入两个参数分别是行和列。 内部初始化了一个 Double 数组，数组里面有 row * colum 个元素，元素的初始值都是0.0。你可以构建一个新的二维矩阵通过传入行列的个数。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> matrix <span class="operator">=</span> <span class="type">Matrix</span>(rows: <span class="number">2</span>, columns: <span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<p>上面这个创建的二位矩阵有2行2列。其属性 grid 数组是这个二维矩阵的展开形式</p>
+<p><img src="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20200119155405.png" alt="" /></p>
+<p>你可以通过给矩阵 matrix 传入下标参数来检索和设置它的值，下标通过逗号分隔，分别传入行数和列数。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">matrix[<span class="number">0</span>, <span class="number">1</span>] <span class="operator">=</span> <span class="number">1.5</span></span><br><span class="line">matrix[<span class="number">1</span>, <span class="number">0</span>] <span class="operator">=</span> <span class="number">3.2</span></span><br></pre></td></tr></table></figure>
+<p>上面的两个声明调用了下标的 setter 方法，将矩阵的左上方（0行1列）赋值为 1.5，将矩阵的右下方（一行0列）赋值为 3.2。</p>
+<p><img src="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20200119155426.png" alt="" /></p>
+
+  </div>
+</article>
+
+
+
+      
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8B%E6%A0%87%E8%AF%AD%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text"> 下标语法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8B%E6%A0%87%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">2.</span> <span class="toc-text"> 下标的使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8B%E6%A0%87%E7%9A%84%E9%80%89%E6%8B%A9"><span class="toc-number">3.</span> <span class="toc-text"> 下标的选择</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2017/10/17/ios-dev/swift/swift-subscript/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2017/10/17/ios-dev/swift/swift-subscript/&text=Swift - Subscript"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2017/10/17/ios-dev/swift/swift-subscript/&title=Swift - Subscript"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2017/10/17/ios-dev/swift/swift-subscript/&is_video=false&description=Swift - Subscript"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Swift - Subscript&body=Check out this article: https://csl.cool/2017/10/17/ios-dev/swift/swift-subscript/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2017/10/17/ios-dev/swift/swift-subscript/&title=Swift - Subscript"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2017/10/17/ios-dev/swift/swift-subscript/&title=Swift - Subscript"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2017/10/17/ios-dev/swift/swift-subscript/&title=Swift - Subscript"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2017/10/17/ios-dev/swift/swift-subscript/&title=Swift - Subscript"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2017/10/17/ios-dev/swift/swift-subscript/&name=Swift - Subscript&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2017/10/17/ios-dev/swift/swift-subscript/&t=Swift - Subscript"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+      <div id="end">
+    <img src="/images/post-end.png" alt="">
+</div> 
+      
+      <div id='valine'>
+    <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+            el: '#vcomments',
+            notify: true,
+            verify: true,
+            appId: '7zw6tQBddCfPvbaVtBGxUy0G-gzGzoHsz',
+            appKey: 'voPGHhBz7MozpUm0Fq2AMFmv',
+            placeholder: '想说点啥...',
+            avatar: 'monsterid',           
+        })
+    </script>
+</div>
+      
+      
+      <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 SSBun
+    <a target="_blank" rel="noopener" href="http://www.beian.miit.gov.cn/">京ICP备20001935号-1</a>
+    <div id="friend-link-container">
+      
+      
+    </div>
+  </div>
+  
+    <div class="footer-right">
+      <nav>
+        <ul>
+          
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/search/">Search</a></li>
+      
+      <li><a href="/categories/">Categories</a></li>
+      
+      <li><a href="/notes/">Notes</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+      </ul>
+      </nav>
+    </div>
+  
+</footer>
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?c2fdf3bebd0db8e40c37a4f37d76d33b";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Umami Analytics -->
+<!--  -->
+  <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="d39cc16d-90eb-47b6-8bf0-8e4cd43c704d"></script>
+<!--  -->
+<!-- Disqus Comments -->
+
+
+
+    
+    <script src="/lib/blackcat/l2dwidget.min.js"></script>
+    <script type="text/javascript">
+      var config = {
+        model: {
+          jsonPath: '/lib/blackcat/hijiki.model.json',
+        },
+        display: {
+          superSample: 1,
+          width: 245,
+          height: 245,
+          position: 'left',
+          hOffset: 0,
+          vOffset: 0,
+        },
+        mobile: {
+          show: false,
+          scale: 1,
+          motion: false,
+        },
+        react: {
+          opacityDefault: 1,
+          opacityOnHover: 0.75
+        }
+      };
+      L2Dwidget.init(config);
+    </script>
+    
+  </body>
+
+  </html>

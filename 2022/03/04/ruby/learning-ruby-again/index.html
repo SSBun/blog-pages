@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang=en>
+  <head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Basic  Variables  Ruby has four kinds of variables  Local variables: begins with an underscore _ or lower case letter. Global variables: begins with $. Instance variables: begins with @. Class variab">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Learning Ruby Again">
+<meta property="og:url" content="https://csl.cool/2022/03/04/ruby/learning-ruby-again/index.html">
+<meta property="og:site_name" content="CSL MEMO">
+<meta property="og:description" content="Basic  Variables  Ruby has four kinds of variables  Local variables: begins with an underscore _ or lower case letter. Global variables: begins with $. Instance variables: begins with @. Class variab">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-03-04T03:17:11.000Z">
+<meta property="article:modified_time" content="2022-03-04T03:17:11.000Z">
+<meta property="article:author" content="SSBun">
+<meta property="article:tag" content="Ruby">
+<meta property="article:tag" content="Basics">
+<meta property="article:tag" content="Syntax">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Learning Ruby Again</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="CSL MEMO" type="application/atom+xml" />
+    
+    <!-- umami web analytics -->
+    <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+  <body class="max-width mx-auto px3 ltr">
+    
+    <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2022/03/30/ios-dev/swift/learning-combine-again/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2022/03/01/ios-dev/swift/swift-attributes/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2022/03/04/ruby/learning-ruby-again/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2022/03/04/ruby/learning-ruby-again/&text=Learning Ruby Again"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2022/03/04/ruby/learning-ruby-again/&title=Learning Ruby Again"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2022/03/04/ruby/learning-ruby-again/&is_video=false&description=Learning Ruby Again"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Learning Ruby Again&body=Check out this article: https://csl.cool/2022/03/04/ruby/learning-ruby-again/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2022/03/04/ruby/learning-ruby-again/&title=Learning Ruby Again"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2022/03/04/ruby/learning-ruby-again/&title=Learning Ruby Again"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2022/03/04/ruby/learning-ruby-again/&title=Learning Ruby Again"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2022/03/04/ruby/learning-ruby-again/&title=Learning Ruby Again"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2022/03/04/ruby/learning-ruby-again/&name=Learning Ruby Again&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2022/03/04/ruby/learning-ruby-again/&t=Learning Ruby Again"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#basic"><span class="toc-number">1.</span> <span class="toc-text"> Basic</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#variables"><span class="toc-number">1.1.</span> <span class="toc-text"> Variables</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#constants"><span class="toc-number">1.2.</span> <span class="toc-text"> Constants</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#assign"><span class="toc-number">1.3.</span> <span class="toc-text"> Assign</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#conditions"><span class="toc-number">1.4.</span> <span class="toc-text"> Conditions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#loop"><span class="toc-number">1.5.</span> <span class="toc-text"> Loop</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#functions"><span class="toc-number">2.</span> <span class="toc-text"> Functions</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#invoking-functions"><span class="toc-number">2.1.</span> <span class="toc-text"> Invoking Functions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#function-definition"><span class="toc-number">2.2.</span> <span class="toc-text"> Function Definition</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#classes"><span class="toc-number">3.</span> <span class="toc-text"> Classes</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#class-definition"><span class="toc-number">3.1.</span> <span class="toc-text"> Class Definition</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#class-methods"><span class="toc-number">3.2.</span> <span class="toc-text"> Class Methods</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#class-constants"><span class="toc-number">3.3.</span> <span class="toc-text"> Class Constants</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#class-variables"><span class="toc-number">3.4.</span> <span class="toc-text"> Class Variables</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#access-levels"><span class="toc-number">3.5.</span> <span class="toc-text"> Access Levels</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#class-extensions"><span class="toc-number">3.6.</span> <span class="toc-text"> Class Extensions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#inheritance"><span class="toc-number">3.7.</span> <span class="toc-text"> Inheritance</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#alias-undef"><span class="toc-number">3.8.</span> <span class="toc-text"> alias &amp; undef</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#singleton-class"><span class="toc-number">3.9.</span> <span class="toc-text"> Singleton Class</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#modules"><span class="toc-number">4.</span> <span class="toc-text"> Modules</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#module-methods"><span class="toc-number">4.1.</span> <span class="toc-text"> Module Methods</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mix-in"><span class="toc-number">4.2.</span> <span class="toc-text"> Mix-in</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#extend-an-instance"><span class="toc-number">4.3.</span> <span class="toc-text"> Extend an instance</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#operators"><span class="toc-number">5.</span> <span class="toc-text"> Operators</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#binary-operators"><span class="toc-number">5.1.</span> <span class="toc-text"> Binary Operators</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#unary-operators"><span class="toc-number">5.2.</span> <span class="toc-text"> Unary Operators</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#subscript-operators"><span class="toc-number">5.3.</span> <span class="toc-text"> Subscript Operators</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#block"><span class="toc-number">6.</span> <span class="toc-text"> Block</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tips"><span class="toc-number">7.</span> <span class="toc-text"> Tips</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#concepts"><span class="toc-number">8.</span> <span class="toc-text"> Concepts</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#references"><span class="toc-number">9.</span> <span class="toc-text"> References</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+      
+      <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Learning Ruby Again
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">SSBun</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-03-04T03:17:11.000Z" itemprop="datePublished">2022-03-04</time>
+        
+        (Updated: <time datetime="2022-03-04T03:17:11.000Z" itemprop="dateModified">2022-03-04</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Ruby/">Ruby</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Basics/" rel="tag">Basics</a>, <a class="tag-link-link" href="/tags/Ruby/" rel="tag">Ruby</a>, <a class="tag-link-link" href="/tags/Syntax/" rel="tag">Syntax</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="basic"><a class="markdownIt-Anchor" href="#basic"></a> Basic</h2>
+<h3 id="variables"><a class="markdownIt-Anchor" href="#variables"></a> Variables</h3>
+<ul>
+<li>Ruby has four kinds of variables
+<ul>
+<li><code>Local variables</code>: begins with an underscore <code>_</code> or lower case letter.</li>
+<li><code>Global variables</code>: begins with <code>$</code>.</li>
+<li><code>Instance variables</code>: begins with <code>@</code>.</li>
+<li><code>Class variables</code>: begins with <code>@@</code>.</li>
+</ul>
+</li>
+</ul>
+<h3 id="constants"><a class="markdownIt-Anchor" href="#constants"></a> Constants</h3>
+<ul>
+<li><strong>Constants begin with a capital letter</strong>. Ruby has beforehand defined several constants(known as <code>predefined-constants</code>), for example: <code>RUBY_VERSION</code>, <code>RUBY_PlATFORM</code>, <code>ARGV</code>, and so on.</li>
+</ul>
+<h3 id="assign"><a class="markdownIt-Anchor" href="#assign"></a> Assign</h3>
+<ul>
+<li>Ruby can simultaneously assign values to several variables.</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a, b, c = <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span></span><br><span class="line">pp(a, b, c) <span class="comment">#=&gt; 1, 2, 3</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>Redundant values will be ignored.</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a, b = <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span></span><br><span class="line">pp(a, b) <span class="comment">#=&gt; 1, 2</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>The lacking values will be filled with <code>nil</code>.</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a, b, c = <span class="number">1</span>, <span class="number">2</span></span><br><span class="line">pp(a, b, c) <span class="comment">#=&gt; 1, 2, nil</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>Prefixes one of these variables with <code>*</code> for capturing all redundant values with array format.</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">*a, b, c = <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span></span><br><span class="line">pp(a, b, c) <span class="comment">#=&gt; [1, 2], b, c</span></span><br><span class="line"></span><br><span class="line">a, *b, c = <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span></span><br><span class="line">pp(a, b, c) <span class="comment">#=&gt; 1, [2, 3], 4</span></span><br><span class="line"></span><br><span class="line">a, b, *c = <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span></span><br><span class="line">pp(a, b, c) <span class="comment">#=&gt; 1, 2, [3, 4]</span></span><br><span class="line"></span><br><span class="line">a, *b, c = <span class="number">1</span>, <span class="number">2</span></span><br><span class="line">pp(a, b, c) <span class="comment">#=&gt; 1, [], 2</span></span><br><span class="line"></span><br><span class="line">a, *b, c = <span class="number">1</span></span><br><span class="line">pp(a, b, c) <span class="comment">#=&gt; 1, [], nil</span></span><br><span class="line"></span><br><span class="line">a, *b, c = <span class="literal">nil</span></span><br><span class="line">pp(a, b, c) <span class="comment">#=&gt; nil, [], nil</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>Assigning an array to several variables has the equivalence of assigning several values unwrapped from the arr to these variables.</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a, b, c = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>] <span class="comment"># the same as `a, b, c = 1, 2, 3`</span></span><br><span class="line">pp(a, b, c) <span class="comment">#=&gt; 1, 2, 3</span></span><br></pre></td></tr></table></figure>
+<h3 id="conditions"><a class="markdownIt-Anchor" href="#conditions"></a> Conditions</h3>
+<ul>
+<li>
+<p>Ruby has two groups of logical operators: <code>&amp;&amp;</code>, <code>||</code>, <code>!</code> and <code>and</code>, <code>or</code>, <code>not</code>. But the former has higher priority.</p>
+</li>
+<li>
+<p>If the scope of the condition has only one line of code, Usually, we write them on one line.</p>
+</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">age = <span class="number">20</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Not good.</span></span><br><span class="line"><span class="keyword">if</span> age &gt; <span class="number">18</span></span><br><span class="line">  puts <span class="string">&#x27;You are an adult.&#x27;</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Good.</span></span><br><span class="line">puts <span class="string">&#x27;You are an adult.&#x27;</span> <span class="keyword">if</span> age &gt; <span class="number">18</span></span><br></pre></td></tr></table></figure>
+<h3 id="loop"><a class="markdownIt-Anchor" href="#loop"></a> Loop</h3>
+<ul>
+<li>Ruby has six kinds of loops, <code>times</code>, <code>while</code>, <code>each</code>, <code>for</code>, <code>until</code>, and <code>loop</code>.</li>
+<li>The <code>for</code> is just a syntactic sugar of the <code>each</code>.</li>
+<li>Ruby has tree loop-condition symbols:
+<ul>
+<li><code>break</code>: Jumps out of the loop</li>
+<li><code>next</code>: Jumps to next cycle.</li>
+<li><code>redo</code>: Repeats current cycle.</li>
+</ul>
+</li>
+</ul>
+<h2 id="functions"><a class="markdownIt-Anchor" href="#functions"></a> Functions</h2>
+<h3 id="invoking-functions"><a class="markdownIt-Anchor" href="#invoking-functions"></a> Invoking Functions</h3>
+<ul>
+<li>In Ruby, all function calls must have a receiver. You can think of invoking a method as sending a message to a receiver.</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="number">100</span>) <span class="comment">#=&gt; 100</span></span><br></pre></td></tr></table></figure>
+<p>The <code>print</code> function has an implicit receiver: <code>self</code>.</p>
+<ul>
+<li>In Ruby, many operators are actually functions. For example: <code>+</code>, <code>-</code>, <code>[]</code>, etc.</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">pp(<span class="number">100</span> + <span class="number">200</span>)  <span class="comment">#=&gt; 300</span></span><br><span class="line">pp(<span class="number">100</span>.+(<span class="number">200</span>)) <span class="comment">#=&gt; 300</span></span><br><span class="line">pp(<span class="number">100</span>.+ <span class="number">200</span>)  <span class="comment">#=&gt; 300</span></span><br><span class="line"></span><br><span class="line">storage = &#123;<span class="symbol">name:</span> <span class="string">&#x27;csl&#x27;</span>, <span class="symbol">age:</span> <span class="number">100</span>&#125;</span><br><span class="line">pp(storage[<span class="symbol">:name</span>])    <span class="comment">#=&gt; &quot;csl&quot;</span></span><br><span class="line">pp(storage.[](<span class="symbol">:name</span>)) <span class="comment">#=&gt; &quot;csl&quot;</span></span><br><span class="line">pp(storage.[] <span class="symbol">:name</span>)  <span class="comment">#=&gt; &quot;csl&quot;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>Ruby has three kinds of methods:
+<ul>
+<li><code>instance method</code></li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">str = <span class="string">&#x27;csl&#x27;</span></span><br><span class="line">puts str.length <span class="comment">#=&gt; 3</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>class method</code></li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">file = <span class="title class_">File</span>.open(<span class="string">&#x27;file_path&#x27;</span>)</span><br><span class="line">file = <span class="title class_">File</span><span class="symbol">:</span><span class="symbol">:open</span>(<span class="string">&#x27;file_path&#x27;</span>)</span><br></pre></td></tr></table></figure>
+As you can see, we can use <code>.</code> or <code>::</code> to invoke a class method. But we recommend to use <code>.</code>.
+<ul>
+<li><code>functional method</code></li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">puts <span class="string">&#x27;Hello, world.&#x27;</span></span><br></pre></td></tr></table></figure>
+Superficially, the function has no receivers. We don’t need to specify a receiver for the function when calling it. The invoking result doesn’t changed with difference receivers.</li>
+</ul>
+<h3 id="function-definition"><a class="markdownIt-Anchor" href="#function-definition"></a> Function Definition</h3>
+<ul>
+<li>Ruby functions implicitly return the last expression’s value when not using the <code>return</code> keyword.</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">method1</span></span><br><span class="line">  <span class="number">1</span> + <span class="number">1</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">pp(method1) <span class="comment">#=&gt; 2</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">execute2</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">pp(method2) <span class="comment">#=&gt; nil</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>Ruby methods can define default values for arguments. But you must specify default values beginning with the right of the argument list.</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">method</span>(<span class="params">a, b=<span class="number">200</span>, c=<span class="number">300</span></span>)</span><br><span class="line">  puts a, b, c</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">method(<span class="number">100</span>) <span class="comment">#=&gt; 100, 200, 300</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>Ruby methods with variadic arguments. Just like assign values to multiple variables.</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">method</span>(<span class="params">a, *b, c</span>)</span><br><span class="line">  pp(a, b, c)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">method <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span> <span class="comment">#=&gt; 1, [2, 3], 4</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>Ruby methods with named arguments.
+<ul>
+<li>Named arguments can setup default values with format <code>name: default</code>.</li>
+<li>Cannot pass undefined named arguments.</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">method</span>(<span class="params"><span class="symbol">a:</span>, <span class="symbol">b:</span><span class="number">1</span>, <span class="symbol">c:</span><span class="number">2</span></span>)</span><br><span class="line">  pp(a, b, c)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">method <span class="symbol">b:</span> <span class="number">200</span> <span class="comment">#=&gt; nil, 200, 2</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>Ruby methods with combination of named arguments and normal arguments.
+<ul>
+<li>The method must firstly define normal arguments.</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">method</span>(<span class="params">a, <span class="symbol">b:</span><span class="number">0</span></span>)</span><br><span class="line">  pp(a, b)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">method(<span class="number">10</span>, <span class="symbol">b:</span> <span class="number">20</span>) <span class="comment">#=&gt; 10, 20</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">method1</span>(<span class="params">a, *b, c, <span class="symbol">d:</span><span class="number">0</span></span>)</span><br><span class="line">  pp(a, b, c, d)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">method(<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>, <span class="symbol">d:</span><span class="number">50</span>) <span class="comment">#=&gt; 10, [20, 30], 40, 50</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>Using hash values to pass named parameters.
+<ul>
+<li>The hash value can’t contain redundant keys.</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">method</span>(<span class="params"><span class="symbol">a:</span>, <span class="symbol">b:</span></span>)</span><br><span class="line">  pp(a, b)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">dic = &#123;<span class="symbol">a:</span> <span class="number">100</span>, <span class="symbol">b:</span> <span class="number">200</span>&#125;</span><br><span class="line">method(dic) <span class="comment">#=&gt; 100, 200</span></span><br><span class="line"></span><br><span class="line">dic = &#123;<span class="symbol">a:</span> <span class="number">100</span>, <span class="symbol">b:</span> <span class="number">200</span>, <span class="symbol">c:</span> <span class="number">300</span>&#125;</span><br><span class="line">method(dic) <span class="comment">#=&gt; Error</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>When a method takes a single hash argument or its last argument receives a hash value, you can ignore the hash value’s curly braces.</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">method</span>(<span class="params">arg</span>)</span><br><span class="line">  puts arg</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">method(<span class="symbol">name:</span> <span class="string">&#x27;csl&#x27;</span>, <span class="symbol">age:</span> <span class="number">100</span>) <span class="comment">#=&gt; &#123;name: &#x27;csl&#x27;, age: 100&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">method</span>(<span class="params">param, arg</span>)</span><br><span class="line">  puts param, arg</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">method(<span class="number">100</span>, <span class="symbol">name:</span> <span class="string">&#x27;csl&#x27;</span>, <span class="symbol">age:</span> <span class="number">100</span>) <span class="comment">#=&gt; 100, &#123;name: &#x27;csl&#x27;, age: 100&#125;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="classes"><a class="markdownIt-Anchor" href="#classes"></a> Classes</h2>
+<h3 id="class-definition"><a class="markdownIt-Anchor" href="#class-definition"></a> Class Definition</h3>
+<p>Common classes inheritance chain.</p>
+<ul>
+<li>
+<p>BasicObject</p>
+<ul>
+<li>Object
+<ul>
+<li>Array</li>
+<li>String</li>
+<li>Hash</li>
+<li>Regexp</li>
+<li>IO
+<ul>
+<li>File</li>
+</ul>
+</li>
+<li>Dir</li>
+<li>Numeric
+<ul>
+<li>Integer
+<ul>
+<li>Fixnum</li>
+<li>Bignum</li>
+</ul>
+</li>
+<li>Float</li>
+<li>Complex</li>
+<li>Rational</li>
+</ul>
+</li>
+<li>Exception</li>
+<li>Time</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Defines a class.</p>
+</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span></span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">initialize</span>(<span class="params">name, <span class="symbol">age:</span><span class="number">100</span></span>)</span><br><span class="line">    <span class="variable">@name</span> = name</span><br><span class="line">    <span class="variable">@age</span> = age</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">me = <span class="title class_">Person</span>(<span class="string">&#x27;csl&#x27;</span>, <span class="symbol">age:</span> <span class="number">18</span>)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Accessing instance variables by three ways.
+<ul>
+<li>Defines accessing methods: <code>age</code>, <code>age=</code></li>
+<li>Defines <code>attr_reader</code> and <code>attr_writer</code></li>
+<li>Defines <code>attr_accessor</code></li>
+</ul>
+</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span></span><br><span class="line">  <span class="comment"># attr_accessor.</span></span><br><span class="line">  <span class="built_in">attr_accessor</span> <span class="symbol">:name</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment"># reader &amp; writer.</span></span><br><span class="line">  <span class="built_in">attr_reader</span> <span class="symbol">:weight</span></span><br><span class="line">  <span class="built_in">attr_writer</span> <span class="symbol">:weight</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># manually create accessing methods.</span></span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">age</span></span><br><span class="line">    <span class="variable">@age</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">age=</span>(<span class="params">value</span>)</span><br><span class="line">    <span class="variable">@age</span> = age</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">initialize</span>(<span class="params">name, <span class="symbol">age:</span><span class="number">100</span>, <span class="symbol">weight:</span></span>)</span><br><span class="line">    <span class="variable">@name</span> = name</span><br><span class="line">    <span class="variable">@age</span> = age</span><br><span class="line">    <span class="variable">@weight</span> = weight</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">me = <span class="title class_">Person</span>(<span class="string">&#x27;csl&#x27;</span>, <span class="symbol">age:</span> <span class="number">18</span>, <span class="symbol">weight:</span> <span class="number">85.5</span>)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Special variable <code>self</code>
+<ul>
+<li>The <code>self</code> is a predefined-variable by Swift.</li>
+<li>The <code>self</code> within instance methods of a class represents the instance itself on run-time.</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span></span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">initialize</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">dump</span></span><br><span class="line">    puts <span class="variable language_">self</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">me = <span class="title class_">Person</span>.new</span><br><span class="line">me.dump <span class="comment">#=&gt; #&lt;Person:0x000000014500f550&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="class-methods"><a class="markdownIt-Anchor" href="#class-methods"></a> Class Methods</h3>
+<ul>
+<li>Ruby classes have four ways to define a class method.
+<ul>
+<li><code>class &lt;&lt; class-name ~ end</code></li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> &lt;&lt; <span class="title class_">Person</span></span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">hello</span>(<span class="params">name</span>)</span><br><span class="line">    puts <span class="string">&quot;<span class="subst">#&#123;name&#125;</span> said hello.&quot;</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="title class_">Person</span>.hello <span class="string">&#x27;csl&#x27;</span> <span class="comment">#=&gt; csl said hello.</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>defines <code>class &lt;&lt; self ~ end</code> in the definition body of the class.</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span></span><br><span class="line">  <span class="keyword">class</span> &lt;&lt; <span class="variable language_">self</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">hello</span>(<span class="params">name</span>)</span><br><span class="line">      puts <span class="string">&quot;<span class="subst">#&#123;name&#125;</span> said hello.&quot;</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="title class_">Person</span>.hello <span class="string">&#x27;csl&#x27;</span> <span class="comment">#=&gt; csl said hello.</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>def class-name.method-name ~ end</code></li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">Person</span>.hello(name)</span><br><span class="line">  puts <span class="string">&quot;<span class="subst">#&#123;name&#125;</span> said hello.&quot;</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="title class_">Person</span>.hello <span class="string">&#x27;csl&#x27;</span> <span class="comment">#=&gt; csl said hello.</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>defines <code>def self.method-name ~ end</code> in the definition body of the class.</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span></span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">self</span>.hello(name)</span><br><span class="line">    puts <span class="string">&quot;<span class="subst">#&#123;name&#125;</span> said hello.&quot;</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="title class_">Person</span>.hello <span class="string">&#x27;csl&#x27;</span> <span class="comment">#=&gt; csl said hello.</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<blockquote>
+<p>The class defined by <code>class &lt;&lt; class-name ~ end</code> is known as <code>singleton class</code>, the methods defined within the class are known as <code>singleton method</code>.</p>
+</blockquote>
+<h3 id="class-constants"><a class="markdownIt-Anchor" href="#class-constants"></a> Class Constants</h3>
+<ul>
+<li>Defines constants for classes. As mentioned above, constants begins with a capital letter or all letters are capital.</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Computer</span></span><br><span class="line">  <span class="variable constant_">VERSION</span> = <span class="string">&#x27;1.0.0&#x27;</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">puts <span class="title class_">Computer</span><span class="symbol">:</span><span class="symbol">:VERSION</span> <span class="comment">#=&gt; 1.0.0</span></span><br></pre></td></tr></table></figure>
+<h3 id="class-variables"><a class="markdownIt-Anchor" href="#class-variables"></a> Class Variables</h3>
+<ul>
+<li>Defines class variables
+<ul>
+<li>Begins with <code>@@</code></li>
+<li>All instances can access class variables of its class.</li>
+<li>The same as instance variables, class variables also need declare writers and readers.</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span></span><br><span class="line">  <span class="variable">@@amount</span> = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">initialize</span></span><br><span class="line">    <span class="variable">@@amount</span> += <span class="number">1</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">self</span>.amount</span><br><span class="line">    <span class="variable">@@amount</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">self</span>.amount=(value)</span><br><span class="line">    <span class="variable">@@amount</span> = value</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="number">10</span>.times &#123; <span class="title class_">Person</span>.new &#125;</span><br><span class="line">puts <span class="title class_">Person</span>.amount <span class="comment">#=&gt; 10</span></span><br></pre></td></tr></table></figure>
+<h3 id="access-levels"><a class="markdownIt-Anchor" href="#access-levels"></a> Access Levels</h3>
+<ul>
+<li>Ruby has three access levels:
+<ul>
+<li><code>public</code><br />
+Exposes this method in the format of <code>instance method</code></li>
+<li><code>private</code><br />
+You cannot invoke this method with a specified receiver. (You can only invoke this method with the default receiver, so this method cannot be accessed outside its instance).</li>
+<li><code>protected</code><br />
+The methods of <code>protected</code> access level can be accessed as instance methods by its class and all subclasses.</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span></span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">say</span></span><br><span class="line">    puts <span class="string">&#x27;Hello, World.&#x27;</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="symbol">:say</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">eat</span></span><br><span class="line">    puts <span class="string">&#x27;Eating food.&#x27;</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="symbol">:eat</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">me = <span class="title class_">Person</span>.new</span><br><span class="line"></span><br><span class="line">me.say <span class="comment">#=&gt; Hello, World.</span></span><br><span class="line">me.eat <span class="comment">#=&gt; Error.</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p>Two ways to specify access levels in batches.</p>
+<ul>
+<li>Specifies multiple methods at the same time.</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="symbol">:method1</span>, <span class="symbol">:method2</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">method1</span>; <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">method2</span>; <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>Sets up an access level without any arguments, all the methods defined below the statement will be the access level.</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="comment"># The methods defined below this line will be set up with `public` access level.</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">public1</span>; <span class="keyword">end</span></span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">public2</span>; <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">private1</span>; <span class="keyword">end</span></span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">private2</span>; <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>The default access level is <code>public</code> when you do not explicitly specify any access level. There is an exception that the <code>initialized</code> method is defaulted to <code>private</code>.</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="class-extensions"><a class="markdownIt-Anchor" href="#class-extensions"></a> Class Extensions</h3>
+<ul>
+<li>We can redeclare an already defined class to extend methods for the class.</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">String</span></span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">count_word</span></span><br><span class="line">    arr = <span class="variable language_">self</span>.split(<span class="regexp">/\s+/</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> arr.size</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">p <span class="string">&quot;My name is csl&quot;</span>.count_word <span class="comment">#=&gt; 4</span></span><br></pre></td></tr></table></figure>
+<h3 id="inheritance"><a class="markdownIt-Anchor" href="#inheritance"></a> Inheritance</h3>
+<ul>
+<li>Defines a new class inherited from another class in the format of <code>class class-name &lt; super-class-name</code>
+<ul>
+<li>If you define a new class without specifying a superclass, the default inherited class is <code>Object</code>.</li>
+<li>If you override a method inherited from its superclass, you can use <code>super</code> to reinvoke superclass’s method in the definition scope of the method.</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">RingArray</span> &lt; <span class="title class_ inherited__">Array</span></span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">[]</span>(<span class="params">i</span>)</span><br><span class="line">    idx = i % size</span><br><span class="line">    <span class="variable language_">super</span>(idx) <span class="comment">#=&gt; Utilizes superclass implementation.</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<h3 id="alias-undef"><a class="markdownIt-Anchor" href="#alias-undef"></a> alias &amp; undef</h3>
+<ul>
+<li>In Ruby, we can use <code>alias</code> to provide a new meaning name for an already defined method.<br />
+Alternatively, before redefining a method from the super class, you can <code>alias</code> the old method to save its functionality for using later.</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span></span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">say</span></span><br><span class="line">    puts <span class="string">&quot;I&#x27;m a person.&quot;</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Student</span> &lt; <span class="title class_ inherited__">Person</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">alias</span> old_say say</span><br><span class="line"></span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">say</span></span><br><span class="line">    puts <span class="string">&quot;I&#x27;m a student.&quot;</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">me = <span class="title class_">Student</span>.new</span><br><span class="line"></span><br><span class="line">me.say <span class="comment">#=&gt; I&#x27;m a student.</span></span><br><span class="line">me.old_say <span class="comment">#=&gt; I&#x27;m a person.</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>undef</code> can be used to remove methods definitions. You can use it to remove methods definitions of super classes.</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span></span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">say</span></span><br><span class="line">    puts <span class="string">&quot;I&#x27;m a person.&quot;</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Student</span> &lt; <span class="title class_ inherited__">Person</span></span><br><span class="line">  un<span class="keyword">def</span> <span class="title function_">say</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">me = <span class="title class_">Student</span>.new</span><br><span class="line"></span><br><span class="line">me.say <span class="comment">#=&gt; undefined method `say`</span></span><br></pre></td></tr></table></figure>
+<h3 id="singleton-class"><a class="markdownIt-Anchor" href="#singleton-class"></a> Singleton Class</h3>
+<p>Every class we defined in Ruby are instances of BaseObject. We can use <code>class &lt;&lt; Student</code> to extend class methods for the class <code>Student</code>.</p>
+<h2 id="modules"><a class="markdownIt-Anchor" href="#modules"></a> Modules</h2>
+<p>If we say classes include data and behaviors, the <code>Modules</code> only include behaviors.</p>
+<ul>
+<li>Modules can’t have instances.</li>
+<li>Modules can’t be inherited.</li>
+</ul>
+<h3 id="module-methods"><a class="markdownIt-Anchor" href="#module-methods"></a> Module Methods</h3>
+<p>Sometimes, some methods or variables are about a special area, like math calculation, we can collect them into an isolated module for easily using.</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span> <span class="title class_">Api</span></span><br><span class="line">  <span class="variable constant_">BASE_URL</span> = <span class="string">&#x27;http://csl.cool/api&#x27;</span></span><br><span class="line">  </span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">get</span>(<span class="params">path</span>) &#123;</span><br><span class="line">    <span class="comment"># http request</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">module_function</span> <span class="symbol">:get</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="title class_">Api</span>.get(<span class="string">&#x27;/user/123&#x27;</span>) <span class="comment"># Request user info.</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>Using <code>module_function</code> can mark the method <code>get</code> as a module method, then we can access it directly by the <code>Api</code> type.</li>
+<li>No marked functions can only be used in the module inner or be included by other classes.</li>
+</ul>
+<h3 id="mix-in"><a class="markdownIt-Anchor" href="#mix-in"></a> Mix-in</h3>
+<p>A class can <code>include</code> a module to <code>inheritance</code> all instance methods defined in the module.</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span> <span class="title class_">Animal</span></span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">run</span></span><br><span class="line">    p <span class="string">&quot;I&#x27;m running&quot;</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span></span><br><span class="line">  <span class="keyword">include</span> <span class="title class_">Animal</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">me = <span class="title class_">Person</span>.new</span><br><span class="line">me.run <span class="comment"># I&#x27;m running</span></span><br></pre></td></tr></table></figure>
+<p>Invoking the <code>Person.ancestors</code> method to look up all its ancestors, we can find the <code>Animal</code> module.</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">p <span class="title class_">Person</span>.ancestors <span class="comment"># [Person, Animal, Object, Kernel, BasicObject]</span></span><br></pre></td></tr></table></figure>
+<p>Ruby utilize the class inheritance to implement <code>Mix-in</code> naturally. But the module isn’t the real super class, it’s virtual. Accessing the <code>Person.superclass</code>, you can find that its superclass is still the <code>object</code> class.</p>
+<h3 id="extend-an-instance"><a class="markdownIt-Anchor" href="#extend-an-instance"></a> Extend an instance</h3>
+<p>We have learned how to manually extend an instance’s  singleton class, now we can use <code>obj.extend(ModuleA)</code> to extend it in bulk.</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span> <span class="title class_">Codable</span></span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">encode</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">decode</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">path = <span class="string">&#x27;/list&#x27;</span></span><br><span class="line">path.<span class="keyword">extend</span>(<span class="title class_">Codable</span>)</span><br><span class="line"></span><br><span class="line">path.encode</span><br></pre></td></tr></table></figure>
+<h2 id="operators"><a class="markdownIt-Anchor" href="#operators"></a> Operators</h2>
+<p>In Ruby, almost all operators are instance methods, so we can easily override or define new operators for our types.</p>
+<h3 id="binary-operators"><a class="markdownIt-Anchor" href="#binary-operators"></a> Binary Operators</h3>
+<p>Ruby disables overriding these operators:<br />
+<code>::</code>, <code>&amp;&amp;</code>, <code>||</code>, <code>..</code>, <code>...</code>, <code>?:</code>, <code>not</code>, <code>=</code>, <code>and</code>, <code>or</code></p>
+<h3 id="unary-operators"><a class="markdownIt-Anchor" href="#unary-operators"></a> Unary Operators</h3>
+<p>We can only define these four kinds of unary operators: <code>+</code>, <code>-</code>, <code>~</code>, <code>!</code>. They are defined separately by functions of names <code>+@</code>, <code>-@</code>, <code>~@</code> and <code>!@</code>.</p>
+<h3 id="subscript-operators"><a class="markdownIt-Anchor" href="#subscript-operators"></a> Subscript Operators</h3>
+<p>Using two functions <code>def [](index)</code> and <code>def []=(index, value)</code> to define subscript for your types.</p>
+<h2 id="block"><a class="markdownIt-Anchor" href="#block"></a> Block</h2>
+<ul>
+<li><strong>Execute a block</strong><br />
+Using the syntax <code>yield</code> to call the block passed in the function.</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">execute</span></span><br><span class="line">  <span class="keyword">yield</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">execute <span class="keyword">do</span></span><br><span class="line">  puts <span class="string">&#x27;test&#x27;</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="comment"># test</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>Creating a block instance</strong></li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">hello = <span class="title class_">Proc</span>.new <span class="keyword">do</span> |<span class="params">name</span>|</span><br><span class="line">  puts <span class="string">&quot;Hello, <span class="subst">#&#123;name&#125;</span>&quot;</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">hello.call(<span class="string">&quot;Ruby&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>If a method’s last argument is prefixed with <code>&amp;</code>, the block passed into the method when invoking will be assigned to the last argument.</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">execute</span>(<span class="params">value, &amp;block</span>) <span class="keyword">do</span></span><br><span class="line">  <span class="keyword">if</span> block</span><br><span class="line">    block.call(value)</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">execute <span class="number">100</span>  <span class="keyword">do</span> |<span class="params">value</span>|</span><br><span class="line">  puts value</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="comment"># 100</span></span><br></pre></td></tr></table></figure>
+<h2 id="tips"><a class="markdownIt-Anchor" href="#tips"></a> Tips</h2>
+<ul>
+<li>Using <code>Class.new</code> can create a new class dynamically.</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span></span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">say</span>(<span class="params">words</span>)</span><br><span class="line">    p <span class="string">&quot;Say: <span class="subst">#&#123;words&#125;</span>&quot;</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="title class_">Student</span> = <span class="title class_">Class</span>.new(<span class="title class_">Person</span>)</span><br><span class="line">me = <span class="title class_">Student</span>.new</span><br><span class="line">me.say <span class="string">&#x27;Hello&#x27;</span> <span class="comment">#=&gt; Say: Hello</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>Using <code>%w(words)</code> can generate an array from a literal string.</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">arr = <span class="string">%w(How dare you)</span></span><br><span class="line">p arr <span class="comment">#=&gt; [&quot;How&quot;, &quot;dare&quot;, &quot;you&quot;]</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>Proc#[]</code> is equivalent to <code>Proc#call</code></li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">say = <span class="built_in">proc</span> <span class="keyword">do</span> |<span class="params">*words</span>|</span><br><span class="line">  p words</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">say.call(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>) <span class="comment">#=&gt; 1, 2, 3</span></span><br><span class="line">say.[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>] <span class="comment">#=&gt; 1, 2, 3</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>objc.method_name</code> vs <code>class &lt;&lt; objc</code><br />
+Both two notations we can use to define singleton methods. But there are some differences between them two.</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">objc = <span class="title class_">Object</span>.new</span><br><span class="line"></span><br><span class="line"><span class="variable constant_">CONSTANT_VALUE</span> = <span class="string">&#x27;Outer&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> &lt;&lt; objc</span><br><span class="line">  <span class="variable constant_">CONSTANT_VALUE</span> = <span class="string">&#x27;Inner&#x27;</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">objc</span>.print</span><br><span class="line">  p <span class="variable constant_">CONSTANT_VALUE</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> &lt;&lt; objc</span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">display</span></span><br><span class="line">    p <span class="variable constant_">CONSTANT_VALUE</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">objc.print</span><br><span class="line">objc.display</span><br><span class="line"></span><br><span class="line"><span class="comment">#=&gt; &quot;Outer&quot;</span></span><br><span class="line"><span class="comment">#=&gt; &quot;Inner&quot;</span></span><br></pre></td></tr></table></figure>
+<p>As you can see, the <code>objc.method_name</code> will access the outer constant, its context is external. The <code>class &lt;&lt; object</code> will enter the inner of the objc’s singleton class, so we can access its inner constants.</p>
+<h2 id="concepts"><a class="markdownIt-Anchor" href="#concepts"></a> Concepts</h2>
+<ul>
+<li>
+<p>You can think that the notation <code>class</code> is used to <strong>open the context of classes</strong>, of course, it would create a new class by the way if the class hasn’t been created yet.</p>
+</li>
+<li>
+<p>Instance variables in Ruby have no relation with its class. That means two objects of a class can have absolutely different instance variables. You can think of instance variables in Ruby as the key-value storage.</p>
+</li>
+</ul>
+<h2 id="references"><a class="markdownIt-Anchor" href="#references"></a> References</h2>
+<ul>
+<li>《Ruby 基础教程第 5 版》</li>
+<li>《Ruby Meta Programming》</li>
+<li>《Ruby 原理剖析》</li>
+</ul>
+
+  </div>
+</article>
+
+
+
+      
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#basic"><span class="toc-number">1.</span> <span class="toc-text"> Basic</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#variables"><span class="toc-number">1.1.</span> <span class="toc-text"> Variables</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#constants"><span class="toc-number">1.2.</span> <span class="toc-text"> Constants</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#assign"><span class="toc-number">1.3.</span> <span class="toc-text"> Assign</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#conditions"><span class="toc-number">1.4.</span> <span class="toc-text"> Conditions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#loop"><span class="toc-number">1.5.</span> <span class="toc-text"> Loop</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#functions"><span class="toc-number">2.</span> <span class="toc-text"> Functions</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#invoking-functions"><span class="toc-number">2.1.</span> <span class="toc-text"> Invoking Functions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#function-definition"><span class="toc-number">2.2.</span> <span class="toc-text"> Function Definition</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#classes"><span class="toc-number">3.</span> <span class="toc-text"> Classes</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#class-definition"><span class="toc-number">3.1.</span> <span class="toc-text"> Class Definition</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#class-methods"><span class="toc-number">3.2.</span> <span class="toc-text"> Class Methods</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#class-constants"><span class="toc-number">3.3.</span> <span class="toc-text"> Class Constants</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#class-variables"><span class="toc-number">3.4.</span> <span class="toc-text"> Class Variables</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#access-levels"><span class="toc-number">3.5.</span> <span class="toc-text"> Access Levels</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#class-extensions"><span class="toc-number">3.6.</span> <span class="toc-text"> Class Extensions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#inheritance"><span class="toc-number">3.7.</span> <span class="toc-text"> Inheritance</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#alias-undef"><span class="toc-number">3.8.</span> <span class="toc-text"> alias &amp; undef</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#singleton-class"><span class="toc-number">3.9.</span> <span class="toc-text"> Singleton Class</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#modules"><span class="toc-number">4.</span> <span class="toc-text"> Modules</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#module-methods"><span class="toc-number">4.1.</span> <span class="toc-text"> Module Methods</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mix-in"><span class="toc-number">4.2.</span> <span class="toc-text"> Mix-in</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#extend-an-instance"><span class="toc-number">4.3.</span> <span class="toc-text"> Extend an instance</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#operators"><span class="toc-number">5.</span> <span class="toc-text"> Operators</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#binary-operators"><span class="toc-number">5.1.</span> <span class="toc-text"> Binary Operators</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#unary-operators"><span class="toc-number">5.2.</span> <span class="toc-text"> Unary Operators</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#subscript-operators"><span class="toc-number">5.3.</span> <span class="toc-text"> Subscript Operators</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#block"><span class="toc-number">6.</span> <span class="toc-text"> Block</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tips"><span class="toc-number">7.</span> <span class="toc-text"> Tips</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#concepts"><span class="toc-number">8.</span> <span class="toc-text"> Concepts</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#references"><span class="toc-number">9.</span> <span class="toc-text"> References</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2022/03/04/ruby/learning-ruby-again/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2022/03/04/ruby/learning-ruby-again/&text=Learning Ruby Again"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2022/03/04/ruby/learning-ruby-again/&title=Learning Ruby Again"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2022/03/04/ruby/learning-ruby-again/&is_video=false&description=Learning Ruby Again"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Learning Ruby Again&body=Check out this article: https://csl.cool/2022/03/04/ruby/learning-ruby-again/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2022/03/04/ruby/learning-ruby-again/&title=Learning Ruby Again"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2022/03/04/ruby/learning-ruby-again/&title=Learning Ruby Again"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2022/03/04/ruby/learning-ruby-again/&title=Learning Ruby Again"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2022/03/04/ruby/learning-ruby-again/&title=Learning Ruby Again"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2022/03/04/ruby/learning-ruby-again/&name=Learning Ruby Again&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2022/03/04/ruby/learning-ruby-again/&t=Learning Ruby Again"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+      <div id="end">
+    <img src="/images/post-end.png" alt="">
+</div> 
+      
+      <div id='valine'>
+    <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+            el: '#vcomments',
+            notify: true,
+            verify: true,
+            appId: '7zw6tQBddCfPvbaVtBGxUy0G-gzGzoHsz',
+            appKey: 'voPGHhBz7MozpUm0Fq2AMFmv',
+            placeholder: '想说点啥...',
+            avatar: 'monsterid',           
+        })
+    </script>
+</div>
+      
+      
+      <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 SSBun
+    <a target="_blank" rel="noopener" href="http://www.beian.miit.gov.cn/">京ICP备20001935号-1</a>
+    <div id="friend-link-container">
+      
+      
+    </div>
+  </div>
+  
+    <div class="footer-right">
+      <nav>
+        <ul>
+          
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/search/">Search</a></li>
+      
+      <li><a href="/categories/">Categories</a></li>
+      
+      <li><a href="/notes/">Notes</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+      </ul>
+      </nav>
+    </div>
+  
+</footer>
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?c2fdf3bebd0db8e40c37a4f37d76d33b";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Umami Analytics -->
+<!--  -->
+  <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="d39cc16d-90eb-47b6-8bf0-8e4cd43c704d"></script>
+<!--  -->
+<!-- Disqus Comments -->
+
+
+
+    
+    <script src="/lib/blackcat/l2dwidget.min.js"></script>
+    <script type="text/javascript">
+      var config = {
+        model: {
+          jsonPath: '/lib/blackcat/hijiki.model.json',
+        },
+        display: {
+          superSample: 1,
+          width: 245,
+          height: 245,
+          position: 'left',
+          hOffset: 0,
+          vOffset: 0,
+        },
+        mobile: {
+          show: false,
+          scale: 1,
+          motion: false,
+        },
+        react: {
+          opacityDefault: 1,
+          opacityOnHover: 0.75
+        }
+      };
+      L2Dwidget.init(config);
+    </script>
+    
+  </body>
+
+  </html>

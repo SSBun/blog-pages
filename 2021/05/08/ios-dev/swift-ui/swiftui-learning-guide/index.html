@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang=en>
+  <head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Use several diagrams to explain how SwiftUI works   State  SwiftUI Thinking   SwiftUI State   SwiftUI Preference   SwiftUI Environment   Frame &amp; Layout  SwiftUI Frame   SwiftUI Layout   SwiftUI S">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SwiftUI Learning Guide">
+<meta property="og:url" content="https://csl.cool/2021/05/08/ios-dev/swift-ui/swiftui-learning-guide/index.html">
+<meta property="og:site_name" content="CSL MEMO">
+<meta property="og:description" content="Use several diagrams to explain how SwiftUI works   State  SwiftUI Thinking   SwiftUI State   SwiftUI Preference   SwiftUI Environment   Frame &amp; Layout  SwiftUI Frame   SwiftUI Layout   SwiftUI S">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-05-08T08:14:08.000Z">
+<meta property="article:modified_time" content="2021-05-08T08:14:08.000Z">
+<meta property="article:author" content="SSBun">
+<meta property="article:tag" content="Swift">
+<meta property="article:tag" content="SwiftUI">
+<meta property="article:tag" content="Guide">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>SwiftUI Learning Guide</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="CSL MEMO" type="application/atom+xml" />
+    
+    <!-- umami web analytics -->
+    <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+  <body class="max-width mx-auto px3 ltr">
+    
+    <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2021/06/07/ios-dev/ios-review-questions/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2021/05/07/ios-dev/swift/swift-5-4-new-features/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2021/05/08/ios-dev/swift-ui/swiftui-learning-guide/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2021/05/08/ios-dev/swift-ui/swiftui-learning-guide/&text=SwiftUI Learning Guide"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2021/05/08/ios-dev/swift-ui/swiftui-learning-guide/&title=SwiftUI Learning Guide"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2021/05/08/ios-dev/swift-ui/swiftui-learning-guide/&is_video=false&description=SwiftUI Learning Guide"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=SwiftUI Learning Guide&body=Check out this article: https://csl.cool/2021/05/08/ios-dev/swift-ui/swiftui-learning-guide/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2021/05/08/ios-dev/swift-ui/swiftui-learning-guide/&title=SwiftUI Learning Guide"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2021/05/08/ios-dev/swift-ui/swiftui-learning-guide/&title=SwiftUI Learning Guide"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2021/05/08/ios-dev/swift-ui/swiftui-learning-guide/&title=SwiftUI Learning Guide"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2021/05/08/ios-dev/swift-ui/swiftui-learning-guide/&title=SwiftUI Learning Guide"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2021/05/08/ios-dev/swift-ui/swiftui-learning-guide/&name=SwiftUI Learning Guide&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2021/05/08/ios-dev/swift-ui/swiftui-learning-guide/&t=SwiftUI Learning Guide"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#state"><span class="toc-number">1.</span> <span class="toc-text"> State</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#swiftui-thinking"><span class="toc-number">1.1.</span> <span class="toc-text"> SwiftUI Thinking</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#swiftui-state"><span class="toc-number">1.2.</span> <span class="toc-text"> SwiftUI State</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#swiftui-preference"><span class="toc-number">1.3.</span> <span class="toc-text"> SwiftUI Preference</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#swiftui-environment"><span class="toc-number">1.4.</span> <span class="toc-text"> SwiftUI Environment</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#frame-layout"><span class="toc-number">2.</span> <span class="toc-text"> Frame &amp; Layout</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#swiftui-frame"><span class="toc-number">2.1.</span> <span class="toc-text"> SwiftUI Frame</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#swiftui-layout"><span class="toc-number">2.2.</span> <span class="toc-text"> SwiftUI Layout</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#swiftui-stack-alignment"><span class="toc-number">2.3.</span> <span class="toc-text"> SwiftUI Stack Alignment</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#swiftui-custom-layout"><span class="toc-number">2.4.</span> <span class="toc-text"> SwiftUI Custom Layout</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#containerview-layout-system"><span class="toc-number">3.</span> <span class="toc-text"> ContainerView &amp; Layout System</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#swiftui-stack-view"><span class="toc-number">3.1.</span> <span class="toc-text"> SwiftUI Stack View</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#swiftui-grid-view"><span class="toc-number">3.2.</span> <span class="toc-text"> SwiftUI Grid View</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#swiftui-layout-code-guide"><span class="toc-number">3.3.</span> <span class="toc-text"> SwiftUI Layout Code Guide</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#common-components"><span class="toc-number">4.</span> <span class="toc-text"> Common Components</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#swiftui-common-components"><span class="toc-number">4.1.</span> <span class="toc-text"> SwiftUI Common Components</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#swiftui-navigation"><span class="toc-number">4.2.</span> <span class="toc-text"> SwiftUI Navigation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#swiftui-gesture"><span class="toc-number">4.3.</span> <span class="toc-text"> SwiftUI Gesture</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#animation"><span class="toc-number">5.</span> <span class="toc-text"> Animation</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#swiftui-animation"><span class="toc-number">5.1.</span> <span class="toc-text"> SwiftUI Animation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#swiftui-drawing-modifier"><span class="toc-number">5.2.</span> <span class="toc-text"> SwiftUI Drawing Modifier</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#architecture"><span class="toc-number">6.</span> <span class="toc-text"> Architecture</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#swiftui-architecture"><span class="toc-number">6.1.</span> <span class="toc-text"> SwiftUI Architecture</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#combine"><span class="toc-number">6.2.</span> <span class="toc-text"> Combine</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#swiftui-embed-into-uikit"><span class="toc-number">6.3.</span> <span class="toc-text"> SwiftUI Embed into UIKit</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+      
+      <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        SwiftUI Learning Guide
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">SSBun</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-05-08T08:14:08.000Z" itemprop="datePublished">2021-05-08</time>
+        
+        (Updated: <time datetime="2021-05-08T08:14:08.000Z" itemprop="dateModified">2021-05-08</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Guide/" rel="tag">Guide</a>, <a class="tag-link-link" href="/tags/Swift/" rel="tag">Swift</a>, <a class="tag-link-link" href="/tags/SwiftUI/" rel="tag">SwiftUI</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p>Use several diagrams to explain how SwiftUI works</p>
+</blockquote>
+<h2 id="state"><a class="markdownIt-Anchor" href="#state"></a> State</h2>
+<h3 id="swiftui-thinking"><a class="markdownIt-Anchor" href="#swiftui-thinking"></a> SwiftUI Thinking</h3>
+<iframe style="border:none" width="800" height="450" src="https://whimsical.com/embed/6nXnGAvokeE1mmkct6dJGp"></iframe>
+<h3 id="swiftui-state"><a class="markdownIt-Anchor" href="#swiftui-state"></a> SwiftUI State</h3>
+<iframe style="border:none" width="800" height="450" src="https://whimsical.com/embed/eq4scC3hN7S9XdYbZYS1K"></iframe>
+<h3 id="swiftui-preference"><a class="markdownIt-Anchor" href="#swiftui-preference"></a> SwiftUI Preference</h3>
+<iframe style="border:none" width="800" height="450" src="https://whimsical.com/embed/XsFFXdAy2Lug9pGuDKUFuC"></iframe>
+<h3 id="swiftui-environment"><a class="markdownIt-Anchor" href="#swiftui-environment"></a> SwiftUI Environment</h3>
+<iframe style="border:none" width="800" height="450" src="https://whimsical.com/embed/6E96FEfnTXMYuywCAkocAX"></iframe>
+<h2 id="frame-layout"><a class="markdownIt-Anchor" href="#frame-layout"></a> Frame &amp; Layout</h2>
+<h3 id="swiftui-frame"><a class="markdownIt-Anchor" href="#swiftui-frame"></a> SwiftUI Frame</h3>
+<iframe style="border:none" width="800" height="450" src="https://whimsical.com/embed/RUbHsci38fJAeovB8Nnmzd"></iframe>
+<h3 id="swiftui-layout"><a class="markdownIt-Anchor" href="#swiftui-layout"></a> SwiftUI Layout</h3>
+<iframe style="border:none" width="800" height="450" src="https://whimsical.com/embed/5mKWmAZ7Bhghqe84DARoek"></iframe>
+<h3 id="swiftui-stack-alignment"><a class="markdownIt-Anchor" href="#swiftui-stack-alignment"></a> SwiftUI Stack Alignment</h3>
+<iframe style="border:none" width="800" height="450" src="https://whimsical.com/embed/7yV3AawRF4WXaCA9cHGCWy"></iframe>
+<h3 id="swiftui-custom-layout"><a class="markdownIt-Anchor" href="#swiftui-custom-layout"></a> SwiftUI Custom Layout</h3>
+<iframe style="border:none" width="800" height="450" src="https://whimsical.com/embed/VoEiFGmqMxp7ymh14AVvkD"></iframe>
+<h2 id="containerview-layout-system"><a class="markdownIt-Anchor" href="#containerview-layout-system"></a> ContainerView &amp; Layout System</h2>
+<h3 id="swiftui-stack-view"><a class="markdownIt-Anchor" href="#swiftui-stack-view"></a> SwiftUI Stack View</h3>
+<iframe style="border:none" width="800" height="450" src="https://whimsical.com/embed/Aiq3BLn8ceKw1S4d5v7CU3"></iframe>
+<h3 id="swiftui-grid-view"><a class="markdownIt-Anchor" href="#swiftui-grid-view"></a> SwiftUI Grid View</h3>
+<iframe style="border:none" width="800" height="450" src="https://whimsical.com/embed/JgqYdCqJMSBnRQf7vNgnkW"></iframe>
+<h3 id="swiftui-layout-code-guide"><a class="markdownIt-Anchor" href="#swiftui-layout-code-guide"></a> SwiftUI Layout Code Guide</h3>
+<iframe style="border:none" width="800" height="450" src="https://whimsical.com/embed/RHEsgbizyjaDtAMF5ixyYo"></iframe>
+<h2 id="common-components"><a class="markdownIt-Anchor" href="#common-components"></a> Common Components</h2>
+<h3 id="swiftui-common-components"><a class="markdownIt-Anchor" href="#swiftui-common-components"></a> SwiftUI Common Components</h3>
+<iframe style="border:none" width="800" height="450" src="https://whimsical.com/embed/BdSi8wizW5MwfBW1WTkXuT"></iframe>
+<h3 id="swiftui-navigation"><a class="markdownIt-Anchor" href="#swiftui-navigation"></a> SwiftUI Navigation</h3>
+<iframe style="border:none" width="800" height="450" src="https://whimsical.com/embed/Ve6ywX7fgnBQvTEjDbznon"></iframe>
+<h3 id="swiftui-gesture"><a class="markdownIt-Anchor" href="#swiftui-gesture"></a> SwiftUI Gesture</h3>
+<iframe style="border:none" width="800" height="450" src="https://whimsical.com/embed/C4X6ciaP2aQE85gZt655zZ"></iframe>
+<h2 id="animation"><a class="markdownIt-Anchor" href="#animation"></a> Animation</h2>
+<h3 id="swiftui-animation"><a class="markdownIt-Anchor" href="#swiftui-animation"></a> SwiftUI Animation</h3>
+<iframe style="border:none" width="800" height="450" src="https://whimsical.com/embed/QmwUJTszEnKBHEyrK7k28W"></iframe>
+<h3 id="swiftui-drawing-modifier"><a class="markdownIt-Anchor" href="#swiftui-drawing-modifier"></a> SwiftUI Drawing Modifier</h3>
+<iframe style="border:none" width="800" height="450" src="https://whimsical.com/embed/Xk4P9FCFzwjm8qsQ4rxCBZ"></iframe>
+<h2 id="architecture"><a class="markdownIt-Anchor" href="#architecture"></a> Architecture</h2>
+<h3 id="swiftui-architecture"><a class="markdownIt-Anchor" href="#swiftui-architecture"></a> SwiftUI Architecture</h3>
+<iframe style="border:none" width="800" height="450" src="https://whimsical.com/embed/fYYakT1yjzatdu8EBCe4s"></iframe>
+<h3 id="combine"><a class="markdownIt-Anchor" href="#combine"></a> Combine</h3>
+<iframe style="border:none" width="800" height="450" src="https://whimsical.com/embed/CXxcFzngvEzgnoFRF7GcQe"></iframe>
+<h3 id="swiftui-embed-into-uikit"><a class="markdownIt-Anchor" href="#swiftui-embed-into-uikit"></a> SwiftUI Embed into UIKit</h3>
+<iframe style="border:none" width="800" height="450" src="https://whimsical.com/embed/P5QusLU3TH1Q1EgREkF6Ej"></iframe>
+
+  </div>
+</article>
+
+
+
+      
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#state"><span class="toc-number">1.</span> <span class="toc-text"> State</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#swiftui-thinking"><span class="toc-number">1.1.</span> <span class="toc-text"> SwiftUI Thinking</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#swiftui-state"><span class="toc-number">1.2.</span> <span class="toc-text"> SwiftUI State</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#swiftui-preference"><span class="toc-number">1.3.</span> <span class="toc-text"> SwiftUI Preference</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#swiftui-environment"><span class="toc-number">1.4.</span> <span class="toc-text"> SwiftUI Environment</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#frame-layout"><span class="toc-number">2.</span> <span class="toc-text"> Frame &amp; Layout</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#swiftui-frame"><span class="toc-number">2.1.</span> <span class="toc-text"> SwiftUI Frame</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#swiftui-layout"><span class="toc-number">2.2.</span> <span class="toc-text"> SwiftUI Layout</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#swiftui-stack-alignment"><span class="toc-number">2.3.</span> <span class="toc-text"> SwiftUI Stack Alignment</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#swiftui-custom-layout"><span class="toc-number">2.4.</span> <span class="toc-text"> SwiftUI Custom Layout</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#containerview-layout-system"><span class="toc-number">3.</span> <span class="toc-text"> ContainerView &amp; Layout System</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#swiftui-stack-view"><span class="toc-number">3.1.</span> <span class="toc-text"> SwiftUI Stack View</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#swiftui-grid-view"><span class="toc-number">3.2.</span> <span class="toc-text"> SwiftUI Grid View</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#swiftui-layout-code-guide"><span class="toc-number">3.3.</span> <span class="toc-text"> SwiftUI Layout Code Guide</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#common-components"><span class="toc-number">4.</span> <span class="toc-text"> Common Components</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#swiftui-common-components"><span class="toc-number">4.1.</span> <span class="toc-text"> SwiftUI Common Components</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#swiftui-navigation"><span class="toc-number">4.2.</span> <span class="toc-text"> SwiftUI Navigation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#swiftui-gesture"><span class="toc-number">4.3.</span> <span class="toc-text"> SwiftUI Gesture</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#animation"><span class="toc-number">5.</span> <span class="toc-text"> Animation</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#swiftui-animation"><span class="toc-number">5.1.</span> <span class="toc-text"> SwiftUI Animation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#swiftui-drawing-modifier"><span class="toc-number">5.2.</span> <span class="toc-text"> SwiftUI Drawing Modifier</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#architecture"><span class="toc-number">6.</span> <span class="toc-text"> Architecture</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#swiftui-architecture"><span class="toc-number">6.1.</span> <span class="toc-text"> SwiftUI Architecture</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#combine"><span class="toc-number">6.2.</span> <span class="toc-text"> Combine</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#swiftui-embed-into-uikit"><span class="toc-number">6.3.</span> <span class="toc-text"> SwiftUI Embed into UIKit</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2021/05/08/ios-dev/swift-ui/swiftui-learning-guide/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2021/05/08/ios-dev/swift-ui/swiftui-learning-guide/&text=SwiftUI Learning Guide"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2021/05/08/ios-dev/swift-ui/swiftui-learning-guide/&title=SwiftUI Learning Guide"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2021/05/08/ios-dev/swift-ui/swiftui-learning-guide/&is_video=false&description=SwiftUI Learning Guide"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=SwiftUI Learning Guide&body=Check out this article: https://csl.cool/2021/05/08/ios-dev/swift-ui/swiftui-learning-guide/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2021/05/08/ios-dev/swift-ui/swiftui-learning-guide/&title=SwiftUI Learning Guide"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2021/05/08/ios-dev/swift-ui/swiftui-learning-guide/&title=SwiftUI Learning Guide"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2021/05/08/ios-dev/swift-ui/swiftui-learning-guide/&title=SwiftUI Learning Guide"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2021/05/08/ios-dev/swift-ui/swiftui-learning-guide/&title=SwiftUI Learning Guide"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2021/05/08/ios-dev/swift-ui/swiftui-learning-guide/&name=SwiftUI Learning Guide&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2021/05/08/ios-dev/swift-ui/swiftui-learning-guide/&t=SwiftUI Learning Guide"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+      <div id="end">
+    <img src="/images/post-end.png" alt="">
+</div> 
+      
+      <div id='valine'>
+    <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+            el: '#vcomments',
+            notify: true,
+            verify: true,
+            appId: '7zw6tQBddCfPvbaVtBGxUy0G-gzGzoHsz',
+            appKey: 'voPGHhBz7MozpUm0Fq2AMFmv',
+            placeholder: '想说点啥...',
+            avatar: 'monsterid',           
+        })
+    </script>
+</div>
+      
+      
+      <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 SSBun
+    <a target="_blank" rel="noopener" href="http://www.beian.miit.gov.cn/">京ICP备20001935号-1</a>
+    <div id="friend-link-container">
+      
+      
+    </div>
+  </div>
+  
+    <div class="footer-right">
+      <nav>
+        <ul>
+          
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/search/">Search</a></li>
+      
+      <li><a href="/categories/">Categories</a></li>
+      
+      <li><a href="/notes/">Notes</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+      </ul>
+      </nav>
+    </div>
+  
+</footer>
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?c2fdf3bebd0db8e40c37a4f37d76d33b";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Umami Analytics -->
+<!--  -->
+  <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="d39cc16d-90eb-47b6-8bf0-8e4cd43c704d"></script>
+<!--  -->
+<!-- Disqus Comments -->
+
+
+
+    
+    <script src="/lib/blackcat/l2dwidget.min.js"></script>
+    <script type="text/javascript">
+      var config = {
+        model: {
+          jsonPath: '/lib/blackcat/hijiki.model.json',
+        },
+        display: {
+          superSample: 1,
+          width: 245,
+          height: 245,
+          position: 'left',
+          hOffset: 0,
+          vOffset: 0,
+        },
+        mobile: {
+          show: false,
+          scale: 1,
+          motion: false,
+        },
+        react: {
+          opacityDefault: 1,
+          opacityOnHover: 0.75
+        }
+      };
+      L2Dwidget.init(config);
+    </script>
+    
+  </body>
+
+  </html>

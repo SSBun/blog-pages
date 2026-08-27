@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang=en>
+  <head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Recently, I’m learning React Native for developing a cross-platform live room component running in Android and iOS applications. Even though I know some basic information about JS, it’s not enough to">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Learning JavaScript Again">
+<meta property="og:url" content="https://csl.cool/2023/11/27/learn-javascript-again/index.html">
+<meta property="og:site_name" content="CSL MEMO">
+<meta property="og:description" content="Recently, I’m learning React Native for developing a cross-platform live room component running in Android and iOS applications. Even though I know some basic information about JS, it’s not enough to">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-11-27T09:55:18.000Z">
+<meta property="article:modified_time" content="2023-11-27T09:55:18.000Z">
+<meta property="article:author" content="SSBun">
+<meta property="article:tag" content="JavaScript">
+<meta property="article:tag" content="Learning">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Learning JavaScript Again</title><meta name="robots" content="noindex">
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="CSL MEMO" type="application/atom+xml" />
+    
+    <!-- umami web analytics -->
+    <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+  <body class="max-width mx-auto px3 ltr">
+    
+    <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2023/11/27/learn-javascript-again/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2023/11/27/learn-javascript-again/&text=Learning JavaScript Again"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2023/11/27/learn-javascript-again/&title=Learning JavaScript Again"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2023/11/27/learn-javascript-again/&is_video=false&description=Learning JavaScript Again"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Learning JavaScript Again&body=Check out this article: https://csl.cool/2023/11/27/learn-javascript-again/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2023/11/27/learn-javascript-again/&title=Learning JavaScript Again"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2023/11/27/learn-javascript-again/&title=Learning JavaScript Again"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2023/11/27/learn-javascript-again/&title=Learning JavaScript Again"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2023/11/27/learn-javascript-again/&title=Learning JavaScript Again"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2023/11/27/learn-javascript-again/&name=Learning JavaScript Again&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2023/11/27/learn-javascript-again/&t=Learning JavaScript Again"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#basic"><span class="toc-number">1.</span> <span class="toc-text"> Basic</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#collections"><span class="toc-number">2.</span> <span class="toc-text"> Collections</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#indexed-collections"><span class="toc-number">2.1.</span> <span class="toc-text"> Indexed collections</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#keyed-collections"><span class="toc-number">2.2.</span> <span class="toc-text"> Keyed collections</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#destructuring-assignment"><span class="toc-number">3.</span> <span class="toc-text"> Destructuring assignment</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#objects"><span class="toc-number">4.</span> <span class="toc-text"> Objects</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#define-an-object"><span class="toc-number">4.1.</span> <span class="toc-text"> Define an object</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#classes"><span class="toc-number">4.2.</span> <span class="toc-text"> Classes</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#getter-setter"><span class="toc-number">4.3.</span> <span class="toc-text"> Getter &amp; Setter</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#promise"><span class="toc-number">4.4.</span> <span class="toc-text"> Promise</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#iterator"><span class="toc-number">4.5.</span> <span class="toc-text"> Iterator</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#typescript"><span class="toc-number">5.</span> <span class="toc-text"> TypeScript</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#union-types"><span class="toc-number">5.1.</span> <span class="toc-text"> Union Types</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#type-interface"><span class="toc-number">5.2.</span> <span class="toc-text"> Type Interface</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#type-alias"><span class="toc-number">5.3.</span> <span class="toc-text"> Type Alias</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#type-compatibility"><span class="toc-number">5.4.</span> <span class="toc-text"> Type Compatibility</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#type-predicates"><span class="toc-number">5.5.</span> <span class="toc-text"> Type Predicates</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#generics"><span class="toc-number">5.6.</span> <span class="toc-text"> Generics</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+      
+      <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Learning JavaScript Again
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">SSBun</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-11-27T09:55:18.000Z" itemprop="datePublished">2023-11-27</time>
+        
+        (Updated: <time datetime="2023-11-27T09:55:18.000Z" itemprop="dateModified">2023-11-27</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/JavaScript/" rel="tag">JavaScript</a>, <a class="tag-link-link" href="/tags/Learning/" rel="tag">Learning</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>Recently, I’m learning React Native for developing a cross-platform live room component running in Android and iOS<br />
+applications. Even though I know some basic information about JS, it’s not enough to me to develope a complex React Native application.There is the place for recording complex features of JS and results of my thinking.</p>
+<h2 id="basic"><a class="markdownIt-Anchor" href="#basic"></a> Basic</h2>
+<ul>
+<li>There are two global variables: <code>window</code> on web and <code>globalThis</code> for normal.</li>
+<li>Declaration of variables declared with <code>var</code> will be lifted to scop top. <strong>Only declaration no implementation</strong></li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(a); <span class="comment">// undefined;</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="number">100</span>;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(b); <span class="comment">// error.</span></span><br><span class="line"><span class="keyword">const</span> b = <span class="number">100</span>;</span><br><span class="line"><span class="comment">// let b = 100;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>const</code> only prevents re-assignments,but does’t prevent mutations. you can still modify content of a const object or array.</li>
+<li>JS has eight types:
+<ul>
+<li><strong>Boolean</strong>: <code>true</code> or <code>false</code>.</li>
+<li><strong>nul</strong>: Not equal to <code>Null</code> or <code>NULL</code>.</li>
+<li><strong>undefined</strong>:</li>
+<li><strong>Number</strong>: int, float or double.</li>
+<li><strong>BigInt</strong>:</li>
+<li><strong>String</strong>:</li>
+<li><strong>Symbol</strong>: A data type whose instance are unique and immutable.</li>
+<li><strong>Object</strong>:</li>
+</ul>
+</li>
+<li>Using <code>+</code> between numbers or strings will always convert the number to string. Other operators <code>-</code>, <code>*</code> or <code>/</code> don’t do this conversion.</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">100</span> + <span class="string">&#x27;100&#x27;</span> <span class="comment">// `100100`</span></span><br><span class="line"></span><br><span class="line"><span class="number">100</span> - <span class="string">&#x27;80&#x27;</span> <span class="comment">// 20</span></span><br><span class="line"><span class="string">&#x27;10&#x27;</span> * <span class="string">&#x27;20&#x27;</span> <span class="comment">// 200</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>Extra commas in array are empty elements that you can treat them as placeholders. Index getter will return <code>undefined</code>.</li>
+<li>String literals <code>/</code>my name ${<a target="_blank" rel="noopener" href="http://person.name">person.name</a>}/`` and <strong>tagged literals</strong></li>
+<li>Falsy values: <code>false</code>, <code>undefined</code>, <code>null</code>, <code>0</code>, <code>NaN</code> and the empty string <code>&quot;&quot;</code>.</li>
+<li>JS <code>switch</code> case uses <code>===</code> as the matching method.</li>
+<li>Exception handling
+<ul>
+<li>Using <code>throw</code> to throw errors of any types.</li>
+</ul>
+  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">throw</span> <span class="number">100</span>; <span class="comment">// number</span></span><br><span class="line"><span class="keyword">throw</span> &#123; <span class="attr">info</span>: <span class="string">&quot;error info&quot;</span> &#125;; <span class="comment">// object</span></span><br><span class="line"><span class="keyword">throw</span> <span class="string">&#x27;error&#x27;</span>; <span class="comment">// string</span></span><br><span class="line"><span class="keyword">throw</span> <span class="literal">false</span>; <span class="comment">// boolean</span></span><br><span class="line"><span class="keyword">throw</span> <span class="function">() =&gt;</span> &#123; <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;error&#x27;</span>) &#125;; <span class="comment">// function</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>Using <code>try ... catch </code> to catch errors</li>
+</ul>
+  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="string">&#x27;occurring errors&#x27;</span></span><br><span class="line">&#125; <span class="keyword">catch</span>(error) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`find an error: <span class="subst">$&#123;error&#125;</span>`</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>The <code>finally</code> block always is invoked at end, its return value would be the final result of the whole try-catch block.</li>
+</ul>
+  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">read</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="string">&#x27;error&#x27;</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125; <span class="keyword">catch</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> result = <span class="title function_">read</span>();</span><br><span class="line"><span class="comment">// result = true;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>Function hoisting only works with function declarations, not with function expressions.</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">test</span>() <span class="comment">// works.</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">test</span>(<span class="params"></span>) &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">test2</span>() <span class="comment">// reference error.</span></span><br><span class="line"><span class="keyword">const</span> test2 = <span class="keyword">function</span>(<span class="params"></span>) &#123;&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Nested functions with conflict names.</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">test</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> x = <span class="number">100</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">function</span>(<span class="params">x</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> x * <span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">test</span>()(<span class="number">10</span>) <span class="comment">// 20 not 200;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>Getting function detail parameter information with the property <code>arguments</code>.</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">test</span>(<span class="params">values</span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`input <span class="subst">$&#123;<span class="variable language_">arguments</span>.length&#125;</span> parameters.`</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Arrow function doesn’t have its own <code>this</code>, <code>arguments</code> and <code>super</code>. It’s always anonymous.</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">test</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">arguments</span>.<span class="property">length</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> func = <span class="title function_">test</span>(<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>);</span><br><span class="line"><span class="title function_">func</span>(); <span class="comment">// 3</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> me = &#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&#x27;csl&#x27;</span>,</span><br><span class="line">    <span class="title function_">dumpGenerator</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="function">() =&gt;</span> &#123;</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">name</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="title function_">dumpFunction</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">name</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> other = &#123; <span class="attr">name</span>: <span class="string">&#x27;other&#x27;</span> &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> dump = me.<span class="title function_">dumpGenerator</span>();</span><br><span class="line"><span class="title function_">dump</span>(); <span class="comment">// &#x27;csl&#x27;</span></span><br><span class="line">dump.<span class="title function_">call</span>(other); <span class="comment">// &#x27;csl&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> func = me.<span class="title function_">dumpFunction</span>();</span><br><span class="line"><span class="title function_">func</span>(); <span class="comment">// undefined</span></span><br><span class="line">func.<span class="title function_">call</span>(other); <span class="comment">// &#x27;other&#x27;</span></span><br></pre></td></tr></table></figure>
+<h2 id="collections"><a class="markdownIt-Anchor" href="#collections"></a> Collections</h2>
+<h3 id="indexed-collections"><a class="markdownIt-Anchor" href="#indexed-collections"></a> Indexed collections</h3>
+<p><code>Array</code> is the most used indexed collection type. Other likewise objects like <code>arguments</code>of function isn’t real array type. There are some array functions the <code>arguments</code> can not invoke. For example: the <code>forEach</code> method.</p>
+<p>But we can invoke the original method <code>Array.prototype.forEach.call(arguments, (list) =&gt; &#123; &#125;)</code> to be as a workaround.</p>
+<h3 id="keyed-collections"><a class="markdownIt-Anchor" href="#keyed-collections"></a> Keyed collections</h3>
+<p><code>Map</code>, <code>WeakMap</code> and <code>Set</code> are usual keyed collections in JS. the <code>Map</code> is similar to <code>Object</code> but has some differences. We can only invoke <code>set</code>, <code>get</code> and <code>delete</code> method to modify a map’s value. Normal dot method will modify the map’s property, treating it as an object.</p>
+<h2 id="destructuring-assignment"><a class="markdownIt-Anchor" href="#destructuring-assignment"></a> Destructuring assignment</h2>
+<ul>
+<li>Binding array or object to variables.</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> [a, b] = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"><span class="comment">// a = 1</span></span><br><span class="line"><span class="comment">// b = 2</span></span><br><span class="line"><span class="keyword">const</span> &#123;name, age&#125; = &#123;<span class="attr">name</span>: <span class="string">&#x27;csl&#x27;</span>, <span class="attr">age</span>: <span class="number">30</span> &#125;;</span><br><span class="line"><span class="comment">// name = &#x27;csl&#x27;</span></span><br><span class="line"><span class="comment">// age = 30</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>Binding with more variables.</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> [x, y] = [<span class="number">0</span>];</span><br><span class="line"><span class="keyword">const</span> &#123;name, age&#125; = &#123;<span class="attr">name</span>: <span class="string">&#x27;csl&#x27;</span>&#125;;</span><br><span class="line"><span class="comment">// y = undefined</span></span><br><span class="line"><span class="comment">// age = undefined</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>Object binding.</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> obj = &#123;<span class="attr">name</span>: <span class="string">&#x27;csl&#x27;</span>, <span class="attr">info</span>: &#123;<span class="attr">age</span>: <span class="number">30</span>, <span class="attr">weight</span>: <span class="number">70</span>&#125;&#125;;</span><br><span class="line"><span class="keyword">const</span> &#123; name, info &#125;  = obj;</span><br><span class="line"><span class="comment">// name = &#x27;csl&#x27;</span></span><br><span class="line"><span class="comment">// info = &#123;age: 30, weight: 70&#125;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> &#123; name, <span class="attr">info</span>: &#123;age&#125;&#125; = obj;</span><br><span class="line"><span class="comment">// name = &#x27;csl&#x27;</span></span><br><span class="line"><span class="comment">// info: [error]not variable</span></span><br><span class="line"><span class="comment">// age = 30</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> &#123; <span class="attr">info</span>: &#123;<span class="attr">age</span>: ageValue&#125;&#125; = obj;</span><br><span class="line"><span class="comment">// info, age: not variables.</span></span><br><span class="line"><span class="comment">// ageValue = 30</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>Object assignment.</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> obj = &#123;<span class="attr">name</span>: <span class="string">&#x27;csl&#x27;</span>, <span class="attr">info</span>: &#123;<span class="attr">age</span>: <span class="number">30</span>, <span class="attr">weight</span>: <span class="number">70</span>&#125;&#125;;</span><br><span class="line"><span class="keyword">const</span> arr = [];</span><br><span class="line">(&#123;<span class="attr">name</span>: arr[<span class="number">0</span>], <span class="attr">info</span>: &#123;<span class="attr">age</span>: arr[<span class="number">1</span>]&#125;&#125; = obj);</span><br><span class="line"><span class="comment">// arr = [&#x27;csl&#x27;, 30]</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> &#123;info&#125; = obj;</span><br><span class="line">info.<span class="property">age</span> = <span class="number">100</span>;</span><br><span class="line"><span class="comment">// obj.info.age = 100</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>Destructing with default values<br />
+<code>null</code> is valid value not trigging default value assignment.</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> [a = <span class="number">1</span>] = []; <span class="comment">// a = 1;</span></span><br><span class="line"><span class="keyword">const</span> &#123;name = <span class="string">&#x27;default&#x27;</span>&#125; = &#123;&#125;; <span class="comment">// name = &#x27;default&#x27;;</span></span><br><span class="line"><span class="keyword">const</span> [b = <span class="number">1</span>] = [<span class="literal">null</span>]; <span class="comment">// b = null;</span></span><br><span class="line"><span class="keyword">const</span> [c = <span class="number">1</span>] = [<span class="literal">undefined</span>]; <span class="comment">// c = 1;</span></span><br></pre></td></tr></table></figure>
+<p>The default value evaluation is lazy, only be executed when conditions satisfy.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> [a = <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;hi&#x27;</span>)] = [<span class="number">0</span>]; <span class="comment">// No log printed.</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>Rest property<br />
+The <code>rest</code> property must be last property.</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> [a, ...b] = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]; <span class="comment">//a = 1; b = [2, 3];</span></span><br><span class="line"><span class="keyword">const</span> &#123;x, ...y&#125; = &#123;<span class="attr">age</span>: <span class="number">100</span>, <span class="attr">weight</span>: <span class="number">200</span>, <span class="attr">score</span>: <span class="number">300</span>&#125;; <span class="comment">// x = 100; y = &#123;weight: 200, score: 300&#125;;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>Swapping variables</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = <span class="number">1</span>, b = <span class="number">2</span>;</span><br><span class="line">[a, b] = [b, a]; <span class="comment">// a = 2; b = 1;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line">[arr[<span class="number">0</span>], arr[<span class="number">1</span>]] = [arr[<span class="number">1</span>], arr[<span class="number">0</span>]];</span><br><span class="line"><span class="comment">// arr = [2, 1, 3]</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>Ignoring unused variables</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> [a, , c] = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]; <span class="comment">// a = 1; c = 3;</span></span><br><span class="line"><span class="keyword">const</span> [a, , ...c] = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]; <span class="comment">// a = 1; c = [3, 4];</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>Prototype chain</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> obj = &#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&#x27;csl&#x27;</span>,</span><br><span class="line">    <span class="attr">__proto__</span>: &#123;</span><br><span class="line">        <span class="attr">kind</span>: <span class="string">&#x27;person&#x27;</span></span><br><span class="line">    &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">const</span> &#123; name, kind &#125; = obj;</span><br><span class="line"><span class="comment">// name = &#x27;csl&#x27;; kind = &#x27;person&#x27;;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>Binding pattern used in the reset property<br />
+The rest property will be as an array object that can also be destructed by <code>...&#123;&#125;</code>.</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];</span><br><span class="line"><span class="keyword">const</span> [a, ...&#123; length, push &#125;] = arr;</span><br><span class="line"><span class="comment">// length = 4;</span></span><br><span class="line"><span class="comment">// push = function.</span></span><br><span class="line"></span><br><span class="line">push.<span class="title function_">call</span>(arr, [<span class="number">999</span>]);</span><br><span class="line"><span class="comment">// arr = [1, 2, 3, 4, 5, 999]</span></span><br></pre></td></tr></table></figure>
+<p>But this pattern can not be used in object binding.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> person = &#123;<span class="attr">name</span>: <span class="string">&#x27;csl&#x27;</span>, <span class="attr">info</span>: &#123;<span class="attr">age</span>: <span class="number">100</span>, <span class="attr">weight</span>: <span class="number">300</span>&#125;, <span class="attr">extra</span>: &#123;&#125;&#125;;</span><br><span class="line"><span class="keyword">const</span> &#123;name, ...&#123;extra&#125;&#125; = person; <span class="comment">// error</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> &#123;name, extra, ...rest&#125; = person; <span class="comment">// correct.</span></span><br></pre></td></tr></table></figure>
+<h2 id="objects"><a class="markdownIt-Anchor" href="#objects"></a> Objects</h2>
+<h3 id="define-an-object"><a class="markdownIt-Anchor" href="#define-an-object"></a> Define an object</h3>
+<ul>
+<li><strong>Object Initializer</strong></li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> me = &#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&quot;csl&quot;</span>,</span><br><span class="line">    <span class="attr">age</span>: <span class="number">100</span>,</span><br><span class="line">    <span class="title function_">hello</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`Hello, my name is <span class="subst">$&#123;<span class="variable language_">this</span>.name&#125;</span>`</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<div class="admonition note"><p class="admonition-title">Dynamic Method Name
+</p><p>Using <code>[variable]() &#123;&#125;</code> allows us defining a method without using constant string but a variable with a string value as the real method name.
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> methodName = <span class="string">'hello'</span>;</span><br><span class="line"><span class="keyword">const</span> me = {</span><br><span class="line">    [methodName]() {</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">'Hello, my name is csl'</span>);</span><br><span class="line">    }</span><br><span class="line">}</span><br><span class="line">me.<span class="title function_">hello</span>() <span class="comment">// correct.</span></span><br></pre></td></tr></table></figure></p>
+</div>
+<ul>
+<li><strong>Constructor Function</strong></li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">Person</span>(<span class="params">name, age</span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">name</span> = name;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">age</span> = age;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">hello</span> = <span class="function">() =&gt;</span> <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`Hello, my name is <span class="subst">$&#123;<span class="variable language_">this</span>.name&#125;</span>`</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> me = <span class="keyword">new</span> <span class="title class_">Person</span>(<span class="string">&#x27;csl&#x27;</span>, <span class="number">30</span>);</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>Object.create</strong></li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title class_">Person</span> = &#123;</span><br><span class="line">    <span class="title function_">hello</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`Hello, my name is <span class="subst">$&#123;<span class="variable language_">this</span>.name&#125;</span>`</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> me = <span class="title class_">Object</span>.<span class="title function_">create</span>(<span class="title class_">Person</span>);</span><br><span class="line">me.<span class="property">name</span> = <span class="string">&#x27;csl&#x27;</span>;</span><br><span class="line">me.<span class="property">age</span> = <span class="number">30</span>;</span><br><span class="line">me.<span class="title function_">hello</span>();</span><br></pre></td></tr></table></figure>
+<div class="admonition warning"><p class="admonition-title">Comparing Objects
+</p><p>In JavaScript, objects are of reference type. Two distinct objects are never equal.
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> me = { <span class="attr">name</span>: <span class="string">'csl'</span> };</span><br><span class="line"><span class="keyword">const</span> you = { <span class="attr">name</span>: <span class="string">'csl'</span> };</span><br><span class="line">me == you; <span class="comment">// false</span></span><br><span class="line">me === <span class="attr">you</span>: <span class="comment">// false</span></span><br></pre></td></tr></table></figure></p>
+</div>
+<h3 id="classes"><a class="markdownIt-Anchor" href="#classes"></a> Classes</h3>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="comment">// private property</span></span><br><span class="line">    #privateProperty;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Constructor</span></span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params">name, age</span>) &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">name</span> = name;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">age</span> = age;</span><br><span class="line">        <span class="title class_">Person</span>.#count++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// private method</span></span><br><span class="line">    #<span class="title function_">privateHello</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="title function_">echo</span>(<span class="string">`Hello, my name is <span class="subst">$&#123;<span class="variable language_">this</span>.name&#125;</span>`</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// normal method</span></span><br><span class="line">    <span class="title function_">hello</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="variable language_">this</span>.#<span class="title function_">privateHello</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// static property</span></span><br><span class="line">    <span class="keyword">static</span> type = <span class="string">&quot;Person&quot;</span>;</span><br><span class="line">    <span class="comment">// static private property</span></span><br><span class="line">    <span class="keyword">static</span> #count = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">// static method</span></span><br><span class="line">    <span class="keyword">static</span> <span class="title function_">total</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">this</span>.#count;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// static private method</span></span><br><span class="line">    <span class="keyword">static</span> #<span class="title function_">calculate</span>(<span class="params"></span>) &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="getter-setter"><a class="markdownIt-Anchor" href="#getter-setter"></a> Getter &amp; Setter</h3>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    #age;</span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params">name, age</span>) &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">name</span> = name;</span><br><span class="line">        <span class="variable language_">this</span>.#age = age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">get</span> <span class="title function_">age</span>() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">this</span>.#age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// If no this setter method, the property `age` is readonly.</span></span><br><span class="line">    <span class="keyword">set</span> <span class="title function_">age</span>(<span class="params">value</span>) &#123;</span><br><span class="line">        <span class="variable language_">this</span>.#age = value;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="promise"><a class="markdownIt-Anchor" href="#promise"></a> Promise</h3>
+<p>An asynchronous event handler, reducing nested blocks.</p>
+<p>Normal JS asynchronous methods, we usually use callback blocks to receive data.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">requestUserInfo</span>(<span class="params">id, callback</span>) &#123;</span><br><span class="line">    <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> data = &#123;<span class="attr">name</span>: <span class="string">&quot;csl&quot;</span>, <span class="attr">age</span>: <span class="number">30</span>, <span class="attr">id</span>: id&#125;;</span><br><span class="line">        <span class="title function_">callback</span>(data);</span><br><span class="line">        <span class="comment">// callback(null, error)</span></span><br><span class="line">    &#125;, <span class="number">1000</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">modifyUserInfo</span>(<span class="params">id, info, callback</span>) &#123; <span class="comment">///... &#125;</span></span><br><span class="line"><span class="title function_">requestUserInfo</span>(<span class="number">100</span>, <span class="function">(<span class="params">info</span>) =&gt;</span> &#123;</span><br><span class="line">    info.<span class="property">name</span> = <span class="string">&#x27;other&#x27;</span>;</span><br><span class="line">    <span class="title function_">modifyUserInfo</span>(<span class="number">100</span>, info, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">// Updated.</span></span><br><span class="line">    &#125;)</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>Transform to <code>Promise</code> format.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">requestUserInfo</span>(<span class="params">id</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">            <span class="title function_">resolve</span>(&#123;<span class="attr">name</span>: <span class="string">&quot;csl&quot;</span>, <span class="attr">age</span>: <span class="number">30</span>, <span class="attr">id</span>: id&#125;);</span><br><span class="line">            <span class="comment">// reject(&#x27;an error&#x27;);</span></span><br><span class="line">        &#125;, <span class="number">1000</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">requestUserInfo</span>(<span class="number">100</span>)</span><br><span class="line">    .<span class="title function_">then</span>(<span class="function">(<span class="params">info</span>) =&gt;</span> &#123;</span><br><span class="line">        info.<span class="property">name</span> = <span class="string">&#x27;other&#x27;</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="title function_">modifyUserInfo</span>(<span class="number">100</span>, info)</span><br><span class="line">    &#125;)</span><br><span class="line">    .<span class="title function_">then</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">// Modified.</span></span><br><span class="line">    &#125;)</span><br><span class="line">    .<span class="title function_">catch</span>(<span class="function">(<span class="params">error</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">// Occurring errors.</span></span><br><span class="line">    &#125;)</span><br><span class="line">    .<span class="title function_">finally</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">// Always be invoked at end.</span></span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure>
+<p>Using <code>async/await</code> to streamline code.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">updateName</span>(<span class="params">name</span>) &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> info = <span class="keyword">await</span> <span class="title function_">requestUserInfo</span>(<span class="number">100</span>);</span><br><span class="line">        info.<span class="property">name</span> = name;</span><br><span class="line">        <span class="keyword">await</span> <span class="title function_">modifyUserInfo</span>(<span class="number">100</span>, info);</span><br><span class="line">        <span class="comment">// Modified.</span></span><br><span class="line">    &#125; <span class="keyword">catch</span>(error) &#123;</span><br><span class="line">        <span class="comment">// Occurring errors.</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="iterator"><a class="markdownIt-Anchor" href="#iterator"></a> Iterator</h3>
+<p>Building you own iterator in JS.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span>* <span class="title function_">makePiNumberIterator</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">3</span>;</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">4</span>;</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> piNumber = <span class="title function_">makePiNumberIterator</span>();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> number <span class="keyword">of</span> piNumber) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(number);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 3141</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>Making you objects become iterators.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> classroom = &#123;</span><br><span class="line">    <span class="attr">students</span>: [],</span><br><span class="line">    *[<span class="title class_">Symbol</span>.<span class="property">iterator</span>]() &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">const</span> student <span class="keyword">of</span> <span class="variable language_">this</span>.<span class="property">students</span>) &#123;</span><br><span class="line">            <span class="keyword">yield</span> student</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> student <span class="keyword">of</span> classroom) &#123;</span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="typescript"><a class="markdownIt-Anchor" href="#typescript"></a> TypeScript</h2>
+<h3 id="union-types"><a class="markdownIt-Anchor" href="#union-types"></a> Union Types</h3>
+<p>We can union several types into one with <code>|</code>.</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">requestUserInfo</span>(<span class="params"><span class="attr">user</span>: <span class="built_in">number</span> | <span class="built_in">string</span> </span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> user === <span class="built_in">string</span>) &#123;</span><br><span class="line">        <span class="keyword">let</span> nameLength = user.<span class="property">length</span> <span class="comment">// TS compiler knows the user is string in there.</span></span><br><span class="line">        <span class="comment">// Search by user name.</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// Search by user id.</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Not only types can be united, literal values can also be union types (termed as <code>literal type</code>). that means we can define a type just receiving several special values.</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="title class_">Position</span> = <span class="string">&#x27;left&#x27;</span> | <span class="string">&#x27;right&#x27;</span> | <span class="string">&#x27;top&#x27;</span> | <span class="string">&#x27;bottom&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">locateTo</span>(<span class="params"><span class="attr">position</span>: <span class="title class_">Position</span></span>) &#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">locateTo</span>(<span class="string">&#x27;left&#x27;</span>) <span class="comment">// correct</span></span><br><span class="line"><span class="title function_">locateTo</span>(<span class="string">&#x27;center&#x27;</span>) <span class="comment">// error</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> position = <span class="string">&#x27;top&#x27;</span>;</span><br><span class="line"><span class="title function_">locateTo</span>(position); <span class="comment">// error</span></span><br></pre></td></tr></table></figure>
+<p>As you can see above, the variable <code>position</code> referring to the string <code>top</code> is not a valid value of type <code>Position</code>. Since the variable can change its value, the TS compiler can not sure the <code>position</code> must be one of the four <code>Position</code> cases.<br />
+There is a workaround, using <code>as</code> to convert string variables to literal types.</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> position = <span class="string">&#x27;top&#x27;</span> <span class="keyword">as</span> <span class="keyword">const</span>;</span><br><span class="line"><span class="comment">// or</span></span><br><span class="line"><span class="keyword">const</span> position = <span class="string">&#x27;top;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">locateTo(position); // correct</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">const info = &#123; position: &#x27;</span>right<span class="string">&#x27; &#125;;</span></span><br><span class="line"><span class="string">locateTo(info.position); // error</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">const info = &#123; position: &#x27;</span>right<span class="string">&#x27; &#125; as const;</span></span><br><span class="line"><span class="string">info.position = &#x27;</span>left<span class="string">&#x27; //  error, info&#x27;</span>s properties are <span class="keyword">readonly</span>.</span><br><span class="line"><span class="title function_">locateTo</span>(info.<span class="property">position</span>); <span class="comment">// correct</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> info = &#123; <span class="attr">position</span>: <span class="string">&#x27;right&#x27;</span> <span class="keyword">as</span> <span class="keyword">const</span> &#125;; <span class="comment">// info.right is literal type &#x27;right&#x27;;</span></span><br><span class="line"><span class="title function_">locateTo</span>(info.<span class="property">position</span>); <span class="comment">// correct</span></span><br></pre></td></tr></table></figure>
+<h3 id="type-interface"><a class="markdownIt-Anchor" href="#type-interface"></a> Type Interface</h3>
+<p>Using type interface can declare a type that must contains some properties or methods.</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> <span class="title class_">Animal</span> &#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="built_in">string</span>;</span><br><span class="line">    <span class="title function_">eat</span>(<span class="attr">food</span>: <span class="built_in">any</span>): <span class="built_in">void</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span> <span class="keyword">implements</span> <span class="title class_">Animal</span> &#123;</span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params"><span class="keyword">public</span> <span class="attr">name</span>: <span class="built_in">string</span></span>) &#123;&#125;</span><br><span class="line">    <span class="title function_">eat</span>(<span class="params"><span class="attr">food</span>: <span class="built_in">any</span></span>) &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="attr">you</span>: <span class="title class_">Animal</span> = <span class="keyword">new</span> <span class="title class_">Person</span>(<span class="string">&#x27;csl&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<p>The class <code>Person</code> implementing the interface <code>Animal</code> should have required properties and methods.</p>
+<p>An interface can inherit another interface.</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> <span class="title class_">People</span> <span class="keyword">extends</span> <span class="title class_">Animal</span> &#123;</span><br><span class="line">    <span class="attr">country</span>: <span class="built_in">string</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="attr">me</span>: <span class="title class_">People</span>;</span><br><span class="line">me.<span class="property">country</span>;</span><br><span class="line">me.<span class="property">name</span>;</span><br><span class="line">me.<span class="title function_">eat</span>(<span class="string">&#x27;apple&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<p><code>Interface</code> types can be reopened to add new properties or methods.</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> <span class="title class_">Pet</span> &#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="built_in">string</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// There are no redeclaration errors.</span></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">Pet</span> &#123;</span><br><span class="line">    <span class="attr">master</span>: <span class="built_in">string</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="attr">dog</span>: <span class="title class_">Pet</span>;</span><br><span class="line">dog.<span class="property">name</span>;</span><br><span class="line">dog.<span class="property">master</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="type-alias"><a class="markdownIt-Anchor" href="#type-alias"></a> Type Alias</h3>
+<p>Another way to quickly declare a type is using <code>type alias</code>.</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="title class_">UserQuery</span> = <span class="built_in">string</span> | <span class="built_in">number</span>;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">requestUserInfo</span>(<span class="params"><span class="attr">query</span>: <span class="title class_">UserQuery</span></span>) &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">requestUserInfo</span>(<span class="number">100</span>);</span><br><span class="line"><span class="title function_">requestUserInfo</span>(<span class="string">&#x27;csl&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<p>We can not redeclare <code>type</code> with the same name for extending new definitions or extend it to inherit from other types.<br />
+But we can use <code>&amp;</code> to merge multiple types.</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="title class_">Animal</span> = &#123;</span><br><span class="line">    <span class="attr">age</span>: <span class="built_in">string</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">type</span> <span class="title class_">Person</span> = <span class="title class_">Animal</span> &amp; &#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="built_in">string</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="attr">me</span>: <span class="title class_">Person</span>;</span><br><span class="line">me.<span class="property">age</span>;</span><br><span class="line">me.<span class="property">name</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="type-compatibility"><a class="markdownIt-Anchor" href="#type-compatibility"></a> Type Compatibility</h3>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">interface <span class="title class_">Animal</span> &#123;</span><br><span class="line">    <span class="attr">age</span>: number</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params">public name: string, public age: number</span>) &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="attr">me</span>: <span class="title class_">Animal</span> = <span class="keyword">new</span> <span class="title class_">Person</span>(<span class="string">&#x27;csl&#x27;</span>, <span class="number">30</span>) <span class="comment">// Correct</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">you</span>: <span class="title class_">Animal</span> = &#123; <span class="attr">age</span>: <span class="number">100</span>, <span class="attr">weight</span>: <span class="number">90.3</span> &#125; <span class="comment">// Correct</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">he</span>: <span class="title class_">Animal</span> = &#123; <span class="attr">name</span>: <span class="string">&#x27;csl&#x27;</span> &#125; <span class="comment">// Error</span></span><br></pre></td></tr></table></figure>
+<p>When we assign an object to a typed variable, the instance must least has all properties of the type. Of course, the instance can have more properties, that won’t cause compilation errors.</p>
+<h3 id="type-predicates"><a class="markdownIt-Anchor" href="#type-predicates"></a> Type Predicates</h3>
+<p>In TS, only base types can be checked by using <code>if (typeof baseValue ==== 'string')</code>. If wanting to check custom types, we can use the type predicate to do it.</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="attr">value1</span>: <span class="built_in">string</span> | <span class="built_in">number</span> = <span class="number">100</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">typeof</span> value1 === <span class="string">&#x27;string&#x27;</span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(value1.<span class="property">length</span>); <span class="comment">// The TS compiler knows the value1 is of string type now.</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Animal</span> &#123;</span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params"><span class="keyword">public</span> <span class="attr">name</span>: <span class="built_in">string</span></span>) &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">isAnimal</span>(<span class="params"><span class="attr">value</span>: <span class="built_in">any</span></span>): value is <span class="title class_">Animal</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> value <span class="keyword">instanceof</span> <span class="title class_">Animal</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> <span class="attr">cat</span>: <span class="built_in">any</span> = <span class="keyword">new</span> <span class="title class_">Animal</span>(<span class="string">&#x27;Tom&#x27;</span>);</span><br><span class="line"><span class="keyword">if</span> (<span class="title function_">isAnimal</span>(cat)) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(cat.<span class="property">name</span>); <span class="comment">// The compiler now can check whether the cat value is of type `Animal`.</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="generics"><a class="markdownIt-Anchor" href="#generics"></a> Generics</h3>
+<ul>
+<li>Generic Constraints</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> <span class="title class_">Animal</span> &#123; </span><br><span class="line">    <span class="attr">name</span>: <span class="built_in">string</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">function</span> eatMeat&lt;F <span class="keyword">extends</span> <span class="title class_">Animal</span>&gt;(<span class="attr">animal</span>: F) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(animal.<span class="property">name</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Generic Default Parameter</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> <span class="title class_">Image</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">PNG</span> <span class="keyword">implements</span> <span class="title class_">Image</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> generateImage&lt;T <span class="keyword">extends</span> <span class="title class_">Image</span> = <span class="variable constant_">PNG</span>&gt;(<span class="keyword">type</span>?: &#123; <span class="title function_">new</span> (): T &#125;): T &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">type</span> !== <span class="literal">undefined</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title function_">type</span>();</span><br><span class="line">    &#125; </span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title function_">PNG</span>() <span class="keyword">as</span> T;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> image = <span class="title function_">generateImage</span>();</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(image <span class="keyword">instanceof</span> <span class="variable constant_">PNG</span>); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>Relative Generic Constraints<br />
+A generic type can set constraints relate to other generic types.</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> get&lt;V, K <span class="keyword">extends</span> keyof V&gt;(<span class="attr">value</span>: V, <span class="attr">key</span>: K) &#123;</span><br><span class="line">    <span class="keyword">return</span> value[key];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<!-- flag of hidden posts -->
+  </div>
+</article>
+
+
+
+      
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#basic"><span class="toc-number">1.</span> <span class="toc-text"> Basic</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#collections"><span class="toc-number">2.</span> <span class="toc-text"> Collections</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#indexed-collections"><span class="toc-number">2.1.</span> <span class="toc-text"> Indexed collections</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#keyed-collections"><span class="toc-number">2.2.</span> <span class="toc-text"> Keyed collections</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#destructuring-assignment"><span class="toc-number">3.</span> <span class="toc-text"> Destructuring assignment</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#objects"><span class="toc-number">4.</span> <span class="toc-text"> Objects</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#define-an-object"><span class="toc-number">4.1.</span> <span class="toc-text"> Define an object</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#classes"><span class="toc-number">4.2.</span> <span class="toc-text"> Classes</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#getter-setter"><span class="toc-number">4.3.</span> <span class="toc-text"> Getter &amp; Setter</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#promise"><span class="toc-number">4.4.</span> <span class="toc-text"> Promise</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#iterator"><span class="toc-number">4.5.</span> <span class="toc-text"> Iterator</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#typescript"><span class="toc-number">5.</span> <span class="toc-text"> TypeScript</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#union-types"><span class="toc-number">5.1.</span> <span class="toc-text"> Union Types</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#type-interface"><span class="toc-number">5.2.</span> <span class="toc-text"> Type Interface</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#type-alias"><span class="toc-number">5.3.</span> <span class="toc-text"> Type Alias</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#type-compatibility"><span class="toc-number">5.4.</span> <span class="toc-text"> Type Compatibility</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#type-predicates"><span class="toc-number">5.5.</span> <span class="toc-text"> Type Predicates</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#generics"><span class="toc-number">5.6.</span> <span class="toc-text"> Generics</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2023/11/27/learn-javascript-again/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2023/11/27/learn-javascript-again/&text=Learning JavaScript Again"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2023/11/27/learn-javascript-again/&title=Learning JavaScript Again"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2023/11/27/learn-javascript-again/&is_video=false&description=Learning JavaScript Again"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Learning JavaScript Again&body=Check out this article: https://csl.cool/2023/11/27/learn-javascript-again/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2023/11/27/learn-javascript-again/&title=Learning JavaScript Again"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2023/11/27/learn-javascript-again/&title=Learning JavaScript Again"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2023/11/27/learn-javascript-again/&title=Learning JavaScript Again"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2023/11/27/learn-javascript-again/&title=Learning JavaScript Again"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2023/11/27/learn-javascript-again/&name=Learning JavaScript Again&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2023/11/27/learn-javascript-again/&t=Learning JavaScript Again"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+      <div id="end">
+    <img src="/images/post-end.png" alt="">
+</div> 
+      
+      <div id='valine'>
+    <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+            el: '#vcomments',
+            notify: true,
+            verify: true,
+            appId: '7zw6tQBddCfPvbaVtBGxUy0G-gzGzoHsz',
+            appKey: 'voPGHhBz7MozpUm0Fq2AMFmv',
+            placeholder: '想说点啥...',
+            avatar: 'monsterid',           
+        })
+    </script>
+</div>
+      
+      
+      <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 SSBun
+    <a target="_blank" rel="noopener" href="http://www.beian.miit.gov.cn/">京ICP备20001935号-1</a>
+    <div id="friend-link-container">
+      
+      
+    </div>
+  </div>
+  
+    <div class="footer-right">
+      <nav>
+        <ul>
+          
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/search/">Search</a></li>
+      
+      <li><a href="/categories/">Categories</a></li>
+      
+      <li><a href="/notes/">Notes</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+      </ul>
+      </nav>
+    </div>
+  
+</footer>
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?c2fdf3bebd0db8e40c37a4f37d76d33b";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Umami Analytics -->
+<!--  -->
+  <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="d39cc16d-90eb-47b6-8bf0-8e4cd43c704d"></script>
+<!--  -->
+<!-- Disqus Comments -->
+
+
+
+    
+    <script src="/lib/blackcat/l2dwidget.min.js"></script>
+    <script type="text/javascript">
+      var config = {
+        model: {
+          jsonPath: '/lib/blackcat/hijiki.model.json',
+        },
+        display: {
+          superSample: 1,
+          width: 245,
+          height: 245,
+          position: 'left',
+          hOffset: 0,
+          vOffset: 0,
+        },
+        mobile: {
+          show: false,
+          scale: 1,
+          motion: false,
+        },
+        react: {
+          opacityDefault: 1,
+          opacityOnHover: 0.75
+        }
+      };
+      L2Dwidget.init(config);
+    </script>
+    
+  </body>
+
+  </html>

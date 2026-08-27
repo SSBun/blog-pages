@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang=en>
+  <head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="GCD 是我们常用的多线程技术，基于C语言给我们带来了高效的执行速度，通过 block 让代码的调用更加紧凑。但是对 GCD 中任务的管理确实十分麻烦的事情，一般情况下如果要管理多线程的任务，我们会转而使用 NSOpeartion。 如果问题复杂的话，我当然还是推荐使用 NSOpeartion， 但是如果我们只是为了延迟代码的执行，我们肯定更愿意使用 DispathAfter 这样简单的方法，这里">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GCD延迟执行如何在中途取消">
+<meta property="og:url" content="https://csl.cool/2017/09/04/ios-dev/cancels-a-delay-task-in-gcd/index.html">
+<meta property="og:site_name" content="CSL MEMO">
+<meta property="og:description" content="GCD 是我们常用的多线程技术，基于C语言给我们带来了高效的执行速度，通过 block 让代码的调用更加紧凑。但是对 GCD 中任务的管理确实十分麻烦的事情，一般情况下如果要管理多线程的任务，我们会转而使用 NSOpeartion。 如果问题复杂的话，我当然还是推荐使用 NSOpeartion， 但是如果我们只是为了延迟代码的执行，我们肯定更愿意使用 DispathAfter 这样简单的方法，这里">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2017-09-04T08:26:54.000Z">
+<meta property="article:modified_time" content="2017-09-04T08:26:54.000Z">
+<meta property="article:author" content="SSBun">
+<meta property="article:tag" content="Swift">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="GCD">
+<meta property="article:tag" content="Concurrency">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>GCD延迟执行如何在中途取消</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="CSL MEMO" type="application/atom+xml" />
+    
+    <!-- umami web analytics -->
+    <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+  <body class="max-width mx-auto px3 ltr">
+    
+    <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2017/10/17/ios-dev/swift/swift-subscript/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2017/08/22/ios-dev/ios-controls-navigation-bar/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2017/09/04/ios-dev/cancels-a-delay-task-in-gcd/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2017/09/04/ios-dev/cancels-a-delay-task-in-gcd/&text=GCD延迟执行如何在中途取消"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2017/09/04/ios-dev/cancels-a-delay-task-in-gcd/&title=GCD延迟执行如何在中途取消"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2017/09/04/ios-dev/cancels-a-delay-task-in-gcd/&is_video=false&description=GCD延迟执行如何在中途取消"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=GCD延迟执行如何在中途取消&body=Check out this article: https://csl.cool/2017/09/04/ios-dev/cancels-a-delay-task-in-gcd/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2017/09/04/ios-dev/cancels-a-delay-task-in-gcd/&title=GCD延迟执行如何在中途取消"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2017/09/04/ios-dev/cancels-a-delay-task-in-gcd/&title=GCD延迟执行如何在中途取消"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2017/09/04/ios-dev/cancels-a-delay-task-in-gcd/&title=GCD延迟执行如何在中途取消"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2017/09/04/ios-dev/cancels-a-delay-task-in-gcd/&title=GCD延迟执行如何在中途取消"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2017/09/04/ios-dev/cancels-a-delay-task-in-gcd/&name=GCD延迟执行如何在中途取消&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2017/09/04/ios-dev/cancels-a-delay-task-in-gcd/&t=GCD延迟执行如何在中途取消"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+      
+      <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        GCD延迟执行如何在中途取消
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">SSBun</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2017-09-04T08:26:54.000Z" itemprop="datePublished">2017-09-04</time>
+        
+        (Updated: <time datetime="2017-09-04T08:26:54.000Z" itemprop="dateModified">2017-09-04</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Concurrency/" rel="tag">Concurrency</a>, <a class="tag-link-link" href="/tags/GCD/" rel="tag">GCD</a>, <a class="tag-link-link" href="/tags/Swift/" rel="tag">Swift</a>, <a class="tag-link-link" href="/tags/iOS/" rel="tag">iOS</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>GCD 是我们常用的多线程技术，基于C语言给我们带来了高效的执行速度，通过 block 让代码的调用更加紧凑。但是对 GCD 中任务的管理确实十分麻烦的事情，一般情况下如果要管理多线程的任务，我们会转而使用 NSOpeartion。 如果问题复杂的话，我当然还是推荐使用 NSOpeartion， 但是如果我们只是为了延迟代码的执行，我们肯定更愿意使用 DispathAfter 这样简单的方法，这里如果你想要在某种情况下取消未执行的操作，我们该怎么办呢.</p>
+<p>我在阅读王魏的《Swfit Tips》时看到了他所实现的一个写法，感觉很棒，这里稍加修改让它更好用一点。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Foundation</span><br><span class="line"></span><br><span class="line"><span class="keyword">typealias</span> <span class="type">Task</span> <span class="operator">=</span> (<span class="keyword">_</span> cancel: <span class="type">Bool</span>) -&gt; ()</span><br><span class="line"></span><br><span class="line"><span class="keyword">@discardableResult</span> <span class="keyword">func</span> <span class="title function_">delay</span>(<span class="keyword">_</span> <span class="params">time</span>: <span class="type">TimeInterval</span>, <span class="params">task</span>: <span class="keyword">@escaping</span> () -&gt; ()) -&gt; <span class="type">Task</span>?&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">dispatch_later</span>(<span class="params">block</span>: <span class="keyword">@escaping</span> () -&gt; ()) &#123;</span><br><span class="line">        <span class="keyword">let</span> t <span class="operator">=</span> <span class="type">DispatchTime</span>.now() <span class="operator">+</span> time</span><br><span class="line">        <span class="type">DispatchQueue</span>.main.asyncAfter(deadline: t, execute: block)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> closure: (() -&gt; <span class="type">Void</span>)<span class="operator">?</span> <span class="operator">=</span> task</span><br><span class="line">    <span class="keyword">var</span> result: <span class="type">Task</span>?</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">let</span> delayedClosure: <span class="type">Task</span> <span class="operator">=</span> &#123;</span><br><span class="line">        cancel <span class="keyword">in</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">let</span> closure <span class="operator">=</span> closure &#123;</span><br><span class="line">            <span class="keyword">if</span> <span class="operator">!</span>cancel &#123;</span><br><span class="line">                <span class="type">DispatchQueue</span>.main.async(execute: closure)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        closure <span class="operator">=</span> <span class="literal">nil</span></span><br><span class="line">        result <span class="operator">=</span> <span class="literal">nil</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    result <span class="operator">=</span> delayedClosure</span><br><span class="line">    </span><br><span class="line">    dispatch_later &#123;</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">let</span> result <span class="operator">=</span> result &#123;</span><br><span class="line">            result(<span class="literal">false</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">func</span> <span class="title function_">cancel</span>(<span class="keyword">_</span> <span class="params">task</span>: <span class="type">Task</span>?) &#123;</span><br><span class="line">    task<span class="operator">?</span>(<span class="literal">true</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>使用起来也是很简单，如下</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a <span class="operator">=</span> delay(<span class="number">4</span>) &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;hello one !&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> b <span class="operator">=</span> delay(<span class="number">6</span>) &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;hello two !&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">delay(<span class="number">5</span>) &#123;</span><br><span class="line">    cancel(a)</span><br><span class="line">    cancel(b)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里， 我们在5秒后，同时取消了a和b，但是a在4秒后就已经执行了，而b将会在执行前被取消。所以你只能看到打印结果 “hello one !”</p>
+
+  </div>
+</article>
+
+
+
+      
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2017/09/04/ios-dev/cancels-a-delay-task-in-gcd/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2017/09/04/ios-dev/cancels-a-delay-task-in-gcd/&text=GCD延迟执行如何在中途取消"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2017/09/04/ios-dev/cancels-a-delay-task-in-gcd/&title=GCD延迟执行如何在中途取消"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2017/09/04/ios-dev/cancels-a-delay-task-in-gcd/&is_video=false&description=GCD延迟执行如何在中途取消"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=GCD延迟执行如何在中途取消&body=Check out this article: https://csl.cool/2017/09/04/ios-dev/cancels-a-delay-task-in-gcd/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2017/09/04/ios-dev/cancels-a-delay-task-in-gcd/&title=GCD延迟执行如何在中途取消"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2017/09/04/ios-dev/cancels-a-delay-task-in-gcd/&title=GCD延迟执行如何在中途取消"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2017/09/04/ios-dev/cancels-a-delay-task-in-gcd/&title=GCD延迟执行如何在中途取消"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2017/09/04/ios-dev/cancels-a-delay-task-in-gcd/&title=GCD延迟执行如何在中途取消"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2017/09/04/ios-dev/cancels-a-delay-task-in-gcd/&name=GCD延迟执行如何在中途取消&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2017/09/04/ios-dev/cancels-a-delay-task-in-gcd/&t=GCD延迟执行如何在中途取消"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+      <div id="end">
+    <img src="/images/post-end.png" alt="">
+</div> 
+      
+      <div id='valine'>
+    <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+            el: '#vcomments',
+            notify: true,
+            verify: true,
+            appId: '7zw6tQBddCfPvbaVtBGxUy0G-gzGzoHsz',
+            appKey: 'voPGHhBz7MozpUm0Fq2AMFmv',
+            placeholder: '想说点啥...',
+            avatar: 'monsterid',           
+        })
+    </script>
+</div>
+      
+      
+      <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 SSBun
+    <a target="_blank" rel="noopener" href="http://www.beian.miit.gov.cn/">京ICP备20001935号-1</a>
+    <div id="friend-link-container">
+      
+      
+    </div>
+  </div>
+  
+    <div class="footer-right">
+      <nav>
+        <ul>
+          
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/search/">Search</a></li>
+      
+      <li><a href="/categories/">Categories</a></li>
+      
+      <li><a href="/notes/">Notes</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+      </ul>
+      </nav>
+    </div>
+  
+</footer>
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?c2fdf3bebd0db8e40c37a4f37d76d33b";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Umami Analytics -->
+<!--  -->
+  <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="d39cc16d-90eb-47b6-8bf0-8e4cd43c704d"></script>
+<!--  -->
+<!-- Disqus Comments -->
+
+
+
+    
+    <script src="/lib/blackcat/l2dwidget.min.js"></script>
+    <script type="text/javascript">
+      var config = {
+        model: {
+          jsonPath: '/lib/blackcat/hijiki.model.json',
+        },
+        display: {
+          superSample: 1,
+          width: 245,
+          height: 245,
+          position: 'left',
+          hOffset: 0,
+          vOffset: 0,
+        },
+        mobile: {
+          show: false,
+          scale: 1,
+          motion: false,
+        },
+        react: {
+          opacityDefault: 1,
+          opacityOnHover: 0.75
+        }
+      };
+      L2Dwidget.init(config);
+    </script>
+    
+  </body>
+
+  </html>

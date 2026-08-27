@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang=en>
+  <head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="CAEmitterLayer能够显示粒子效果通过Core Animation,而粒子是通过CAEmitterCell来创建的,这些粒子被绘制在图层的背景上方   指定的粒子属性 emitterCells var emitterCells: [CAEmitterCell]? 所有在数组中的粒子都会被随机的绘制在图层上  粒子几何属性 renderModel var renderMode: Stri">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CALayer-CAEmitterLayer(粒子图层)">
+<meta property="og:url" content="https://csl.cool/2016/06/28/ios-dev/ca-layer-ca-emitter-layer/index.html">
+<meta property="og:site_name" content="CSL MEMO">
+<meta property="og:description" content="CAEmitterLayer能够显示粒子效果通过Core Animation,而粒子是通过CAEmitterCell来创建的,这些粒子被绘制在图层的背景上方   指定的粒子属性 emitterCells var emitterCells: [CAEmitterCell]? 所有在数组中的粒子都会被随机的绘制在图层上  粒子几何属性 renderModel var renderMode: Stri">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20200119160402.gif">
+<meta property="og:image" content="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20200119160429.gif">
+<meta property="article:published_time" content="2016-06-28T10:32:54.000Z">
+<meta property="article:modified_time" content="2016-06-28T10:32:54.000Z">
+<meta property="article:author" content="SSBun">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="Core Animation">
+<meta property="article:tag" content="CAEmitterLayer">
+<meta property="article:tag" content="Particle Effect">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20200119160402.gif">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>CALayer-CAEmitterLayer(粒子图层)</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="CSL MEMO" type="application/atom+xml" />
+    
+    <!-- umami web analytics -->
+    <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+  <body class="max-width mx-auto px3 ltr">
+    
+    <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2016/08/29/ios-dev/ios-push-pop-present-dismiss-animation/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2016/06/25/ios-dev/ios-highlight-specifically-marked-text/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2016/06/28/ios-dev/ca-layer-ca-emitter-layer/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2016/06/28/ios-dev/ca-layer-ca-emitter-layer/&text=CALayer-CAEmitterLayer(粒子图层)"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2016/06/28/ios-dev/ca-layer-ca-emitter-layer/&title=CALayer-CAEmitterLayer(粒子图层)"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2016/06/28/ios-dev/ca-layer-ca-emitter-layer/&is_video=false&description=CALayer-CAEmitterLayer(粒子图层)"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CALayer-CAEmitterLayer(粒子图层)&body=Check out this article: https://csl.cool/2016/06/28/ios-dev/ca-layer-ca-emitter-layer/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2016/06/28/ios-dev/ca-layer-ca-emitter-layer/&title=CALayer-CAEmitterLayer(粒子图层)"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2016/06/28/ios-dev/ca-layer-ca-emitter-layer/&title=CALayer-CAEmitterLayer(粒子图层)"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2016/06/28/ios-dev/ca-layer-ca-emitter-layer/&title=CALayer-CAEmitterLayer(粒子图层)"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2016/06/28/ios-dev/ca-layer-ca-emitter-layer/&title=CALayer-CAEmitterLayer(粒子图层)"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2016/06/28/ios-dev/ca-layer-ca-emitter-layer/&name=CALayer-CAEmitterLayer(粒子图层)&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2016/06/28/ios-dev/ca-layer-ca-emitter-layer/&t=CALayer-CAEmitterLayer(粒子图层)"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%87%E5%AE%9A%E7%9A%84%E7%B2%92%E5%AD%90%E5%B1%9E%E6%80%A7"><span class="toc-number">1.</span> <span class="toc-text"> 指定的粒子属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B2%92%E5%AD%90%E5%87%A0%E4%BD%95%E5%B1%9E%E6%80%A7"><span class="toc-number">2.</span> <span class="toc-text"> 粒子几何属性</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#caemittercell%E7%9A%84%E5%9F%BA%E7%A1%80%E5%B1%9E%E6%80%A7"><span class="toc-number">2.0.1.</span> <span class="toc-text"> CAEmitterCell的基础属性</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+      
+      <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        CALayer-CAEmitterLayer(粒子图层)
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">SSBun</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2016-06-28T10:32:54.000Z" itemprop="datePublished">2016-06-28</time>
+        
+        (Updated: <time datetime="2016-06-28T10:32:54.000Z" itemprop="dateModified">2016-06-28</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/CAEmitterLayer/" rel="tag">CAEmitterLayer</a>, <a class="tag-link-link" href="/tags/Core-Animation/" rel="tag">Core Animation</a>, <a class="tag-link-link" href="/tags/Particle-Effect/" rel="tag">Particle Effect</a>, <a class="tag-link-link" href="/tags/iOS/" rel="tag">iOS</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p><code>CAEmitterLayer</code>能够显示粒子效果通过Core Animation,而粒子是通过<code>CAEmitterCell</code>来创建的,这些粒子被绘制在图层的背景上方</p>
+</blockquote>
+<h2 id="指定的粒子属性"><a class="markdownIt-Anchor" href="#指定的粒子属性"></a> 指定的粒子属性</h2>
+<p><em><strong>emitterCells</strong></em><br />
+<strong><code>var emitterCells: [CAEmitterCell]?</code></strong><br />
+所有在数组中的粒子都会被随机的绘制在图层上</p>
+<h2 id="粒子几何属性"><a class="markdownIt-Anchor" href="#粒子几何属性"></a> 粒子几何属性</h2>
+<p><em><strong>renderModel</strong></em><br />
+<strong><code>var renderMode: String</code></strong><br />
+控制粒子的渲染模式,(比如是否粒子重叠加重色彩)默认值是<code>kCAEmitterLayerUnordered</code>.</p>
+<ul>
+<li><code>let kCAEmitterLayerUnordered: String</code>    无序随机的</li>
+<li><code>let kCAEmitterLayerOldestFirst: String</code>    最新的在上层出现</li>
+<li><code>let kCAEmitterLayerOldestLast: String</code>     最新的在下层出现</li>
+<li><code>let kCAEmitterLayerBackToFront: String</code>  由下层向上层涌动</li>
+<li><code>let kCAEmitterLayerAdditive: String</code>         叠加显示</li>
+</ul>
+<p><em><strong>emitterPosition</strong></em><br />
+<strong><code>var emitterPosition: CGPoint</code></strong><br />
+在粒子图层上粒子的发射点(支持隐式动画)</p>
+<p><em><strong>emitterShape</strong></em><br />
+<strong><code>var emitterShape: String</code></strong><br />
+粒子发射点图形形状</p>
+<ul>
+<li><code>let kCAEmitterLayerPoint: String</code>           点</li>
+<li><code>let kCAEmitterLayerLine: String</code>            线形</li>
+<li><code>let kCAEmitterLayerRectangle: String</code>   矩形</li>
+<li><code>let kCAEmitterLayerCuboid: String</code>       长方体</li>
+<li><code>let kCAEmitterLayerCircle: String</code>          圆形</li>
+<li><code>let kCAEmitterLayerSphere: String</code>        球体</li>
+</ul>
+<p><em><strong>emitterZPosition</strong></em><br />
+<strong><code>var emitterZPosition: CGFloat</code></strong><br />
+粒子发射器的z轴中心,这个需要结合<code>emitterSize</code>和<code>emitterDepth</code>来使用,主要是用来设置<code>emitterShape</code>的.默认值是0</p>
+<p><em><strong>emitterDepth</strong></em><br />
+<strong><code>var emitterDepth: CGFloat</code></strong><br />
+粒子发射器的深度,也就是y轴的高<code>emitterZPosition</code>就是这个Z轴的中心</p>
+<p><em><strong>emitterSize</strong></em><br />
+** <code>var emitterSize: CGSize</code> **<br />
+这个就是粒子发射器的shape的大小,控制<code>emitterShape</code>的大小</p>
+<p><em><strong>emitterMode</strong></em><br />
+<strong><code>var emitterModel: String</code></strong><br />
+粒子发射器的模式</p>
+<ul>
+<li><code>let kCAEmitterLayerPoints: String</code></li>
+<li><code>let kCAEmitterLayerOutline: String</code></li>
+<li><code>let kCAEmitterLayerSurface: String</code></li>
+<li><code>let kCAEmitterLayerVolume: String</code></li>
+</ul>
+<h4 id="caemittercell的基础属性"><a class="markdownIt-Anchor" href="#caemittercell的基础属性"></a> CAEmitterCell的基础属性</h4>
+<p><em><strong>scale</strong></em><br />
+<strong><code>var scale: Float</code></strong><br />
+设置粒子发射器的生成粒子的初始缩放比例</p>
+<p><em><strong>speed</strong></em><br />
+<strong><code>var speed: UInt32</code></strong><br />
+粒子发射器的粒子发射速度</p>
+<p><em><strong>spin</strong></em><br />
+<strong><code>var spin: CGFloat</code></strong><br />
+设置粒子的自旋速度,数值越大旋转越快</p>
+<p><em><strong>velocity</strong></em><br />
+<strong><code>var velocity: Float</code></strong><br />
+设置粒子的移动速度(支持隐式动画)默认值是1.0</p>
+<p><em><strong>birthRate</strong></em><br />
+<strong><code>var birthRate: Float</code></strong><br />
+每秒生成的粒子数量,默认值是1(支持隐式动画)</p>
+<p><em><strong>lifetime</strong></em><br />
+<strong><code>var lifetime: Float</code></strong><br />
+设置粒子的生存时间(支持隐式动画)默认是1.0</p>
+<blockquote>
+<p><strong>其实用起来比较简单,所以先看一个例子,用起来好晃眼~~~</strong></p>
+</blockquote>
+<p><img src="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20200119160402.gif" alt="" /></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  ViewController.swift</span></span><br><span class="line"><span class="comment">//  CAEmitterLayer</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  Copyright © 2016 BZ. All rights reserved.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> UIKit</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ViewController</span>: <span class="title class_ inherited__">UIViewController</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> emitterLayer:<span class="type">CAEmitterLayer</span>!</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="keyword">func</span> <span class="title function_">viewDidLoad</span>() &#123;</span><br><span class="line">        <span class="keyword">super</span>.viewDidLoad()</span><br><span class="line"></span><br><span class="line">        setupUI()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">setupUI</span>() &#123;</span><br><span class="line">        emitterLayer                 <span class="operator">=</span> <span class="type">CAEmitterLayer</span>()</span><br><span class="line">        <span class="keyword">self</span>.view.layer.addSublayer(emitterLayer)</span><br><span class="line">        emitterLayer.backgroundColor <span class="operator">=</span> <span class="type">UIColor</span>.blackColor().<span class="type">CGColor</span></span><br><span class="line">        <span class="keyword">let</span> screenWidth              <span class="operator">=</span> <span class="keyword">self</span>.view.bounds.size.width</span><br><span class="line">        emitterLayer.frame           <span class="operator">=</span> <span class="type">CGRectMake</span>(<span class="number">0</span>, <span class="number">0</span>, screenWidth, screenWidth)</span><br><span class="line">        emitterLayer.position        <span class="operator">=</span> <span class="keyword">self</span>.view.center</span><br><span class="line">        emitterLayer.emitterPosition <span class="operator">=</span> <span class="type">CGPointMake</span>(emitterLayer.bounds.size.width<span class="regexp">/2, emitterLayer.bounds.size.height/</span><span class="number">2</span>)</span><br><span class="line">        emitterLayer.renderMode      <span class="operator">=</span> kCAEmitterLayerUnordered;</span><br><span class="line">        emitterLayer.emitterShape    <span class="operator">=</span> kCAEmitterLayerPoint; 发射器形状</span><br><span class="line">        emitterLayer.emitterSize     <span class="operator">=</span> <span class="type">CGSizeMake</span>(<span class="number">200</span>, <span class="number">200</span>); <span class="comment">// 发射器大小</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> emitterCell              <span class="operator">=</span> <span class="type">CAEmitterCell</span>()</span><br><span class="line">        emitterCell.scale <span class="operator">=</span> <span class="number">0.2</span></span><br><span class="line">        emitterCell.contents         <span class="operator">=</span> <span class="type">UIImage</span>(named: <span class="string">&quot;123&quot;</span>)<span class="operator">?</span>.<span class="type">CGImage</span></span><br><span class="line">        emitterCell.birthRate        <span class="operator">=</span> <span class="number">100</span>       <span class="comment">//出生率</span></span><br><span class="line">        emitterCell.lifetime         <span class="operator">=</span> <span class="number">5</span>            <span class="comment">//生存时间</span></span><br><span class="line">        emitterCell.velocity         <span class="operator">=</span> <span class="number">50</span>          <span class="comment">//发射速度</span></span><br><span class="line">        emitterCell.velocityRange    <span class="operator">=</span> <span class="number">100</span>    <span class="comment">//发射的范围</span></span><br><span class="line">        emitterCell.alphaSpeed       <span class="operator">=</span> <span class="operator">-</span><span class="number">0.4</span>  <span class="comment">//透明度递增速度</span></span><br><span class="line">        emitterCell.emissionRange    <span class="operator">=</span> <span class="type">CGFloat</span>(<span class="type">M_PI</span><span class="operator">*</span><span class="number">2.0</span>) 发射角度</span><br><span class="line">        emitterLayer.emitterCells    <span class="operator">=</span> [emitterCell]</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="keyword">func</span> <span class="title function_">didReceiveMemoryWarning</span>() &#123;</span><br><span class="line">        <span class="keyword">super</span>.didReceiveMemoryWarning()</span><br><span class="line">        <span class="comment">// Dispose of any resources that can be recreated.</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://ssbun-lot.oss-cn-beijing.aliyuncs.com/img/20200119160429.gif" alt="" /></p>
+
+  </div>
+</article>
+
+
+
+      
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%87%E5%AE%9A%E7%9A%84%E7%B2%92%E5%AD%90%E5%B1%9E%E6%80%A7"><span class="toc-number">1.</span> <span class="toc-text"> 指定的粒子属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B2%92%E5%AD%90%E5%87%A0%E4%BD%95%E5%B1%9E%E6%80%A7"><span class="toc-number">2.</span> <span class="toc-text"> 粒子几何属性</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#caemittercell%E7%9A%84%E5%9F%BA%E7%A1%80%E5%B1%9E%E6%80%A7"><span class="toc-number">2.0.1.</span> <span class="toc-text"> CAEmitterCell的基础属性</span></a></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2016/06/28/ios-dev/ca-layer-ca-emitter-layer/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2016/06/28/ios-dev/ca-layer-ca-emitter-layer/&text=CALayer-CAEmitterLayer(粒子图层)"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2016/06/28/ios-dev/ca-layer-ca-emitter-layer/&title=CALayer-CAEmitterLayer(粒子图层)"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2016/06/28/ios-dev/ca-layer-ca-emitter-layer/&is_video=false&description=CALayer-CAEmitterLayer(粒子图层)"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CALayer-CAEmitterLayer(粒子图层)&body=Check out this article: https://csl.cool/2016/06/28/ios-dev/ca-layer-ca-emitter-layer/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2016/06/28/ios-dev/ca-layer-ca-emitter-layer/&title=CALayer-CAEmitterLayer(粒子图层)"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2016/06/28/ios-dev/ca-layer-ca-emitter-layer/&title=CALayer-CAEmitterLayer(粒子图层)"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2016/06/28/ios-dev/ca-layer-ca-emitter-layer/&title=CALayer-CAEmitterLayer(粒子图层)"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2016/06/28/ios-dev/ca-layer-ca-emitter-layer/&title=CALayer-CAEmitterLayer(粒子图层)"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2016/06/28/ios-dev/ca-layer-ca-emitter-layer/&name=CALayer-CAEmitterLayer(粒子图层)&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2016/06/28/ios-dev/ca-layer-ca-emitter-layer/&t=CALayer-CAEmitterLayer(粒子图层)"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+      <div id="end">
+    <img src="/images/post-end.png" alt="">
+</div> 
+      
+      <div id='valine'>
+    <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+            el: '#vcomments',
+            notify: true,
+            verify: true,
+            appId: '7zw6tQBddCfPvbaVtBGxUy0G-gzGzoHsz',
+            appKey: 'voPGHhBz7MozpUm0Fq2AMFmv',
+            placeholder: '想说点啥...',
+            avatar: 'monsterid',           
+        })
+    </script>
+</div>
+      
+      
+      <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 SSBun
+    <a target="_blank" rel="noopener" href="http://www.beian.miit.gov.cn/">京ICP备20001935号-1</a>
+    <div id="friend-link-container">
+      
+      
+    </div>
+  </div>
+  
+    <div class="footer-right">
+      <nav>
+        <ul>
+          
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/search/">Search</a></li>
+      
+      <li><a href="/categories/">Categories</a></li>
+      
+      <li><a href="/notes/">Notes</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+      </ul>
+      </nav>
+    </div>
+  
+</footer>
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?c2fdf3bebd0db8e40c37a4f37d76d33b";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Umami Analytics -->
+<!--  -->
+  <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="d39cc16d-90eb-47b6-8bf0-8e4cd43c704d"></script>
+<!--  -->
+<!-- Disqus Comments -->
+
+
+
+    
+    <script src="/lib/blackcat/l2dwidget.min.js"></script>
+    <script type="text/javascript">
+      var config = {
+        model: {
+          jsonPath: '/lib/blackcat/hijiki.model.json',
+        },
+        display: {
+          superSample: 1,
+          width: 245,
+          height: 245,
+          position: 'left',
+          hOffset: 0,
+          vOffset: 0,
+        },
+        mobile: {
+          show: false,
+          scale: 1,
+          motion: false,
+        },
+        react: {
+          opacityDefault: 1,
+          opacityOnHover: 0.75
+        }
+      };
+      L2Dwidget.init(config);
+    </script>
+    
+  </body>
+
+  </html>

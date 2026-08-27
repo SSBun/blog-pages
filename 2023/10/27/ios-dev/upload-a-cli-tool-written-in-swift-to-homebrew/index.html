@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang=en>
+  <head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Writing a command tool with Swift I read a blog about the spell checking in Xcode. Spell-checking is very useful for me but it has some problems when learning or forgetting words in Xcode. Actually,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Upload a CLI Written in Swift to Homebrew">
+<meta property="og:url" content="https://csl.cool/2023/10/27/ios-dev/upload-a-cli-tool-written-in-swift-to-homebrew/index.html">
+<meta property="og:site_name" content="CSL MEMO">
+<meta property="og:description" content="Writing a command tool with Swift I read a blog about the spell checking in Xcode. Spell-checking is very useful for me but it has some problems when learning or forgetting words in Xcode. Actually,">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://book.csl.cool/img/e3dcaf635beecb7bf47a400afe3a9640.jpeg">
+<meta property="article:published_time" content="2023-10-27T09:22:09.000Z">
+<meta property="article:modified_time" content="2023-10-27T09:22:09.000Z">
+<meta property="article:author" content="SSBun">
+<meta property="article:tag" content="Swift">
+<meta property="article:tag" content="SPM">
+<meta property="article:tag" content="CLI">
+<meta property="article:tag" content="Homebrew">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://book.csl.cool/img/e3dcaf635beecb7bf47a400afe3a9640.jpeg">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Upload a CLI Written in Swift to Homebrew</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="CSL MEMO" type="application/atom+xml" />
+    
+    <!-- umami web analytics -->
+    <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+  <body class="max-width mx-auto px3 ltr">
+    
+    <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2024/02/26/disable-multiple-windows-in-macos/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2023/10/20/notes/i-made-a-stupid-mistake-this-week/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2023/10/27/ios-dev/upload-a-cli-tool-written-in-swift-to-homebrew/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2023/10/27/ios-dev/upload-a-cli-tool-written-in-swift-to-homebrew/&text=Upload a CLI Written in Swift to Homebrew"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2023/10/27/ios-dev/upload-a-cli-tool-written-in-swift-to-homebrew/&title=Upload a CLI Written in Swift to Homebrew"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2023/10/27/ios-dev/upload-a-cli-tool-written-in-swift-to-homebrew/&is_video=false&description=Upload a CLI Written in Swift to Homebrew"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Upload a CLI Written in Swift to Homebrew&body=Check out this article: https://csl.cool/2023/10/27/ios-dev/upload-a-cli-tool-written-in-swift-to-homebrew/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2023/10/27/ios-dev/upload-a-cli-tool-written-in-swift-to-homebrew/&title=Upload a CLI Written in Swift to Homebrew"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2023/10/27/ios-dev/upload-a-cli-tool-written-in-swift-to-homebrew/&title=Upload a CLI Written in Swift to Homebrew"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2023/10/27/ios-dev/upload-a-cli-tool-written-in-swift-to-homebrew/&title=Upload a CLI Written in Swift to Homebrew"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2023/10/27/ios-dev/upload-a-cli-tool-written-in-swift-to-homebrew/&title=Upload a CLI Written in Swift to Homebrew"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2023/10/27/ios-dev/upload-a-cli-tool-written-in-swift-to-homebrew/&name=Upload a CLI Written in Swift to Homebrew&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2023/10/27/ios-dev/upload-a-cli-tool-written-in-swift-to-homebrew/&t=Upload a CLI Written in Swift to Homebrew"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#writing-a-command-tool-with-swift"><span class="toc-number">1.</span> <span class="toc-text"> Writing a command tool with Swift</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#bootstrapping"><span class="toc-number">1.1.</span> <span class="toc-text"> Bootstrapping</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#create-a-makefile-for-your-cli"><span class="toc-number">2.</span> <span class="toc-text"> Create a Makefile for your CLI</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#your-own-homebrew-formulae-and-taps"><span class="toc-number">3.</span> <span class="toc-text"> Your own homebrew formulae and taps</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#references"><span class="toc-number">4.</span> <span class="toc-text"> References</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+      
+      <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Upload a CLI Written in Swift to Homebrew
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">SSBun</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-10-27T09:22:09.000Z" itemprop="datePublished">2023-10-27</time>
+        
+        (Updated: <time datetime="2023-10-27T09:22:09.000Z" itemprop="dateModified">2023-10-27</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/CLI/">CLI</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/CLI/" rel="tag">CLI</a>, <a class="tag-link-link" href="/tags/Homebrew/" rel="tag">Homebrew</a>, <a class="tag-link-link" href="/tags/SPM/" rel="tag">SPM</a>, <a class="tag-link-link" href="/tags/Swift/" rel="tag">Swift</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p><img src="http://book.csl.cool/img/e3dcaf635beecb7bf47a400afe3a9640.jpeg" alt="" /></p>
+<h2 id="writing-a-command-tool-with-swift"><a class="markdownIt-Anchor" href="#writing-a-command-tool-with-swift"></a> Writing a command tool with Swift</h2>
+<p>I read a <a target="_blank" rel="noopener" href="https://sarunw.com/posts/spell-checking-in-xcode/">blog</a> about the spell checking in Xcode. Spell-checking is very useful for me but it has some problems when learning or forgetting words in Xcode. Actually, the spelling checking in Xcode bases on the local dictionary of Mac system. Unfortunately, Mac system doesn’t provide a convenience way for us to manage the local dictionary. The only way to modify the local dictionary is to edit the <strong>~/Library/Spelling/LocalDictionary</strong> file, then you must restart the AppleSpelling service with <strong>Activity Monitor</strong> app by killing the service. The AppleSpell service will restart automatically after being killed, applying modifications to all editors.</p>
+<div class="admonition note"><p class="admonition-title">localdic
+</p><p>A <a target="_blank" rel="noopener" href="https://github.com/SSBun/localdic">CLI</a> for managing the local dictionary on Mac.</p>
+</div>
+<p>So I want to make a CLI tool to list, learn and forget words in the local dictionary. I have some Ruby experience but I want to write it with Swift this time for measuring efficiency of developing scripts with Swift.</p>
+<p>Swift team has already provided a package <a target="_blank" rel="noopener" href="https://swiftpackageindex.com/apple/swift-argument-parser"><code>swift-argument-parser</code></a> to help us customize CLIs easily and efficiently.</p>
+<div class="admonition note"><p class="admonition-title">Tool
+</p><p>The <a target="_blank" rel="noopener" href="https://swiftpackageindex.com/">best web</a> for finding Swift packages you want.</p>
+</div>
+<h3 id="bootstrapping"><a class="markdownIt-Anchor" href="#bootstrapping"></a> Bootstrapping</h3>
+<p>Using SPM to quickly create an executable package.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir localdic</span><br><span class="line">cd localdic</span><br><span class="line">swift package init --name LocalDic --type executable</span><br></pre></td></tr></table></figure>
+<p>There are two generated files, <code>Package.swift</code> is the SPM configuration file, <code>main.swift</code> is the application entrypoint.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── Package.swift</span><br><span class="line">└── Sources</span><br><span class="line">    └── main.swift</span><br><span class="line">2 directories, 2 files</span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Package.swift</span></span><br><span class="line"><span class="comment">// swift-tools-version: 5.9</span></span><br><span class="line"><span class="comment">// The swift-tools-version declares the minimum version of Swift required to build this package.</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> PackageDescription</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="keyword">package</span> <span class="operator">=</span> <span class="type">Package</span>(</span><br><span class="line">    name: <span class="string">&quot;localdic&quot;</span>,</span><br><span class="line">    targets: [</span><br><span class="line">        <span class="comment">// Targets are the basic building blocks of a package, defining a module or a test suite.</span></span><br><span class="line">        <span class="comment">// Targets can depend on other targets in this package and products from dependencies.</span></span><br><span class="line">        .executableTarget(</span><br><span class="line">            name: <span class="string">&quot;localdic&quot;</span>),</span><br><span class="line">    ]</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// main.swift</span></span><br><span class="line"><span class="comment">// The Swift Programming Language</span></span><br><span class="line"><span class="comment">// https://docs.swift.org/swift-book</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Hello, world!&quot;</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>As you can see, SPM created a HelloWorld example for us. Using <code>swift run</code> to build and run the package.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">swift run</span><br><span class="line">Building for debugging...</span><br><span class="line">Build complete! (0.36s)</span><br><span class="line">Hello, world!</span><br></pre></td></tr></table></figure>
+<p>Now we add dependencies <code>swift-argument-parse</code> and <code>RainBow</code> (help output colorful string) to the Package.swift file.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> PackageDescription</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="keyword">package</span> <span class="operator">=</span> <span class="type">Package</span>(</span><br><span class="line">    name: <span class="string">&quot;localdic&quot;</span>,</span><br><span class="line">    dependencies: [</span><br><span class="line">        .package(url: <span class="string">&quot;https://github.com/apple/swift-argument-parser.git&quot;</span>, .upToNextMajor(from: <span class="string">&quot;1.0.0&quot;</span>)),</span><br><span class="line">        .package(url: <span class="string">&quot;https://github.com/onevcat/Rainbow.git&quot;</span>, from: <span class="string">&quot;4.0.1&quot;</span>),</span><br><span class="line">    ],</span><br><span class="line">    targets: [</span><br><span class="line">        .executableTarget(</span><br><span class="line">            name: <span class="string">&quot;localdic&quot;</span>,</span><br><span class="line">            dependencies: [</span><br><span class="line">                .product(name: <span class="string">&quot;ArgumentParser&quot;</span>, package: <span class="string">&quot;swift-argument-parser&quot;</span>),</span><br><span class="line">                .product(name: <span class="string">&quot;Rainbow&quot;</span>, package: <span class="string">&quot;rainbow&quot;</span>),</span><br><span class="line">            ]),</span><br><span class="line">        .testTarget(</span><br><span class="line">            name: <span class="string">&quot;localdicTests&quot;</span>,</span><br><span class="line">            dependencies: [<span class="string">&quot;localdic&quot;</span>]),</span><br><span class="line">    ]</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>Want to use the swift-argument-parser to create a CLI, we need to renamed the file <code>main.swift</code> to <code>LocalDic.swift</code>. In the <code>LocalDic.swift</code>, we defined a struct <code>LocalDic</code>conforming to the protocol <code>ParsableCommand</code> and mark it with <code>@main</code>. The <code>@main</code> indicates the struct is the program entrypoint.</p>
+<blockquote>
+<p>A main.file or another file defined a type marked with @main can be as the entrypoint of executable, but you can not do these simultaneously.</p>
+</blockquote>
+<p>To see the full version code, check out <code>localdic</code> on <a target="_blank" rel="noopener" href="https://github.com/SSBun/localdic">github</a>. Detail about using ArgumentParser, you can see the <a target="_blank" rel="noopener" href="https://swiftpackageindex.com/apple/swift-argument-parser/1.2.3/documentation/argumentparser">official document</a></p>
+<h2 id="create-a-makefile-for-your-cli"><a class="markdownIt-Anchor" href="#create-a-makefile-for-your-cli"></a> Create a Makefile for your CLI</h2>
+<p>Finished coding, you need to build it as a executable file.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">swift build -c release</span><br><span class="line"></span><br><span class="line">Fetching https://github.com/onevcat/Rainbow.git from cache</span><br><span class="line">Fetching https://github.com/apple/swift-argument-parser.git from cache</span><br><span class="line">Fetched https://github.com/onevcat/Rainbow.git (1.87s)</span><br><span class="line">Fetched https://github.com/apple/swift-argument-parser.git (1.87s)</span><br><span class="line">Computing version for https://github.com/onevcat/Rainbow.git</span><br><span class="line">Computed https://github.com/onevcat/Rainbow.git at 4.0.1 (0.60s)</span><br><span class="line">Computing version for https://github.com/apple/swift-argument-parser.git</span><br><span class="line">Computed https://github.com/apple/swift-argument-parser.git at 1.2.3 (0.64s)</span><br><span class="line">Creating working copy for https://github.com/onevcat/Rainbow.git</span><br><span class="line">Working copy of https://github.com/onevcat/Rainbow.git resolved at 4.0.1</span><br><span class="line">Creating working copy for https://github.com/apple/swift-argument-parser.git</span><br><span class="line">Working copy of https://github.com/apple/swift-argument-parser.git resolved at 1.2.3</span><br><span class="line">Building for production...</span><br><span class="line">remark: Incremental compilation has been disabled: it is not compatible with whole module optimization</span><br><span class="line">remark: Incremental compilation has been disabled: it is not compatible with whole module optimization</span><br><span class="line">remark: Incremental compilation has been disabled: it is not compatible with whole module optimization</span><br><span class="line">remark: Incremental compilation has been disabled: it is not compatible with whole module optimization</span><br><span class="line">[6/6] Linking localdic</span><br><span class="line">Build complete! (27.85s)</span><br></pre></td></tr></table></figure>
+<p>After the build finished, you can find a executable file <code>localdic</code> at the path <code>.build/release/localdic</code>. For easily using, you can copy it to the folder <code>/usr/local/bin</code> and then you can directly print <code>localdic</code> in you terminal to invoke the command.</p>
+<p>A better way to build or manage our application is to create a <code>Makefile</code>, a tool that defines a graph of rules for creating targets. <a target="_blank" rel="noopener" href="https://learnxinyminutes.com/docs/make/">A quick tutorial</a> to learn <code>Makefile</code>.</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Define variables.</span></span><br><span class="line">prefix ?= /usr/local</span><br><span class="line">bindir = <span class="variable">$(prefix)</span>/bin</span><br><span class="line"></span><br><span class="line"><span class="comment"># Command building targets.</span></span><br><span class="line"><span class="section">build:</span></span><br><span class="line">	swift build -c release --disable-sandbox</span><br><span class="line"></span><br><span class="line"><span class="section">install: build</span></span><br><span class="line">	install -d <span class="string">&quot;<span class="variable">$(bindir)</span>&quot;</span></span><br><span class="line">	install <span class="string">&quot;.build/release/localdic&quot;</span> <span class="string">&quot;<span class="variable">$(bindir)</span>&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="section">uninstall:</span></span><br><span class="line">	rm -rf <span class="string">&quot;<span class="variable">$(bindir)</span>/localdic&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="section">clean:</span></span><br><span class="line">	rm -rf .build</span><br><span class="line"></span><br><span class="line"><span class="meta"><span class="keyword">.PHONY</span>: build install uninstall clean</span></span><br></pre></td></tr></table></figure>
+<p>In the Makefile, I defined four commands. Other users can directly invoke <code>make install</code> to build and install the CLI.</p>
+<h2 id="your-own-homebrew-formulae-and-taps"><a class="markdownIt-Anchor" href="#your-own-homebrew-formulae-and-taps"></a> Your own homebrew formulae and taps</h2>
+<p>The best way to share your applications to other Mac users is uploading them to Homebrew. Homebrew is a package manager for macOS, you can use it to install CLI or GUI applications. Of course, every developer can upload his applications to homebrew for sharing them with the world.</p>
+<p>The precondition of uploading our applications to homebrew is a <code>formulae</code> file that is a ruby-based description file.</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">/<span class="regexp">/ localdic.rb</span></span><br><span class="line"><span class="regexp">class Localdic &lt; Formula</span></span><br><span class="line"><span class="regexp">  desc &quot;Manage the local dictionary on Mac.&quot;</span></span><br><span class="line"><span class="regexp">  homepage &quot;https:/</span><span class="regexp">/github.com/</span><span class="title class_">SSBun</span>/localdic<span class="string">&quot;</span></span><br><span class="line"><span class="string">  url &quot;</span><span class="symbol">https:</span>/<span class="regexp">/github.com/</span><span class="title class_">SSBun</span>/localdic.git<span class="string">&quot;, tag: &quot;</span><span class="number">0.1</span>.<span class="number">2</span><span class="string">&quot;</span></span><br><span class="line"><span class="string">  version &quot;</span><span class="number">0.1</span>.<span class="number">2</span><span class="string">&quot;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  depends_on &quot;</span>xcode<span class="string">&quot;: [:build]</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  def install</span></span><br><span class="line"><span class="string">    system &quot;</span>make<span class="string">&quot;, &quot;</span>install<span class="string">&quot;, &quot;</span>prefix=<span class="comment">#&#123;prefix&#125;&quot;</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  test <span class="keyword">do</span></span><br><span class="line">    system <span class="string">&quot;<span class="subst">#&#123;bin&#125;</span>localdic&quot;</span>, <span class="string">&quot;list&quot;</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>The formula file configures basic information of your program, description, download url, version and installation way.</p>
+<p>But uploading our formulae to the <code>homebrew/core</code> repository has strict requirements, the homebrew provides another way <code>&quot;tap&quot;</code>, a personal repository to collect your own formulae.</p>
+<p>To create a formula repository, you should initialize a git repository containing a folder <code>Formula</code> and copy the formula file <code>localdic.rb</code> into the repository.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line"><span class="operator">├──</span> <span class="type">Formula</span></span><br><span class="line"><span class="operator">│</span>   <span class="operator">└──</span> localdic.rb</span><br><span class="line"><span class="operator">└──</span> <span class="type">README</span>.md</span><br><span class="line"></span><br><span class="line"><span class="number">2</span> directories, <span class="number">2</span> files</span><br></pre></td></tr></table></figure>
+<p>Uploading you repository to github with name <code>homebrew-formulae</code>, then you can invoke the command <code>brew tap &lt;github-name&gt;/homebrew-formulae</code> to link your remote formula repository to local.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">brew tap ssbun/formulae</span><br><span class="line">==&gt; Tapping ssbun/formulae</span><br><span class="line">Cloning into &#x27;/usr/local/Homebrew/Library/Taps/ssbun/homebrew-formulae&#x27;...</span><br><span class="line">remote: Enumerating objects: 15, done.</span><br><span class="line">remote: Counting objects: 100% (15/15), done.</span><br><span class="line">remote: Compressing objects: 100% (6/6), done.</span><br><span class="line">remote: Total 15 (delta 2), reused 12 (delta 2), pack-reused 0</span><br><span class="line">Receiving objects: 100% (15/15), done.</span><br><span class="line">Resolving deltas: 100% (2/2), done.</span><br><span class="line">Tapped 1 formula (13 files, 7.0KB).</span><br></pre></td></tr></table></figure>
+<p>Installed your own tap repository, you can directly invoke the <code>brew install localdic</code> to install the formula into your local environment.</p>
+<h2 id="references"><a class="markdownIt-Anchor" href="#references"></a> References</h2>
+<p><a target="_blank" rel="noopener" href="https://docs.brew.sh/Adding-Software-to-Homebrew">Homebrew Document</a><br />
+<a target="_blank" rel="noopener" href="https://explainshell.com/explain">A tool explaining shell commands for you</a><br />
+<a target="_blank" rel="noopener" href="https://nshipster.com/homebrew/">Swift Program Distribution with Homebrew</a><br />
+<a target="_blank" rel="noopener" href="https://www.swift.org/getting-started/cli-swiftpm/">Build a Command-line Tool</a></p>
+
+  </div>
+</article>
+
+
+
+      
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/categories/">Categories</a></li>
+         
+          <li><a href="/notes/">Notes</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#writing-a-command-tool-with-swift"><span class="toc-number">1.</span> <span class="toc-text"> Writing a command tool with Swift</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#bootstrapping"><span class="toc-number">1.1.</span> <span class="toc-text"> Bootstrapping</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#create-a-makefile-for-your-cli"><span class="toc-number">2.</span> <span class="toc-text"> Create a Makefile for your CLI</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#your-own-homebrew-formulae-and-taps"><span class="toc-number">3.</span> <span class="toc-text"> Your own homebrew formulae and taps</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#references"><span class="toc-number">4.</span> <span class="toc-text"> References</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://csl.cool/2023/10/27/ios-dev/upload-a-cli-tool-written-in-swift-to-homebrew/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://csl.cool/2023/10/27/ios-dev/upload-a-cli-tool-written-in-swift-to-homebrew/&text=Upload a CLI Written in Swift to Homebrew"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://csl.cool/2023/10/27/ios-dev/upload-a-cli-tool-written-in-swift-to-homebrew/&title=Upload a CLI Written in Swift to Homebrew"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://csl.cool/2023/10/27/ios-dev/upload-a-cli-tool-written-in-swift-to-homebrew/&is_video=false&description=Upload a CLI Written in Swift to Homebrew"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Upload a CLI Written in Swift to Homebrew&body=Check out this article: https://csl.cool/2023/10/27/ios-dev/upload-a-cli-tool-written-in-swift-to-homebrew/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://csl.cool/2023/10/27/ios-dev/upload-a-cli-tool-written-in-swift-to-homebrew/&title=Upload a CLI Written in Swift to Homebrew"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://csl.cool/2023/10/27/ios-dev/upload-a-cli-tool-written-in-swift-to-homebrew/&title=Upload a CLI Written in Swift to Homebrew"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://csl.cool/2023/10/27/ios-dev/upload-a-cli-tool-written-in-swift-to-homebrew/&title=Upload a CLI Written in Swift to Homebrew"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://csl.cool/2023/10/27/ios-dev/upload-a-cli-tool-written-in-swift-to-homebrew/&title=Upload a CLI Written in Swift to Homebrew"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://csl.cool/2023/10/27/ios-dev/upload-a-cli-tool-written-in-swift-to-homebrew/&name=Upload a CLI Written in Swift to Homebrew&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://csl.cool/2023/10/27/ios-dev/upload-a-cli-tool-written-in-swift-to-homebrew/&t=Upload a CLI Written in Swift to Homebrew"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+      <div id="end">
+    <img src="/images/post-end.png" alt="">
+</div> 
+      
+      <div id='valine'>
+    <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <div id="vcomments"></div>
+    <script>
+        new Valine({
+            el: '#vcomments',
+            notify: true,
+            verify: true,
+            appId: '7zw6tQBddCfPvbaVtBGxUy0G-gzGzoHsz',
+            appKey: 'voPGHhBz7MozpUm0Fq2AMFmv',
+            placeholder: '想说点啥...',
+            avatar: 'monsterid',           
+        })
+    </script>
+</div>
+      
+      
+      <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 SSBun
+    <a target="_blank" rel="noopener" href="http://www.beian.miit.gov.cn/">京ICP备20001935号-1</a>
+    <div id="friend-link-container">
+      
+      
+    </div>
+  </div>
+  
+    <div class="footer-right">
+      <nav>
+        <ul>
+          
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/search/">Search</a></li>
+      
+      <li><a href="/categories/">Categories</a></li>
+      
+      <li><a href="/notes/">Notes</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+      </ul>
+      </nav>
+    </div>
+  
+</footer>
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?c2fdf3bebd0db8e40c37a4f37d76d33b";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+<!-- Umami Analytics -->
+<!--  -->
+  <!-- <script async defer data-website-id="ef8530fb-8585-46e1-aba4-f66f53625458" src="http://csl.cool:3000/umami.js"></script> -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="d39cc16d-90eb-47b6-8bf0-8e4cd43c704d"></script>
+<!--  -->
+<!-- Disqus Comments -->
+
+
+
+    
+    <script src="/lib/blackcat/l2dwidget.min.js"></script>
+    <script type="text/javascript">
+      var config = {
+        model: {
+          jsonPath: '/lib/blackcat/hijiki.model.json',
+        },
+        display: {
+          superSample: 1,
+          width: 245,
+          height: 245,
+          position: 'left',
+          hOffset: 0,
+          vOffset: 0,
+        },
+        mobile: {
+          show: false,
+          scale: 1,
+          motion: false,
+        },
+        react: {
+          opacityDefault: 1,
+          opacityOnHover: 0.75
+        }
+      };
+      L2Dwidget.init(config);
+    </script>
+    
+  </body>
+
+  </html>
