@@ -93,11 +93,11 @@
             
             <tag> Swift </tag>
             
+            <tag> SPM </tag>
+            
             <tag> CLI </tag>
             
             <tag> Homebrew </tag>
-            
-            <tag> SPM </tag>
             
         </tags>
       
@@ -118,9 +118,9 @@
             
             <tag> Swift </tag>
             
-            <tag> Debugging </tag>
-            
             <tag> Note </tag>
+            
+            <tag> Debugging </tag>
             
             <tag> Mistake </tag>
             
@@ -258,11 +258,11 @@
             
             <tag> Xcode </tag>
             
-            <tag> Productivity </tag>
-            
             <tag> Script </tag>
             
             <tag> Build Phase </tag>
+            
+            <tag> Productivity </tag>
             
         </tags>
       
@@ -634,9 +634,9 @@
       
         <tags>
             
-            <tag> Ruby </tag>
-            
             <tag> CLI </tag>
+            
+            <tag> Ruby </tag>
             
             <tag> Gem </tag>
             
@@ -1641,9 +1641,9 @@
             
             <tag> Tools </tag>
             
-            <tag> Mac </tag>
-            
             <tag> Productivity </tag>
+            
+            <tag> Mac </tag>
             
         </tags>
       
@@ -1839,9 +1839,9 @@
       
         <tags>
             
-            <tag> Deployment </tag>
-            
             <tag> Flask </tag>
+            
+            <tag> Deployment </tag>
             
             <tag> Python </tag>
             
@@ -1930,9 +1930,9 @@
             
             <tag> Xcode </tag>
             
-            <tag> LLDB </tag>
-            
             <tag> Debugging </tag>
+            
+            <tag> LLDB </tag>
             
         </tags>
       
@@ -2154,9 +2154,9 @@
             
             <tag> iOS </tag>
             
-            <tag> Animation </tag>
-            
             <tag> UIKit </tag>
+            
+            <tag> Animation </tag>
             
             <tag> Transition </tag>
             
@@ -2210,9 +2210,9 @@
             
             <tag> iOS </tag>
             
-            <tag> Regex </tag>
-            
             <tag> TextKit </tag>
+            
+            <tag> Regex </tag>
             
         </tags>
       
@@ -2420,9 +2420,9 @@
       
         <tags>
             
-            <tag> Python </tag>
-            
             <tag> Regex </tag>
+            
+            <tag> Python </tag>
             
             <tag> Crawler </tag>
             
