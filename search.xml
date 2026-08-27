@@ -62,11 +62,11 @@
       
         <tags>
             
-            <tag> SwiftUI </tag>
-            
             <tag> troubleshooting </tag>
             
             <tag> macos </tag>
+            
+            <tag> SwiftUI </tag>
             
         </tags>
       
@@ -93,11 +93,11 @@
             
             <tag> Swift </tag>
             
-            <tag> SPM </tag>
-            
             <tag> CLI </tag>
             
             <tag> Homebrew </tag>
+            
+            <tag> SPM </tag>
             
         </tags>
       
@@ -118,9 +118,9 @@
             
             <tag> Swift </tag>
             
-            <tag> Note </tag>
-            
             <tag> Debugging </tag>
+            
+            <tag> Note </tag>
             
             <tag> Mistake </tag>
             
@@ -258,11 +258,11 @@
             
             <tag> Xcode </tag>
             
+            <tag> Productivity </tag>
+            
             <tag> Script </tag>
             
             <tag> Build Phase </tag>
-            
-            <tag> Productivity </tag>
             
         </tags>
       
@@ -634,9 +634,9 @@
       
         <tags>
             
-            <tag> CLI </tag>
-            
             <tag> Ruby </tag>
+            
+            <tag> CLI </tag>
             
             <tag> Gem </tag>
             
@@ -1641,9 +1641,9 @@
             
             <tag> Tools </tag>
             
-            <tag> Productivity </tag>
-            
             <tag> Mac </tag>
+            
+            <tag> Productivity </tag>
             
         </tags>
       
@@ -1930,9 +1930,9 @@
             
             <tag> Xcode </tag>
             
-            <tag> Debugging </tag>
-            
             <tag> LLDB </tag>
+            
+            <tag> Debugging </tag>
             
         </tags>
       
@@ -2210,9 +2210,9 @@
             
             <tag> iOS </tag>
             
-            <tag> TextKit </tag>
-            
             <tag> Regex </tag>
+            
+            <tag> TextKit </tag>
             
         </tags>
       
@@ -2339,9 +2339,9 @@
             
             <tag> Core Animation </tag>
             
-            <tag> CALayer </tag>
-            
             <tag> Mask </tag>
+            
+            <tag> CALayer </tag>
             
         </tags>
       
@@ -2366,9 +2366,9 @@
       
         <tags>
             
-            <tag> AppleScript </tag>
-            
             <tag> Automation </tag>
+            
+            <tag> AppleScript </tag>
             
             <tag> Git </tag>
             
@@ -2391,11 +2391,11 @@
       
         <tags>
             
-            <tag> Automation </tag>
-            
             <tag> Python </tag>
             
             <tag> Crawler </tag>
+            
+            <tag> Automation </tag>
             
         </tags>
       
@@ -2420,9 +2420,9 @@
       
         <tags>
             
-            <tag> Regex </tag>
-            
             <tag> Python </tag>
+            
+            <tag> Regex </tag>
             
             <tag> Crawler </tag>
             
@@ -2449,9 +2449,9 @@
       
         <tags>
             
-            <tag> AppleScript </tag>
-            
             <tag> Automation </tag>
+            
+            <tag> AppleScript </tag>
             
             <tag> Finder </tag>
             
